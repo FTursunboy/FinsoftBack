@@ -10,6 +10,7 @@ use App\Http\Resources\BarcodeResource;
 use App\Http\Resources\GroupResource;
 use App\Models\Barcode;
 use App\Models\Good;
+use App\Repositories\BarcodeRepository;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
