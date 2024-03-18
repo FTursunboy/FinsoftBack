@@ -35,4 +35,18 @@ class Counterparty extends Model implements \App\Repositories\Contracts\SoftDele
             'email' => $this->email,
         ];
     }
+
+    public static function filter(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'orderBy' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'name'  => $data['filterData']['name'] ?? null,
+            'phone' => $data['filterData']['phone'] ?? null,
+            'address' => $data['filterData']['address'] ?? null,
+            'email' => $data['filterData']['email'] ?? null
+        ];
+    }
 }

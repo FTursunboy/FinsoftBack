@@ -29,6 +29,7 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
         $query = $this->search($filterParams);
 
         $query = $this->filter($query, $filterParams);
+
         $query = $this->sort($filterParams, $query, ['organization', 'currency']);
 
         return $query->paginate($filterParams['itemsPerPage']);
