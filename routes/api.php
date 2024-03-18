@@ -40,7 +40,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //
-//Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => 'auth:sanctum'], function () {
 
 
 Route::apiResource('currency', CurrencyController::class);
@@ -195,6 +195,6 @@ Route::group(['prefix' => 'document'], function () {
 });
 
 Route::get('logout', [AuthController::class, 'logout']);
-//});
+});
 
 Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login'])->name('login');
