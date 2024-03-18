@@ -194,7 +194,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('unApprove/{document}', [DocumentController::class, 'unApprove']);
     });
 
-    Route::get('logout', [AuthController::class, 'logout']);
+Route::get('logout', [AuthController::class, 'logout']);
 });
 
 Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login'])->name('login');
