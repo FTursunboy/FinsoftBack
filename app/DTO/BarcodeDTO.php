@@ -2,9 +2,7 @@
 
 namespace App\DTO;
 
-use App\Http\Requests\Api\CashRegister\CashRegisterRequest;
-use App\Http\Requests\Api\Group\GroupRequest;
-use App\Http\Requests\BarcodeRequest;
+use App\Http\Requests\Api\BarcodeRequest;
 use Illuminate\Http\Request;
 
 class BarcodeDTO
