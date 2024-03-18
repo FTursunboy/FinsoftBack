@@ -16,7 +16,8 @@ class BarcodeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'barcode' => $this->barcode
+            'barcode' => $this->barcode,
+            'deleted_at' => $this->deleted_at
         ];
     }
 }
