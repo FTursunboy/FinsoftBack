@@ -29,7 +29,6 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
         $query = $this->search($filterParams);
 
         $query = $this->filter($query, $filterParams);
-
         $query = $this->sort($filterParams, $query, ['organization', 'currency']);
 
         return $query->paginate($filterParams['itemsPerPage']);
@@ -54,12 +53,12 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
         }
         $query = $this->model::whereAny(['name', 'bill_number', 'date', 'comment'], 'like', '%' . $filterParams['search'] . '%');
 
-        return $query->where(function ($query) use ($filterParams) {
-            $query->orWhereHas('currency', function ($query) use ($filterParams) {
-                $query->where('name', 'like', '%' . $filterParams['search'] . '%');
+        return $query->OrWhere(function ($query) use ($filterParams) {
+            return $query->orWhereHas('currency', function ($query) use ($filterParams) {
+                return $query->where('name', 'like', '%' . $filterParams['search'] . '%');
             })
                 ->orWhereHas('organization', function ($query) use ($filterParams) {
-                    $query->where('name', 'like', '%' . $filterParams['search'] . '%');
+                    return $query->where('name', 'like', '%' . $filterParams['search'] . '%');
                 });
         });
     }
