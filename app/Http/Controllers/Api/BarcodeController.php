@@ -25,7 +25,7 @@ class BarcodeController extends Controller
 
     public function index(Good $good, IndexRequest $request)
     {
-        return $this->success(BarcodeResource::collection($this->repository->index($request->validated(), $good)));
+        return $this->success(BarcodeResource::collection($this->repository->index($good, $request->validated())));
     }
 
     public function store(BarcodeRequest $request)
