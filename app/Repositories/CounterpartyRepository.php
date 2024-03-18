@@ -14,15 +14,15 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
 {
     public $model = Counterparty::class;
 
-    private const ON_PAGE = 10;
-
     use Sort, FilterTrait;
 
     public function index(array $data) :LengthAwarePaginator
     {
-        $filterParams = $this->processSearchData($data);
+        $filterParams = $this->model::filter($data);
 
-        $query = $this->search($filterParams['search']);
+        $query = $this->search($filterParams);
+
+        $query = $this->filter($query, $data);
 
         $query = $this->sort($filterParams, $query, []);
 
@@ -75,11 +75,27 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
         \DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 
-    public function search(string $search)
+    public function search(array $filterParams)
     {
-        return $this->model::whereAny(['name', 'phone', 'address', 'email'], 'like', '%' . $search . '%')
-            ->orWhereHas('roles', function ($query) use ($search) {
-                return $query->where('name', 'like', '%' . $search . '%');
+        return $this->model::whereAny(['name', 'phone', 'address', 'email'], 'like', '%' . $filterParams['search'] . '%')
+            ->orWhereHas('roles', function ($query) use ($filterParams) {
+                return $query->where('name', 'like', '%' . $filterParams['search'] . '%');
+            });
+    }
+
+    public function filter($query, array $data)
+    {
+        return $query->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', $data['name']);
+            })
+            ->when($data['phone'], function ($query) use ($data) {
+                return $query->where('phone', 'like', '%' . $data['phone'] . '%');
+            })
+            ->when($data['address'], function ($query) use ($data) {
+                return $query->where('address', 'like', '%' . $data['address'] . '%');
+            })
+            ->when($data['email'], function ($query) use ($data) {
+                return $query->where('email', 'like', '%' . $data['email'] . '%');
             });
     }
 }
