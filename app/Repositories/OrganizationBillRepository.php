@@ -18,13 +18,13 @@ use Illuminate\Support\Collection;
 
 class OrganizationBillRepository implements OrganizationBillRepositoryInterface
 {
-    use Sort, FilterTrait;
+    use Sort;
 
     public $model = OrganizationBill::class;
 
     public function index(array $data): LengthAwarePaginator
     {
-        $filterParams = $this->processSearchData($data);
+        $filterParams = $this->model::filter($data);
 
         $query = $this->search($filterParams);
 
@@ -49,6 +49,9 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
 
     public function search(array $filterParams)
     {
+        if (!$filterParams['search']) {
+            return $this->model::query();
+        }
         $query = $this->model::whereAny(['name', 'bill_number', 'date', 'comment'], 'like', '%' . $filterParams['search'] . '%');
 
         return $query->where(function ($query) use ($filterParams) {
@@ -63,8 +66,24 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
 
     public function filter($query, array $data)
     {
+
         return $query->when($data['currency_id'], function ($query) use ($data) {
             return $query->where('currency_id', $data['currency_id']);
-        });
+        })
+            ->when($data['organization_id'], function ($query) use ($data) {
+                return $query->where('organization_id', $data['organization_id']);
+            })
+            ->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', $data['name']);
+            })
+            ->when($data['bill_number'], function ($query) use ($data) {
+                return $query->where('organization_id', $data['organization_id']);
+            })
+            ->when($data['date'], function ($query) use ($data) {
+                return $query->where('date', $data['date']);
+            })
+            ->when($data['comment'], function ($query) use ($data) {
+                return $query->where('comment', $data['comment']);
+            });
     }
 }
