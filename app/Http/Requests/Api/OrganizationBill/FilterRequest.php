@@ -16,16 +16,15 @@ class FilterRequest extends FormRequest
     {
         $model = $this->getModel();
 
-        $fillableFields = $this->getFillableWithRelationships($model);
+        $fillableFields = $this->getFillable($model);
 
         return [
-            'search' => 'string|nullable|max:20',
-            'itemsPerPage' => 'integer|nullable',
-            'orderBy' => 'nullable|in:id,deleted_at,currency.name,organization.name,' . implode(',', $fillableFields),
-            'sort' => 'in:asc,desc',
-            'currency_id' => 'nullable|integer',
-            'organization_id' => 'nullable|integer',
-        ];
+                'search' => 'string|nullable|max:20',
+                'itemsPerPage' => 'integer|nullable',
+                'orderBy' => 'nullable|in:id,deleted_at,currency.name,organization.name,' . implode(',', $fillableFields),
+                'sort' => 'in:asc,desc',
+                'filterData' => 'nullable|array',
+            ];
     }
 
     public function authorize(): bool
@@ -33,13 +32,9 @@ class FilterRequest extends FormRequest
         return true;
     }
 
-    private function getFillableWithRelationships($model) :array
+    private function getFillable($model) :array
     {
-
-        $fillableFields = $model->getFillable();
-
-        return $fillableFields;
-
+        return $model->getFillable();
     }
 
     private function getModel()

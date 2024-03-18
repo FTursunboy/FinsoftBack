@@ -8,13 +8,18 @@ trait FilterTrait
 {
     protected function processSearchData(array $data): array
     {
+
         return [
             'search' => $data['search'] ?? '',
             'orderBy' => $data['orderBy'] ?? null,
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
-            'currency_id' => $data['currency_id'] ?? null,
-            'organization_id' => $data['organization_id'] ?? null
+            'currency_id' => $data['filterData']['currency_id'] ?? null,
+            'organization_id' => $data['filterData']['organization_id'] ?? null,
+            'name'  => $data['filterData']['name'] ?? null,
+            'bill_number' => $data['filterData']['bill_number'] ?? null,
+            'date' => $data['filterData']['date'] ?? null,
+            'comment' => $data['filterData']['comment'] ?? null
         ];
     }
 
