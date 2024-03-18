@@ -25,7 +25,7 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
     public function index(array $data): LengthAwarePaginator
     {
         $filterParams = $this->model::filter($data);
-dd($filterParams);
+
         $query = $this->search($filterParams);
 
         $query = $this->filter($query, $filterParams);
@@ -76,7 +76,7 @@ dd($filterParams);
                 return $query->where('name', 'like', $data['name']);
             })
             ->when($data['bill_number'], function ($query) use ($data) {
-                return $query->where('organization_id', $data['organization_id']);
+                return $query->where('bill_number', 'like', '%' . $data['bill_number'] . '%');
             })
             ->when($data['date'], function ($query) use ($data) {
                 return $query->where('date', $data['date']);
