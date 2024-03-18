@@ -82,7 +82,7 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
                 return $query->where('date', $data['date']);
             })
             ->when($data['comment'], function ($query) use ($data) {
-                return $query->where('comment', $data['comment']);
+                return $query->where('comment', 'like', '%' . $data['comment'] . '%');
             });
     }
 }
