@@ -44,7 +44,8 @@ class GoodRepository implements GoodRepositoryInterface
                 'good_group_id' => $DTO->good_group_id
             ]);
 
-         //   GoodImages::insert($this->goodImages($good, $DTO->add_images));
+            if ($DTO->add_images) GoodImages::insert($this->goodImages($good, $DTO->add_images));
+
         });
     }
 
