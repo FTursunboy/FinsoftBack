@@ -33,4 +33,21 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
     {
         return $this->hasMany(GoodImages::class, 'good_id');
     }
+
+    public static function filter(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'orderBy' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'vendor_code' => $data['filterData']['vendor_code'] ?? null,
+            'description' => $data['filterData']['description'] ?? null,
+            'name'  => $data['filterData']['name'] ?? null,
+            'category_id' => $data['filterData']['category_id'] ?? null,
+            'unit_id' => $data['filterData']['unit_id'] ?? null,
+            'barcode' => $data['filterData']['barcode'] ?? null,
+            'storage_id' => $data['filterData']['storage_id'] ?? null,
+        ];
+    }
 }
