@@ -23,9 +23,11 @@ class GoodRepository implements GoodRepositoryInterface
 
     public function index(array $data): LengthAwarePaginator
     {
-        $filterParams = $this->processSearchData($data);
+        $filterParams = $this->model::filter($data);
 
         $query = $this->search($filterParams['search']);
+
+        $query = $this->filter($query, $filterParams);
 
         $query = $this->sort($filterParams, $query, ['unit']);
 
@@ -95,5 +97,31 @@ class GoodRepository implements GoodRepositoryInterface
     public function search(string $search)
     {
         return $this->model::where('name', 'like', '%' . $search . '%');
+    }
+
+    public function filter($query, array $data)
+    {
+
+        return $query->when($data['category_id'], function ($query) use ($data) {
+            return $query->where('category_id', $data['category_id']);
+        })
+            ->when($data['unit_id'], function ($query) use ($data) {
+                return $query->where('unit_id', $data['unit_id']);
+            })
+            ->when($data['storage_id'], function ($query) use ($data) {
+                return $query->where('storage_id', $data['storage_id']);
+            })
+            ->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', $data['name']);
+            })
+            ->when($data['vendor_code'], function ($query) use ($data) {
+                return $query->where('vendor_code', 'like', $data['vendor_code']);
+            })
+            ->when($data['description'], function ($query) use ($data) {
+                return $query->where('description', 'like', $data['description']);
+            })
+            ->when($data['barcode'], function ($query) use ($data) {
+                return $query->where('barcode', 'like', $data['barcode']);
+            });
     }
 }
