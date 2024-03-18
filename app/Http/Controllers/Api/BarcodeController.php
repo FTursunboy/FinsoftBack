@@ -30,12 +30,12 @@ class BarcodeController extends Controller
 
     public function store(BarcodeRequest $request)
     {
-        return $this->created(BarcodeResource::make($this->repository->store(BarcodeDTO::fromRequest($request->validated()))));
+        return $this->created(BarcodeResource::make($this->repository->store(BarcodeDTO::fromRequest($request))));
     }
 
     public function update(Barcode $barcode, BarcodeRequest $request)
     {
-        return $this->success(GroupResource::make($this->repository->update($barcode, BarcodeDTO::fromRequest($request->validated()))));
+        return $this->success(GroupResource::make($this->repository->update($barcode, BarcodeDTO::fromRequest($request))));
     }
 
     public function destroy(Barcode $barcode)
