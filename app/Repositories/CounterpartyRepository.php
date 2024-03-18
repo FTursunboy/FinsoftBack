@@ -3,19 +3,12 @@
 namespace App\Repositories;
 
 use App\DTO\CounterpartyDTO;
-use App\DTO\LoginDTO;
 use App\Models\Counterparty;
-use App\Models\CounterpartyAgreement;
-use App\Models\User;
-use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Repositories\Contracts\CounterpartyRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 use Carbon\Carbon;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 
 class CounterpartyRepository implements CounterpartyRepositoryInterface
 {

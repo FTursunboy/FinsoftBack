@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BarcodeController;
 use App\Http\Controllers\Api\CashRegisterController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ClientDocumentController;
@@ -25,7 +26,6 @@ use App\Http\Controllers\Api\StorageController;
 use App\Http\Controllers\Api\StorageEmployeeController;
 use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
@@ -72,6 +72,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('unit', UnitController::class);
     Route::apiResource('good', GoodController::class);
     Route::apiResource('group', GroupController::class)->except('index', 'show');
+    Route::apiResource('barcode', BarcodeController::class)->except('index', 'show');
+    Route::get('barcode/{good}', [BarcodeController::class, 'index']);
 
     Route::apiResource('good-group', GoodGroupController::class);
     Route::get('group/{id}', [GroupController::class, 'index']);
