@@ -26,7 +26,7 @@ class GoodUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'vendor_code' => ['required', Rule::unique('goods', 'vendor_code')->ignore($this->route()->goods->id)],
+            'vendor_code' => ['required', Rule::unique('goods', 'vendor_code')->ignore($this->route()->good->id)],
             'description' => [''],
             'unit_id' => ['required', 'exists:units,id'],
             'storage_id' => ['required', 'exists:storages,id'],

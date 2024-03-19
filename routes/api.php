@@ -70,11 +70,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('storage', StorageController::class)->except('update');
     Route::apiResource('category', CategoryController::class);
     Route::apiResource('unit', UnitController::class);
-    Route::apiResource('good', GoodController::class);
+    Route::apiResource('good', GoodController::class)->except('update');
+    Route::post('good/{good}', [GoodController::class, 'update']);
     Route::apiResource('group', GroupController::class)->except('index', 'show');
     Route::apiResource('barcode', BarcodeController::class)->except('index', 'show');
-    Route::get('barcode/{good}', [BarcodeController::class, 'index']);
-
+    Route::get('get-barcode/{barcode}', [BarcodeController::class, 'show']);
     Route::apiResource('good-group', GoodGroupController::class);
     Route::get('group/{id}', [GroupController::class, 'index']);
     Route::get('getExchangeRateByCurrencyId/{currency}', [CurrencyController::class, 'getExchangeRateByCurrencyId']);
@@ -163,6 +163,12 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('get-goods/{goodGroup}', [GoodGroupController::class, 'getGoods']);
         Route::post('/massDelete', [GoodGroupController::class, 'massDelete']);
         Route::post('/massRestore', [GoodGroupController::class, 'massRestore']);
+    });
+
+    Route::group(['prefix' => 'barcode'], function () {
+        Route::get('/{good}', [BarcodeController::class, 'index']);
+        Route::post('/massDelete', [BarcodeController::class, 'massDelete']);
+        Route::post('/massRestore', [BarcodeController::class, 'massRestore']);
     });
 
     Route::get('/settings', [SettingsController::class, 'index']);
