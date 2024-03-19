@@ -24,7 +24,7 @@ trait Sort
             return  $query->with($relations)->orderBy($filteredParams['orderBy'], $filteredParams['direction']);
         }
 
-        return $query->with($relations)->orderBy('created_at', 'desc')->orderBy('deleted_at');
+        return $query->with($relations)->orderBy('deleted_at')->orderBy('created_at', 'desc');
     }
 
 

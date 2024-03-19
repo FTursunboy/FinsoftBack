@@ -12,6 +12,7 @@ use App\Http\Resources\GroupResource;
 use App\Models\Barcode;
 use App\Models\Good;
 use App\Repositories\BarcodeRepository;
+use App\Repositories\Contracts\BarcodeRepositoryInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -20,14 +21,14 @@ class BarcodeController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(public BarcodeRepository $repository)
+    public function __construct(public BarcodeRepositoryInterface $repository)
     {
 
     }
 
     public function index(Good $good, IndexRequest $request)
     {
-        return $this->success(BarcodeResource::collection($this->repository->index($good, $request->validated())));
+        return $this->paginate(BarcodeResource::collection($this->repository->index($good, $request->validated())));
     }
 
     public function show(Barcode $barcode)

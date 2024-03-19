@@ -10,6 +10,7 @@ use App\Repositories\Contracts\GoodRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 use Carbon\Carbon;
+use http\Params;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -53,14 +54,22 @@ class GoodRepository implements GoodRepositoryInterface
 
     public function update(Good $good, GoodUpdateDTO $DTO): Good
     {
-        $good->update([
-            'name' => $DTO->name,
-            'vendor_code' => $DTO->vendor_code,
-            'description' => $DTO->description,
-            'unit_id' => $DTO->unit_id,
-            'storage_id' => $DTO->storage_id,
-            'good_group_id' => $DTO->good_group_id
-        ]);
+        DB::transaction(function () use ($good, $DTO) {
+            $good->update([
+                'name' => $DTO->name,
+                'vendor_code' => $DTO->vendor_code,
+                'description' => $DTO->description,
+                'unit_id' => $DTO->unit_id,
+                'storage_id' => $DTO->storage_id,
+            ]);
+
+            if ($DTO->image_ids) {
+                $this->deleteImages($DTO->image_ids);
+                GoodImages::whereIn('id', $DTO->image_ids)->delete();
+            }
+
+            if ($DTO->add_images || $DTO->main_image) GoodImages::insert($this->goodImages($good, $DTO->add_images));
+        });
 
         return $good;
     }
@@ -93,6 +102,15 @@ class GoodRepository implements GoodRepositoryInterface
         }
 
         return $imgs;
+    }
+
+    public function deleteImages(array $ids)
+    {
+        foreach ($ids as $id) {
+            $img = GoodImages::find($id);
+            $path = 'public/' . $img->image;
+            Storage::delete($path);
+        }
     }
 
     public function search(string $search)

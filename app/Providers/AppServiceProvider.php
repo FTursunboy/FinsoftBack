@@ -3,10 +3,11 @@
 namespace App\Providers;
 
 use App\Repositories\AuthRepository;
+use App\Repositories\BarcodeRepository;
 use App\Repositories\CashRegisterRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\Contracts\AuthRepositoryInterface;
-use App\Repositories\Contracts\BarcodeRepository;
+use App\Repositories\Contracts\BarcodeRepositoryInterface;
 use App\Repositories\Contracts\CashRegisterRepositoryInterface;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Repositories\Contracts\CounterpartyAgreementRepositoryInterface;
@@ -45,10 +46,7 @@ use App\Repositories\StorageEmployeeRepository;
 use App\Repositories\StorageRepository;
 use App\Repositories\UnitRepository;
 use App\Repositories\UserRepository;
-use Illuminate\Contracts\Console\Application;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -79,7 +77,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(GroupRepositoryInterface::class, GroupRepository::class);
         $this->app->singleton(StorageEmployeeRepositoryInterface::class, StorageEmployeeRepository::class);
         $this->app->singleton(GoodGroupRepositoryInterface::class, GoodGroupRepository::class);
-        $this->app->singleton(BarcodeRepository::class, \App\Repositories\BarcodeRepository::class);
+        $this->app->singleton(BarcodeRepositoryInterface::class, BarcodeRepository::class);
 
 
     }
