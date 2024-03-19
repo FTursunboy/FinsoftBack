@@ -36,4 +36,17 @@ class Currency extends Model implements SoftDeleteInterface
         ];
     }
 
+    public static function filter(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'orderBy' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'name'  => $data['filterData']['name'] ?? null,
+            'digital_code'  => $data['filterData']['digital_code'] ?? null,
+            'symbol_code'  => $data['filterData']['symbol_code'] ?? null,
+        ];
+    }
+
 }

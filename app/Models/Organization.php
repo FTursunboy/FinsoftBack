@@ -21,10 +21,7 @@ class Organization extends Model implements \App\Repositories\Contracts\SoftDele
         ];
     }
 
-    public static function bootSoftDeletes()
-    {
-
-    }
+    public static function bootSoftDeletes() { }
 
     public function director(): BelongsTo
     {
@@ -34,6 +31,22 @@ class Organization extends Model implements \App\Repositories\Contracts\SoftDele
     public function chiefAccountant(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'chief_accountant_id', 'id');
+    }
+
+    public static function filter(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'orderBy' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'name'  => $data['filterData']['name'] ?? null,
+            'address' => $data['filterData']['address'] ?? null,
+            'description' => $data['filterData']['description'] ?? null,
+            'INN' => $data['filterData']['INN'] ?? null,
+            'director_id' => $data['filterData']['director_id'] ?? null,
+            'chief_accountant_id' => $data['filterData']['chief_accountant_id'] ?? null,
+        ];
     }
 }
 
