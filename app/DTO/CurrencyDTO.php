@@ -2,8 +2,7 @@
 
 namespace App\DTO;
 
-use App\Http\Requests\Api\CurrencyRequest;
-use Illuminate\Auth\Events\Login;
+use App\Http\Requests\Api\Currency\CurrencyRequest;
 
 class CurrencyDTO
 {

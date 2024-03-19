@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\DTO\OrganizationDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\Organization\FilterRequest;
 use App\Http\Requests\Api\Organization\OrganizationRequest;
-use App\Http\Requests\Api\Organization\OrganizationUpdateRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\OrganizationResource;
-use App\Models\Currency;
 use App\Models\Organization;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
@@ -17,8 +15,6 @@ use App\Repositories\Contracts\OrganizationRepositoryInterface;
 use App\Repositories\OrganizationRepository;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrganizationController extends Controller
 {
@@ -28,7 +24,7 @@ class OrganizationController extends Controller
     {
     }
 
-    public function index(IndexRequest $request)
+    public function index(FilterRequest $request)
     {
         return $this->paginate(OrganizationResource::collection($this->repository->index($request->validated())));
     }

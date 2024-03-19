@@ -76,7 +76,7 @@ class OrganizationRepository implements OrganizationRepositoryInterface
                 return $query->where('director_id', $data['director_id']);
             })
             ->when($data['name'], function ($query) use ($data) {
-                return $query->where('name', 'like', $data['name']);
+                return $query->where('name', 'like', '%' . $data['name'] . '%');
             })
             ->when($data['description'], function ($query) use ($data) {
                 return $query->where('description', 'like', '%' . $data['description'] . '%');

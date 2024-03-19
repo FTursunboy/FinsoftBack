@@ -2,9 +2,7 @@
 
 namespace App\DTO;
 
-use App\Http\Requests\Api\CurrencyRequest;
 use App\Http\Requests\Api\PriceTypeRequest;
-use Illuminate\Auth\Events\Login;
 
 class PriceTypeDTO
 {
