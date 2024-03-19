@@ -47,6 +47,8 @@ class BarcodeRepository implements BarcodeRepositoryInterface
 
         $query = $this->search($filterParams['search']);
 
+        $query = $query->where('good_id', $good->id);
+
         $query = $this->sort($filterParams, $query, []);
 
         return $query->paginate($filterParams['itemsPerPage']);
@@ -54,6 +56,6 @@ class BarcodeRepository implements BarcodeRepositoryInterface
 
     public function search(string $search)
     {
-        return Barcode::where('barcode', 'like', '%' . $search . '%');
+        return $this->model::where('barcode', 'like', '%' . $search . '%');
     }
 }
