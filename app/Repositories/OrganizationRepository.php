@@ -21,7 +21,7 @@ class OrganizationRepository implements OrganizationRepositoryInterface
     {
         $filteredParams = $this->model::filter($data);
 
-        $query = $this->search($filteredParams['search']);
+        $query = $this->search($filteredParams);
 
         $query = $this->filter($query, $filteredParams);
 
@@ -56,15 +56,23 @@ class OrganizationRepository implements OrganizationRepositoryInterface
         return $organization;
     }
 
-    public function search(string $search)
+    public function search(array $filteredParams)
     {
-        return $this->model::where('name', 'like', '%' . $search . '%')
-            ->orWhereHas('chiefAccountant', function ($query) use ($search) {
-                return $query->where('name', 'like', '%' . $search . '%');
-            })
-            ->orWhereHas('director', function ($query) use ($search) {
-                return $query->where('name', 'like', '%' . $search . '%');
+        if (!$filteredParams['search']) {
+            return $this->model::query();
+        }
+        return $this->model::where('name', 'like', '%' . $filteredParams['search'] . '%')
+            ->where(function ($query) use ($filteredParams) {
+                $query->where('name', 'like', '%' . $filteredParams['search'] . '%')
+                    ->orWhereHas('chiefAccountant', function ($query) use ($filteredParams) {
+                        $query->where('name', 'like', '%' . $filteredParams['search'] . '%');
+                    })
+                    ->orWhereHas('director', function ($query) use ($filteredParams) {
+                        $query->where('name', 'like', '%' . $filteredParams['search'] . '%');
+                    });
             });
+
+
     }
 
     public function filter($query, array $data)
