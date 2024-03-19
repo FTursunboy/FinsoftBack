@@ -5,14 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\DTO\CurrencyDTO;
 use App\DTO\ExchangeRateDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\CurrencyRequest;
+use App\Http\Requests\Api\Currency\CurrencyRequest;
+use App\Http\Requests\Api\Currency\FilterRequest;
 use App\Http\Requests\Api\ExchangeRequest;
 use App\Http\Requests\Api\ExchangeUpdateRequest;
-use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\CurrencyResource;
 use App\Http\Resources\ExchangeRateResource;
-use App\Models\Counterparty;
 use App\Models\Currency;
 use App\Models\ExchangeRate;
 use App\Repositories\Contracts\CurrencyRepositoryInterface;
@@ -20,8 +19,6 @@ use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Psy\Util\Json;
 
 class CurrencyController extends Controller
 {
@@ -29,7 +26,7 @@ class CurrencyController extends Controller
 
     public function __construct(public CurrencyRepositoryInterface $repository){ }
 
-    public function index(IndexRequest $request) :JsonResponse
+    public function index(FilterRequest $request) :JsonResponse
     {
         return $this->paginate(CurrencyResource::collection($this->repository->index($request->validated())));
     }

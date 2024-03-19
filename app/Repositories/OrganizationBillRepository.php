@@ -74,7 +74,7 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
                 return $query->where('organization_id', $data['organization_id']);
             })
             ->when($data['name'], function ($query) use ($data) {
-                return $query->where('name', 'like', $data['name']);
+                return $query->where('name', 'like', '%' . $data['name'] . '%');
             })
             ->when($data['bill_number'], function ($query) use ($data) {
                 return $query->where('bill_number', 'like', '%' . $data['bill_number'] . '%');

@@ -98,7 +98,7 @@ class CurrencyRepository implements CurrencyRepositoryInterface
     public function filter($query, array $data)
     {
         return $query->when($data['name'], function ($query) use ($data) {
-            return $query->where('name', 'like', $data['name']);
+            return $query->where('name', 'like', '%'.$data['name'].'%');
         })
             ->when($data['digital_code'], function ($query) use ($data) {
                 return $query->where('digital_code', 'like', '%' . $data['digital_code'] . '%');
