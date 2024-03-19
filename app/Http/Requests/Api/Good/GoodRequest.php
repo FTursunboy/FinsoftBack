@@ -32,7 +32,7 @@ class GoodRequest extends FormRequest
             'storage_id' => ['required', 'exists:storages,id'],
             'good_group_id' => ['required', 'exists:good_groups,id'],
             'main_image' => ['nullable', 'file'],
-            'add_images' => ['nullable', ''],
+            'add_images' => ['nullable', 'array'],
         ];
     }
 

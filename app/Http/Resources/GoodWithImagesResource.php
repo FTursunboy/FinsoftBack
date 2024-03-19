@@ -25,7 +25,7 @@ class GoodWithImagesResource extends JsonResource
             'barcode' => $this->barcode,
             'storage_id' => StorageResource::make($this->whenLoaded('storage')),
             'deleted_at' => $this->deleted_at,
-            'images' => ImageResource::collection($this->images),
+            'images' => ImageResource::collection($this->whenLoaded('images')),
         ];
     }
 }

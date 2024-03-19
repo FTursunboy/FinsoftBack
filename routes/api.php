@@ -71,7 +71,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('category', CategoryController::class);
     Route::apiResource('unit', UnitController::class);
     Route::apiResource('good', GoodController::class)->except('update');
-    Route::post('good/{good}', [GoodController::class, 'update']);
     Route::apiResource('group', GroupController::class)->except('index', 'show');
     Route::apiResource('barcode', BarcodeController::class)->except('index', 'show');
     Route::get('get-barcode/{barcode}', [BarcodeController::class, 'show']);
@@ -132,6 +131,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
 
     Route::group(['prefix' => 'good'], function () {
+        Route::post('/{good}', [GoodController::class, 'update']);
         Route::post('/massDelete', [GoodController::class, 'massDelete']);
         Route::post('/massRestore', [GoodController::class, 'massRestore']);
     });

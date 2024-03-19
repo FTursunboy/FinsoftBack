@@ -22,7 +22,7 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
 
         $query = $this->search($filterParams);
 
-        $query = $this->filter($query, $data);
+        $query = $this->filter($query, $filterParams);
 
         $query = $this->sort($filterParams, $query, []);
 
@@ -54,8 +54,6 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
 
         return $counterparty;
     }
-
-
 
     public function delete(Counterparty $counterparty)
     {
