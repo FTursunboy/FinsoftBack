@@ -26,13 +26,14 @@ class GoodUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'vendor_code' => ['required', Rule::unique('goods', 'vendor_code')->ignore($this->route()->good->id)],
+            'vendor_code' => ['required',  Rule::unique('goods', 'vendor_code')->ignore($this->route('good')->id),],
             'description' => [''],
             'unit_id' => ['required', 'exists:units,id'],
             'storage_id' => ['required', 'exists:storages,id'],
             'good_group_id' => ['required', 'exists:good_groups,id'],
             'main_image' => ['nullable', 'file'],
-            'add_images' => ['nullable', ''],
+            'add_images' => ['nullable', 'array'],
+            'image_ids' => ['nullable', 'array']
         ];
     }
 
