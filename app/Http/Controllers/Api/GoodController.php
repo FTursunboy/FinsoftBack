@@ -21,7 +21,7 @@ class GoodController extends Controller implements \App\Repositories\Contracts\S
 {
     use ApiResponse;
 
-    public function __construct(public GoodRepository $repository)
+    public function __construct(public GoodRepositoryInterface $repository)
     {
     }
 
@@ -40,9 +40,9 @@ class GoodController extends Controller implements \App\Repositories\Contracts\S
         return $this->success(GoodWithImagesResource::make($good->load(['category', 'unit', 'images'])));
     }
 
-    public function update(Good $good, GoodUpdateRequest $request, GoodRepository $repository)
+    public function update(Good $good, GoodUpdateRequest $request)
     {
-        return $this->success(GoodResource::make($repository->update($good, GoodUpdateDTO::fromRequest($request))));
+        return $this->success(GoodResource::make($this->repository->update($good, GoodUpdateDTO::fromRequest($request))));
     }
 
     public function massDelete(IdRequest $request, MassOperationInterface $delete)

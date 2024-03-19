@@ -46,7 +46,7 @@ class GoodRepository implements GoodRepositoryInterface
                 'good_group_id' => $DTO->good_group_id
             ]);
 
-            if ($DTO->add_images) GoodImages::insert($this->goodImages($good, $DTO->add_images));
+            if ($DTO->add_images || $DTO->main_image) GoodImages::insert($this->goodImages($good, $DTO->add_images));
 
         });
     }
@@ -77,6 +77,7 @@ class GoodRepository implements GoodRepositoryInterface
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ];
+
         if (isset($images['add_images'])) {
             $imgs = array_merge($imgs, array_map(function ($image) use ($good) {
                 $img = Storage::disk('public')->put('goodImages', $image);

@@ -16,6 +16,7 @@ class ImageResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'image' => Storage::url($this->image),
             'is_main' => $this->is_main
         ];
