@@ -19,9 +19,11 @@ class OrganizationRepository implements OrganizationRepositoryInterface
 
     public function index(array $data): LengthAwarePaginator
     {
-        $filteredParams = $this->processSearchData($data);
+        $filteredParams = $this->model::filter($data);
 
         $query = $this->search($filteredParams['search']);
+
+        $query = $this->filter($query, $filteredParams);
 
         $query = $this->sort($filteredParams, $query, ['director', 'chiefAccountant']);
 
@@ -62,6 +64,28 @@ class OrganizationRepository implements OrganizationRepositoryInterface
             })
             ->orWhereHas('director', function ($query) use ($search) {
                 return $query->where('name', 'like', '%' . $search . '%');
+            });
+    }
+
+    public function filter($query, array $data)
+    {
+        return $query->when($data['chief_accountant_id'], function ($query) use ($data) {
+            return $query->where('chief_accountant_id', $data['chief_accountant_id']);
+        })
+            ->when($data['director_id'], function ($query) use ($data) {
+                return $query->where('director_id', $data['director_id']);
+            })
+            ->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', $data['name']);
+            })
+            ->when($data['description'], function ($query) use ($data) {
+                return $query->where('description', 'like', '%' . $data['description'] . '%');
+            })
+            ->when($data['INN'], function ($query) use ($data) {
+                return $query->where('INN', 'like', '%' . $data['INN'] . '%');
+            })
+            ->when($data['address'], function ($query) use ($data) {
+                return $query->where('address', 'like', '%' . $data['address'] . '%');
             });
     }
 }

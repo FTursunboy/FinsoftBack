@@ -22,9 +22,11 @@ class CurrencyRepository implements CurrencyRepositoryInterface
 
     public function index(array $data) :LengthAwarePaginator
     {
-        $filteredParams = $this->processSearchData($data);
+        $filteredParams = $this->model::filter($data);
 
         $query = $this->search($filteredParams['search']);
+
+        $query = $this->filter($query, $filteredParams);
 
         $query = $this->sort($filteredParams, $query, ['exchangeRates']);
 
@@ -91,5 +93,18 @@ class CurrencyRepository implements CurrencyRepositoryInterface
     public function search(string $search)
     {
         return $this->model::whereAny(['name', 'symbol_code', 'digital_code'], 'like', '%' . $search . '%');
+    }
+
+    public function filter($query, array $data)
+    {
+        return $query->when($data['name'], function ($query) use ($data) {
+            return $query->where('name', 'like', $data['name']);
+        })
+            ->when($data['digital_code'], function ($query) use ($data) {
+                return $query->where('digital_code', 'like', '%' . $data['digital_code'] . '%');
+            })
+            ->when($data['symbol_code'], function ($query) use ($data) {
+                return $query->where('symbol_code', 'like', '%' . $data['symbol_code'] . '%');
+            });
     }
 }
