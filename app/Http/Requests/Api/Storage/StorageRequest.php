@@ -25,7 +25,7 @@ class StorageRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'organization_id' => ['required', Rule::exists('organizations', 'id')],
-            'group_id' => ['nullable', Rule::exists('groups', 'id')],
+            'group_id' => ['required', Rule::exists('groups', 'id')],
             'storage_data' => ['array', 'nullable'],
             'storage_data.*.employee_id' => ['nullable', Rule::exists('employees', 'id')],
             'storage_data.*.from' => ['nullable', 'date'],
