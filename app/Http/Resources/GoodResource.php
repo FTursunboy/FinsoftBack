@@ -19,7 +19,6 @@ class GoodResource extends JsonResource
             'name' => $this->name,
             'vendor_code' => $this->vendor_code,
             'description' => $this->description,
-            'category_id' => CategoryResource::make($this->whenLoaded('category')),
             'unit_id' => UnitResource::make($this->whenLoaded('unit')),
             'barcode' => $this->barcode,
             'storage_id' => StorageResource::make($this->whenLoaded('storage')),

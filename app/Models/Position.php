@@ -13,15 +13,19 @@ class Position extends Model implements \App\Repositories\Contracts\SoftDeleteIn
 
     protected $fillable = ['name'];
 
-    public function toSearchableArray(): array
-    {
-        return [
-            'name' => $this->name
-        ];
-    }
-
     public static function bootSoftDeletes()
     {
 
+    }
+
+    public static function filter(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'orderBy' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'name'  => $data['filterData']['name'] ?? null,
+        ];
     }
 }

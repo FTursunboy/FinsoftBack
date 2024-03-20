@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\DTO\PositionDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\Position\FilterRequest;
 use App\Http\Requests\Api\Position\PositionRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\PositionResource;
@@ -25,7 +26,7 @@ class PositionController extends Controller
     {
     }
 
-    public function index(IndexRequest $request): JsonResponse
+    public function index(FilterRequest $request): JsonResponse
     {
         return $this->paginate(PositionResource::collection($this->repository->index($request->validated())));
     }
