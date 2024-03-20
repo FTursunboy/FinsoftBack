@@ -11,16 +11,12 @@ use App\Http\Requests\Api\User\UserRequest;
 use App\Http\Requests\Api\User\UserUpdateRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\UserResource;
-use App\Models\Currency;
 use App\Models\User;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\Contracts\UserRepositoryInterface;
-use App\Repositories\UserRepository;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller

@@ -48,11 +48,13 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
 
     public function getGoods(GoodGroup $goodGroup, array $data)
     {
-        $filterParams = $this->processSearchData($data);
+        $filterParams = Good::filter($data);
 
         $query = $this->searchGood($filterParams['search'], $goodGroup);
 
-        $query = $this->sort($filterParams, $query, []);
+        $query = $this->filterGood($query, $filterParams);
+
+        $query = $this->sort($filterParams, $query, ['goodGroup', 'storage', 'unit']);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
@@ -68,5 +70,30 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
             ['good_group_id', $goodGroup->id],
             ['name', 'like', '%' . $search . '%']
         ]);
+    }
+
+    public function filterGood($query, array $data)
+    {
+        return $query->when($data['storage_id'], function ($query) use ($data) {
+            return $query->where('storage_id', $data['storage_id']);
+        })
+            ->when($data['unit_id'], function ($query) use ($data) {
+                return $query->where('unit_id', $data['unit_id']);
+            })
+            ->when($data['category_id'], function ($query) use ($data) {
+                return $query->where('category_id', $data['category_id']);
+            })
+            ->when($data['barcode'], function ($query) use ($data) {
+                return $query->where('barcode', 'like', '%' . $data['barcode'] . '%');
+            })
+            ->when($data['description'], function ($query) use ($data) {
+                return $query->where('description', 'like', '%' . $data['description'] . '%');
+            })
+            ->when($data['vendor_code'], function ($query) use ($data) {
+                return $query->where('vendor_code', 'like', '%' . $data['vendor_code'] . '%');
+            })
+            ->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', '%' . $data['name'] . '%');
+            });
     }
 }

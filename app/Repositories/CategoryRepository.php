@@ -18,11 +18,9 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function index(array $data): LengthAwarePaginator
     {
-        $filterParams = $this->model::filter($data);
+        $filterParams = $this->processSearchData($data);
 
         $query = $this->search($filterParams['search']);
-
-        $query = $this->filter($query, $filterParams);
 
         $query = $this->sort($filterParams, $query, ['']);
 
@@ -49,12 +47,5 @@ class CategoryRepository implements CategoryRepositoryInterface
     public function search(string $search)
     {
         return $this->model::where('name', 'like', '%' . $search . '%');
-    }
-
-    public function filter($query, array $data)
-    {
-        return $query->when($data['name'], function ($query) use ($data) {
-            return $query->where('name', 'like', '%'.$data['name'].'%');
-        });
     }
 }
