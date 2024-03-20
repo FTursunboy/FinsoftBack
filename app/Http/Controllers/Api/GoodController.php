@@ -37,7 +37,7 @@ class GoodController extends Controller implements \App\Repositories\Contracts\S
 
     public function show(Good $good)
     {
-        return $this->success(GoodWithImagesResource::make($good->load(['category', 'unit', 'images'])));
+        return $this->success(GoodWithImagesResource::make($good->load(['category', 'unit', 'images', 'storage', 'goodGroup'])));
     }
 
     public function update(Good $good, GoodUpdateRequest $request)

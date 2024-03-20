@@ -42,7 +42,7 @@ class OrganizationRepository implements OrganizationRepositoryInterface
         ]);
     }
 
-    public function update(Organization $organization, OrganizationDTO $DTO) :Organization
+    public function update(Organization $organization, OrganizationDTO $DTO): Organization
     {
         $organization->update([
             'name' => $DTO->name,
@@ -63,16 +63,13 @@ class OrganizationRepository implements OrganizationRepositoryInterface
         }
         return $this->model::where('name', 'like', '%' . $filteredParams['search'] . '%')
             ->where(function ($query) use ($filteredParams) {
-                $query->where('name', 'like', '%' . $filteredParams['search'] . '%')
-                    ->orWhereHas('chiefAccountant', function ($query) use ($filteredParams) {
-                        $query->where('name', 'like', '%' . $filteredParams['search'] . '%');
-                    })
+                $query->orWhereHas('chiefAccountant', function ($query) use ($filteredParams) {
+                    $query->where('name', 'like', '%' . $filteredParams['search'] . '%');
+                })
                     ->orWhereHas('director', function ($query) use ($filteredParams) {
                         $query->where('name', 'like', '%' . $filteredParams['search'] . '%');
                     });
             });
-
-
     }
 
     public function filter($query, array $data)

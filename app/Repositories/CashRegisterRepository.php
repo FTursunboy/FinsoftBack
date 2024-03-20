@@ -21,11 +21,13 @@ class CashRegisterRepository implements CashRegisterRepositoryInterface
 
     public function index(array $data): LengthAwarePaginator
     {
-        $filterParams = $this->processSearchData($data);
+        $filterParams = $this->model::filter($data);
 
-        $query = $this->search($filterParams['search']);
+        $query = $this->search($filterParams);
 
-       $query = $this->sort($filterParams, $query, ['organization', 'currency', 'responsiblePerson']);
+        $query = $this->filter($query, $filterParams);
+
+        $query = $this->sort($filterParams, $query, ['organization', 'currency', 'responsiblePerson']);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
@@ -52,17 +54,35 @@ class CashRegisterRepository implements CashRegisterRepositoryInterface
         return $cashRegister->load(['currency', 'organization', 'responsiblePerson']);
     }
 
-    public function search(string $search)
+    public function search(array $data)
     {
-        return $this->model::where('name', 'like', '%' . $search . '%')
-            ->orWhereHas('currency', function ($query) use ($search) {
-                return $query->where('name', 'like', '%' . $search . '%');
+        return $this->model::where('name', 'like', '%' . $data['search'] . '%')
+            ->where(function ($query) use ($data) {
+                $query->orWhereHas('currency', function ($query) use ($data) {
+                    return $query->where('name', 'like', '%' . $data['search'] . '%');
+                })
+                    ->orWhereHas('organization', function ($query) use ($data) {
+                        return $query->where('name', 'like', '%' . $data['search'] . '%');
+                    })
+                    ->orWhereHas('responsiblePerson', function ($query) use ($data) {
+                        return $query->where('name', 'like', '%' . $data['search'] . '%');
+                    });
+            });
+    }
+
+    public function filter($query, array $data)
+    {
+        return $query->when($data['currency_id'], function ($query) use ($data) {
+            return $query->where('currency_id', $data['currency_id']);
+        })
+            ->when($data['responsible_person_id'], function ($query) use ($data) {
+                return $query->where('responsible_person_id', $data['responsible_person_id']);
             })
-            ->orWhereHas('organization', function ($query) use ($search) {
-                return $query->where('name', 'like', '%' . $search . '%');
+            ->when($data['organization_id'], function ($query) use ($data) {
+                return $query->where('organization_id', $data['organization_id']);
             })
-            ->orWhereHas('responsiblePerson', function ($query) use ($search) {
-                return $query->where('name', 'like', '%' . $search . '%');
+            ->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', '%' . $data['name'] . '%');
             });
     }
 }

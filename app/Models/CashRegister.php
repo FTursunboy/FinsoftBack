@@ -40,10 +40,17 @@ class CashRegister extends Model implements \App\Repositories\Contracts\SoftDele
         return $this->belongsTo(Employee::class, 'responsible_person_id', 'id');
     }
 
-    public function toSearchableArray(): array
+    public static function filter(array $data): array
     {
         return [
-            'name' => $this->name
+            'search' => $data['search'] ?? '',
+            'orderBy' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'name'  => $data['filterData']['name'] ?? null,
+            'currency_id' => $data['filterData']['currency_id'] ?? null,
+            'organization_id' => $data['filterData']['organization_id'] ?? null,
+            'responsible_person_id' => $data['filterData']['responsible_person_id'] ?? null,
         ];
     }
 }

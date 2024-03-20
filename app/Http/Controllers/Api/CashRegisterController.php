@@ -6,12 +6,10 @@ use App\DTO\CashRegisterDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CashRegister\CashRegisterRequest;
 use App\Http\Requests\Api\CashRegister\CashRegisterUpdateRequest;
-use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\CashRegister\FilterRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\CashRegisterResource;
 use App\Models\CashRegister;
-use App\Models\Currency;
-use App\Repositories\CashRegisterRepository;
 use App\Repositories\Contracts\CashRegisterRepositoryInterface;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
@@ -25,7 +23,7 @@ class CashRegisterController extends Controller
     {
     }
 
-    public function index(IndexRequest $request)
+    public function index(FilterRequest $request)
     {
         return $this->paginate(CashRegisterResource::collection($this->repository->index($request->validated())));
     }

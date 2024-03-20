@@ -20,10 +20,10 @@ class GoodWithImagesResource extends JsonResource
             'name' => $this->name,
             'vendor_code' => $this->vendor_code,
             'description' => $this->description,
-            'category_id' => CategoryResource::make($this->whenLoaded('category')),
             'unit_id' => UnitResource::make($this->whenLoaded('unit')),
             'barcode' => $this->barcode,
-            'storage_id' => StorageResource::make($this->whenLoaded('storage')),
+            'storage' => StorageResource::make($this->whenLoaded('storage')),
+            'good_group' => GoodGroupResource::make($this->whenLoaded('goodGroup')),
             'deleted_at' => $this->deleted_at,
             'images' => ImageResource::collection($this->whenLoaded('images')),
         ];
