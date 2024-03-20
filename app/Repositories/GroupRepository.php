@@ -24,7 +24,7 @@ class GroupRepository implements GroupRepositoryInterface
 
         $query = Group::where('type', $id);
 
-        $relation = $id === 1 ? 'users' : ['storages'];
+        $relation = $id === 1 ? 'users' : 'storages';
 
         $query = $this->sort($filterParams, $query, [$relation, $relation . '.group', $relation . '.organization']);
 
