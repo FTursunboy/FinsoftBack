@@ -11,17 +11,21 @@ class Category extends Model implements \App\Repositories\Contracts\SoftDeleteIn
 {
     use Searchable, SoftDeletes, HasFactory;
 
-    public function toSearchableArray() :array
-    {
-        return [
-            'name' => $this->name
-        ];
-    }
-
+    protected $fillable = ['name', 'deleted_at'];
 
     public static function bootSoftDeletes()
     {
 
     }
-    protected $guarded = false;
+
+    public static function filter(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'orderBy' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'name' => $data['filterData']['name'] ?? null,
+        ];
+    }
 }

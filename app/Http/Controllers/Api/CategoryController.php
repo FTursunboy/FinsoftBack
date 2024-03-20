@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\DTO\CategoryDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Category\CategoryRequest;
+use App\Http\Requests\Api\Category\FilterRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\CategoryResource;
@@ -25,7 +26,7 @@ class CategoryController extends Controller
     {
     }
 
-    public function index(IndexRequest $request)
+    public function index(FilterRequest $request)
     {
         return $this->paginate(CategoryResource::collection($this->repository->index($request->validated())));
     }

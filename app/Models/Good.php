@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -22,6 +23,16 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function goodGroup(): BelongsTo
+    {
+        return $this->belongsTo(GoodGroup::class, 'good_group_id', 'id');
+    }
+
+    public function storage(): BelongsTo
+    {
+        return $this->belongsTo(Storage::class, 'storage_id', 'id');
     }
 
     public function unit(): BelongsTo
