@@ -25,6 +25,13 @@ class Storage extends Model implements \App\Repositories\Contracts\SoftDeleteInt
         return $this->belongsTo(Organization::class, 'organization_id');
     }
 
+    public function group(): belongsTo
+    {
+        return $this->belongsTo(Group::class, 'group_id');
+    }
+
+
+
     public function toSearchableArray() :array
     {
         return [
