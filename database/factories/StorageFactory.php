@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Employee;
+use App\Models\Group;
 use App\Models\Organization;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -27,7 +28,8 @@ class StorageFactory extends Factory
     {
         return [
             'name' => fake()->name,
-            'organization_id' => Organization::factory()
+            'organization_id' => Organization::factory(),
+            'group_id' => Group::factory(),
         ];
     }
 

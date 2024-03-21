@@ -24,11 +24,16 @@ class PriceType extends Model implements \App\Repositories\Contracts\SoftDeleteI
         return $this->belongsTo(Currency::class, 'currency_id');
     }
 
-    public function toSearchableArray(): array
+    public static function filter(array $data): array
     {
         return [
-            'name' => $this->name,
-            'description' => $this->description
+            'search' => $data['search'] ?? '',
+            'orderBy' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'name'  => $data['filterData']['name'] ?? null,
+            'currency_id' => $data['filterData']['currency_id'] ?? null,
+            'description' => $data['filterData']['organization_id'] ?? null,
         ];
     }
 }

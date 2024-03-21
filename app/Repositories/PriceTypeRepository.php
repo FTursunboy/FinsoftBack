@@ -24,7 +24,7 @@ class PriceTypeRepository implements PriceTypeRepositoryInterface
 
     public function index(array $data): LengthAwarePaginator
     {
-        $filteredParams = $this->processSearchData($data);
+        $filteredParams = $this->model::filter($data);
 
         $query = $this->search($filteredParams['search']);
 
@@ -58,6 +58,19 @@ class PriceTypeRepository implements PriceTypeRepositoryInterface
         return $this->model::whereAny(['name', 'description'], 'like', '%' . $search . '%')
             ->orWhereHas('currency', function ($query) use ($search) {
                 return $query->where('name', 'like', '%' . $search . '%');
+            });
+    }
+
+    public function filter($query, array $data)
+    {
+        return $query->when($data['currency_id'], function ($query) use ($data) {
+            return $query->where('currency_id', $data['currency_id']);
+        })
+            ->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', '%' . $data['name'] . '%');
+            })
+            ->when($data['description'], function ($query) use ($data) {
+                return $query->where('description', 'like', '%' . $data['description'] . '%');
             });
     }
 }
