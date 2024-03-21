@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\DTO\CounterpartyDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\CounterpartyRequest;
-use App\Http\Requests\Api\CounterpartyUpdateRequest;
+use App\Http\Requests\Api\Counterparty\CounterpartyRequest;
+use App\Http\Requests\Api\Counterparty\CounterpartyUpdateRequest;
+use App\Http\Requests\Api\Counterparty\FilterRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\CounterpartyResource;
@@ -24,7 +25,7 @@ class CounterpartyController extends Controller
     {
     }
 
-    public function index(IndexRequest $request) :JsonResponse
+    public function index(FilterRequest $request) :JsonResponse
     {
         return $this->paginate(CounterpartyResource::collection($this->repository->index($request->validated())));
     }

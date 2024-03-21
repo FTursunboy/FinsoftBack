@@ -18,8 +18,7 @@ class User extends Authenticatable implements \App\Repositories\Contracts\SoftDe
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
-    protected $fillable = ['name', 'surname', 'lastname', 'login', 'email',
-            'password', 'phone', 'organization_id', 'status', 'image', 'group_id'];
+    protected $fillable = ['name', 'login', 'email', 'password', 'phone', 'organization_id', 'status', 'image', 'group_id'];
 
     protected $hidden = [
         'password',
@@ -49,5 +48,20 @@ class User extends Authenticatable implements \App\Repositories\Contracts\SoftDe
     public static function bootSoftDeletes()
     {
 
+    }
+
+    public static function filter(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'orderBy' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'name'  => $data['filterData']['name'] ?? null,
+            'login' => $data['filterData']['login'] ?? null,
+            'email' => $data['filterData']['email'] ?? null,
+            'phone' => $data['filterData']['phone'] ?? null,
+            'organization_id' => $data['filterData']['organization_id'] ?? null,
+        ];
     }
 }

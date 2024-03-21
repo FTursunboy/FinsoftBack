@@ -7,6 +7,7 @@ use App\DTO\UserUpdateDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\User\ChangePasswordRequest;
+use App\Http\Requests\Api\User\FilterRequest;
 use App\Http\Requests\Api\User\UserRequest;
 use App\Http\Requests\Api\User\UserUpdateRequest;
 use App\Http\Requests\IdRequest;
@@ -28,7 +29,7 @@ class UserController extends Controller
     {
     }
 
-    public function index(IndexRequest $request)
+    public function index(FilterRequest $request)
     {
         return $this->paginate(UserResource::collection($this->repository->index($request->validated())));
     }

@@ -86,7 +86,7 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
     public function filter($query, array $data)
     {
         return $query->when($data['name'], function ($query) use ($data) {
-            return $query->where('name', 'like', $data['name']);
+            return $query->where('name', 'like', '%' . $data['name'] . '%');
         })
             ->when($data['phone'], function ($query) use ($data) {
                 return $query->where('phone', 'like', '%' . $data['phone'] . '%');
