@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Group\GroupRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Resources\GroupResource;
+use App\Http\Resources\StorageResource;
+use App\Http\Resources\UserResource;
 use App\Models\Group;
 use App\Repositories\Contracts\GroupRepositoryInterface;
 use App\Traits\ApiResponse;
@@ -31,12 +33,12 @@ class GroupController extends Controller
 
     public function getUsers(Group $group, IndexRequest $request)
     {
-        return $this->paginate(GroupResource::collection($this->repository->getUsers($group, $request->validated())));
+        return $this->paginate(UserResource::collection($this->repository->getUsers($group, $request->validated())));
     }
 
     public function getStorages(Group $group, IndexRequest $request)
     {
-        return $this->paginate(GroupResource::collection($this->repository->getStorages($group, $request->validated())));
+        return $this->paginate(StorageResource::collection($this->repository->getStorages($group, $request->validated())));
     }
 
     public function store(GroupRequest $request)
