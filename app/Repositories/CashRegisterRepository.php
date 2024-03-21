@@ -56,18 +56,18 @@ class CashRegisterRepository implements CashRegisterRepositoryInterface
 
     public function search(array $data)
     {
-        return $this->model::where('name', 'like', '%' . $data['search'] . '%')
-            ->where(function ($query) use ($data) {
-                $query->orWhereHas('currency', function ($query) use ($data) {
+        return $this->model::where(function ($query) use ($data) {
+            $query->where('name', 'like', '%' . $data['search'] . '%')
+                ->orWhereHas('currency', function ($query) use ($data) {
                     return $query->where('name', 'like', '%' . $data['search'] . '%');
                 })
-                    ->orWhereHas('organization', function ($query) use ($data) {
-                        return $query->where('name', 'like', '%' . $data['search'] . '%');
-                    })
-                    ->orWhereHas('responsiblePerson', function ($query) use ($data) {
-                        return $query->where('name', 'like', '%' . $data['search'] . '%');
-                    });
-            });
+                ->orWhereHas('organization', function ($query) use ($data) {
+                    return $query->where('name', 'like', '%' . $data['search'] . '%');
+                })
+                ->orWhereHas('responsiblePerson', function ($query) use ($data) {
+                    return $query->where('name', 'like', '%' . $data['search'] . '%');
+                });
+        });
     }
 
     public function filter($query, array $data)
