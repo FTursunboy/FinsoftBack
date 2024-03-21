@@ -13,17 +13,8 @@ class Employee extends Model implements \App\Repositories\Contracts\SoftDeleteIn
 {
     use Searchable, SoftDeletes, HasFactory;
 
-    protected $fillable = ['name', 'lastname', 'surname', 'image', 'position_id',
-                'phone', 'email', 'address'];
+    protected $fillable = ['name', 'image', 'position_id', 'phone', 'email', 'address', 'group_id'];
 
-    public function toSearchableArray(): array
-    {
-        return [
-            'name' => $this->name,
-            'lastname' => $this->lastname,
-            'surname' => $this->surname
-        ];
-    }
 
     public static function bootSoftDeletes()
     {
@@ -33,5 +24,20 @@ class Employee extends Model implements \App\Repositories\Contracts\SoftDeleteIn
     public function position(): BelongsTo
     {
         return $this->belongsTo(Position::class, 'position_id');
+    }
+
+
+    public static function filter(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'orderBy' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'name'  => $data['filterData']['name'] ?? null,
+            'phone' => $data['filterData']['phone'] ?? null,
+            'email' => $data['filterData']['email'] ?? null,
+            'address' => $data['filterData']['address'] ?? null,
+        ];
     }
 }

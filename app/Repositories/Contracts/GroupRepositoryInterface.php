@@ -12,9 +12,13 @@ interface GroupRepositoryInterface
 
     public function storagesGroup(array $data) :LengthAwarePaginator;
 
+    public function employeesGroup(array $data) :LengthAwarePaginator;
+
     public function getUsers(Group $group, array $data) :LengthAwarePaginator;
 
     public function getStorages(Group $group, array $data) :LengthAwarePaginator;
+
+    public function getEmployees(Group $group, array $data) :LengthAwarePaginator;
 
     public function store(GroupDTO $DTO);
 

@@ -32,6 +32,11 @@ class GroupController extends Controller
         return $this->paginate(GroupResource::collection($this->repository->storagesGroup($request->validated())));
     }
 
+    public function employeesGroup(IndexRequest $request)
+    {
+        return $this->paginate(GroupResource::collection($this->repository->employeesGroup($request->validated())));
+    }
+
     public function getUsers(Group $group, FilterRequest $request)
     {
         return $this->paginate(UserResource::collection($this->repository->getUsers($group, $request->validated())));
@@ -40,6 +45,12 @@ class GroupController extends Controller
     public function getStorages(Group $group, FilterRequest $request)
     {
         return $this->paginate(StorageResource::collection($this->repository->getStorages($group, $request->validated())));
+    }
+
+
+    public function getEmployees(Group $group, FilterRequest $request)
+    {
+        return $this->paginate(StorageResource::collection($this->repository->getEmployees($group, $request->validated())));
     }
 
     public function store(GroupRequest $request)

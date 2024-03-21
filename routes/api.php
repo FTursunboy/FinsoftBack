@@ -170,10 +170,12 @@ Route::group(['prefix' => 'good-group'], function () {
 });
 
 Route::group(['prefix' => 'group'], function () {
-    Route::get('users-group', [GroupController::class, 'usersGroup']);
-    Route::get('storages-group', [GroupController::class, 'storagesGroup']);
+    Route::get('/users-group', [GroupController::class, 'usersGroup']);
+    Route::get('/storages-group', [GroupController::class, 'storagesGroup']);
+    Route::get('/employees-group', [GroupController::class, 'employeesGroup']);
     Route::get('/get-users/{group}', [GroupController::class, 'getUsers']);
     Route::get('/get-storages/{group}', [GroupController::class, 'getStorages']);
+    Route::get('/get-employees/{group}', [GroupController::class, 'getEmployees']);
 });
 
 Route::get('/settings', [SettingsController::class, 'index']);
