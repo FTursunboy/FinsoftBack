@@ -52,6 +52,7 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
         if (!$filterParams['search']) {
             return $this->model::query();
         }
+
         $query = $this->model::whereAny(['name', 'bill_number', 'date', 'comment'], 'like', '%' . $filterParams['search'] . '%');
 
         return $query->where(function ($query) use ($filterParams) {
