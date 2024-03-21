@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\DTO\GroupDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Group\FilterRequest;
 use App\Http\Requests\Api\Group\GroupRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Resources\GroupResource;
@@ -31,12 +32,12 @@ class GroupController extends Controller
         return $this->paginate(GroupResource::collection($this->repository->storagesGroup($request->validated())));
     }
 
-    public function getUsers(Group $group, IndexRequest $request)
+    public function getUsers(Group $group, FilterRequest $request)
     {
         return $this->paginate(UserResource::collection($this->repository->getUsers($group, $request->validated())));
     }
 
-    public function getStorages(Group $group, IndexRequest $request)
+    public function getStorages(Group $group, FilterRequest $request)
     {
         return $this->paginate(StorageResource::collection($this->repository->getStorages($group, $request->validated())));
     }
