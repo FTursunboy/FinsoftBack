@@ -34,6 +34,10 @@ class GroupController extends Controller
         return $this->success(GroupResource::make($this->repository->update($group, GroupDTO::fromRequest($request))));
     }
 
+    public function show(Group $group) {
+        return $this->success(GroupResource::make($group));
+    }
+
     public function destroy(Group $group)
     {
         return $this->deleted($group->delete());

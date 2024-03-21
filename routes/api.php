@@ -80,6 +80,8 @@ Route::apiResource('good-group', GoodGroupController::class);
 Route::get('group/{id}', [GroupController::class, 'index']);
 Route::get('getExchangeRateByCurrencyId/{currency}', [CurrencyController::class, 'getExchangeRateByCurrencyId']);
 
+Route::get('group/show/{group}', [GroupController::class, 'show']);
+
 Route::group(['prefix' => 'organizationBill'], function () {
     Route::post('/massDelete', [OrganizationBillController::class, 'massDelete']);
     Route::post('/massRestore', [OrganizationBillController::class, 'massRestore']);
