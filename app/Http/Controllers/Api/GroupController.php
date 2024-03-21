@@ -19,9 +19,24 @@ class GroupController extends Controller
     {
     }
 
-    public function index(int $id, IndexRequest $request)
+    public function usersGroup(IndexRequest $request)
     {
-        return $this->paginate(GroupResource::collection($this->repository->index($id, $request->validated())));
+        return $this->paginate(GroupResource::collection($this->repository->usersGroup($request->validated())));
+    }
+
+    public function storagesGroup(IndexRequest $request)
+    {
+        return $this->paginate(GroupResource::collection($this->repository->storagesGroup($request->validated())));
+    }
+
+    public function getUsers(Group $group, IndexRequest $request)
+    {
+        return $this->paginate(GroupResource::collection($this->repository->getUsers($group, $request->validated())));
+    }
+
+    public function getStorages(Group $group, IndexRequest $request)
+    {
+        return $this->paginate(GroupResource::collection($this->repository->getStorages($group, $request->validated())));
     }
 
     public function store(GroupRequest $request)

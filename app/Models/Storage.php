@@ -30,8 +30,6 @@ class Storage extends Model implements \App\Repositories\Contracts\SoftDeleteInt
         return $this->belongsTo(Group::class, 'group_id');
     }
 
-
-
     public function toSearchableArray() :array
     {
         return [

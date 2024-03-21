@@ -77,7 +77,7 @@ Route::get('barcode/{good}', [BarcodeController::class, 'index']);
 Route::apiResource('group', GroupController::class)->except('index', 'show');
 
 Route::apiResource('good-group', GoodGroupController::class);
-Route::get('group/{id}', [GroupController::class, 'index']);
+
 Route::get('getExchangeRateByCurrencyId/{currency}', [CurrencyController::class, 'getExchangeRateByCurrencyId']);
 
 Route::get('group/show/{group}', [GroupController::class, 'show']);
@@ -166,6 +166,13 @@ Route::group(['prefix' => 'good-group'], function () {
     Route::get('get-goods/{goodGroup}', [GoodGroupController::class, 'getGoods']);
     Route::post('/massDelete', [GoodGroupController::class, 'massDelete']);
     Route::post('/massRestore', [GoodGroupController::class, 'massRestore']);
+});
+
+Route::group(['prefix' => 'group'], function () {
+    Route::get('usersGroup', [GroupController::class, 'usersGroup']);
+    Route::get('storagesGroup', [GroupController::class, 'storagesGroup']);
+    Route::get('/get-users/{group}', [GroupController::class, 'getUsers']);
+    Route::get('/get-storages/{group}', [GroupController::class, 'getStorages']);
 });
 
 Route::get('/settings', [SettingsController::class, 'index']);
