@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Group;
 use App\Models\Position;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -29,7 +30,8 @@ class EmployeeFactory extends Factory
             'position_id' => Position::factory(),
             'phone' => time() . rand(1, 1000),
             'email' => fake()->email . rand(1, 1000),
-            'address' => fake()->address
+            'address' => fake()->address,
+            'group_id' => Group::factory()
         ];
     }
 

@@ -41,7 +41,8 @@ class EmployeeRepository implements EmployeeRepositoryInterface
             'image' => $image,
             'phone' => $DTO->phone,
             'email' => $DTO->email,
-            'address' => $DTO->address
+            'address' => $DTO->address,
+            'group_id' => $DTO->group_id
         ]);
     }
 

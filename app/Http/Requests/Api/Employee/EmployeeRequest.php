@@ -28,6 +28,7 @@ class EmployeeRequest extends FormRequest
             'phone' => ['required', Rule::unique('employees','phone')],
             'email' => ['required', Rule::unique('employees','email')],
             'address' => ['required'],
+            'group_id' => ['required', Rule::exists('groups', 'id')]
         ];
     }
 

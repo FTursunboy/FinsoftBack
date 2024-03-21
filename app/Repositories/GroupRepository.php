@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\DTO\BarcodeDTO;
 use App\DTO\GroupDTO;
 use App\Models\Barcode;
+use App\Models\Employee;
 use App\Models\Group;
 use App\Models\Storage;
 use App\Models\User;
@@ -45,6 +46,20 @@ class GroupRepository implements GroupRepositoryInterface
         return $query->paginate($filterParams['itemsPerPage']);
     }
 
+
+    public function employeesGroup(array $data): LengthAwarePaginator
+    {
+        $filterParams = $this->processSearchData($data);
+
+        $query = Group::where('type', Group::EMPLOYEES);
+
+        $query = $this->searchGroup($query, $filterParams['search']);
+
+        $query = $this->sort($filterParams, $query, ['employees']);
+
+        return $query->paginate($filterParams['itemsPerPage']);
+    }
+
     public function getUsers(Group $group, array $data): LengthAwarePaginator
     {
         $filterParams = User::filter($data);
@@ -71,6 +86,21 @@ class GroupRepository implements GroupRepositoryInterface
         $query = $this->filterStorage($query, $filterParams);
 
         $query = $this->sort($filterParams, $query, ['employeeStorage', 'organization']);
+
+        return $query->paginate($filterParams['itemsPerPage']);
+    }
+
+    public function getEmployees(Group $group, array $data): LengthAwarePaginator
+    {
+        $filterParams = Employee::filter($data);
+
+        $query = Employee::where('group_id', $group->id);
+
+        $query = $this->search($query, $filterParams);
+
+        $query = $this->filterEmployee($query, $filterParams);
+
+        $query = $this->sort($filterParams, $query, []);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
@@ -131,5 +161,21 @@ class GroupRepository implements GroupRepositoryInterface
             });
     }
 
+
+    public function filterEmployee($query, array $data)
+    {
+        return $query->when($data['name'], function ($query) use ($data) {
+            return $query->where('name', 'like', '%'.$data['name'].'%');
+        })
+            ->when($data['phone'], function ($query) use ($data) {
+                return $query->where('phone', 'like', '%' . $data['phone'] . '%');
+            })
+            ->when($data['email'], function ($query) use ($data) {
+                return $query->where('email', 'like', '%' . $data['email'] . '%');
+            })
+            ->when($data['address'], function ($query) use ($data) {
+                return $query->where('address', 'like', '%' . $data['address'] . '%');
+            });
+    }
 
 }

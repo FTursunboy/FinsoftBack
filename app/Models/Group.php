@@ -12,6 +12,7 @@ class Group extends Model
 
     const STORAGES = 0;
     const USERS = 1;
+    const EMPLOYEES = 2;
 
     protected $fillable = ['name', 'type'];
 
@@ -24,6 +25,11 @@ class Group extends Model
     public function storages(): HasMany
     {
         return $this->hasMany(Storage::class);
+    }
+
+    public function employees(): HasMany
+    {
+        return $this->hasMany(Employee::class);
     }
 
 }
