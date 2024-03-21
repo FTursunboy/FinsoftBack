@@ -169,8 +169,8 @@ Route::group(['prefix' => 'good-group'], function () {
 });
 
 Route::group(['prefix' => 'group'], function () {
-    Route::get('usersGroup', [GroupController::class, 'usersGroup']);
-    Route::get('storagesGroup', [GroupController::class, 'storagesGroup']);
+    Route::get('users-group', [GroupController::class, 'usersGroup']);
+    Route::get('storages-group', [GroupController::class, 'storagesGroup']);
     Route::get('/get-users/{group}', [GroupController::class, 'getUsers']);
     Route::get('/get-storages/{group}', [GroupController::class, 'getStorages']);
 });
