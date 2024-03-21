@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DTO\CurrencyDTO;
+use App\DTO\DocumentDTO;
 use App\DTO\ExchangeRateDTO;
 use App\DTO\PriceTypeDTO;
 use App\Models\Currency;
@@ -27,6 +28,8 @@ class PriceTypeRepository implements PriceTypeRepositoryInterface
         $filteredParams = $this->model::filter($data);
 
         $query = $this->search($filteredParams['search']);
+
+        $query = $this->filter($query, $filteredParams);
 
         $query = $this->sort($filteredParams, $query, ['currency']);
 
@@ -56,8 +59,10 @@ class PriceTypeRepository implements PriceTypeRepositoryInterface
     public function search(string $search)
     {
         return $this->model::whereAny(['name', 'description'], 'like', '%' . $search . '%')
-            ->orWhereHas('currency', function ($query) use ($search) {
-                return $query->where('name', 'like', '%' . $search . '%');
+            ->where(function ($query) use ($search) {
+                $query->orWhereHas('currency', function ($query) use ($search) {
+                    return $query->where('name', 'like', '%' . $search . '%');
+                });
             });
     }
 
