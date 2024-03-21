@@ -60,7 +60,7 @@ class PriceTypeRepository implements PriceTypeRepositoryInterface
     {
         return $this->model::whereAny(['name', 'description'], 'like', '%' . $search . '%')
             ->where(function ($query) use ($search) {
-                $query->orWhereHas('currency', function ($query) use ($search) {
+                return $query->orWhereHas('currency', function ($query) use ($search) {
                     return $query->where('name', 'like', '%' . $search . '%');
                 });
             });
