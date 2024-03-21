@@ -33,7 +33,7 @@ class PriceType extends Model implements \App\Repositories\Contracts\SoftDeleteI
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'name'  => $data['filterData']['name'] ?? null,
             'currency_id' => $data['filterData']['currency_id'] ?? null,
-            'description' => $data['filterData']['organization_id'] ?? null,
+            'description' => $data['filterData']['description'] ?? null,
         ];
     }
 }
