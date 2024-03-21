@@ -17,16 +17,50 @@ class GroupRepository implements GroupRepositoryInterface
     public $model = Group::class;
     use Sort, FilterTrait;
 
-
-    public function index(int $id, array $data): LengthAwarePaginator
+    public function usersGroup(array $data) :LengthAwarePaginator
     {
         $filterParams = $this->processSearchData($data);
 
-        $query = Group::where('type', $id);
+        $query = Group::where('type', Group::USERS);
 
-        $relation = $id === 1 ? 'users' : 'storages';
+        $query = $this->searchGroup($query, $filterParams['search']);
 
-        $query = $this->sort($filterParams, $query, [$relation, $relation . '.group', $relation . '.organization']);
+        $query = $this->sort($filterParams, $query, ['users']);
+
+        return $query->paginate($filterParams['itemsPerPage']);
+    }
+
+    public function storagesGroup(array $data) :LengthAwarePaginator
+    {
+        $filterParams = $this->processSearchData($data);
+
+        $query = Group::where('type', Group::STORAGES);
+
+        $query = $this->searchGroup($query, $filterParams['search']);
+
+        $query = $this->sort($filterParams, $query, ['storages']);
+
+        return $query->paginate($filterParams['itemsPerPage']);
+    }
+
+    public function getUsers(Group $group, array $data): LengthAwarePaginator
+    {
+        $filterParams = $this->processSearchData($data);
+
+        $query = Group::where('type', Group::USERS);
+
+        $query = $this->sort($filterParams, $query, ['users.organization']);
+
+        return $query->paginate($filterParams['itemsPerPage']);
+    }
+
+    public function getStorages(Group $group, array $data): LengthAwarePaginator
+    {
+        $filterParams = $this->processSearchData($data);
+
+        $query = Group::where('type', Group::STORAGES);
+
+        $query = $this->sort($filterParams, $query, ['storages.employeeStorage', 'storages.organization']);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
@@ -47,5 +81,28 @@ class GroupRepository implements GroupRepositoryInterface
 
         return $group;
     }
+
+    public function searchGroup($query, string $search)
+    {
+        return $query->where('name', 'like', '%' . $search . '%');
+    }
+
+    public function search(array $data)
+    {
+        return $this->model::where('name', 'like', '%' . $data['search'] . '%')
+            ->where(function ($query) use ($data) {
+                $query->orWhereHas('currency', function ($query) use ($data) {
+                    return $query->where('name', 'like', '%' . $data['search'] . '%');
+                })
+                    ->orWhereHas('organization', function ($query) use ($data) {
+                        return $query->where('name', 'like', '%' . $data['search'] . '%');
+                    })
+                    ->orWhereHas('responsiblePerson', function ($query) use ($data) {
+                        return $query->where('name', 'like', '%' . $data['search'] . '%');
+                    });
+            });
+    }
+
+
 
 }

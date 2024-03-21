@@ -8,7 +8,13 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface GroupRepositoryInterface
 {
-    public function index(int $id, array $data) :LengthAwarePaginator;
+    public function usersGroup(array $data) :LengthAwarePaginator;
+
+    public function storagesGroup(array $data) :LengthAwarePaginator;
+
+    public function getUsers(Group $group, array $data) :LengthAwarePaginator;
+
+    public function getStorages(Group $group, array $data) :LengthAwarePaginator;
 
     public function store(GroupDTO $DTO);
 

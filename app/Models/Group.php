@@ -10,6 +10,9 @@ class Group extends Model
 {
     use HasFactory;
 
+    const STORAGES = 0;
+    const USERS = 1;
+
     protected $fillable = ['name', 'type'];
 
 
