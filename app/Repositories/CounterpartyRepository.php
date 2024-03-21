@@ -16,7 +16,7 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
 
     use Sort, FilterTrait;
 
-    public function index(array $data) :LengthAwarePaginator
+    public function index(array $data): LengthAwarePaginator
     {
         $filterParams = $this->model::filter($data);
 
@@ -75,17 +75,19 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
 
     public function search(array $filterParams)
     {
-        return $this->model::whereAny(['name', 'phone', 'address', 'email'], 'like', '%' . $filterParams['search'] . '%')
-            ->orWhereHas('roles', function ($query) use ($filterParams) {
-                return $query->where('name', 'like', '%' . $filterParams['search'] . '%');
-            });
+        return $this->model::where(function ($query) use ($filterParams) {
+            $query->whereAny(['name', 'phone', 'address', 'email'], 'like', '%' . $filterParams['search'] . '%')
+                ->orWhereHas('roles', function ($query) use ($filterParams) {
+                    return $query->where('name', 'like', '%' . $filterParams['search'] . '%');
+                });
+        });
     }
 
     public function filter($query, array $data)
     {
         return $query->when($data['name'], function ($query) use ($data) {
-                return $query->where('name', 'like', $data['name']);
-            })
+            return $query->where('name', 'like', $data['name']);
+        })
             ->when($data['phone'], function ($query) use ($data) {
                 return $query->where('phone', 'like', '%' . $data['phone'] . '%');
             })

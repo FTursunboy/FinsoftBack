@@ -34,7 +34,7 @@ class UserRequest extends FormRequest
             'phone' => ['unique:users,phone'],
             'email' => ['nullable', 'email', 'unique:users,email'],
             'image' => ['nullable', 'file'],
-            'group_id' => ['integer', 'required', 'exists:groups,id', Rule::enum(Groups::class)]
+            'group_id' => ['integer', 'required', 'exists:groups,id']
         ];
     }
 
