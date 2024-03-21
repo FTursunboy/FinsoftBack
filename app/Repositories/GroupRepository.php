@@ -6,6 +6,8 @@ use App\DTO\BarcodeDTO;
 use App\DTO\GroupDTO;
 use App\Models\Barcode;
 use App\Models\Group;
+use App\Models\Storage;
+use App\Models\User;
 use App\Repositories\Contracts\GroupRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
@@ -47,9 +49,11 @@ class GroupRepository implements GroupRepositoryInterface
     {
         $filterParams = $this->processSearchData($data);
 
-        $query = Group::where('type', Group::USERS);
+        $query = User::where('group_id', $group->id);
 
-        $query = $this->sort($filterParams, $query, ['users.organization']);
+        $query = $this->search($query, $filterParams);
+
+        $query = $this->sort($filterParams, $query, ['organization']);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
@@ -58,9 +62,11 @@ class GroupRepository implements GroupRepositoryInterface
     {
         $filterParams = $this->processSearchData($data);
 
-        $query = Group::where('type', Group::STORAGES);
+        $query = Storage::where('group_id', $group->id);
 
-        $query = $this->sort($filterParams, $query, ['storages.employeeStorage', 'storages.organization']);
+        $query = $this->search($query, $filterParams);
+
+        $query = $this->sort($filterParams, $query, ['employeeStorage', 'organization']);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
@@ -87,20 +93,9 @@ class GroupRepository implements GroupRepositoryInterface
         return $query->where('name', 'like', '%' . $search . '%');
     }
 
-    public function search(array $data)
+    public function search($query, array $data)
     {
-        return $this->model::where('name', 'like', '%' . $data['search'] . '%')
-            ->where(function ($query) use ($data) {
-                $query->orWhereHas('currency', function ($query) use ($data) {
-                    return $query->where('name', 'like', '%' . $data['search'] . '%');
-                })
-                    ->orWhereHas('organization', function ($query) use ($data) {
-                        return $query->where('name', 'like', '%' . $data['search'] . '%');
-                    })
-                    ->orWhereHas('responsiblePerson', function ($query) use ($data) {
-                        return $query->where('name', 'like', '%' . $data['search'] . '%');
-                    });
-            });
+        return $query->where('name', 'like', '%' . $data['search'] . '%');
     }
 
 
