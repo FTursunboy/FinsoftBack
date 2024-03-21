@@ -63,12 +63,15 @@ class OrganizationRepository implements OrganizationRepositoryInterface
         }
         return $this->model::where('name', 'like', '%' . $filteredParams['search'] . '%')
             ->where(function ($query) use ($filteredParams) {
-                $query->orWhereHas('chiefAccountant', function ($query) use ($filteredParams) {
-                    $query->where('name', 'like', '%' . $filteredParams['search'] . '%');
-                })
-                    ->orWhereHas('director', function ($query) use ($filteredParams) {
-                        $query->where('name', 'like', '%' . $filteredParams['search'] . '%');
-                    });
+                $query->where(function ($query) use ($filteredParams) {
+                   $query->orWhereHas('chiefAccountant', function ($query) use ($filteredParams) {
+                       $query->where('name', 'like', '%' . $filteredParams['search'] . '%');
+                   })
+                       ->orWhereHas('director', function ($query) use ($filteredParams) {
+                           $query->where('name', 'like', '%' . $filteredParams['search'] . '%');
+                });
+                });
+
             });
     }
 
