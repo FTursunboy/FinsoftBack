@@ -2,7 +2,7 @@
 
 namespace App\DTO;
 
-use App\Http\Requests\Api\PriceTypeRequest;
+use App\Http\Requests\Api\PriceType\PriceTypeRequest;
 
 class PriceTypeDTO
 {

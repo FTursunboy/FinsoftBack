@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\DTO\PriceTypeDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\IndexRequest;
-use App\Http\Requests\Api\PriceTypeRequest;
+use App\Http\Requests\Api\PriceType\FilterRequest;
+use App\Http\Requests\Api\PriceType\PriceTypeRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\PriceTypeResource;
 use App\Models\PriceType;
@@ -23,7 +24,7 @@ class PriceTypeController extends Controller
     {
     }
 
-    public function index(IndexRequest $request) :JsonResponse
+    public function index(FilterRequest $request) :JsonResponse
     {
         return $this->paginate(PriceTypeResource::collection($this->repository->index($request->validated())));
     }
