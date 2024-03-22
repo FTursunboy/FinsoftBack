@@ -37,16 +37,18 @@ class StorageRepository implements StorageRepositoryInterface
     public function store(StorageDTO $DTO)
     {
         try {
-            DB::transaction(function () use ($DTO) {
+            return DB::transaction(function () use ($DTO) {
                 $storage = Storage::create([
                     'name' => $DTO->name,
                     'organization_id' => $DTO->organization_id,
                     'group_id' => $DTO->group_id
                 ]);
 
-                EmployeeStorage::insert($this->storageData($DTO->storage_data, $storage));
+                if ($DTO->storage_data) EmployeeStorage::insert($this->storageData($DTO->storage_data, $storage));
 
+                return $storage;
             });
+
         } catch (Exception $e) {
             return $e->getMessage();
         }
