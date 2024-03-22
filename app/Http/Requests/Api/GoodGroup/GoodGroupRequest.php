@@ -1,11 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Api\Good;
+namespace App\Http\Requests\Api\GoodGroup;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
 
 class GoodGroupRequest extends FormRequest
 {

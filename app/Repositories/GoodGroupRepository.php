@@ -26,9 +26,11 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
 
     public function index(array $data): LengthAwarePaginator
     {
-        $filterParams = $this->processSearchData($data);
+        $filterParams = $this->model::filter($data);
 
         $query = $this->search($filterParams['search']);
+
+        $query = $this->filterGroup($query, $filterParams);
 
         $query = $this->sort($filterParams, $query, ['goods']);
 
@@ -91,6 +93,19 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
             })
             ->when($data['vendor_code'], function ($query) use ($data) {
                 return $query->where('vendor_code', 'like', '%' . $data['vendor_code'] . '%');
+            })
+            ->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', '%' . $data['name'] . '%');
+            });
+    }
+
+    public function filterGroup($query, array $data)
+    {
+        return $query->when($data['is_good'], function ($query) use ($data) {
+            return $query->where('is_good', $data['is_good']);
+        })
+            ->when($data['is_service'], function ($query) use ($data) {
+                return $query->where('is_service', $data['is_service']);
             })
             ->when($data['name'], function ($query) use ($data) {
                 return $query->where('name', 'like', '%' . $data['name'] . '%');

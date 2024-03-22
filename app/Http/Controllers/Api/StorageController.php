@@ -44,7 +44,7 @@ class StorageController extends Controller
 
     public function store(StorageRequest $request)
     {
-        return $this->created($this->repository->store(StorageDTO::fromRequest($request)));
+        return $this->created(StorageResource::make($this->repository->store(StorageDTO::fromRequest($request))));
     }
 
     public function update(Storage $storage, StorageRequest $request)

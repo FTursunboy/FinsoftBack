@@ -21,4 +21,17 @@ class GoodGroup extends Model implements \App\Repositories\Contracts\SoftDeleteI
     {
 
     }
+
+    public static function filter(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'orderBy' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'name'  => $data['filterData']['name'] ?? null,
+            'is_service' => $data['filterData']['is_service'] ?? null,
+            'is_good' => $data['filterData']['is_good'] ?? null,
+        ];
+    }
 }
