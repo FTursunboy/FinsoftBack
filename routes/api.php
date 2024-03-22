@@ -68,7 +68,7 @@ Route::apiResource('employee', EmployeeController::class)->except('update');
 Route::post('employee/{employee}', [EmployeeController::class, 'update']);
 Route::apiResource('user', UserController::class)->except('update');
 Route::post('user/{user}', [UserController::class, 'update']);
-Route::apiResource('storage', StorageController::class)->except('update');
+Route::apiResource('storage', StorageController::class);
 Route::apiResource('category', CategoryController::class);
 Route::apiResource('unit', UnitController::class);
 Route::apiResource('good', GoodController::class)->except('update');
