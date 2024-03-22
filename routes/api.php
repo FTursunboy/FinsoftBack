@@ -170,6 +170,7 @@ Route::group(['prefix' => 'good-group'], function () {
 });
 
 Route::group(['prefix' => 'barcode'], function () {
+    Route::get('get-barcode/{barcode}', [BarcodeController::class, 'show']);
     Route::post('/massDelete', [BarcodeController::class, 'massDelete']);
     Route::post('/massRestore', [BarcodeController::class, 'massRestore']);
 });
