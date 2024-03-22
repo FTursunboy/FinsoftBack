@@ -169,6 +169,11 @@ Route::group(['prefix' => 'good-group'], function () {
     Route::post('/massRestore', [GoodGroupController::class, 'massRestore']);
 });
 
+Route::group(['prefix' => 'barcode'], function () {
+    Route::post('/massDelete', [BarcodeController::class, 'massDelete']);
+    Route::post('/massRestore', [BarcodeController::class, 'massRestore']);
+});
+
 Route::group(['prefix' => 'group'], function () {
     Route::get('/users-group', [GroupController::class, 'usersGroup']);
     Route::get('/storages-group', [GroupController::class, 'storagesGroup']);
