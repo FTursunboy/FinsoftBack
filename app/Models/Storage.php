@@ -44,6 +44,7 @@ class Storage extends Model implements \App\Repositories\Contracts\SoftDeleteInt
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'name'  => $data['filterData']['name'] ?? null,
             'organization_id' => $data['filterData']['organization_id'] ?? null,
+            'employee_id' => $data['filterData']['employee_id'] ?? null,
         ];
     }
 

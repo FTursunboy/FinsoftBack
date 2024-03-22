@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\DTO\OrganizationBillDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\OrganizationBill\FilterRequest;
 use App\Http\Requests\Api\OrganizationBill\OrganizationBillRequest;
 use App\Http\Requests\IdRequest;
