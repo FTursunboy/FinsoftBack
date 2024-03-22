@@ -41,7 +41,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //
-Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => ['delete_token', 'auth:sanctum']], function () {
 
 
 Route::apiResource('currency', CurrencyController::class);

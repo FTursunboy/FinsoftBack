@@ -83,8 +83,8 @@ class GroupRepository implements GroupRepositoryInterface
 
         $query = $this->search($query, $filterParams);
 
-        $query = $this->filterStorage($query, $filterParams);
-
+        $query = $this->filterStorage($query, $filterParams, $group);
+dd($query->toRawSql());
         $query = $this->sort($filterParams, $query, ['employeeStorage', 'organization']);
 
         return $query->paginate($filterParams['itemsPerPage']);
@@ -158,6 +158,13 @@ class GroupRepository implements GroupRepositoryInterface
         })
             ->when($data['name'], function ($query) use ($data) {
                 return $query->where('name', 'like', '%' . $data['name'] . '%');
+            })
+            ->when($data['employee_id'], function ($query) use ($data) {
+                return $query->join('employee_storages', 'employee_storages.storage_id', '=', 'storages.id')
+                    ->where([
+                        ['employee_storages.employee_id', $data['employee_id']],
+                    ])
+                    ->select('storages.id', 'storages.name', 'storages.organization_id', 'storages.created_at', 'storages.deleted_at');
             });
     }
 
@@ -165,7 +172,7 @@ class GroupRepository implements GroupRepositoryInterface
     public function filterEmployee($query, array $data)
     {
         return $query->when($data['name'], function ($query) use ($data) {
-            return $query->where('name', 'like', '%'.$data['name'].'%');
+            return $query->where('name', 'like', '%' . $data['name'] . '%');
         })
             ->when($data['phone'], function ($query) use ($data) {
                 return $query->where('phone', 'like', '%' . $data['phone'] . '%');

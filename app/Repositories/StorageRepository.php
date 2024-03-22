@@ -46,7 +46,7 @@ class StorageRepository implements StorageRepositoryInterface
 
                 if ($DTO->storage_data) EmployeeStorage::insert($this->storageData($DTO->storage_data, $storage));
 
-                return $storage;
+                return $storage->load('organization');
             });
 
         } catch (Exception $e) {
