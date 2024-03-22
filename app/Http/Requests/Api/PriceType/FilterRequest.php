@@ -21,7 +21,7 @@ class FilterRequest extends FormRequest
         return [
                 'search' => 'string|nullable|max:20',
                 'itemsPerPage' => 'integer|nullable',
-                'orderBy' => 'nullable|in:id,deleted_at,currency.name,organization.name,' . implode(',', $fillableFields),
+                'orderBy' => 'nullable|in:id,deleted_at,currency.name,' . implode(',', $fillableFields),
                 'sort' => 'in:asc,desc',
                 'filterData' => 'nullable|array',
             ];
