@@ -23,6 +23,7 @@ class OrganizationBillResource extends JsonResource
             'organization' => OrganizationResource::make($this->whenLoaded('organization')),
             'bill_number' => $this->bill_number,
             'comment' => $this->comment,
+            'balance' => 2500,
             'deleted_at' => $this->deleted_at
         ];
     }

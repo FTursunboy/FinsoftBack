@@ -21,6 +21,7 @@ class CounterpartyResource extends JsonResource
             'phone' => $this->phone,
             'email'=> $this->email,
             'roles' => $this->roles()->get()->pluck('id'),
+            'balance' => 2500,
             'created_at' => $this->created_at,
             'deleted_at' => $this->deleted_at
         ];
