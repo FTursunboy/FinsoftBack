@@ -83,8 +83,8 @@ class GroupRepository implements GroupRepositoryInterface
 
         $query = $this->search($query, $filterParams);
 
-        $query = $this->filterStorage($query, $filterParams, $group);
-dd($query->toRawSql());
+        $query = $this->filterStorage($query, $filterParams);
+
         $query = $this->sort($filterParams, $query, ['employeeStorage', 'organization']);
 
         return $query->paginate($filterParams['itemsPerPage']);
