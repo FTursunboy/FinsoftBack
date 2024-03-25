@@ -36,6 +36,30 @@ class DatabaseSeeder extends Seeder
             'group_id' => 1
         ])->assignRole('admin');
 
+        \App\Models\User::factory()->create([
+            'name' => 'Rustam',
+            'email' => 'rustamjon@gmail.com',
+            'login' => 'rustamjon',
+            'password' => Hash::make('password'),
+            'group_id' => 1
+        ])->assignRole('admin');
+
+        \App\Models\User::factory()->create([
+            'name' => 'Jamshed',
+            'email' => 'jamshed@gmail.com',
+            'login' => 'jamshed',
+            'password' => Hash::make('password'),
+            'group_id' => 1
+        ])->assignRole('admin');
+
+        \App\Models\User::factory()->create([
+            'name' => 'Sheroz',
+            'email' => 'sheroz@gmail.com',
+            'login' => 'sheroz',
+            'password' => Hash::make('password'),
+            'group_id' => 1
+        ])->assignRole('admin');
+
         $this->call([
             RoleSeeder::class,
             StatusSeeder::class,
