@@ -46,7 +46,8 @@ class Counterparty extends Model implements \App\Repositories\Contracts\SoftDele
             'name'  => $data['filterData']['name'] ?? null,
             'phone' => $data['filterData']['phone'] ?? null,
             'address' => $data['filterData']['address'] ?? null,
-            'email' => $data['filterData']['email'] ?? null
+            'email' => $data['filterData']['email'] ?? null,
+            'roles' => $data['filterData']['roles'] ?? null,
         ];
     }
 }
