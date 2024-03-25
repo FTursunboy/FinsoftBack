@@ -96,6 +96,11 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
             })
             ->when($data['email'], function ($query) use ($data) {
                 return $query->where('email', 'like', '%' . $data['email'] . '%');
+            })
+            ->when($data['roles'], function ($query) use ($data) {
+                return $query->whereHas('roles', function ($query) use ($data) {
+                    return $query->whereIn('role_id', $data['roles']);
+                });
             });
     }
 }
