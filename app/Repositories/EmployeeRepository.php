@@ -50,6 +50,7 @@ class EmployeeRepository implements EmployeeRepositoryInterface
     {
         if ($DTO->image != null) {
             $image = Storage::disk('public')->put('employeePhoto', $DTO->image);
+            Storage::delete('public/' . $employee->image);
         }
 
         $employee->update([
@@ -57,7 +58,8 @@ class EmployeeRepository implements EmployeeRepositoryInterface
             'image' => $image ?? $employee->image,
             'phone' => $DTO->phone,
             'email' => $DTO->email,
-            'address' => $DTO->address
+            'address' => $DTO->address,
+            'group_id' => $DTO->group_id
         ]);
 
         return $employee;

@@ -28,6 +28,7 @@ class EmployeeUpdateRequest extends FormRequest
             'phone' => ['required', Rule::unique('employees', 'phone')->ignore($this->route()->employee->id)],
             'email' => ['required', Rule::unique('employees', 'email')->ignore($this->route()->employee->id)],
             'address' => ['required'],
+            'group_id' => ['required', Rule::exists('groups', 'id')]
         ];
     }
 
