@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Group\FilterRequest;
 use App\Http\Requests\Api\Group\GroupRequest;
 use App\Http\Requests\Api\IndexRequest;
+use App\Http\Resources\EmployeeResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\StorageResource;
 use App\Http\Resources\UserResource;
@@ -50,7 +51,7 @@ class GroupController extends Controller
 
     public function getEmployees(Group $group, FilterRequest $request)
     {
-        return $this->paginate(StorageResource::collection($this->repository->getEmployees($group, $request->validated())));
+        return $this->paginate(EmployeeResource::collection($this->repository->getEmployees($group, $request->validated())));
     }
 
     public function store(GroupRequest $request)
