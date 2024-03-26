@@ -41,6 +41,8 @@ class EmployeeUpdateRequest extends FormRequest
             'email.required' => 'Поле почта обязательно для заполнения.',
             'email.unique' => 'Такое значение поле почта уже существует.',
             'address.required' => 'Поле адрес обязательно для заполнения.',
+            'group_id.required' => 'Поле группа обязательно для заполнения.',
+            'group_id.exists' => 'Выбранное значение для группа не существует.',
         ];
     }
 }

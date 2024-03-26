@@ -31,7 +31,8 @@ class UserUpdateRequest extends FormRequest
             'phone' => [Rule::unique('users', 'phone')->ignore($this->route()->user->id)],
             'email' => ['nullable', 'email', Rule::unique('users', 'email')->ignore($this->route()->user->id)],
             'image' => ['nullable', 'file'],
-            'status' => ['required', 'boolean']
+            'status' => ['required', 'boolean'],
+            'group_id' => ['integer', 'required', 'exists:groups,id']
         ];
     }
 
@@ -48,6 +49,8 @@ class UserUpdateRequest extends FormRequest
             'email' => 'Поле почта имеет ошибочный формат.',
             'email.unique' => 'Такое значение поля почта уже существует.',
             'status.required' => 'Поле статус обязательно для заполнения.',
+            'group_id.required' => 'Поле группа обязательно для заполнения.',
+            'group_id.exists' => 'Выбранное значение для группа не существует.',
         ];
     }
 }
