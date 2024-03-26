@@ -17,10 +17,7 @@ class GoodGroup extends Model implements \App\Repositories\Contracts\SoftDeleteI
         return $this->hasMany(Good::class);
     }
 
-    public static function bootSoftDeletes()
-    {
-
-    }
+    public static function bootSoftDeletes() { }
 
     public static function filter(array $data): array
     {
