@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
@@ -19,6 +20,11 @@ class Employee extends Model implements \App\Repositories\Contracts\SoftDeleteIn
     public static function bootSoftDeletes()
     {
 
+    }
+
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(Group::class, 'group_id');
     }
 
     public function position(): BelongsTo

@@ -100,7 +100,7 @@ class GroupRepository implements GroupRepositoryInterface
 
         $query = $this->filterEmployee($query, $filterParams);
 
-        $query = $this->sort($filterParams, $query, []);
+        $query = $this->sort($filterParams, $query, ['position', 'group']);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
