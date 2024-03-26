@@ -9,7 +9,7 @@ use Illuminate\Http\UploadedFile;
 class UserUpdateDTO
 {
     public function __construct(public string $name, public int $organization_id, public ?UploadedFile $image,
-                public string $login, public string $phone, public string $email, public bool $status)
+                public string $login, public string $phone, public string $email, public bool $status, public int $group_id)
     {
     }
 
@@ -23,6 +23,7 @@ class UserUpdateDTO
             $request->get('phone'),
             $request->get('email'),
             $request->get('status'),
+            $request->get('group_id'),
         );
     }
 }

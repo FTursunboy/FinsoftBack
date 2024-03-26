@@ -49,6 +49,7 @@ class UserRepository implements UserRepositoryInterface
     {
         if ($DTO->image != null) {
             $image = Storage::disk('public')->put('userPhoto', $DTO->image);
+            Storage::delete('public/'.$user->image);
         }
 
         $user->update([
@@ -58,7 +59,8 @@ class UserRepository implements UserRepositoryInterface
             'phone' => $DTO->phone,
             'email' => $DTO->email,
             'image' => $image ?? $user->image,
-            'status' => $DTO->status
+            'status' => $DTO->status,
+            'group_id' => $DTO->group_id
         ]);
 
         return $user->load('organization');
