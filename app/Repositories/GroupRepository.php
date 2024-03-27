@@ -66,7 +66,7 @@ class GroupRepository implements GroupRepositoryInterface
 
         $query = User::where('group_id', $group->id);
 
-        $query = $this->search($query, $filterParams);
+        $query = $this->searchUser($query, $filterParams);
 
         $query = $this->filterUser($query, $filterParams);
 
@@ -130,6 +130,16 @@ class GroupRepository implements GroupRepositoryInterface
     public function search($query, array $data)
     {
         return $query->where('name', 'like', '%' . $data['search'] . '%');
+    }
+
+    public function searchUser($query, array $data)
+    {
+        return $query->where(function ($query) use ($data) {
+            $query->where('name', 'like', '%' . $data['search'] . '%')
+                ->whereHas('roles', function ($query) {
+                    $query->where('name', '!=', 'admin');
+                });
+        });
     }
 
     public function filterUser($query, array $data)
