@@ -13,6 +13,7 @@ use App\Models\Currency;
 use App\Models\Unit;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
+use App\Repositories\Contracts\UnitRepositoryInterface;
 use App\Repositories\UnitRepository;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -20,6 +21,11 @@ use Illuminate\Http\Request;
 class UnitController extends Controller
 {
     use ApiResponse;
+
+
+    public function __construct(public UnitRepositoryInterface $repository)
+    {
+    }
 
     public function index(UnitRepository $repository, FilterRequest $request)
     {
