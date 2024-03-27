@@ -45,7 +45,6 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('currency', CurrencyController::class);
 
-
     Route::group(['prefix' => 'currencyRate'], function () {
         Route::post('/add/{currency}', [CurrencyController::class, 'addExchangeRate']);
         Route::get('/{currency}', [ExchangeRateController::class, 'index']);
