@@ -28,7 +28,6 @@ use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\UserController;
 
 use App\Http\Controllers\SettingsController;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,6 +44,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('currency', CurrencyController::class);
+
 
     Route::group(['prefix' => 'currencyRate'], function () {
         Route::post('/add/{currency}', [CurrencyController::class, 'addExchangeRate']);
@@ -128,7 +128,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/massRestore', [CategoryController::class, 'massRestore']);
     });
 
-    Route::group(['prefix' => 'unit'], function () {
+    Route::group(['prefix' => 'units'], function () {
         Route::post('/massDelete', [UnitController::class, 'massDelete']);
         Route::post('/massRestore', [UnitController::class, 'massRestore']);
     });

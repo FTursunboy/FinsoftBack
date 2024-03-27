@@ -41,7 +41,6 @@ class UnitController extends Controller
 
     public function massDelete(IdRequest $request, MassOperationInterface $delete)
     {
-
         return $delete->massDelete(new Unit(), $request->validated());
     }
 
