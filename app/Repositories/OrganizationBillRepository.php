@@ -55,17 +55,17 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
 
         $query = $this->model::whereAny(['name', 'bill_number', 'date', 'comment'], 'like', '%' . $filterParams['search'] . '%');
 
-        return $query;
-//        return $query->where(function ($query) use ($filterParams) {
-//            return $query->OrWhere(function ($query) use ($filterParams) {
-//                return $query->orWhereHas('currency', function ($query) use ($filterParams) {
-//                    return $query->where('name', 'like', '%' . $filterParams['search'] . '%');
-//                })
-//                    ->orWhereHas('organization', function ($query) use ($filterParams) {
-//                        return $query->where('name', 'like', '%' . $filterParams['search'] . '%');
-//                    });
-//            });
-//        });
+       // return $query;
+        return $query->orWhere(function ($query) use ($filterParams) {
+            return $query->OrWhere(function ($query) use ($filterParams) {
+                return $query->orWhereHas('currency', function ($query) use ($filterParams) {
+                    return $query->where('name', 'like', '%' . $filterParams['search'] . '%');
+                })
+                    ->orWhereHas('organization', function ($query) use ($filterParams) {
+                        return $query->where('name', 'like', '%' . $filterParams['search'] . '%');
+                    });
+            });
+        });
     }
 
     public function filter($query, array $data)
