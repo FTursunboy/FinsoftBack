@@ -16,16 +16,17 @@ class DeleteTokenIfInactive
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check()) {
-            $user = Auth::user();
-            $tokens = $user->tokens;
-
-            foreach ($tokens as $token) {
-                if ($token->last_used_at && now()->diffInMinutes($token->last_used_at) > 1) {
-                    $token->delete();
-                }
-            }
-        }
+//        dd(Auth::user()->tokens[0]->last_used_at);
+//        if (Auth::check()) {
+//            $user = Auth::user();
+//            $tokens = $user->tokens;
+//
+//            foreach ($tokens as $token) {
+//                if ($token->last_used_at && now()->diffInMinutes($token->last_used_at) > 1) {
+//                    $token->delete();
+//                }
+//            }
+//        }
 
         return $next($request);
     }
