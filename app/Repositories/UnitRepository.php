@@ -44,7 +44,7 @@ class UnitRepository implements UnitRepositoryInterface
         return $this->model::where('name', 'like', '%' . $search . '%');
     }
 
-    public function filter(array $data, $query) :array
+    public function filter(array $data, $query)
     {
         return $query->when($data['name'], function ($query) use ($data) {
             $query->where('name', 'like', '%' . $data['name'] . '%');
