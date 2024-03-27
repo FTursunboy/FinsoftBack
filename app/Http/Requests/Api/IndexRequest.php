@@ -23,6 +23,7 @@ class IndexRequest extends FormRequest
             'itemsPerPage' => 'integer|nullable',
             'orderBy' => 'nullable|in:id,deleted_at,' . implode(',', $fillableFields),
             'sort' => 'in:asc,desc',
+            'filterData' => 'array|nullable'
         ];
     }
 

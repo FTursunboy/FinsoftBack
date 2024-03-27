@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\DTO\UnitDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\Unit\FilterRequest;
 use App\Http\Requests\Api\Unit\UnitRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\UnitResource;
@@ -19,9 +21,9 @@ class UnitController extends Controller
 {
     use ApiResponse;
 
-    public function index(UnitRepository $repository)
+    public function index(UnitRepository $repository, FilterRequest $request)
     {
-        return $this->success(UnitResource::collection($repository->index()));
+        return $this->success(UnitResource::collection($repository->index($request->validated())));
     }
 
     public function store(UnitRequest $request, UnitRepository $repository)

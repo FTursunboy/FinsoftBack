@@ -11,4 +11,15 @@ class Unit extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
     use SoftDeletes, HasFactory;
 
     protected $guarded = false;
+
+    public static function filter(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'orderBy' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'name'  => $data['filterData']['name'] ?? null
+        ];
+    }
 }
