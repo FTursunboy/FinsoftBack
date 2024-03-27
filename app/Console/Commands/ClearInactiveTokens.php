@@ -27,7 +27,6 @@ class ClearInactiveTokens extends Command
      */
     public function handle()
     {
-        PersonalAccessToken::where('last_used_at', '<', Carbon::now()->subHour())->get();
-        dd(1);
+        PersonalAccessToken::where('last_used_at', '<', Carbon::now()->subHour())->delete();
     }
 }
