@@ -49,7 +49,7 @@ class UserRepository implements UserRepositoryInterface
     {
         if ($DTO->image != null) {
             $image = Storage::disk('public')->put('userPhoto', $DTO->image);
-            Storage::delete('public/'.$user->image);
+            Storage::delete('public/' . $user->image);
         }
 
         $user->update([
@@ -68,9 +68,12 @@ class UserRepository implements UserRepositoryInterface
 
     public function search(string $search)
     {
-        return $this->model::where('name', 'like', '%' . $search . '%');
-//            ->whereHas('roles', function ($query) {
-//                $query->where('name', '!=', 'admin');
-//            });
+        return $this->model::where(function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%')
+                ->whereHas('roles', function ($query) {
+                    $query->where('name', '!=', 'admin');
+                });
+        });
+
     }
 }

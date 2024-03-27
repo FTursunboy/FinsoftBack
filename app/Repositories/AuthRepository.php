@@ -14,7 +14,7 @@ class AuthRepository implements AuthRepositoryInterface
     {
         $user = User::where('login', $dto->login)->first();
 
-        if ($user && Auth::attempt(['login' => $dto->login, 'password' => $dto->password])) {
+        if ($user && Auth::attempt(['login' => $dto->login, 'password' => $dto->password]) && $user->status === 1 && $user->deleted_at === null) {
             return $user;
         }
 
