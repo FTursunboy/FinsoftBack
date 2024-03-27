@@ -29,7 +29,7 @@ class UnitController extends Controller
 
     public function index(UnitRepository $repository, FilterRequest $request)
     {
-        return $this->success(UnitResource::collection($repository->index($request->validated())));
+        return $this->paginate(UnitResource::collection($repository->index($request->validated())));
     }
 
     public function store(UnitRequest $request, UnitRepository $repository)
