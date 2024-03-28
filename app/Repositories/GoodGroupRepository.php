@@ -81,11 +81,9 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
 
         $query = Good::where('good_group_id', $goodGroup->id);
 
-        foreach ($searchTerms as $word) {
-            $query->where(function ($query) use ($word) {
-                $query->where('name', 'like', '%' . $word . '%');
-            });
-        }
+        $query->where(function ($query) use ($searchTerms) {
+            $query->orWhere('name', 'like', '%' . implode('%', $searchTerms) . '%');
+        });
 
         return $query;
     }
