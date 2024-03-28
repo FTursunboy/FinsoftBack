@@ -115,7 +115,12 @@ class GoodRepository implements GoodRepositoryInterface
 
     public function search(string $search)
     {
-        return $this->model::where('name', 'like', '%' . $search . '%');
+        $words = explode(' ', $search);
+        return $this->model::where(function ($query) use($words) {
+            foreach ($words as $word) {
+                $query->where('name', 'like', '%' . $word . '%');
+            }
+        });
     }
 
     public function filter($query, array $data)

@@ -55,7 +55,7 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
 
         $searchTerms = explode(' ', $filterParams['search']);
 
-        $query = $this->model::where(function ($query) use ($searchTerms) {
+        return $this->model::where(function ($query) use ($searchTerms) {
             foreach ($searchTerms as $term) {
                 $query->where(function ($query) use ($term) {
                     $query->orWhere('name', 'like', '%' . $term . '%')
@@ -71,8 +71,6 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
                 });
             }
         });
-
-        return $query;
     }
 
 
