@@ -134,8 +134,9 @@ class GroupRepository implements GroupRepositoryInterface
 
     public function searchUser($query, array $data)
     {
-        return $query->where(function ($query) use ($data) {
-            $query->where('name', 'like', '%' . $data['search'] . '%')
+        $searchTerm = explode(' ', $data['search']);
+        return $query->where(function ($query) use ($searchTerm) {
+            $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
                 ->whereHas('roles', function ($query) {
                     $query->where('name', '!=', 'admin');
                 });
