@@ -52,27 +52,23 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
         if (!$filterParams['search']) {
             return $this->model::query();
         }
+        $searchTerm = explode(' ', $filterParams['search']);
 
-        $searchTerms = explode(' ', $filterParams['search']);
 
-        return $this->model::where(function ($query) use ($searchTerms) {
-            foreach ($searchTerms as $term) {
-                $query->where(function ($query) use ($term) {
-                    $query->orWhere('name', 'like', '%' . $term . '%')
-                        ->orWhere('bill_number', 'like', '%' . $term . '%')
-                        ->orWhere('date', 'like', '%' . $term . '%')
-                        ->orWhere('comment', 'like', '%' . $term . '%')
-                        ->orWhereHas('currency', function ($query) use ($term) {
-                            $query->where('name', 'like', '%' . $term . '%');
-                        })
-                        ->orWhereHas('organization', function ($query) use ($term) {
-                            $query->where('name', 'like', '%' . $term . '%');
-                        });
-                });
-            }
+        $query = $this->model::whereAny(['name', 'bill_number', 'date', 'comment'], 'like', '%' . implode('%', $searchTerm) . '%');
+
+
+        return $query->orWhere(function ($query) use ($searchTerm) {
+            return $query->OrWhere(function ($query) use ($searchTerm) {
+                return $query->orWhereHas('currency', function ($query) use ($searchTerm) {
+                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                    ->orWhereHas('organization', function ($query) use ($searchTerm) {
+                        return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                    });
+            });
         });
     }
-
 
     public function filter($query, array $data)
     {
