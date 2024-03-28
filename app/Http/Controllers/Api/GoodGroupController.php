@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\DTO\GoodGroupDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Good\FilterRequest;
+use App\Http\Requests\Api\GoodGroup\FilterRequest;
 use App\Http\Requests\Api\GoodGroup\GoodGroupRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\GoodGroupResource;
@@ -22,7 +22,7 @@ class GoodGroupController extends Controller
     {
     }
 
-    public function index(\App\Http\Requests\Api\GoodGroup\FilterRequest $request)
+    public function index(FilterRequest $request)
     {
         return $this->paginate(GoodGroupResource::collection($this->repository->index($request->validated())));
     }

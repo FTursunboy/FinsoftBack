@@ -73,10 +73,21 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
 
     public function searchGood(string $search, GoodGroup $goodGroup)
     {
-        return Good::where([
-            ['good_group_id', $goodGroup->id],
-            ['name', 'like', '%' . $search . '%']
-        ]);
+        if (!$search) {
+            return Good::where('good_group_id', $goodGroup->id);
+        }
+
+        $searchTerms = explode(' ', $search);
+
+        $query = Good::where('good_group_id', $goodGroup->id);
+
+        foreach ($searchTerms as $word) {
+            $query->where(function ($query) use ($word) {
+                $query->where('name', 'like', '%' . $word . '%');
+            });
+        }
+
+        return $query;
     }
 
     public function filterGood($query, array $data)
