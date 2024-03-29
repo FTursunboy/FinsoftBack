@@ -42,7 +42,7 @@ use Illuminate\Support\Facades\Route;
 */
 //
 
-Route::group(['middleware' => ['auth:sanctum', 'throttle:1,10']], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('currency', CurrencyController::class);
 
 
