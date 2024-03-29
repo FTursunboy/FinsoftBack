@@ -68,6 +68,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::post('employee/delete-image/{employee}', [EmployeeController::class, 'deleteImage']);
     Route::apiResource('user', UserController::class)->except('update');
     Route::post('user/{user}', [UserController::class, 'update']);
+    Route::post('user/delete-image/{user}', [UserController::class, 'deleteImage']);
     Route::apiResource('storage', StorageController::class);
     Route::apiResource('category', CategoryController::class);
     Route::apiResource('unit', UnitController::class);
