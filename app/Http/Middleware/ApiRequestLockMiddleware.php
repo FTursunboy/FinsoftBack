@@ -6,20 +6,24 @@ use Illuminate\Support\Facades\Cache;
 
 class ApiRequestLockMiddleware
 {
+
     public function handle($request, Closure $next)
     {
-        $lockKey = 'api_request_lock';
 
-        if (Cache::has($lockKey)) {
-              return response()->json(['error' => 'Request already in progress'], 409);
+if ($request->isMethod('POST', 'PATCH', 'DELETE')) {
+            $cacheKey = 'last_post_time_' . ($request->user()?->id ?: $request->ip());
+            $lastPostTime = Cache::get($cacheKey);
+
+            if ($lastPostTime && now()->diffInSeconds($lastPostTime) < 5) {
+                return response()->json(['error' => 'Too many attempts'], 429);
+            }
+
+            Cache::put($cacheKey, now(), 5);
         }
 
-        Cache::put($lockKey, true, now()->addSeconds(30));
-
-        $response = $next($request);
-
-        Cache::forget($lockKey);
-
-        return $response;
+        return $next($request);
     }
+
+
+
 }
