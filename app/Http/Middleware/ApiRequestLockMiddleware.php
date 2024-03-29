@@ -10,7 +10,7 @@ class ApiRequestLockMiddleware
     public function handle($request, Closure $next)
     {
 
-        if ($request->isMethod('POST', 'PATCH', 'DELETE')) {
+if ($request->isMethod('POST', 'PATCH', 'DELETE')) {
             $cacheKey = 'last_post_time_' . ($request->user()?->id ?: $request->ip());
             $lastPostTime = Cache::get($cacheKey);
 
@@ -23,6 +23,7 @@ class ApiRequestLockMiddleware
 
         return $next($request);
     }
+
 
 
 }

@@ -180,6 +180,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/get-users/{group}', [GroupController::class, 'getUsers']);
         Route::get('/get-storages/{group}', [GroupController::class, 'getStorages']);
         Route::get('/get-employees/{group}', [GroupController::class, 'getEmployees']);
+        Route::post('/restore/{group}', [GroupController::class, 'restore']);
     });
 
     Route::get('/settings', [SettingsController::class, 'index']);

@@ -7,12 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Group\FilterRequest;
 use App\Http\Requests\Api\Group\GroupRequest;
 use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\StorageResource;
 use App\Http\Resources\UserResource;
 use App\Models\Group;
 use App\Repositories\Contracts\GroupRepositoryInterface;
+use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 
 class GroupController extends Controller
@@ -71,5 +73,10 @@ class GroupController extends Controller
     public function destroy(Group $group)
     {
         return $this->deleted($group->delete());
+    }
+
+    public function restore(Group $group)
+    {
+        return $this->success($group->update(['deleted_at' => null]));
     }
 }
