@@ -47,6 +47,11 @@ class EmployeeController extends Controller
         return $this->success(EmployeeResource::make($repository->update($employee, EmployeeUpdateDTO::fromRequest($request))));
     }
 
+    public function deleteImage(Employee $employee)
+    {
+        return $this->success($this->repository->deleteImage($employee));
+    }
+
     public function destroy(Employee $employee)
     {
         return $this->deleted($employee->delete());

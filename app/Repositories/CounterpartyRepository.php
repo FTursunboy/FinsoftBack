@@ -75,10 +75,12 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
 
     public function search(array $filterParams)
     {
-        return $this->model::where(function ($query) use ($filterParams) {
-            $query->whereAny(['name', 'phone', 'address', 'email'], 'like', '%' . $filterParams['search'] . '%')
-                ->orWhereHas('roles', function ($query) use ($filterParams) {
-                    return $query->where('name', 'like', '%' . $filterParams['search'] . '%');
+        $searchTerm = explode(' ', $filterParams['search']);
+
+        return $this->model::where(function ($query) use ($searchTerm) {
+            $query->whereAny(['name', 'phone', 'address', 'email'], 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhereHas('roles', function ($query) use ($searchTerm) {
+                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
                 });
         });
     }

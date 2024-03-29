@@ -65,6 +65,12 @@ class EmployeeRepository implements EmployeeRepositoryInterface
         return $employee;
     }
 
+    public function deleteImage(Employee $employee)
+    {
+        Storage::delete('public/' . $employee->image);
+        $employee->update(['image' => null]);
+    }
+
     public function search(string $search)
     {
         return $this->model::where('name', 'like', '%' . $search . '%');
