@@ -41,7 +41,9 @@ class UnitRepository implements UnitRepositoryInterface
 
     public function search(string $search)
     {
-        return $this->model::where('name', 'like', '%' . $search . '%');
+        $searchTerm = explode(' ', $search);
+
+        return $this->model::where('name', 'like', '%' . implode('%', $searchTerm) . '%');
     }
 
     public function filter(array $data, $query)
