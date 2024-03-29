@@ -16,7 +16,6 @@ class ApiRequestLockMiddleware
 
         Cache::put($lockKey, true, now()->addSeconds(30));
 
-
         $response = $next($request);
 
         Cache::forget($lockKey);
