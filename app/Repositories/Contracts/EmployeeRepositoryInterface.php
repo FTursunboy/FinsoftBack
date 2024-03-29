@@ -15,4 +15,6 @@ interface EmployeeRepositoryInterface extends IndexInterface
     public function store(EmployeeDTO $DTO);
 
     public function update(Employee $employee, EmployeeUpdateDTO $DTO) :Employee;
+
+    public function deleteImage(Employee $employee);
 }

@@ -56,16 +56,18 @@ class CashRegisterRepository implements CashRegisterRepositoryInterface
 
     public function search(array $data)
     {
-        return $this->model::where(function ($query) use ($data) {
-            $query->where('name', 'like', '%' . $data['search'] . '%')
-                ->orWhereHas('currency', function ($query) use ($data) {
-                    return $query->where('name', 'like', '%' . $data['search'] . '%');
+        $searchTerm = explode(' ', $data['search']);
+
+        return $this->model::where(function ($query) use ($searchTerm) {
+            $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhereHas('currency', function ($query) use ($searchTerm) {
+                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
                 })
-                ->orWhereHas('organization', function ($query) use ($data) {
-                    return $query->where('name', 'like', '%' . $data['search'] . '%');
+                ->orWhereHas('organization', function ($query) use ($searchTerm) {
+                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
                 })
-                ->orWhereHas('responsiblePerson', function ($query) use ($data) {
-                    return $query->where('name', 'like', '%' . $data['search'] . '%');
+                ->orWhereHas('responsiblePerson', function ($query) use ($searchTerm) {
+                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
                 });
         });
     }
