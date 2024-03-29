@@ -56,6 +56,8 @@ class BarcodeRepository implements BarcodeRepositoryInterface
 
     public function search(string $search)
     {
-        return $this->model::where('barcode', 'like', '%' . $search . '%');
+        $searchTerm = explode(' ', $search);
+
+        return $this->model::where('barcode', 'like', '%' . implode('%', $searchTerm) . '%');
     }
 }

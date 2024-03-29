@@ -85,8 +85,6 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
             $query->orWhere('name', 'like', '%' . implode('%', $searchTerms) . '%');
         });
 
-
-
         return $query;
     }
 
