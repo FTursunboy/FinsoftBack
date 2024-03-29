@@ -52,7 +52,7 @@ class CounterpartyAgreementRepository implements CounterpartyAgreementRepository
     {
         $counterpartyAgreement->update([
             'name' => $DTO->name,
-            'date' => $DTO->date,
+            'date' => Carbon::parse($DTO->date),
             'organization_id' => $DTO->organization_id,
             'counterparty_id' => $DTO->counterparty_id,
             'contact_person' => $DTO->contact_person,
