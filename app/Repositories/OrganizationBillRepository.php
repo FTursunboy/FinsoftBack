@@ -54,19 +54,16 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
         }
         $searchTerm = explode(' ', $filterParams['search']);
 
-
-        $query = $this->model::whereAny(['name', 'bill_number', 'date', 'comment'], 'like', '%' . implode('%', $searchTerm) . '%');
-
-
-        return $query->orWhere(function ($query) use ($searchTerm) {
-            return $query->OrWhere(function ($query) use ($searchTerm) {
-                return $query->orWhereHas('currency', function ($query) use ($searchTerm) {
-                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-                    ->orWhereHas('organization', function ($query) use ($searchTerm) {
+        return $this->model::where(function ($query) use ($searchTerm) {
+            $query->whereAny(['name', 'bill_number', 'date', 'comment'], 'like', '%' . implode('%', $searchTerm) . '%')
+                ->OrWhere(function ($query) use ($searchTerm) {
+                    return $query->orWhereHas('currency', function ($query) use ($searchTerm) {
                         return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
-                    });
-            });
+                    })
+                        ->orWhereHas('organization', function ($query) use ($searchTerm) {
+                            return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                        });
+                });
         });
     }
 
