@@ -8,15 +8,14 @@ use Illuminate\Http\Request;
 
 class GroupDTO
 {
-    public function __construct(public string $name, public int $type)
+    public function __construct(public string $name)
     {
     }
 
     public static function fromRequest(GroupRequest $request) :self
     {
         return new static(
-            $request->get('name'),
-            $request->get('type')
+            $request->get('name')
         );
     }
 }
