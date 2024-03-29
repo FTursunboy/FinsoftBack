@@ -5,16 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Group extends Model
+class Group extends Model implements \App\Repositories\Contracts\SoftDeleteInterface
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     const STORAGES = 0;
     const USERS = 1;
     const EMPLOYEES = 2;
 
-    protected $fillable = ['name', 'type'];
+    protected $fillable = ['name', 'type', 'deleted_at'];
 
 
     public function users(): HasMany
@@ -32,4 +33,8 @@ class Group extends Model
         return $this->hasMany(Employee::class);
     }
 
+    public static function bootSoftDeletes()
+    {
+
+    }
 }

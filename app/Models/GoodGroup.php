@@ -10,7 +10,7 @@ class GoodGroup extends Model implements \App\Repositories\Contracts\SoftDeleteI
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'is_good', 'is_service'];
+    protected $fillable = ['name', 'is_good', 'is_service', 'deleted_at'];
 
     public function goods()
     {

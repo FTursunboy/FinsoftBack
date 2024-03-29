@@ -10,7 +10,7 @@ class Unit extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
 {
     use SoftDeletes, HasFactory;
 
-    protected $guarded = false;
+    protected $fillable = ['name', 'deleted_at'];
 
     public static function filter(array $data): array
     {
