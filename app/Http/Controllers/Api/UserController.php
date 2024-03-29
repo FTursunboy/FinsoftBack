@@ -49,6 +49,11 @@ class UserController extends Controller
         return $this->success(UserResource::make($repository->update($user, UserUpdateDTO::fromRequest($request))));
     }
 
+    public function deleteImage(User $user)
+    {
+        return $this->success($this->repository->deleteImage($user));
+    }
+
     public function changePassword(User $user, ChangePasswordRequest $request)
     {
         $data = $request->validated();

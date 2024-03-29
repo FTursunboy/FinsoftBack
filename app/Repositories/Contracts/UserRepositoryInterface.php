@@ -15,4 +15,6 @@ interface UserRepositoryInterface extends IndexInterface
     public function store(UserDTO $DTO);
 
     public function update(User $user, UserUpdateDTO $DTO);
+
+    public function deleteImage(User $user);
 }

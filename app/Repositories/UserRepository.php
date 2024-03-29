@@ -66,6 +66,12 @@ class UserRepository implements UserRepositoryInterface
         return $user->load('organization');
     }
 
+    public function deleteImage(User $user)
+    {
+        Storage::delete('public/' . $user->image);
+        $user->update(['image' => null]);
+    }
+
     public function search(string $search)
     {
         $searchTerm = explode(' ', $search);
