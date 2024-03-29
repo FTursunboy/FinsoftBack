@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\StorageController;
 use App\Http\Controllers\Api\StorageEmployeeController;
 use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\UserController;
+
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,7 +42,7 @@ use Illuminate\Support\Facades\Route;
 */
 //
 
-Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'atomic']], function () {
     Route::apiResource('currency', CurrencyController::class);
 
 
@@ -179,7 +180,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/get-users/{group}', [GroupController::class, 'getUsers']);
         Route::get('/get-storages/{group}', [GroupController::class, 'getStorages']);
         Route::get('/get-employees/{group}', [GroupController::class, 'getEmployees']);
-        Route::post('/restore/{group}', [GroupController::class, 'restore']);
     });
 
     Route::get('/settings', [SettingsController::class, 'index']);
