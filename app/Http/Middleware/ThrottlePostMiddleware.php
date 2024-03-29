@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Cache\RateLimiter;
 use Symfony\Component\HttpFoundation\Response;
 
-class ThrottlePostRequests
+class ThrottlePostMiddleware
 {
     protected $limiter;
 
