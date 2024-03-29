@@ -3,8 +3,8 @@
 namespace App\Http;
 
 use App\Http\Middleware\ApiRequestLockMiddleware;
-use App\Http\Middleware\DeleteTokenIfInactive;
-use App\Http\Middleware\ThrottleMiddleware;
+
+use App\Http\Middleware\AtomicLockMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'signed' => Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'api.requests' => ApiRequestLockMiddleware::class
+        'api.requests' => ApiRequestLockMiddleware::class,
+        'atomic_lock' => AtomicLockMiddleware::class
     ];
 }

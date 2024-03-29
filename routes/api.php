@@ -42,7 +42,7 @@ use Illuminate\Support\Facades\Route;
 */
 //
 
-Route::group(['middleware' => ['auth:sanctum', 'atomic']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'atomic_lock']], function () {
     Route::apiResource('currency', CurrencyController::class);
 
 
