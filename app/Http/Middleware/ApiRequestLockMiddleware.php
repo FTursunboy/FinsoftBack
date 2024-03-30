@@ -3,6 +3,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class ApiRequestLockMiddleware
 {
@@ -18,6 +19,7 @@ class ApiRequestLockMiddleware
                 return response()->json(['error' => 'Too many attempts'], 429);
             }
 
+            Log::error($request->ip());
             Cache::put($cacheKey, now(), 5);
         }
 
