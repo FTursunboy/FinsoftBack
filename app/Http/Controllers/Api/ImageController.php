@@ -6,6 +6,7 @@ use App\DTO\BarcodeDTO;
 use App\DTO\ImageDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\BarcodeRequest;
+use App\Http\Requests\Api\Image\FilterRequest;
 use App\Http\Requests\Api\Image\ImageRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\IdRequest;
@@ -14,6 +15,7 @@ use App\Http\Resources\GroupResource;
 use App\Http\Resources\ImageResource;
 use App\Models\Barcode;
 use App\Models\Good;
+use App\Models\GoodImages;
 use App\Repositories\BarcodeRepository;
 use App\Repositories\Contracts\BarcodeRepositoryInterface;
 use App\Repositories\Contracts\ImageRepositoryInterface;
@@ -27,9 +29,9 @@ class ImageController extends Controller
 
     public function __construct(public ImageRepositoryInterface $repository) { }
 
-    public function index(Good $good, IndexRequest $request)
+    public function index(Good $good, FilterRequest $request)
     {
-        return $this->paginate(BarcodeResource::collection($this->repository->index($good, $request->validated())));
+        return $this->paginate(ImageResource::collection($this->repository->index($good, $request->validated())));
     }
 
     public function store(ImageRequest $request)
@@ -37,23 +39,8 @@ class ImageController extends Controller
         return $this->created(ImageResource::make($this->repository->store(ImageDTO::fromRequest($request))));
     }
 
-    public function update(Barcode $barcode, BarcodeRequest $request)
+    public function destroy(GoodImages $images)
     {
-        return $this->success(ImageResource::make($this->repository->update($barcode, BarcodeDTO::fromRequest($request))));
-    }
-
-    public function destroy(Barcode $barcode)
-    {
-        return $this->deleted($barcode->delete());
-    }
-
-    public function massDelete(IdRequest $request, MassOperationInterface $delete)
-    {
-        return $this->deleted($delete->massDelete(new Barcode(), $request->validated()));
-    }
-
-    public function massRestore(IdRequest $request, MassOperationInterface $restore)
-    {
-        return $this->success($restore->massRestore(new Barcode(), $request->validated()));
+        return $this->deleted($this->repository->delete($images));
     }
 }
