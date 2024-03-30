@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class GroupDTO
 {
-    public function __construct(public string $name, public int $type)
+    public function __construct(public string $name, public ?int $type)
     {
     }
 
