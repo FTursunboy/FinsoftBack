@@ -11,7 +11,7 @@ class ApiRequestLockMiddleware
     {
 
         if ($request->isMethod('POST', 'PATCH')) {
-            $cacheKey = 'last_post_time_' . ($request->ip());
+            $cacheKey = 'last_post_time_' . ($request->user()?->id);
             $lastPostTime = Cache::get($cacheKey);
 
             if ($lastPostTime && now()->diffInSeconds($lastPostTime) < 5) {
