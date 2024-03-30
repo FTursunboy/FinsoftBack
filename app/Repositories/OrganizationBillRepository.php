@@ -29,7 +29,7 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
         $query = $this->search($filterParams);
 
         $query = $this->filter($query, $filterParams);
-
+//dd($query->toRawSql());
         $query = $this->sort($filterParams, $query, ['organization', 'currency']);
 
         return $query->paginate($filterParams['itemsPerPage']);
@@ -55,13 +55,13 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
         $searchTerm = explode(' ', $filterParams['search']);
 
         return $this->model::where(function ($query) use ($searchTerm) {
-            $query->whereAny(['name', 'bill_number', 'date', 'comment'], 'like', '%' . implode('%', $searchTerm) . '%')
+            $query->whereAny(['organization_bills.name', 'bill_number', 'date', 'comment'], 'like', '%' . implode('%', $searchTerm) . '%')
                 ->OrWhere(function ($query) use ($searchTerm) {
                     return $query->orWhereHas('currency', function ($query) use ($searchTerm) {
-                        return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                        return $query->where('currencies.name', 'like', '%' . implode('%', $searchTerm) . '%');
                     })
                         ->orWhereHas('organization', function ($query) use ($searchTerm) {
-                            return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                            return $query->where('organizations.name', 'like', '%' . implode('%', $searchTerm) . '%');
                         });
                 });
         });
