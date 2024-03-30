@@ -28,7 +28,7 @@ class UnitRepository implements UnitRepositoryInterface
         $query = $this->filter($filterParams, $query);
 
         $query = $this->sort($filterParams, $query, []);
-
+//        dd($query->get());
         return $query->paginate($filterParams['itemsPerPage']);
     }
 
