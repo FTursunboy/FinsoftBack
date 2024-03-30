@@ -78,7 +78,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::get('barcode/{good}', [BarcodeController::class, 'index']);
     Route::apiResource('group', GroupController::class)->except('index', 'show');
     Route::apiResource('good-group', GoodGroupController::class);
-    Route::apiResource('image', ImageController::class);
 
     Route::get('getExchangeRateByCurrencyId/{currency}', [CurrencyController::class, 'getExchangeRateByCurrencyId']);
 
@@ -186,6 +185,11 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/restore/{group}', [GroupController::class, 'restore']);
     });
 
+    Route::group(['prefix' => 'image'], function () {
+        Route::get('/{good}', [ImageController::class, 'index']);
+        Route::post('/', [ImageController::class, 'store']);
+        Route::delete('/{images}', [ImageController::class, 'destroy']);
+    });
 
     Route::get('/settings', [SettingsController::class, 'index']);
     Route::post('/settings', [SettingsController::class, 'store']);
