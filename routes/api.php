@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\CurrencyController;
 use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\GoodGroupController;
 use App\Http\Controllers\Api\GroupController;
+use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\ProviderDocumentController;
 
 use App\Http\Controllers\Api\EmployeeController;
@@ -77,6 +78,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::get('barcode/{good}', [BarcodeController::class, 'index']);
     Route::apiResource('group', GroupController::class)->except('index', 'show');
     Route::apiResource('good-group', GoodGroupController::class);
+    Route::apiResource('image', ImageController::class);
 
     Route::get('getExchangeRateByCurrencyId/{currency}', [CurrencyController::class, 'getExchangeRateByCurrencyId']);
 
