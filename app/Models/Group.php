@@ -15,7 +15,7 @@ class Group extends Model implements \App\Repositories\Contracts\SoftDeleteInter
     const USERS = 1;
     const EMPLOYEES = 2;
 
-    protected $fillable = ['name', 'type'];
+    protected $fillable = ['name', 'type', 'deleted_at'];
 
 
     public function users(): HasMany
