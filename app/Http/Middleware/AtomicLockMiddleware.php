@@ -17,7 +17,6 @@ class AtomicLockMiddleware
         $uniqueLockKey = $lockKey . ':' . now()->timestamp;
 
         if (!Cache::has($uniqueLockKey)) {
-
             if (Cache::add($uniqueLockKey, true, $lockDuration)) {
                 $response = $next($request);
 
@@ -26,7 +25,8 @@ class AtomicLockMiddleware
                 return $response;
             }
         }
-        // Если блокировка уже существует, возвращаем ошибку
+
+
         return response()->json(['message' => 'Request is already being processed.'], 429);
     }
 }
