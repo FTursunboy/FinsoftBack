@@ -24,9 +24,8 @@ class ImageRequest extends FormRequest
     {
         return [
             'good_id' => ['required', 'exists:goods,id'],
-            'images' => ['required', 'array'],
-            'images.*.image' => ['required', 'file'],
-            'images.*.is_main' => ['required'],
+            'image' => ['required', 'file'],
+            'is_main' => ['required', 'boolean'],
         ];
     }
 
