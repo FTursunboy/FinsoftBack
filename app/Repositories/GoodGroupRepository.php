@@ -66,7 +66,7 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
         return $this->model::where(function ($query) use ($search) {
             $query->where('name', 'like', '%' . $search . '%')
                 ->orWhereHas('goods', function ($query) use ($search) {
-                    return $query->where('name', 'like', '%' . $search . '%');
+                    return $query->where('goods.name', 'like', '%' . $search . '%');
                 });
         });
     }

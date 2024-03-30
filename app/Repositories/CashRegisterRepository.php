@@ -61,13 +61,13 @@ class CashRegisterRepository implements CashRegisterRepositoryInterface
         return $this->model::where(function ($query) use ($searchTerm) {
             $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
                 ->orWhereHas('currency', function ($query) use ($searchTerm) {
-                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                    return $query->where('currencies.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 })
                 ->orWhereHas('organization', function ($query) use ($searchTerm) {
-                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                    return $query->where('organizations.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 })
                 ->orWhereHas('responsiblePerson', function ($query) use ($searchTerm) {
-                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                    return $query->where('employees.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 });
         });
     }
