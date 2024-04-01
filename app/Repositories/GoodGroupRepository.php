@@ -63,10 +63,12 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
 
     public function search(string $search)
     {
-        return $this->model::where(function ($query) use ($search) {
-            $query->where('name', 'like', '%' . $search . '%')
-                ->orWhereHas('goods', function ($query) use ($search) {
-                    return $query->where('name', 'like', '%' . $search . '%');
+        $searchTerm = explode(' ', $search);
+
+        return $this->model::where(function ($query) use ($searchTerm) {
+            $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhereHas('goods', function ($query) use ($searchTerm) {
+                    return $query->where('goods.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 });
         });
     }

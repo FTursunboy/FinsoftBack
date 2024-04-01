@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\CurrencyController;
 use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\GoodGroupController;
 use App\Http\Controllers\Api\GroupController;
+use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\ProviderDocumentController;
 
 use App\Http\Controllers\Api\EmployeeController;
@@ -184,10 +185,14 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/restore/{group}', [GroupController::class, 'restore']);
     });
 
+    Route::group(['prefix' => 'image'], function () {
+        Route::get('/{good}', [ImageController::class, 'index']);
+        Route::post('/', [ImageController::class, 'store']);
+        Route::delete('/{images}', [ImageController::class, 'destroy']);
+    });
 
     Route::get('/settings', [SettingsController::class, 'index']);
     Route::post('/settings', [SettingsController::class, 'store']);
-
 
     Route::group(['prefix' => 'document'], function () {
         Route::group(['prefix' => '/provider'], function () {

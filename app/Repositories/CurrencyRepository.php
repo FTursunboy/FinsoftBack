@@ -92,7 +92,9 @@ class CurrencyRepository implements CurrencyRepositoryInterface
 
     public function search(string $search)
     {
-        return $this->model::whereAny(['name', 'symbol_code', 'digital_code'], 'like', '%' . $search . '%');
+        $searchTerm = explode(' ', $search);
+
+        return $this->model::whereAny(['name', 'symbol_code', 'digital_code'], 'like', '%' . implode('%', $searchTerm) . '%');
     }
 
     public function filter($query, array $data)

@@ -32,7 +32,7 @@ class GoodController extends Controller implements \App\Repositories\Contracts\S
 
     public function store(GoodRequest $request, GoodRepositoryInterface $repository)
     {
-        return $this->created($repository->store(GoodDTO::fromRequest($request)));
+        return $this->created(GoodResource::make($repository->store(GoodDTO::fromRequest($request))));
     }
 
     public function show(Good $good)

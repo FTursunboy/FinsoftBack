@@ -22,4 +22,9 @@ class Unit extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
             'name'  => $data['filterData']['name'] ?? null
         ];
     }
+
+    public static function bootSoftDeletes()
+    {
+
+    }
 }

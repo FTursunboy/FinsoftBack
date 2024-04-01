@@ -18,7 +18,8 @@ class ImageResource extends JsonResource
         return [
             'id' => $this->id,
             'image' => Storage::url($this->image),
-            'is_main' => $this->is_main
+            'is_main' => $this->is_main,
+            'name' => $this->image_name
         ];
     }
 }
