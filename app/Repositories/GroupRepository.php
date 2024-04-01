@@ -124,7 +124,9 @@ class GroupRepository implements GroupRepositoryInterface
 
     public function searchGroup($query, string $search)
     {
-        return $query->where('name', 'like', '%' . $search . '%');
+        $searchTerm = explode(' ', $search);
+
+        return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
     }
 
     public function search($query, array $data)
@@ -143,8 +145,6 @@ class GroupRepository implements GroupRepositoryInterface
                 });
         });
     }
-
-
 
     public function filterUser($query, array $data)
     {

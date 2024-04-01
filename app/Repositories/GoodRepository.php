@@ -10,9 +10,7 @@ use App\Repositories\Contracts\GoodRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 use Carbon\Carbon;
-use http\Params;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -49,6 +47,7 @@ class GoodRepository implements GoodRepositoryInterface
 
             if ($DTO->add_images || $DTO->main_image) GoodImages::insert($this->goodImages($good, $DTO->add_images));
 
+            return $good->load('unit', 'storage');
         });
     }
 
@@ -116,7 +115,7 @@ class GoodRepository implements GoodRepositoryInterface
     public function search(string $search)
     {
         $words = explode(' ', $search);
-        return $this->model::where(function ($query) use($words) {
+        return $this->model::where(function ($query) use ($words) {
             foreach ($words as $word) {
                 $query->where('name', 'like', '%' . $word . '%');
             }
