@@ -36,6 +36,8 @@ class ExchangeRateRepository implements ExchangeRateInterface
 
     public function search(string $search)
     {
-        return $this->model::whereAny(['date', 'value'], 'like', '%' . $search . '%');
+        $searchTerm = explode(' ', $search);
+
+        return $this->model::whereAny(['date', 'value'], 'like', '%' . implode('%', $searchTerm) . '%');
     }
 }

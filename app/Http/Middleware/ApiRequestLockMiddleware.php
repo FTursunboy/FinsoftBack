@@ -15,7 +15,7 @@ class ApiRequestLockMiddleware
             $cacheKey = 'last_post_time_' . ($request->user()?->id);
             $lastPostTime = Cache::get($cacheKey);
 
-            if ($lastPostTime && now()->diffInSeconds($lastPostTime) < 3) {
+            if ($lastPostTime && now()->diffInSeconds($lastPostTime) < 2) {
                 return response()->json(['error' => 'Too many attempts'], 429);
             }
 
