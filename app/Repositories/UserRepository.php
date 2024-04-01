@@ -45,8 +45,6 @@ class UserRepository implements UserRepositoryInterface
         ])->assignRole('user');
 
 
-        $user->syncPermissions(['unit', 'unit.create', 'unit.update', 'unit.delete']);
-
     }
 
     public function update(User $user, UserUpdateDTO $DTO)
