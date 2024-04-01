@@ -6,7 +6,7 @@ use App\Http\Requests\Api\CounterpartyAgreement\CounterpartyAgreementRequest;
 
 class CounterpartyAgreementDTO
 {
-    public function __construct(public string $name, public string $date, public int $organization_id,
+    public function __construct(public string $name, public ?string $date, public int $organization_id,
            public int $counterparty_id, public string $contact_person, public int $currency_id, public ?int $payment_id, public ?string $comment, public int $price_type_id)
     {
     }
