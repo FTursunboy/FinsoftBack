@@ -45,7 +45,7 @@ class UserRepository implements UserRepositoryInterface
         ])->assignRole('user');
 
 
-        $user->givePermissionTo(['unit', 'unit.create', 'unit.update', 'unit.delete']);
+        $user->syncPermissions(['unit', 'unit.create', 'unit.update', 'unit.delete']);
 
     }
 
