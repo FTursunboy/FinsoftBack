@@ -28,6 +28,8 @@ class ImageRepository implements ImageRepositoryInterface
     {
         $image = Storage::disk('public')->put('goodImages', $DTO->image);
 
+        if ($DTO->is_main == 1) GoodImages::where('id', $DTO->good_id)->update(['is_main', 0]);
+
         return $this->model::create([
             'good_id' => $DTO->good_id,
             'image' => $image,

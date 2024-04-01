@@ -37,7 +37,7 @@ class CounterpartyAgreementRepository implements CounterpartyAgreementRepository
         CounterpartyAgreement::create([
             'name' => $DTO->name,
             'contract_number' => $this->contractNumber(),
-            'date' => Carbon::parse($DTO->date),
+            'date' => Carbon::now(),
             'organization_id' => $DTO->organization_id,
             'counterparty_id' => $DTO->counterparty_id,
             'contact_person' => $DTO->contact_person,
@@ -52,7 +52,7 @@ class CounterpartyAgreementRepository implements CounterpartyAgreementRepository
     {
         $counterpartyAgreement->update([
             'name' => $DTO->name,
-            'date' => Carbon::parse($DTO->date),
+            'date' => Carbon::now(),
             'organization_id' => $DTO->organization_id,
             'counterparty_id' => $DTO->counterparty_id,
             'contact_person' => $DTO->contact_person,
