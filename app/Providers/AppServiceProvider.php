@@ -19,7 +19,6 @@ use App\Repositories\Contracts\ExchangeRateInterface;
 use App\Repositories\Contracts\GoodGroupRepositoryInterface;
 use App\Repositories\Contracts\GoodRepositoryInterface;
 use App\Repositories\Contracts\GroupRepositoryInterface;
-use App\Repositories\Contracts\ImageRepositoryInterface;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\Contracts\OrganizationBillRepositoryInterface;
@@ -39,7 +38,6 @@ use App\Repositories\ExchangeRateRepository;
 use App\Repositories\GoodGroupRepository;
 use App\Repositories\GoodRepository;
 use App\Repositories\GroupRepository;
-use App\Repositories\ImageRepository;
 use App\Repositories\MassOperation;
 use App\Repositories\OrganizationBillRepository;
 use App\Repositories\OrganizationRepository;
@@ -80,7 +78,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(StorageEmployeeRepositoryInterface::class, StorageEmployeeRepository::class);
         $this->app->singleton(GoodGroupRepositoryInterface::class, GoodGroupRepository::class);
         $this->app->singleton(BarcodeRepositoryInterface::class, BarcodeRepository::class);
-        $this->app->singleton(ImageRepositoryInterface::class, ImageRepository::class);
+
 
     }
 
@@ -89,7 +87,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Model::preventLazyLoading();
+
 
     }
 }
