@@ -44,7 +44,7 @@ class UserRepository implements UserRepositoryInterface
             'group_id' => $DTO->group_id
         ])->assignRole('user');
 
-        $user->givePermissionTo('unit', 'unit.create', 'unit.update', 'unit.delete');
+        $user->givePermissionTo(['unit.create', 'unit.update', 'unit.delete']);
 
     }
 
