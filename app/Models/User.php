@@ -68,6 +68,6 @@ class User extends Authenticatable implements \App\Repositories\Contracts\SoftDe
 
     public function permissionList()
     {
-        return $this->getPermissionNames()->pluck('name')->toArray();
+        return $this->getPermissionNames();
     }
 }
