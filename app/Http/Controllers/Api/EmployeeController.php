@@ -12,7 +12,6 @@ use App\Http\Requests\IdRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
 use App\Repositories\Contracts\EmployeeRepositoryInterface;
-use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\EmployeeRepository;
 use App\Traits\ApiResponse;
@@ -45,11 +44,6 @@ class EmployeeController extends Controller
     public function update(Employee $employee, EmployeeUpdateRequest $request, EmployeeRepositoryInterface $repository)
     {
         return $this->success(EmployeeResource::make($repository->update($employee, EmployeeUpdateDTO::fromRequest($request))));
-    }
-
-    public function deleteImage(Employee $employee)
-    {
-        return $this->success($this->repository->deleteImage($employee));
     }
 
     public function destroy(Employee $employee)

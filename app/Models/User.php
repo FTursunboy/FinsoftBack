@@ -7,6 +7,7 @@ use App\Http\Resources\GroupResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -63,5 +64,10 @@ class User extends Authenticatable implements \App\Repositories\Contracts\SoftDe
             'phone' => $data['filterData']['phone'] ?? null,
             'organization_id' => $data['filterData']['organization_id'] ?? null,
         ];
+    }
+
+    public function permissionList()
+    {
+        return $this->getPermissionNames()->pluck('name')->toArray();
     }
 }

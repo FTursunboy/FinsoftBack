@@ -33,7 +33,7 @@ class UserRepository implements UserRepositoryInterface
     {
         $image = $DTO->image ? Storage::disk('public')->put('userPhoto', $DTO->image) : null;
 
-        $this->model::create([
+        $user = $this->model::create([
             'name' => $DTO->name,
             'organization_id' => $DTO->organization_id,
             'login' => $DTO->login,
@@ -43,6 +43,9 @@ class UserRepository implements UserRepositoryInterface
             'image' => $image,
             'group_id' => $DTO->group_id
         ])->assignRole('user');
+
+        $user->givePermissionTo('unit', 'unit.create', 'unit.update', 'unit.delete');
+
     }
 
     public function update(User $user, UserUpdateDTO $DTO)

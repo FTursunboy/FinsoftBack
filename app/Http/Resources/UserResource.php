@@ -25,7 +25,8 @@ class UserResource extends JsonResource
             'status' => $this->status,
             'image' => $this->image ? Storage::url($this->image) : null,
             'group' => GroupResource::make($this->whenLoaded('group')),
-            'deleted_at' => $this->deleted_at
+            'deleted_at' => $this->deleted_at,
+            'permissions' => $this->permissionList()
         ];
     }
 }

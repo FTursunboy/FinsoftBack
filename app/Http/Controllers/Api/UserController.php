@@ -13,7 +13,6 @@ use App\Http\Requests\Api\User\UserUpdateRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Traits\ApiResponse;
@@ -47,11 +46,6 @@ class UserController extends Controller
     public function update(User $user, UserUpdateRequest $request, UserRepositoryInterface $repository)
     {
         return $this->success(UserResource::make($repository->update($user, UserUpdateDTO::fromRequest($request))));
-    }
-
-    public function deleteImage(User $user)
-    {
-        return $this->success($this->repository->deleteImage($user));
     }
 
     public function changePassword(User $user, ChangePasswordRequest $request)
