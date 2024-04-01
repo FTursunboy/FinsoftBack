@@ -13,6 +13,7 @@ use App\Models\Employee;
 use App\Models\EmployeeStorage;
 use App\Models\ExchangeRate;
 use App\Models\Good;
+use App\Models\GoodGroup;
 use App\Models\Organization;
 use App\Models\OrganizationBill;
 use App\Models\Position;
@@ -29,6 +30,7 @@ class FactorySeeder extends Seeder
      */
     public function run(): void
     {
+
         Category::factory(5)->create();
         Employee::factory(5)->create();
         CounterpartyAgreement::factory(5)->create();

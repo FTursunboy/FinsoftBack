@@ -23,8 +23,8 @@ class GoodGroupRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'is_good' => ['required', 'boolean'],
-            'is_service' => ['required', 'boolean']
+            'is_good' => ['nullable', 'boolean'],
+            'is_service' => ['nullable', 'boolean']
         ];
     }
 
