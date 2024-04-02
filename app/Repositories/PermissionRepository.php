@@ -32,8 +32,29 @@ class PermissionRepository implements PermissionRepositoryInterface
             }, $item['access']));
         }
 
-
-
         $user->syncPermissions($permissionList);
     }
+
+    public function getPermissions(User $user) :array
+    {
+        $permissions = $user->permissionList();
+
+        $resourcePermissions = [];
+
+        foreach ($permissions as $permission) {
+            if (str_contains($permission, '.')) {
+                list($resource, $access) = explode('.', $permission);
+
+
+                if (!isset($resourcePermissions[$resource])) {
+                    $resourcePermissions[$resource] = ['title' => $resource, 'access' => []];
+                }
+
+                $resourcePermissions[$resource]['access'][] = $access;
+            }
+        }
+
+        return $resourcePermissions;
+    }
+
 }
