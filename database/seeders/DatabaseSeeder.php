@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\Group;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
@@ -16,6 +17,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            ResourceSeeder::class,
+            PermissionSeeder::class,
+        ]);
+
         Role::create([
             'name' => 'admin',
         ]);
@@ -28,13 +34,14 @@ class DatabaseSeeder extends Seeder
             'type' => 1
         ]);
 
-        \App\Models\User::factory()->create([
+        $user = \App\Models\User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
             'login' => 'admin',
             'password' => Hash::make('password'),
             'group_id' => 1
-        ])->assignRole('admin');
+        ])->assignRole('admin')
+            ->syncPermissions($this->permissionList());
 
         \App\Models\User::factory()->create([
             'name' => 'Rustam',
@@ -42,7 +49,8 @@ class DatabaseSeeder extends Seeder
             'login' => 'rustamjon',
             'password' => Hash::make('password'),
             'group_id' => 1
-        ])->assignRole('admin');
+        ])->assignRole('admin')
+            ->syncPermissions($this->permissionList());
 
         \App\Models\User::factory()->create([
             'name' => 'Jamshed',
@@ -50,7 +58,8 @@ class DatabaseSeeder extends Seeder
             'login' => 'jamshed',
             'password' => Hash::make('password'),
             'group_id' => 1
-        ])->assignRole('admin');
+        ])->assignRole('admin')
+            ->syncPermissions($this->permissionList());
 
         \App\Models\User::factory()->create([
             'name' => 'Sheroz',
@@ -58,12 +67,24 @@ class DatabaseSeeder extends Seeder
             'login' => 'sheroz',
             'password' => Hash::make('password'),
             'group_id' => 1
-        ])->assignRole('admin');
+        ])->assignRole('admin')
+            ->syncPermissions($this->permissionList());
 
         $this->call([
             RoleSeeder::class,
             StatusSeeder::class,
             FactorySeeder::class
         ]);
+    }
+
+    public function permissionList()
+    {
+        $permissions = Permission::get()->toArray();
+        $arr = [];
+        foreach ($permissions as $permission) {
+            $arr[] = $permission['name'];
+        }
+
+        return $arr;
     }
 }
