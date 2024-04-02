@@ -13,7 +13,7 @@ class ResourceSeeder extends Seeder
     {
         Resource::query()->upsert(
             [
-                ['name' => 'admin_panel', 'parent_id' => null, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Админ панель'],
+                ['name' => 'admin_panel', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Админ панель'],
                 ['name' => 'unit', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Единицы измерения'],
                 ['name' => 'organizationBill', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Банковские Счета организации'],
                 ['name' => 'nomenclature', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Номенклатура'],
