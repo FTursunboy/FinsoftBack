@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\DTO\BarcodeDTO;
 use App\Models\Barcode;
 use App\Models\Good;
+use App\Models\Resource;
 use App\Models\User;
 use App\Repositories\Contracts\BarcodeRepositoryInterface;
 use App\Repositories\Contracts\PermissionRepositoryInterface;
@@ -34,27 +35,33 @@ class PermissionRepository implements PermissionRepositoryInterface
 
         $user->syncPermissions($permissionList);
     }
-
-    public function getPermissions(User $user) :array
+    public function getPermissions(User $user) : array
     {
-        $permissions = $user->permissionList();
+        $userPermissions = $user->permissionList();
+
+        $resources = Resource::query()->whereNotNull('parent_id')->get()->pluck('name');
 
         $resourcePermissions = [];
 
-        foreach ($permissions as $permission) {
-            if (str_contains($permission, '.')) {
-                list($resource, $access) = explode('.', $permission);
+        foreach ($resources as $resource) {
+            $accessList = [];
 
-
-                if (!isset($resourcePermissions[$resource])) {
-                    $resourcePermissions[$resource] = ['title' => $resource, 'access' => []];
+            foreach ($userPermissions as $permission) {
+                if (str_starts_with($permission, $resource . '.')) {
+                    $accessList[] = substr($permission, strlen($resource . '.'));
                 }
-
-                $resourcePermissions[$resource]['access'][] = $access;
             }
+
+            $resourcePermissions[] = [
+                'title' => $resource,
+                'access' => $accessList,
+            ];
         }
 
         return $resourcePermissions;
     }
+
+
+
 
 }
