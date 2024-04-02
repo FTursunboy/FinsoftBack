@@ -11,7 +11,7 @@ class ResourceSeeder extends Seeder
 {
     public function run(): void
     {
-        Resource::query()->insert([
+        Resource::query()->updateOrInsert([
             ['name' => 'admin_panel', 'parent_id' => null, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Админ панель'],
             ['name' => 'unit', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Единицы измерения'],
             ['name' => 'organizationBill', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Банковские Счета организации'],
@@ -25,6 +25,15 @@ class ResourceSeeder extends Seeder
             ['name' => 'storage', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Склад'],
             ['name' => 'cashRegister', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Касса'],
             ['name' => 'programSettings', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Настройки программы'],
-        ]);
+            ['name' => 'planning', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Планирование'],
+            ['name' => 'procurementOfGoods', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Закупки товаров'],
+            ['name' => 'sellingGoods', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Продажа товаров'],
+            ['name' => 'warehouseAccounting', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Учет складов'],
+            ['name' => 'cash', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Касса и Банки'],
+            ['name' => 'salary', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Зарплата и кадры'],
+            ['name' => 'financeAnalysis', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Финансовы и анализ'],
+             ]);
+
+
     }
 }
