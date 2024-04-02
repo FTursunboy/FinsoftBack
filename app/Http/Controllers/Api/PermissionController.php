@@ -35,7 +35,7 @@ class PermissionController extends Controller
 
     public function givePermission(User $user, OperationRequest $request) :JsonResponse
     {
-        return $this->success($this->repository->givePermissions($user, $request->validated()));
+        return $this->success($this->repository->givePermission($user, $request->validated()));
     }
 
     public function getPermissions(User $user) :JsonResponse
