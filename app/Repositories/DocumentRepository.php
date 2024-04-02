@@ -25,8 +25,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
         $filteredParams = $this->processSearchData($data);
 
-        $query = $this->model::search($filteredParams['search'])->where('status_id', $status);
-
+        $query = $this->model::query();
 
         $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'storage', 'author', 'counterparty_agreement']);
 
