@@ -43,9 +43,9 @@ class UserRepository implements UserRepositoryInterface
             'image' => $image,
             'group_id' => $DTO->group_id
         ])->assignRole('user');
-
-
     }
+
+
 
     public function update(User $user, UserUpdateDTO $DTO)
     {
@@ -67,6 +67,8 @@ class UserRepository implements UserRepositoryInterface
 
         return $user->load('organization');
     }
+
+
 
     public function deleteImage(User $user)
     {

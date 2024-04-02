@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Operations;
+use App\Models\Resource;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 
@@ -9,15 +11,25 @@ class PermissionSeeder extends Seeder
 {
     public function run(): void
     {
-        Permission::query()->insert([
-            ['name' => 'unit',
-                'guard_name' => 'web',],
-            ['name' => 'unit.create',
-                'guard_name' => 'web',],
-            ['name' => 'unit.update',
-                'guard_name' => 'web',],
-            ['name' => 'unit.delete',
-                'guard_name' => 'web',],
-        ]);
+
+        $resources = Resource::query()->get();
+        foreach ($resources as $resource) {
+            Permission::updateOrInsert(
+                ['name' => $resource->name],
+                ['guard_name' => 'web']
+            );
+        }
+
+
+        $resources = Resource::query()->whereNotNull('parent_id')->get();
+
+        foreach ($resources as $permission) {
+            foreach (Operations::cases() as $operation) {
+                Permission::updateOrInsert(
+                    ['name' => $permission->name . '.' . $operation->value],
+                    ['guard_name' => 'web']
+                );
+            }
+        }
     }
 }
