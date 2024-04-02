@@ -25,7 +25,7 @@ class ResourceSeeder extends Seeder
             ['name' => 'storage', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Склад'],
             ['name' => 'cashRegister', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Касса'],
             ['name' => 'programSettings', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Настройки программы'],
-            ['name' => 'planning', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Планирование'],
+            ['name' => 'planning', 'parent_id'   => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Планирование'],
             ['name' => 'procurementOfGoods', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Закупки товаров'],
             ['name' => 'sellingGoods', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Продажа товаров'],
             ['name' => 'warehouseAccounting', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Учет складов'],

@@ -51,5 +51,9 @@ class PermissionController extends Controller
         return $this->success($this->repository->getPermissions($user, ResourceTypes::Document));
     }
 
+    public function getPodSystemPermission(User $user) {
+        return $this->success($this->repository->getPermissions($user, ResourceTypes::PodSystem));
+    }
+
 
 }
