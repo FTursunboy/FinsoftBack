@@ -17,6 +17,7 @@ class ItemResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'ru_name' => $this->ru_name,
             'name' => $this->name
         ];
     }

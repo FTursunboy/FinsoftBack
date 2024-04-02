@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DTO\BarcodeDTO;
+use App\Enums\ResourceTypes;
 use App\Models\Barcode;
 use App\Models\Good;
 use App\Models\Resource;
@@ -20,7 +21,6 @@ class PermissionRepository implements PermissionRepositoryInterface
 {
     use Sort, FilterTrait;
 
-
     public function givePermission(User $user, array $permissions)
     {
         $permissionList = [];
@@ -35,25 +35,31 @@ class PermissionRepository implements PermissionRepositoryInterface
 
         $user->syncPermissions($permissionList);
     }
-    public function getPermissions(User $user) : array
+
+
+    public function getPermissions(User $user, ResourceTypes $resourceTypes) : array
     {
+
         $userPermissions = $user->permissionList();
 
-        $resources = Resource::query()->whereNotNull('parent_id')->get()->pluck('name');
+        $resources = Resource::query()->whereNotNull('parent_id')->where('type', $resourceTypes)->get();
 
         $resourcePermissions = [];
 
         foreach ($resources as $resource) {
+
+
             $accessList = [];
 
             foreach ($userPermissions as $permission) {
-                if (str_starts_with($permission, $resource . '.')) {
-                    $accessList[] = substr($permission, strlen($resource . '.'));
+                if (str_starts_with($permission, $resource->name . '.')) {
+                    $accessList[] = substr($permission, strlen($resource->name . '.'));
                 }
             }
 
             $resourcePermissions[] = [
-                'title' => $resource,
+                'title' => $resource->name,
+                'ru_title' => $resource->ru_name,
                 'access' => $accessList,
             ];
         }
