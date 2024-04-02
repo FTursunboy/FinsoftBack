@@ -45,6 +45,6 @@ class PermissionController extends Controller
 
     public function getResources()
     {
-        return $this->success(ItemResource::collection(Resource::with(['resource', 'resource.resource'])->get()));
+        return $this->paginate(ItemResource::collection(Resource::with(['resource', 'resource.resource'])->paginate(20)));
     }
 }
