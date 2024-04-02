@@ -11,7 +11,6 @@ class PermissionSeeder extends Seeder
 {
     public function run(): void
     {
-
         $resources = Resource::query()->get();
         foreach ($resources as $resource) {
             Permission::updateOrInsert(

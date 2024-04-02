@@ -32,8 +32,6 @@ class PermissionRepository implements PermissionRepositoryInterface
             }, $item['access']));
         }
 
-
-
         $user->syncPermissions($permissionList);
     }
 }

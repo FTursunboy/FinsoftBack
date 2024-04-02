@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\DTO\LoginDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\PinRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use App\Repositories\AuthRepository;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
@@ -31,6 +33,7 @@ class AuthController extends Controller
         return response()->json([
             'token' => $user->createToken('API TOKEN')->plainTextToken,
             'user' => UserResource::make($user),
+            'pin' => $user->pin
         ]);
     }
 
@@ -38,5 +41,12 @@ class AuthController extends Controller
     {
 
         return $this->deleted(auth()->user()->tokens()->delete());
+    }
+
+    public function addPin(User $user, PinRequest $request)
+    {
+        $data = $request->validated();
+
+        return $this->success($user->update(['pin' => $data['pin']]));
     }
 }
