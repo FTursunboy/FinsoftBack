@@ -42,7 +42,7 @@ class PermissionRepository implements PermissionRepositoryInterface
 
         $userPermissions = $user->permissionList();
 
-        $resources = Resource::query()->whereNotNull('parent_id')->where('type', $resourceTypes)->get();
+        $resources = Resource::query()->where('type', $resourceTypes)->get();
 
         $resourcePermissions = [];
 
