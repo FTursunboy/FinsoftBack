@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\DTO\BarcodeDTO;
+use App\Enums\ResourceTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\BarcodeRequest;
 use App\Http\Requests\Api\IndexRequest;
@@ -28,10 +29,7 @@ class PermissionController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(public PermissionRepositoryInterface $repository)
-    {
-
-    }
+    public function __construct(public PermissionRepositoryInterface $repository){}
 
     public function givePermission(User $user, OperationRequest $request) :JsonResponse
     {
@@ -40,11 +38,18 @@ class PermissionController extends Controller
 
     public function getPermissions(User $user) :JsonResponse
     {
-        return $this->success($this->repository->getPermissions($user));
+        return $this->success($this->repository->getPermissions($user, ResourceTypes::AdminPanel));
     }
 
     public function getResources()
     {
         return $this->paginate(ItemResource::collection(Resource::paginate(20)));
     }
+
+    public function getDocsPermission(User $user)
+    {
+        return $this->success($this->repository->getPermissions($user, ResourceTypes::Document));
+    }
+
+
 }

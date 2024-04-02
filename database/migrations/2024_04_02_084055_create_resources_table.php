@@ -10,7 +10,9 @@ return new class extends Migration {
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('ru_name');
             $table->integer('parent_id')->nullable();
+            $table->string('type');
             $table->timestamps();
         });
     }
