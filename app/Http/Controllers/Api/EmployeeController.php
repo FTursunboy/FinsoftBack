@@ -60,4 +60,10 @@ class EmployeeController extends Controller
     {
         return $this->success($restore->massRestore(new Employee(), $request->validated()));
     }
+
+    public function deleteImage(Employee $employee)
+    {
+        return $this->deleted($this->repository->deleteImage($employee));
+    }
+
 }

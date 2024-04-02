@@ -70,4 +70,9 @@ class UserController extends Controller
     {
         return $this->success($restore->massRestore(new User(), $request->validated()));
     }
+
+    public function deleteImage(User $user)
+    {
+        return $this->deleted($this->repository->deleteImage($user));
+    }
 }
