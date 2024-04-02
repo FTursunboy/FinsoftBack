@@ -12,6 +12,7 @@ use App\Repositories\AuthRepository;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -43,9 +44,10 @@ class AuthController extends Controller
         return $this->deleted(auth()->user()->tokens()->delete());
     }
 
-    public function addPin(User $user, PinRequest $request)
+    public function addPin(PinRequest $request)
     {
         $data = $request->validated();
+        $user = Auth::user();
 
         return $this->success($user->update(['pin' => $data['pin']]));
     }

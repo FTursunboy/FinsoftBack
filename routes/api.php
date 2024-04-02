@@ -228,6 +228,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
 
 
+    Route::post('add-pin', [AuthController::class, 'addPin']);
     Route::get('logout', [AuthController::class, 'logout']);
 });
 
