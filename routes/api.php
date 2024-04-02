@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\GoodGroupController;
 use App\Http\Controllers\Api\GroupController;
 use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\ProviderDocumentController;
 
 use App\Http\Controllers\Api\EmployeeController;
@@ -218,6 +219,12 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('approve/{document}', [DocumentController::class, 'approve']);
         Route::get('unApprove/{document}', [DocumentController::class, 'unApprove']);
     });
+
+    Route::group(['middleware' => 'role:admin'], function () {
+        Route::post('permission/{user}', [PermissionController::class, 'givePermission']);
+    });
+
+
 
     Route::get('logout', [AuthController::class, 'logout']);
 });

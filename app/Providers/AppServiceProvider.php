@@ -24,6 +24,7 @@ use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\Contracts\OrganizationBillRepositoryInterface;
 use App\Repositories\Contracts\OrganizationRepositoryInterface;
+use App\Repositories\Contracts\PermissionRepositoryInterface;
 use App\Repositories\Contracts\PositionRepositoryInterface;
 use App\Repositories\Contracts\PriceTypeRepository;
 use App\Repositories\Contracts\StorageEmployeeRepositoryInterface;
@@ -43,6 +44,7 @@ use App\Repositories\ImageRepository;
 use App\Repositories\MassOperation;
 use App\Repositories\OrganizationBillRepository;
 use App\Repositories\OrganizationRepository;
+use App\Repositories\PermissionRepository;
 use App\Repositories\PositionRepository;
 use App\Repositories\StorageEmployeeRepository;
 use App\Repositories\StorageRepository;
@@ -81,6 +83,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(GoodGroupRepositoryInterface::class, GoodGroupRepository::class);
         $this->app->singleton(BarcodeRepositoryInterface::class, BarcodeRepository::class);
         $this->app->singleton(ImageRepositoryInterface::class, ImageRepository::class);
+        $this->app->singleton(PermissionRepositoryInterface::class, PermissionRepository::class);
 
 
     }
