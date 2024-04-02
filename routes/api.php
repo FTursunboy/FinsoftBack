@@ -222,7 +222,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::group(['middleware' => 'role:admin'], function () {
         Route::post('permission/{user}', [PermissionController::class, 'givePermission']);
-        Route::get('permission/{user}', [PermissionController::class, 'getPermission']);
+        Route::get('permission/{user}', [PermissionController::class, 'getPermissions']);
         Route::get('resources', [PermissionController::class, 'getResources']);
     });
 
