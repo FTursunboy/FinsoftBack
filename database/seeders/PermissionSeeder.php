@@ -21,7 +21,7 @@ class PermissionSeeder extends Seeder
         }
 
 
-        $resources = Resource::query()->where('type', '!=', ResourceTypes::PodSystem)->where('type', '!=', ResourceTypes::Report)->get();
+        $resources = Resource::query()->where('type', '!=', ResourceTypes::Report)->get();
 
         foreach ($resources as $permission) {
             foreach (Operations::cases() as $operation) {

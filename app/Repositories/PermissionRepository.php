@@ -39,7 +39,7 @@ class PermissionRepository implements PermissionRepositoryInterface
         $user->givePermissionTo($permissionList);
     }
 
-    public function getPermissions(User $user, ResourceTypes $resourceTypes) : array
+    public function getPermissions(User $user, ResourceTypes $resourceTypes): array
     {
         $userPermissions = $user->permissionList();
 
@@ -70,8 +70,18 @@ class PermissionRepository implements PermissionRepositoryInterface
 
     public function givePodSystemPermission(User $user, array $permissions)
     {
-        $this->revokePermissions($user, ResourceTypes::PodSystem );
-        $user->givePermissionTo($permissions['permissions']);
+        $this->revokePermissions($user, ResourceTypes::PodSystem);
+
+        $permissionList = [];
+
+
+        $permissionList = array_merge($permissionList, array_map(function ($access) use ($permissions) {
+            return $access['name'] . '.' . 'read';
+        }, $permissions['permissions']));
+
+
+
+        $user->givePermissionTo($permissionList);
     }
 
 
@@ -82,7 +92,7 @@ class PermissionRepository implements PermissionRepositoryInterface
     }
 
 
-    private function revokePermissions(User $user, ResourceTypes $type) :void
+    private function revokePermissions(User $user, ResourceTypes $type): void
     {
         $permissionsToRevoke = [];
         $resources = Resource::where('type', $type)->get()->pluck('name');
@@ -97,22 +107,19 @@ class PermissionRepository implements PermissionRepositoryInterface
         $user->revokePermissionTo($permissionsToRevoke);
     }
 
-    private function makePermissionArray(array $permissions) : array
+    private function makePermissionArray(array $permissions): array
     {
         $permissionList = [];
 
-        foreach ($permissions['resource'] as $item)
-        {
+        foreach ($permissions['resource'] as $item) {
             $permissionList[] = $item['title'];
-            $permissionList = array_merge($permissionList, array_map(function($access) use($item) {
+            $permissionList = array_merge($permissionList, array_map(function ($access) use ($item) {
                 return $item['title'] . '.' . $access;
             }, $item['access']));
         }
 
         return $permissionList;
     }
-
-
 
 
 }
