@@ -11,5 +11,8 @@ enum ResourceTypes :string
 
     case PodSystem = 'podsystem';
 
+    case Report = 'report';
+
+
 
 }
