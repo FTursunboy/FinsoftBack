@@ -67,6 +67,11 @@ class PermissionRepository implements PermissionRepositoryInterface
         return $resourcePermissions;
     }
 
+    public function givePodsystemPermission(User $user, array $permissions)
+    {
+        $user->givePermissionTo($permissions['permissions']);
+    }
+
 
 
 

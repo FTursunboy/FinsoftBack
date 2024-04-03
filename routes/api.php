@@ -225,6 +225,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('permission/{user}', [PermissionController::class, 'getPermissions']);
         Route::get('permission/docs/{user}', [PermissionController::class, 'getDocsPermission']);
         Route::get('permission/podsystem/{user}', [PermissionController::class, 'getPodSystemPermission']);
+        Route::post('permission/podsystem/{user}', [PermissionController::class, 'givePodsystemPermission']);
         Route::get('resources', [PermissionController::class, 'getResources']);
     });
 
