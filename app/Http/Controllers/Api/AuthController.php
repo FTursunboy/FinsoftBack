@@ -40,7 +40,6 @@ class AuthController extends Controller
 
     public function logout(): JsonResponse
     {
-
         return $this->deleted(auth()->user()->tokens()->delete());
     }
 
@@ -50,5 +49,20 @@ class AuthController extends Controller
         $user = Auth::user();
 
         return $this->success($user->update(['pin' => $data['pin']]));
+    }
+
+    public function loginWithPin(LoginRequest $request)
+    {
+        $DTO = LoginDTO::fromRequest($request);
+
+        $user = $this->repository->checkLogin($DTO);
+
+        if ($user->pin !== $DTO->pin || $user->pin === null) return $this->error('Неправильный пин-код!');
+
+        return response()->json([
+            'token' => $user->createToken('API TOKEN')->plainTextToken,
+            'user' => UserResource::make($user),
+            'pin' => $user->pin
+        ]);
     }
 }

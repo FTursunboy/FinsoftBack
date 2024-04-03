@@ -9,4 +9,5 @@ use Illuminate\Http\JsonResponse;
 interface AuthRepositoryInterface
 {
     public function checkLogin(LoginDTO $dto) :User|null;
+
 }
