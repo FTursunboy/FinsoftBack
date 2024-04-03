@@ -14,4 +14,6 @@ interface PermissionRepositoryInterface
     public function givePermission(User $user, array $permissions);
 
     public function getPermissions(User $user, ResourceTypes $resourceTypes) : array;
+
+    public function givePodsystemPermission(User $user, array $permissions);
 }

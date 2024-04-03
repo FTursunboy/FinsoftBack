@@ -9,6 +9,7 @@ use App\Http\Requests\Api\BarcodeRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Requests\OperationRequest;
+use App\Http\Requests\PodsystemRequest;
 use App\Http\Resources\BarcodeResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\ItemResource;
@@ -55,5 +56,9 @@ class PermissionController extends Controller
         return $this->success($this->repository->getPermissions($user, ResourceTypes::PodSystem));
     }
 
+    public function givePodsystemPermission(User $user, PodsystemRequest $request)
+    {
+        return $this->success($this->repository->givePodsystemPermission($user, $request->validated()));
+    }
 
 }
