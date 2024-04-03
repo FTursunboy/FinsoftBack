@@ -7,7 +7,7 @@ use Illuminate\Auth\Events\Login;
 
 class LoginDTO
 {
-    public function __construct(public string $login, public string $password)
+    public function __construct(public string $login, public string $password, public ?int $pin)
     {
     }
 
@@ -15,7 +15,8 @@ class LoginDTO
     {
         return new static(
             $request->get('login'),
-            $request->get('password')
+            $request->get('password'),
+            $request->get('pin')
         );
     }
 }

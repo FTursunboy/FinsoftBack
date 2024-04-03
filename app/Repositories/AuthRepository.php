@@ -20,4 +20,5 @@ class AuthRepository implements AuthRepositoryInterface
 
         return null;
     }
+
 }
