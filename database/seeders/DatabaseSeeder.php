@@ -79,12 +79,7 @@ class DatabaseSeeder extends Seeder
 
     public function permissionList()
     {
-        $permissions = Permission::get()->toArray();
-        $arr = [];
-        foreach ($permissions as $permission) {
-            $arr[] = $permission['name'];
-        }
+       return Permission::get()->pluck('name');
 
-        return $arr;
     }
 }

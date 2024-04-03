@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\Operations;
+use App\Enums\ResourceTypes;
 use App\Models\Resource;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -20,7 +21,7 @@ class PermissionSeeder extends Seeder
         }
 
 
-        $resources = Resource::query()->whereNotNull('parent_id')->get();
+        $resources = Resource::query()->where('type', '!=', ResourceTypes::PodSystem)->where('type', '!=', ResourceTypes::Report)->get();
 
         foreach ($resources as $permission) {
             foreach (Operations::cases() as $operation) {
