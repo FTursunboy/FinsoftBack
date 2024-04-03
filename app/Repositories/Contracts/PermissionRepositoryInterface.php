@@ -11,9 +11,14 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface PermissionRepositoryInterface
 {
-    public function givePermission(User $user, array $permissions);
+    public function giveAdminPanelPermission(User $user, array $permissions);
 
     public function getPermissions(User $user, ResourceTypes $resourceTypes) : array;
 
-    public function givePodsystemPermission(User $user, array $permissions);
+    public function givePodSystemPermission(User $user, array $permissions);
+
+    public function giveReportPermission(User $user, array $permissions);
+
+    public function giveDocumentPermission(User $user, array $permissions);
+
 }

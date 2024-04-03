@@ -20,29 +20,27 @@ use function PHPUnit\Framework\isFalse;
 
 class PermissionRepository implements PermissionRepositoryInterface
 {
-    use Sort, FilterTrait;
 
-    public function givePermission(User $user, array $permissions)
+    public function giveAdminPanelPermission(User $user, array $permissions)
     {
         $this->revokePermissions($user, ResourceTypes::AdminPanel);
 
-        $permissionList = [];
-
-        foreach ($permissions['resource'] as $item)
-        {
-            $permissionList[] = $item['title'];
-            $permissionList = array_merge($permissionList, array_map(function($access) use($item) {
-                return $item['title'] . '.' . $access;
-            }, $item['access']));
-        }
+        $permissionList = $this->makePermissionArray($permissions);
 
         $user->givePermissionTo($permissionList);
     }
 
+    public function giveDocumentPermission(User $user, array $permissions)
+    {
+        $this->revokePermissions($user, ResourceTypes::Document);
+
+        $permissionList = $this->makePermissionArray($permissions);
+
+        $user->givePermissionTo($permissionList);
+    }
 
     public function getPermissions(User $user, ResourceTypes $resourceTypes) : array
     {
-
         $userPermissions = $user->permissionList();
 
         $resources = Resource::query()->where('type', $resourceTypes)->get();
@@ -69,13 +67,22 @@ class PermissionRepository implements PermissionRepositoryInterface
         return $resourcePermissions;
     }
 
-    public function givePodsystemPermission(User $user, array $permissions)
+
+    public function givePodSystemPermission(User $user, array $permissions)
     {
         $this->revokePermissions($user, ResourceTypes::PodSystem );
         $user->givePermissionTo($permissions['permissions']);
     }
 
-    private function revokePermissions(User $user, ResourceTypes $type)
+
+    public function giveReportPermission(User $user, array $permissions)
+    {
+        $this->revokePermissions($user, ResourceTypes::Report);
+        $user->givePermissionTo($permissions['permissions']);
+    }
+
+
+    private function revokePermissions(User $user, ResourceTypes $type) :void
     {
         $permissionsToRevoke = [];
         $resources = Resource::where('type', $type)->get()->pluck('name');
@@ -83,11 +90,26 @@ class PermissionRepository implements PermissionRepositoryInterface
         foreach ($resources as $permission) {
             $permissionsToRevoke[] = $permission;
             foreach (Operations::cases() as $operation) {
-                $permissionsToRevoke[] = $permission . '.' . $operation->value ;
+                $permissionsToRevoke[] = $permission . '.' . $operation->value;
             }
         }
 
         $user->revokePermissionTo($permissionsToRevoke);
+    }
+
+    private function makePermissionArray(array $permissions) : array
+    {
+        $permissionList = [];
+
+        foreach ($permissions['resource'] as $item)
+        {
+            $permissionList[] = $item['title'];
+            $permissionList = array_merge($permissionList, array_map(function($access) use($item) {
+                return $item['title'] . '.' . $access;
+            }, $item['access']));
+        }
+
+        return $permissionList;
     }
 
 
