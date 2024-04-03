@@ -14,8 +14,8 @@ class OperationRequest extends FormRequest
         return [
             'resource' => 'required|array',
             'resource.*.title' => 'required|string',
-            'resource.*.access' => 'required|array',
-            'resource.*.access.*' => ['string', Rule::enum(Operations::class)],
+            'resource.*.access' => 'nullable|array',
+            'resource.*.access.*' => ['nullable', 'string', Rule::enum(Operations::class)],
         ];
     }
 
