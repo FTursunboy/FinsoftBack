@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DTO\BarcodeDTO;
+use App\Enums\Operations;
 use App\Enums\ResourceTypes;
 use App\Models\Barcode;
 use App\Models\Good;
@@ -23,6 +24,8 @@ class PermissionRepository implements PermissionRepositoryInterface
 
     public function givePermission(User $user, array $permissions)
     {
+        $this->revokePermissions($user, ResourceTypes::AdminPanel);
+
         $permissionList = [];
 
         foreach ($permissions['resource'] as $item)
@@ -33,7 +36,7 @@ class PermissionRepository implements PermissionRepositoryInterface
             }, $item['access']));
         }
 
-        $user->syncPermissions($permissionList);
+        $user->givePermissionTo($permissionList);
     }
 
 
@@ -47,7 +50,6 @@ class PermissionRepository implements PermissionRepositoryInterface
         $resourcePermissions = [];
 
         foreach ($resources as $resource) {
-
 
             $accessList = [];
 
@@ -69,7 +71,23 @@ class PermissionRepository implements PermissionRepositoryInterface
 
     public function givePodsystemPermission(User $user, array $permissions)
     {
+        $this->revokePermissions($user, ResourceTypes::PodSystem );
         $user->givePermissionTo($permissions['permissions']);
+    }
+
+    private function revokePermissions(User $user, ResourceTypes $type)
+    {
+        $permissionsToRevoke = [];
+        $resources = Resource::where('type', $type)->get()->pluck('name');
+
+        foreach ($resources as $permission) {
+            $permissionsToRevoke[] = $permission;
+            foreach (Operations::cases() as $operation) {
+                $permissionsToRevoke[] = $permission . '.' . $operation->value ;
+            }
+        }
+
+        $user->revokePermissionTo($permissionsToRevoke);
     }
 
 
