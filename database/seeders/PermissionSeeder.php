@@ -20,7 +20,6 @@ class PermissionSeeder extends Seeder
             );
         }
 
-
         $resources = Resource::query()->where('type', '!=', ResourceTypes::Report)->get();
 
         foreach ($resources as $permission) {
@@ -32,4 +31,6 @@ class PermissionSeeder extends Seeder
             }
         }
     }
+
+
 }
