@@ -34,7 +34,7 @@ class PermissionController extends Controller
 
     public function givePermission(User $user, OperationRequest $request) :JsonResponse
     {
-        return $this->success($this->repository->givePermission($user, $request->validated()));
+        return $this->success($this->repository->giveAdminPanelPermission($user, $request->validated()));
     }
 
     public function getPermissions(User $user) :JsonResponse
@@ -56,7 +56,7 @@ class PermissionController extends Controller
         return $this->success($this->repository->getPermissions($user, ResourceTypes::PodSystem));
     }
 
-    public function givePodsystemPermission(User $user, PodsystemRequest $request)
+    public function givePodsystemPermission(User $user, OperationRequest $request)
     {
         return $this->success($this->repository->givePodsystemPermission($user, $request->validated()));
     }

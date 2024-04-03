@@ -72,14 +72,7 @@ class PermissionRepository implements PermissionRepositoryInterface
     {
         $this->revokePermissions($user, ResourceTypes::PodSystem);
 
-        $permissionList = [];
-
-
-        $permissionList = array_merge($permissionList, array_map(function ($access) use ($permissions) {
-            return $access['name'] . '.' . 'read';
-        }, $permissions['permissions']));
-
-
+        $permissionList = $this->makePermissionArray($permissions);
 
         $user->givePermissionTo($permissionList);
     }

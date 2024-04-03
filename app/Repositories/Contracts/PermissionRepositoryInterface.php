@@ -20,5 +20,4 @@ interface PermissionRepositoryInterface
     public function giveReportPermission(User $user, array $permissions);
 
     public function giveDocumentPermission(User $user, array $permissions);
-
 }
