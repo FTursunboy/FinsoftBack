@@ -23,6 +23,7 @@ class GoodController extends Controller implements \App\Repositories\Contracts\S
 
     public function __construct(public GoodRepositoryInterface $repository)
     {
+        $this->authorizeResource(Good::class, 'good');
     }
 
     public function index(IndexRequest $request)

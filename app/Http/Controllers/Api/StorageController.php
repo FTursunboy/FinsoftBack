@@ -30,6 +30,7 @@ class StorageController extends Controller
 
     public function __construct(public StorageRepositoryInterface $repository)
     {
+        $this->authorizeResource(Storage::class, 'storage');
     }
 
     public function index(IndexRequest $indexRequest)

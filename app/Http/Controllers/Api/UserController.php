@@ -26,6 +26,7 @@ class UserController extends Controller
 
     public function __construct(public UserRepositoryInterface $repository)
     {
+        $this->authorizeResource(User::class, 'user');
     }
 
     public function index(FilterRequest $request)
