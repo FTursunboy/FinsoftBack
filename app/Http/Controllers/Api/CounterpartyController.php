@@ -23,6 +23,7 @@ class CounterpartyController extends Controller
 
     public function __construct(public CounterpartyRepositoryInterface $repository)
     {
+        $this->authorizeResource(Counterparty::class, 'counterparty');
     }
 
     public function index(FilterRequest $request) :JsonResponse

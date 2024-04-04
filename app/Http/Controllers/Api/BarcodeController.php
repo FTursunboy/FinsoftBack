@@ -16,15 +16,13 @@ use App\Repositories\Contracts\BarcodeRepositoryInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BarcodeController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(public BarcodeRepositoryInterface $repository)
-    {
-
-    }
+    public function __construct(public BarcodeRepositoryInterface $repository) { }
 
     public function index(Good $good, IndexRequest $request)
     {

@@ -21,6 +21,7 @@ class CashRegisterController extends Controller
 
     public function __construct(public CashRegisterRepositoryInterface $repository)
     {
+        $this->authorizeResource(CashRegister::class, 'cashRegister');
     }
 
     public function index(FilterRequest $request)

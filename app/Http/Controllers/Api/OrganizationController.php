@@ -22,6 +22,7 @@ class OrganizationController extends Controller
 
     public function __construct(public OrganizationRepositoryInterface $repository)
     {
+        $this->authorizeResource(Organization::class, 'organization');
     }
 
     public function index(FilterRequest $request)

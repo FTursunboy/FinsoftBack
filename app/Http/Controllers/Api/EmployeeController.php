@@ -24,6 +24,7 @@ class EmployeeController extends Controller
 
     public function __construct(public EmployeeRepositoryInterface $repository)
     {
+        $this->authorizeResource(Employee::class, 'employee');
     }
 
     public function index(IndexRequest $request)

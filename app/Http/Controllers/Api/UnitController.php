@@ -25,6 +25,7 @@ class UnitController extends Controller
 
     public function __construct(public UnitRepositoryInterface $repository)
     {
+        $this->authorizeResource(Unit::class, 'unit');
     }
 
     public function index(UnitRepository $repository, FilterRequest $request)
