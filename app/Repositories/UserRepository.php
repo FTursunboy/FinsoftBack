@@ -20,7 +20,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function index(array $data): LengthAwarePaginator
     {
-        $filteredParams = $this->processSearchData($data);
+        $filteredParams = $this->model::filter($data);
 
         $query = $this->search($filteredParams['search']);
 
@@ -46,7 +46,6 @@ class UserRepository implements UserRepositoryInterface
     }
 
 
-
     public function update(User $user, UserUpdateDTO $DTO)
     {
         if ($DTO->image != null) {
@@ -69,7 +68,6 @@ class UserRepository implements UserRepositoryInterface
     }
 
 
-
     public function deleteImage(User $user)
     {
         Storage::delete('public/' . $user->image);
@@ -78,12 +76,14 @@ class UserRepository implements UserRepositoryInterface
 
     public function search(string $search)
     {
+        if ($search == null) return $this->model::query();
+
         $searchTerm = explode(' ', $search);
 
         return $this->model::where(function ($query) use ($searchTerm) {
             $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
                 ->whereHas('roles', function ($query) {
-                    $query->where('name', '!=', 'admin');
+                    $query->where('roles.name', '!=', 'admin');
                 });
         });
 
