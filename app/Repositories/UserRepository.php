@@ -76,8 +76,6 @@ class UserRepository implements UserRepositoryInterface
 
     public function search(string $search)
     {
-        if ($search == null) return $this->model::query();
-
         $searchTerm = explode(' ', $search);
 
         return $this->model::where(function ($query) use ($searchTerm) {

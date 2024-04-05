@@ -64,7 +64,10 @@ class GroupRepository implements GroupRepositoryInterface
     {
         $filterParams = User::filter($data);
 
-        $query = User::where('group_id', $group->id);
+        $query = User::where('group_id', $group->id)
+            ->whereHas('roles', function ($query) {
+                return $query->where('name', '!=', 'admin');
+            });
 
         $query = $this->searchUser($query, $filterParams);
 
@@ -139,10 +142,7 @@ class GroupRepository implements GroupRepositoryInterface
         $searchTerm = explode(' ', $data['search']);
 
         return $query->where(function ($query) use ($searchTerm) {
-            $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
-                ->whereHas('roles', function ($query) {
-                    $query->where('name', '!=', 'admin');
-                });
+            $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
         });
     }
 
