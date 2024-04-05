@@ -28,7 +28,7 @@ class StorageRepository implements StorageRepositoryInterface
 
         $query = $this->search($filterParams['search']);
 
-        $query = $this->sort($filterParams, $query, ['organization']);
+        $query = $this->sort($filterParams, $query, ['organization', 'group']);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }

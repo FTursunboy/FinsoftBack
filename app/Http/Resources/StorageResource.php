@@ -19,6 +19,7 @@ class StorageResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'organization' => OrganizationResource::make($this->whenLoaded('organization')),
+            'group' => GroupResource::make($this->whenLoaded('group')),
             'deleted_at' => $this->deleted_at
 
         ];
