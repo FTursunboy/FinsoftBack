@@ -21,7 +21,7 @@ class UnitPolicy
      */
     public function view(User $user, Unit $unit): bool
     {
-        //
+        return true;
     }
 
     /**

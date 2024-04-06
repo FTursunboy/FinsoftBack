@@ -21,7 +21,7 @@ class StoragePolicy
      */
     public function view(User $user, Storage $storage): bool
     {
-        //
+        return true;
     }
 
     /**

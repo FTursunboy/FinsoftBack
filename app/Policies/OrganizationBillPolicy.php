@@ -21,7 +21,7 @@ class OrganizationBillPolicy
      */
     public function view(User $user, OrganizationBill $organizationBill): bool
     {
-        //
+        return true;
     }
 
     /**

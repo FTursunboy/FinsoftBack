@@ -21,7 +21,7 @@ class CashRegisterPolicy
      */
     public function view(User $user, CashRegister $cashRegister): bool
     {
-        //
+        return true;
     }
 
     /**
