@@ -21,7 +21,7 @@ class PriceTypePolicy
      */
     public function view(User $user, PriceType $priceType): bool
     {
-        //
+        return true;
     }
 
     /**
