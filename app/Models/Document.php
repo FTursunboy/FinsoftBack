@@ -17,7 +17,7 @@ class Document extends Model implements \App\Repositories\Contracts\SoftDeleteIn
     use SoftDeletes, Searchable, HasFactory;
 
     protected $fillable = ['doc_number', 'date', 'counterparty_id', 'counterparty_agreement_id', 'organization_id',
-            'storage_id', 'author_id', 'active', 'status_id', 'active'];
+            'storage_id', 'author_id', 'active', 'status_id', 'active', 'comment', 'saleInteger', 'salePercent', 'currency_id'];
 
     protected $keyType = 'string';
 
@@ -58,6 +58,11 @@ class Document extends Model implements \App\Repositories\Contracts\SoftDeleteIn
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class, 'currency_id');
     }
 
     public function counterparty_agreement(): BelongsTo
