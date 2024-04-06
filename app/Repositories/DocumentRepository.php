@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\DTO\DocumentDTO;
 use App\Models\Document;
 use App\Models\GoodDocument;
+use App\Models\Status;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
@@ -26,7 +27,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
         $query = $this->model::query();
 
-        $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'storage', 'author', 'counterparty_agreement']);
+        $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'storage', 'author', 'counterparty_agreement', 'currency']);
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }
@@ -42,7 +43,11 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'organization_id' => $dto->organization_id,
                 'storage_id' => $dto->storage_id,
                 'author_id' => Auth::id(),
-                'status_id' => $status
+                'status_id' => $status,
+                'comment' => $dto->comment,
+                'saleInteger' => $dto->saleInteger,
+                'salePercent' => $dto->salePercent,
+                'currency_id' => $dto->currency_id
             ]);
 
             if (!is_null($dto->goods)) {
@@ -58,7 +63,7 @@ class DocumentRepository implements DocumentRepositoryInterface
                 }
             }
 
-            return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterparty_agreement']);
+            return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterparty_agreement', 'currency']);
         });
     }
 
@@ -67,11 +72,17 @@ class DocumentRepository implements DocumentRepositoryInterface
     {
         return DB::transaction(function () use ($dto, $document) {
             $document->update([
+                'doc_number' => $this->uniqueNumber(),
                 'date' => $dto->date,
                 'counterparty_id' => $dto->counterparty_id,
                 'counterparty_agreement_id' => $dto->counterparty_agreement_id,
                 'organization_id' => $dto->organization_id,
-                'storage_id' => $dto->storage_id
+                'storage_id' => $dto->storage_id,
+                'comment' => $dto->comment,
+                'saleInteger' => $dto->saleInteger,
+                'salePercent' => $dto->salePercent,
+                'currency_id' => $dto->currency_id
+
             ]);
 
             if (!is_null($dto->goods))
