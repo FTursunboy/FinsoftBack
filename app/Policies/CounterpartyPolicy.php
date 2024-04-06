@@ -21,7 +21,7 @@ class CounterpartyPolicy
      */
     public function view(User $user, Counterparty $counterparty): bool
     {
-        //
+        return true;
     }
 
     /**

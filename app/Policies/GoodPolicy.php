@@ -21,7 +21,7 @@ class GoodPolicy
      */
     public function view(User $user, Good $good): bool
     {
-        //
+        return true;
     }
 
     /**
