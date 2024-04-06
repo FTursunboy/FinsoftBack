@@ -61,13 +61,13 @@ class PermissionRepository implements PermissionRepositoryInterface
                 }
             }
 
-            if (count($accessList) > 0) {
+
                 $resourcePermissions[] = [
                     'title' => $resource->name,
                     'ru_title' => $resource->ru_name,
                     'access' => $accessList,
                 ];
-            }
+
         }
 
         return $resourcePermissions;
