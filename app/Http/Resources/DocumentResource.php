@@ -14,6 +14,7 @@ class DocumentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
         return [
             'id' => $this->id,
             'doc_number' => $this->doc_number,
@@ -23,8 +24,8 @@ class DocumentResource extends JsonResource
             'organization' => OrganizationResource::make($this->whenLoaded('organization')),
             'storage' => StorageResource::make($this->whenLoaded('storage')),
             'author' => UserResource::make($this->whenLoaded('author')),
-            'deleted_at' => $this->deleted_at
-
+            'deleted_at' => $this->deleted_at,
+            'changes' => HistoryResource::collection($this->whenLoaded('history'))
         ];
     }
 }

@@ -26,7 +26,7 @@ class ProviderDocumentController extends Controller
 
     public function purchase(DocumentRequest $request): JsonResponse
     {
-        return $this->created($this->repository->store(DocumentDTO::fromRequest($request), Status::PROVIDER_PURCHASE));
+        return $this->created(DocumentResource::make($this->repository->store(DocumentDTO::fromRequest($request), Status::PROVIDER_PURCHASE)));
     }
 
     public function returnList(IndexRequest $request): JsonResponse

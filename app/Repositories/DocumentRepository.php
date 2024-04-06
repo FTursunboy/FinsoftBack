@@ -22,7 +22,6 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function index(int $status, array $data): LengthAwarePaginator
     {
-
         $filteredParams = $this->processSearchData($data);
 
         $query = $this->model::query();
@@ -32,7 +31,7 @@ class DocumentRepository implements DocumentRepositoryInterface
         return $query->paginate($filteredParams['itemsPerPage']);
     }
 
-    public function store(DocumentDTO $dto, int $status)
+    public function store(DocumentDTO $dto, int $status): Document
     {
         return DB::transaction(function () use ($status, $dto) {
             $document = Document::create([
@@ -46,13 +45,23 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'status_id' => $status
             ]);
 
-            if (!is_null($dto->goods))
-            {
-                GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
+            if (!is_null($dto->goods)) {
+                foreach ($dto->goods as $item) {
+                    GoodDocument::create([
+                        'good_id' => $item['good_id'],
+                        'amount' => $item['amount'],
+                        'price' => $item['price'],
+                        'document_id' => $document->id,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]);
+                }
             }
 
+            return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterparty_agreement']);
         });
     }
+
 
     public function update(Document $document, DocumentDTO $dto) :Document
     {
@@ -62,13 +71,12 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'counterparty_id' => $dto->counterparty_id,
                 'counterparty_agreement_id' => $dto->counterparty_agreement_id,
                 'organization_id' => $dto->organization_id,
-                'storage_id' => $dto->storage_id,
-                'author_id' => Auth::id()
+                'storage_id' => $dto->storage_id
             ]);
 
             if (!is_null($dto->goods))
             {
-                GoodDocument::insertOrUpdate($this->insertGoodDocuments($dto->goods, $document));
+                GoodDocument::create($this->insertGoodDocuments($dto->goods, $document));
             }
 
             return $document;
@@ -105,6 +113,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function approve(Document $document)
     {
+
         $document->update(
             ['active' => true]
         );
@@ -112,6 +121,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function unApprove(Document $document)
     {
+
         $document->update(
             ['active' => false]
         );

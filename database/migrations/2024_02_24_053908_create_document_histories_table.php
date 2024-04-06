@@ -16,7 +16,7 @@ return new class extends Migration
 //            $table->string('table');
             $table->unsignedBigInteger('user_id');
             $table->string('status');
-            $table->unsignedBigInteger('document_id');
+            $table->string('document_id');
             $table->timestamps();
         });
     }

@@ -118,6 +118,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::group(['prefix' => 'storage'], function () {
         Route::post('/massDelete', [StorageController::class, 'massDelete']);
         Route::post('/massRestore', [StorageController::class, 'massRestore']);
+        Route::post('/access', [SettingsController::class]);
         Route::post('/massDeleteEmployee', [StorageController::class, 'massDeleteEmployee']);
         Route::post('/massRestoreEmployee', [StorageController::class, 'massRestoreEmployee']);
         Route::post('/add-employee/{storage}', [StorageController::class, 'addEmployee']);
@@ -216,8 +217,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
         Route::get('/changeHistory/{document}', [DocumentController::class, 'changeHistory']);
 
-        Route::get('approve/{document}', [DocumentController::class, 'approve']);
-        Route::get('unApprove/{document}', [DocumentController::class, 'unApprove']);
+        Route::patch('Approve/{document}', [DocumentController::class, 'approve']);
+        Route::patch('unApprove/{document}', [DocumentController::class, 'unApprove']);
     });
 
     Route::group(['middleware' => 'role:admin'], function () {

@@ -26,7 +26,9 @@ class UserResource extends JsonResource
             'image' => $this->image ? Storage::url($this->image) : null,
             'group' => GroupResource::make($this->whenLoaded('group')),
             'deleted_at' => $this->deleted_at,
-            'permissions' => $this->permissionList(),
+            'permissions' => $this->whenLoaded('permissions', function ($query) {
+                return $query->pluck('name');
+            }),
         ];
     }
 }

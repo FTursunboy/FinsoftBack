@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Group;
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
@@ -18,6 +19,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            SettingsSeeder::class,
             ResourceSeeder::class,
             PermissionSeeder::class,
         ]);

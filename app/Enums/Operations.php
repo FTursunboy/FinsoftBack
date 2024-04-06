@@ -4,7 +4,6 @@ namespace App\Enums;
 
 enum Operations :string
 {
-
     case Create = 'create';
 
     case Update = 'update';
@@ -16,6 +15,5 @@ enum Operations :string
     case Approve = 'approve';
 
     case Reject = 'reject';
-
 
 }

@@ -67,8 +67,5 @@ class User extends Authenticatable implements SoftDeleteInterface
         ];
     }
 
-    public function permissionList()
-    {
-        return $this->getPermissionNames();
-    }
+
 }
