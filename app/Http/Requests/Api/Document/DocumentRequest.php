@@ -36,7 +36,7 @@ class DocumentRequest extends FormRequest
             'goods' => ['nullable', 'array'],
             'goods.*.good_id' => ['required', Rule::exists('goods', 'id')],
             'goods.*.amount' => ['required', 'min:1'],
-            'goods.*.price' => ['required', 'numeric'],
+            'goods.*.price' => ['required', 'numeric']
         ];
     }
 
