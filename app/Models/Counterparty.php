@@ -50,4 +50,9 @@ class Counterparty extends Model implements \App\Repositories\Contracts\SoftDele
             'roles' => $data['filterData']['roles'] ?? null,
         ];
     }
+
+    public function cpAgreement(): HasMany
+    {
+        return $this->hasMany(CounterpartyAgreement::class);
+    }
 }
