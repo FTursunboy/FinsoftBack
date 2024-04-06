@@ -11,7 +11,8 @@ class ApiRequestLockMiddleware
     public function handle($request, Closure $next)
     {
 
-        if ($request->isMethod('POST', 'PATCH')) {
+        if ($request->isMethod('POST', 'PATCH') && $request->header('permission') === null) {
+
             $cacheKey = 'last_post_time_' . ($request->user()?->id);
             $lastPostTime = Cache::get($cacheKey);
 
@@ -22,6 +23,7 @@ class ApiRequestLockMiddleware
             Log::error($request->ip());
             Cache::put($cacheKey, now(), 5);
         }
+
 
         return $next($request);
     }

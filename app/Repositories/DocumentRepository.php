@@ -3,7 +3,10 @@
 namespace App\Repositories;
 
 use App\DTO\DocumentDTO;
+use App\Enums\DocumentHistoryStatuses;
 use App\Models\Document;
+use App\Models\DocumentHistory;
+use App\Models\Good;
 use App\Models\GoodDocument;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Traits\FilterTrait;
@@ -31,9 +34,9 @@ class DocumentRepository implements DocumentRepositoryInterface
         return $query->paginate($filteredParams['itemsPerPage']);
     }
 
-    public function store(DocumentDTO $dto, int $status): Document
+    public function store(DocumentDTO $dto, int $status) :Document
     {
-        return DB::transaction(function () use ($status, $dto) {
+       return DB::transaction(function () use ($status, $dto) {
             $document = Document::create([
                 'doc_number' => $this->uniqueNumber(),
                 'date' => $dto->date,
@@ -45,23 +48,14 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'status_id' => $status
             ]);
 
-            if (!is_null($dto->goods)) {
-                foreach ($dto->goods as $item) {
-                    GoodDocument::create([
-                        'good_id' => $item['good_id'],
-                        'amount' => $item['amount'],
-                        'price' => $item['price'],
-                        'document_id' => $document->id,
-                        'created_at' => now(),
-                        'updated_at' => now()
-                    ]);
-                }
-            }
+            if (!is_null($dto->goods))
+                GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
             return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterparty_agreement']);
-        });
-    }
 
+        });
+
+    }
 
     public function update(Document $document, DocumentDTO $dto) :Document
     {
@@ -76,7 +70,8 @@ class DocumentRepository implements DocumentRepositoryInterface
 
             if (!is_null($dto->goods))
             {
-                GoodDocument::create($this->insertGoodDocuments($dto->goods, $document));
+
+                GoodDocument::query()->updateOrInsert(...$this->insertGoodDocuments($dto->goods, $document));
             }
 
             return $document;
@@ -99,6 +94,30 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     private function insertGoodDocuments(array $goods, Document $document): array
     {
+//        $history = DocumentHistory::create([
+//            'status' => DocumentHistoryStatuses::UPDATED,
+//            'user_id' => Auth::user()->id,
+//            'document_id' => $document->id,
+//        ]);
+//
+//
+//        $changes = [];
+//
+//
+//        foreach ($goods as $good){
+//
+//           if (!$good['created']) {
+//                $changes[] = [
+//                    'document_history_id' => $history->id,
+//                    'body' => $this->changeCount($good, DocumentHistoryStatuses::CREATED)
+//                ];
+//           }
+//        }
+
+
+
+
+
         return array_map(function ($item) use ($document) {
             return [
                 'good_id' => $item['good_id'],
@@ -109,6 +128,14 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'updated_at' => Carbon::now()
             ];
         }, $goods);
+    }
+
+    public function changeCount($good, $type)
+    {
+        dd($good);
+        return [
+            'name'
+        ];
     }
 
     public function approve(Document $document)

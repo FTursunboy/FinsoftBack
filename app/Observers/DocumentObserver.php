@@ -116,6 +116,7 @@ class DocumentObserver
             ->map(function ($value, $field) use ($document) {
                return $this->getHistoryDetails($document, $value, $field);
             });
+
         ChangeHistory::create([
             'document_history_id' => $history->id,
             'body' => json_encode($value)

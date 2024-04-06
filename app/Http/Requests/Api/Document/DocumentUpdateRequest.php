@@ -34,6 +34,9 @@ class DocumentUpdateRequest extends FormRequest
             'goods.*.good_id' => ['required', Rule::exists('goods', 'id')],
             'goods.*.amount' => ['required', 'min:1'],
             'goods.*.price' => ['required', 'numeric'],
+            'goods.*.created' => ['nullable', 'bool'],
+            'goods.*.updated' => ['nullable', 'bool'],
+            'goods.*.deleted' => ['nullable', 'bool']
         ];
     }
 }
