@@ -29,7 +29,7 @@ class PermissionRepository implements PermissionRepositoryInterface
         $permissionList = $this->makePermissionArray($permissions);
 
         if (count($permissionList) > 0)
-            $permissionList[] = ['admin_panel'];
+            $permissionList[] = ['adminPanel'];
 
         $user->givePermissionTo($permissionList);
     }
