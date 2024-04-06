@@ -22,6 +22,7 @@ class CounterpartyResource extends JsonResource
             'email'=> $this->email,
             'roles' => $this->roles()->get()->pluck('id'),
             'balance' => 2500,
+            'counterpartyAgreement' => CounterpartyAgreementResource::collection($this->cpAgreement),
             'created_at' => $this->created_at,
             'deleted_at' => $this->deleted_at
         ];
