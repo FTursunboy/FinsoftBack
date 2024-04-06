@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\DocumentObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 
+#[ObservedBy([DocumentObserver::class])]
 class Document extends Model implements \App\Repositories\Contracts\SoftDeleteInterface
 {
     use SoftDeletes, Searchable, HasFactory;
@@ -20,6 +22,10 @@ class Document extends Model implements \App\Repositories\Contracts\SoftDeleteIn
     protected $keyType = 'string';
 
     public $incrementing = false;
+
+    protected $casts = [
+        'active' => 'bool'
+    ];
 
     public static function boot() {
         parent::boot();
@@ -61,6 +67,6 @@ class Document extends Model implements \App\Repositories\Contracts\SoftDeleteIn
 
     public function history(): HasMany
     {
-        return $this->hasMany(DocumentHistory::class);
+        return $this->hasMany(DocumentHistory::class)->orderBy('created_at');
     }
 }

@@ -21,11 +21,15 @@ use function PHPUnit\Framework\isFalse;
 class PermissionRepository implements PermissionRepositoryInterface
 {
 
+
     public function giveAdminPanelPermission(User $user, array $permissions)
     {
         $this->revokePermissions($user, ResourceTypes::AdminPanel);
 
         $permissionList = $this->makePermissionArray($permissions);
+
+        if (count($permissionList) > 0)
+            $permissionList[] = ['admin_panel'];
 
         $user->givePermissionTo($permissionList);
     }
@@ -41,7 +45,7 @@ class PermissionRepository implements PermissionRepositoryInterface
 
     public function getPermissions(User $user, ResourceTypes $resourceTypes): array
     {
-        $userPermissions = $user->permissionList();
+        $userPermissions = $user->permissions()->pluck('name');
 
         $resources = Resource::query()->where('type', $resourceTypes)->get();
 
@@ -57,11 +61,13 @@ class PermissionRepository implements PermissionRepositoryInterface
                 }
             }
 
-            $resourcePermissions[] = [
-                'title' => $resource->name,
-                'ru_title' => $resource->ru_name,
-                'access' => $accessList,
-            ];
+            if (count($accessList) > 0) {
+                $resourcePermissions[] = [
+                    'title' => $resource->name,
+                    'ru_title' => $resource->ru_name,
+                    'access' => $accessList,
+                ];
+            }
         }
 
         return $resourcePermissions;

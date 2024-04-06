@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AccessHandlerMiddleware;
 use App\Http\Middleware\ApiRequestLockMiddleware;
 
 use App\Http\Middleware\AtomicLockMiddleware;
@@ -24,6 +25,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        AccessHandlerMiddleware::class
     ];
 
     /**

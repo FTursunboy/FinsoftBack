@@ -12,7 +12,7 @@ interface DocumentRepositoryInterface
 {
     public function index(int $status, array $data) :LengthAwarePaginator;
 
-    public function store(DocumentDTO $DTO, int $status);
+    public function store(DocumentDTO $DTO, int $status) :Document;
 
     public function update(Document $document, DocumentDTO $DTO) :Document;
 

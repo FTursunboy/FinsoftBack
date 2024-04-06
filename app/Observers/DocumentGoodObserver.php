@@ -8,33 +8,38 @@ use App\Models\Counterparty;
 use App\Models\CounterpartyAgreement;
 use App\Models\Document;
 use App\Models\DocumentHistory;
+use App\Models\GoodDocument;
 use App\Models\Organization;
 use App\Models\Storage;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Comment\Doc;
 
-class DocumentObserver
+class DocumentGoodObserver
 {
-    public function created(Document $model): void
+    public function created(GoodDocument $model): void
     {
+        $user_id = \auth()->user()->id;
 
-        $user_id = \auth()->user()->id ?? User::factory()->create()->id;
+        $document = $model->document;
+
+
         DocumentHistory::create([
-            'status' => DocumentHistoryStatuses::CREATED,
+            'status' => DocumentHistoryStatuses::UPDATED,
             'user_id' => $user_id,
-            'document_id' => $model->id,
+            'document_id' => $model->document->id,
         ]);
     }
 
 
     public function updated(Document $model): void
     {
+        dd(1);
         $user_id = \auth()->user()->id ?? User::factory()->create()->id;
 
         if (array_key_exists('active', $model->getDirty())) {
 
-             DocumentHistory::create([
+            $documentHistory = DocumentHistory::create([
                 'status' => $model->active === true ? DocumentHistoryStatuses::APPROVED : DocumentHistoryStatuses::UNAPPROVED,
                 'user_id' => $user_id,
                 'document_id' => $model->id,

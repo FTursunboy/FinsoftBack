@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Document;
+use App\Models\GoodDocument;
+use App\Observers\DocumentGoodObserver;
 use App\Observers\DocumentObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -27,7 +29,8 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-//        Document::observe(DocumentObserver::class);
+      Document::observe(DocumentObserver::class);
+      GoodDocument::observe(DocumentGoodObserver::class);
     }
 
     /**
