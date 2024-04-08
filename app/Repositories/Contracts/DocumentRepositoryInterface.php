@@ -3,6 +3,7 @@
 namespace App\Repositories\Contracts;
 
 use App\DTO\DocumentDTO;
+use App\DTO\DocumentUpdateDTO;
 use App\Models\Document;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -14,7 +15,7 @@ interface DocumentRepositoryInterface
 
     public function store(DocumentDTO $DTO, int $status) :Document;
 
-    public function update(Document $document, DocumentDTO $DTO) :Document;
+    public function update(Document $document, DocumentUpdateDTO $DTO) :Document;
 
     public function changeHistory(Document $document);
 
