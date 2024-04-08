@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DTO\DocumentDTO;
+use App\DTO\DocumentUpdateDTO;
 use App\Enums\DocumentHistoryStatuses;
 use App\Models\Document;
 use App\Models\DocumentHistory;
@@ -62,7 +63,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     }
 
-    public function update(Document $document, DocumentDTO $dto) :Document
+    public function update(Document $document, DocumentUpdateDTO $dto) :Document
     {
         return DB::transaction(function () use ($dto, $document) {
             $document->update([
