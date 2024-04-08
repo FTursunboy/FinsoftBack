@@ -18,8 +18,6 @@ class CounterpartyAgreementRepository implements CounterpartyAgreementRepository
 
     public $model = CounterpartyAgreement::class;
 
-    public const ON_PAGE = 10;
-
     public function index(array $data): LengthAwarePaginator
     {
         $filteredParams = $this->processSearchData($data);
@@ -27,7 +25,6 @@ class CounterpartyAgreementRepository implements CounterpartyAgreementRepository
         $query = $this->search($filteredParams['search']);
 
         $query = $this->sort($filteredParams, $query, ['organization', 'counterparty', 'currency', 'payment', 'priceType']);
-
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }

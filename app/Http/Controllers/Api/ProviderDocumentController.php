@@ -21,7 +21,7 @@ class ProviderDocumentController extends Controller
 
     public function index(IndexRequest $request): JsonResponse
     {
-        return $this->success(DocumentResource::collection($this->repository->index(Status::PROVIDER_PURCHASE, $request->validated())));
+        return $this->paginate(DocumentResource::collection($this->repository->index(Status::PROVIDER_PURCHASE, $request->validated())));
     }
 
     public function purchase(DocumentRequest $request): JsonResponse
