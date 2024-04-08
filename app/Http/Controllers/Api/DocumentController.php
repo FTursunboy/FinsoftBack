@@ -2,17 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\DTO\DocumentDTO;
+use App\DTO\DocumentUpdateDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Document\DocumentRequest;
 use App\Http\Requests\Api\Document\DocumentUpdateRequest;
-use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\DocumentHistoryResource;
-use App\Http\Resources\DocumentResource;
-use App\Models\Currency;
 use App\Models\Document;
-use App\Models\Status;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
@@ -27,7 +22,7 @@ class DocumentController extends Controller
 
     public function update(Document $document, DocumentUpdateRequest $request): JsonResponse
     {
-        return $this->success($this->repository->update($document, DocumentDTO::fromRequest($request)));
+        return $this->success($this->repository->update($document, DocumentUpdateDTO::fromRequest($request)));
     }
 
     public function changeHistory(Document $document)
