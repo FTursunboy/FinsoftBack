@@ -24,7 +24,7 @@ class ClientDocumentController extends Controller
 
     public function index(IndexRequest $indexRequest): JsonResponse
     {
-        return $this->success(DocumentResource::collection($this->repository->index(Status::CLIENT_PURCHASE, $indexRequest->validated())));
+        return $this->paginate(DocumentResource::collection($this->repository->index(Status::CLIENT_PURCHASE, $indexRequest->validated())));
     }
 
     public function purchase(DocumentRequest $request): JsonResponse
