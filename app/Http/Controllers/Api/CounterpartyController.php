@@ -7,12 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Counterparty\CounterpartyRequest;
 use App\Http\Requests\Api\Counterparty\CounterpartyUpdateRequest;
 use App\Http\Requests\Api\Counterparty\FilterRequest;
-use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\CounterpartyResource;
 use App\Models\Counterparty;
 use App\Repositories\Contracts\CounterpartyRepositoryInterface;
-use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
@@ -23,7 +21,9 @@ class CounterpartyController extends Controller
 
     public function __construct(public CounterpartyRepositoryInterface $repository)
     {
+
         $this->authorizeResource(Counterparty::class, 'counterparty');
+
     }
 
     public function index(FilterRequest $request) :JsonResponse
@@ -65,5 +65,13 @@ class CounterpartyController extends Controller
     {
         return $this->success($restore->massRestore(new Counterparty(), $request->validated()));
     }
+
+    public function clients()
+    {
+        dd(1);
+    }
+
+
 }
+
 
