@@ -14,7 +14,6 @@ class DocumentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
         return [
             'id' => $this->id,
             'doc_number' => $this->doc_number,
@@ -29,7 +28,8 @@ class DocumentResource extends JsonResource
             'changes' => HistoryResource::collection($this->whenLoaded('history')),
             'comment' => $this->comment,
             'saleInteger' => $this->saleInteger,
-            'salePercent' => $this->salePercent
+            'salePercent' => $this->salePercent,
+            'goods' => DocumentGoodResource::collection($this->whenLoaded('documentGoods'))
         ];
     }
 }
