@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\DTO\DocumentDTO;
+use App\DTO\OrderDocumentDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Document\DocumentRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
 use App\Http\Resources\DocumentResource;
+use App\Http\Resources\OrderStatusResource;
 use App\Models\Document;
 use App\Models\Status;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
@@ -37,7 +39,7 @@ class ProviderDocumentController extends Controller
 
     public function show(Document $document)
     {
-        return $this->success(DocumentResource::make($document->first()->load('counterparty', 'organization', 'storage', 'author', 'counterparty_agreement', 'currency')));
+        return $this->success(DocumentResource::make($document->first()->load('counterparty', 'organization', 'storage', 'author', 'counterparty_agreement', 'currency', 'documentGoods')));
     }
 
     public function return(DocumentRequest $request): JsonResponse
@@ -52,6 +54,6 @@ class ProviderDocumentController extends Controller
 
     public function order(OrderDocumentRequest $request)
     {
-
+        return $this->created(OrderStatusResource::make($this->repository->order(OrderDocumentDTO::fromRequest($request))));
     }
 }

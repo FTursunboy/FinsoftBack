@@ -74,4 +74,9 @@ class Document extends Model implements \App\Repositories\Contracts\SoftDeleteIn
     {
         return $this->hasMany(DocumentHistory::class)->orderBy('created_at');
     }
+
+    public function documentGoods(): HasMany
+    {
+        return $this->hasMany(GoodDocument::class);
+    }
 }
