@@ -23,7 +23,7 @@ class Counterparty extends Model implements \App\Repositories\Contracts\SoftDele
 
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class, 'counterparty_roles', 'counterparty_id', 'role_id');
+        return $this->belongsToMany(Role::class,'counterparty_roles','counterparty_id','role_id');
     }
 
     public function toSearchableArray(): array

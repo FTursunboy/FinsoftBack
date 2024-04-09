@@ -6,6 +6,7 @@ use App\DTO\DocumentDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Document\DocumentRequest;
 use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
 use App\Http\Resources\DocumentResource;
 use App\Models\Document;
 use App\Models\Status;
@@ -34,6 +35,11 @@ class ProviderDocumentController extends Controller
         return $this->success(DocumentResource::collection($this->repository->index(Status::PROVIDER_PURCHASE, $request->validated())));
     }
 
+    public function show(Document $document)
+    {
+        return $this->success(DocumentResource::make($document->first()->load('counterparty', 'organization', 'storage', 'author', 'counterparty_agreement', 'currency')));
+    }
+
     public function return(DocumentRequest $request): JsonResponse
     {
         return $this->created($this->repository->store(DocumentDTO::fromRequest($request), Status::PROVIDER_RETURN));
@@ -42,5 +48,10 @@ class ProviderDocumentController extends Controller
     public function approve(Document $document)
     {
         return $this->success($this->repository->approve($document));
+    }
+
+    public function order(OrderDocumentRequest $request)
+    {
+
     }
 }

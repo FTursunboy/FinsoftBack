@@ -149,6 +149,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'counterparty'], function () {
+        Route::get('/clients/t', [CounterpartyController::class, 'clients']);
         Route::get('/restore/{counterparty}', [CounterpartyController::class, 'restore']);
         Route::post('/massDelete', [CounterpartyController::class, 'massDelete']);
         Route::post('/massRestore', [CounterpartyController::class, 'massRestore']);
@@ -200,6 +201,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::group(['prefix' => '/provider'], function () {
             Route::get('/purchaseList', [ProviderDocumentController::class, 'index']);
             Route::post('/purchase', [ProviderDocumentController::class, 'purchase']);
+            Route::get('/show/{id}', [ProviderDocumentController::class, 'show']);
 
             Route::get('/return', [ProviderDocumentController::class, 'return']);
             Route::post('/returnList', [ProviderDocumentController::class, 'returnList']);
