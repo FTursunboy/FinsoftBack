@@ -29,7 +29,6 @@ class DocumentUpdateRequest extends FormRequest
             'counterparty_agreement_id' => ['required', Rule::exists('counterparty_agreements', 'id')],
             'organization_id' => ['required', Rule::exists('organizations', 'id')],
             'storage_id' => ['required', Rule::exists('storages', 'id')],
-            'author_id' => ['required', Rule::exists('users', 'id')],
             'goods' => ['nullable', 'array'],
             'goods.*.good_id' => ['required', Rule::exists('goods', 'id')],
             'goods.*.amount' => ['required', 'min:1'],

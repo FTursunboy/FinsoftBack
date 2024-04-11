@@ -30,7 +30,7 @@ class OrderDocumentRequest extends FormRequest
             'organization_id' => ['required', Rule::exists('organizations', 'id')],
             'currency_id' => ['required', Rule::exists('currencies', 'id')],
             'shipping_date' => ['nullable', 'date'],
-            'order_status_id' => ['nullable', Rule::exists('order_statuses', 'id')],
+            'order_status_id' => ['nullable', Rule::exists('order_statuses', 'id'), Rule::requiredIf('')],
             'comment' => [''],
             'summa' => ['required', 'numeric'],
             'goods' => ['nullable', 'array'],
