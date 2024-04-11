@@ -34,6 +34,8 @@ class DocumentRepository implements DocumentRepositoryInterface
 
         $query = $this->model::query()->where('status_id', $status);
 
+        $query = $this->search($query, $filteredParams);
+
         $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency']);
 
         return $query->paginate($filteredParams['itemsPerPage']);
@@ -222,5 +224,29 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'updated_at' => Carbon::now()
             ];
         }, $goods);
+    }
+
+    public function search($query, array $data)
+    {
+        $searchTerm = explode(' ', $data['search']);
+
+        return $query->where(function ($query) use ($searchTerm) {
+            $query->where('doc_number', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhereHas('counterparty', function ($query) use ($searchTerm) {
+                    return $query->where('counterparties.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('organization', function ($query) use ($searchTerm) {
+                    return $query->where('organizations.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('storage', function ($query) use ($searchTerm) {
+                    return $query->where('storages.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('author', function ($query) use ($searchTerm) {
+                    return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('currency', function ($query) use ($searchTerm) {
+                    return $query->where('currencies.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                });
+        });
     }
 }
