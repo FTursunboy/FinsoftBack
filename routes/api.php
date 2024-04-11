@@ -201,12 +201,12 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::group(['prefix' => '/provider'], function () {
             Route::get('/purchaseList', [ProviderDocumentController::class, 'index']);
             Route::post('/purchase', [ProviderDocumentController::class, 'purchase']);
-            Route::get('/show/{document}', [ProviderDocumentController::class, 'show']);
 
             Route::get('/return', [ProviderDocumentController::class, 'return']);
             Route::post('/returnList', [ProviderDocumentController::class, 'returnList']);
 
             Route::post('/order', [ProviderDocumentController::class, 'order']);
+            Route::get('order/show/{document}', [ProviderDocumentController::class, 'showOrder']);
         });
 
         Route::group(['prefix' => '/client'], function () {
@@ -215,9 +215,13 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
             Route::get('/returnList', [ClientDocumentController::class, 'returnList']);
             Route::post('/return', [ClientDocumentController::class, 'return']);
+
+            Route::post('/order', [ProviderDocumentController::class, 'order']);
+            Route::get('order/show/{document}', [ProviderDocumentController::class, 'showOrder']);
         });
 
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
+        Route::get('/show/{document}', [ProviderDocumentController::class, 'show']);
 
         Route::get('/changeHistory/{document}', [DocumentController::class, 'changeHistory']);
 

@@ -29,7 +29,8 @@ class OrderDocumentResource extends JsonResource
             'changes' => HistoryResource::collection($this->whenLoaded('history')),
             'comment' => $this->comment,
             'summa' => $this->summa,
-            'shippingDate' => $this->shipping_date
+            'shippingDate' => $this->shipping_date,
+            'orderGoods' => OrderDocumentGoodResource::collection($this->whenLoaded('orderDocumentGoods'))
         ];
     }
 }
