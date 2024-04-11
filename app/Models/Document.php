@@ -21,6 +21,8 @@ class Document extends Model implements \App\Repositories\Contracts\SoftDeleteIn
 
     protected $keyType = 'string';
 
+    protected $primaryKey = 'id';
+
     public $incrementing = false;
 
     protected $casts = [
@@ -65,7 +67,7 @@ class Document extends Model implements \App\Repositories\Contracts\SoftDeleteIn
         return $this->belongsTo(Currency::class, 'currency_id');
     }
 
-    public function counterparty_agreement(): BelongsTo
+    public function counterpartyAgreement(): BelongsTo
     {
         return $this->belongsTo(CounterpartyAgreement::class, 'counterparty_agreement_id');
     }
@@ -77,6 +79,6 @@ class Document extends Model implements \App\Repositories\Contracts\SoftDeleteIn
 
     public function documentGoods(): HasMany
     {
-        return $this->hasMany(GoodDocument::class);
+        return $this->hasMany(GoodDocument::class, 'document_id', 'id');
     }
 }

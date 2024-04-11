@@ -14,7 +14,7 @@ class GoodDocument extends Model
     use SoftDeletes;
 
 
-    protected $guarded = false;
+    protected $fillable = ['good_id', 'amount', 'price', 'document_id', 'deleted_at'];
 
     public function document(): BelongsTo
     {
@@ -25,8 +25,6 @@ class GoodDocument extends Model
     {
         return $this->belongsTo(Good::class, 'good_id');
     }
-
-
 
 }
 

@@ -201,7 +201,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::group(['prefix' => '/provider'], function () {
             Route::get('/purchaseList', [ProviderDocumentController::class, 'index']);
             Route::post('/purchase', [ProviderDocumentController::class, 'purchase']);
-            Route::get('/show/{id}', [ProviderDocumentController::class, 'show']);
+            Route::get('/show/{document}', [ProviderDocumentController::class, 'show']);
 
             Route::get('/return', [ProviderDocumentController::class, 'return']);
             Route::post('/returnList', [ProviderDocumentController::class, 'returnList']);

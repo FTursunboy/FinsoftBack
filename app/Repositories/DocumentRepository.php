@@ -34,7 +34,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
         $query = $this->model::query()->where('status_id', $status);
 
-        $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'storage', 'author', 'counterparty_agreement', 'currency']);
+        $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency']);
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }
@@ -61,7 +61,7 @@ class DocumentRepository implements DocumentRepositoryInterface
                 GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
 
-            return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterparty_agreement', 'currency']);
+            return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency']);
         });
 
     }
