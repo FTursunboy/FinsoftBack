@@ -97,7 +97,7 @@ class DocumentRepository implements DocumentRepositoryInterface
     {
         return DB::transaction(function () use ($DTO) {
             $document = OrderDocument::create([
-                'doc_number' => $this->uniqueNumber(),
+                'doc_number' => $this->orderUniqueNumber(),
                 'date' => $DTO->date,
                 'counterparty_id' => $DTO->counterparty_id,
                 'counterparty_agreement_id' => $DTO->counterparty_agreement_id,
@@ -113,13 +113,26 @@ class DocumentRepository implements DocumentRepositoryInterface
             if (!is_null($DTO->goods))
                 OrderDocumentGoods::insert($this->orderGoods($document, $DTO->goods));
 
-            return $document;
+            return $document->load('counterparty','organization','author','currency','counterpartyAgreement');
         });
     }
 
     public function uniqueNumber(): string
     {
         $lastRecord = Document::query()->orderBy('doc_number', 'desc')->first();
+
+        if (!$lastRecord) {
+            $lastNumber = 1;
+        } else {
+            $lastNumber = (int)$lastRecord->doc_number + 1;
+        }
+
+        return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
+    }
+
+    public function orderUniqueNumber(): string
+    {
+        $lastRecord = OrderDocument::query()->orderBy('doc_number', 'desc')->first();
 
         if (!$lastRecord) {
             $lastNumber = 1;

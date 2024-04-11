@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\DTO\DocumentDTO;
+use App\DTO\OrderDocumentDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Document\DocumentRequest;
 use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\DocumentResource;
+use App\Http\Resources\OrderDocumentResource;
 use App\Models\Document;
+use App\Models\OrderDocument;
 use App\Models\Status;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Repositories\Contracts\MassDeleteInterface;
@@ -50,5 +54,15 @@ class ClientDocumentController extends Controller
     public function massRestore(IdRequest $request, MassOperationInterface $restore)
     {
         return $this->success($restore->massRestore(new Document(), $request->validated()));
+    }
+
+    public function order(OrderDocumentRequest $request)
+    {
+        return $this->created(OrderDocumentResource::make($this->repository->order(OrderDocumentDTO::fromRequest($request))));
+    }
+
+    public function showOrder(OrderDocument $document)
+    {
+        return $this->success(OrderDocumentResource::make($document->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods')));
     }
 }
