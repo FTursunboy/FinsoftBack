@@ -70,7 +70,7 @@ class DocumentRepository implements DocumentRepositoryInterface
     {
         return DB::transaction(function () use ($dto, $document) {
             $document->update([
-                'doc_number' => $this->uniqueNumber(),
+                'doc_number' => $document->doc_number,
                 'date' => $dto->date,
                 'counterparty_id' => $dto->counterparty_id,
                 'counterparty_agreement_id' => $dto->counterparty_agreement_id,

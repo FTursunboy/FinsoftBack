@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api\OrderDocument;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class OrderDocumentRequest extends FormRequest
@@ -30,7 +31,9 @@ class OrderDocumentRequest extends FormRequest
             'organization_id' => ['required', Rule::exists('organizations', 'id')],
             'currency_id' => ['required', Rule::exists('currencies', 'id')],
             'shipping_date' => ['nullable', 'date'],
-            'order_status_id' => ['nullable', Rule::exists('order_statuses', 'id'), Rule::requiredIf('')],
+            'order_status_id' => ['nullable', Rule::exists('order_statuses', 'id'), Rule::requiredIf(function () {
+                return Str::contains(app()->request->url(), 'client/order');
+            })],
             'comment' => [''],
             'summa' => ['required', 'numeric'],
             'goods' => ['nullable', 'array'],
