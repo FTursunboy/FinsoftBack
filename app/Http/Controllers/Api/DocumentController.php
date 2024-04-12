@@ -12,6 +12,7 @@ use App\Http\Resources\DocumentHistoryResource;
 use App\Http\Resources\UserResource;
 use App\Models\Document;
 use App\Models\OrderDocument;
+use App\Models\Status;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
@@ -61,6 +62,6 @@ class DocumentController extends Controller
 
     public function documentAuthor()
     {
-        return $this->success(UserResource::collection($this->repository->documentAuthor()));
+        return $this->success(UserResource::collection($this->repository->documentAuthor(Status::PROVIDER_PURCHASE)));
     }
 }
