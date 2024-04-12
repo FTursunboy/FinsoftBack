@@ -12,6 +12,7 @@ use App\Models\Good;
 use App\Models\GoodDocument;
 use App\Models\OrderDocument;
 use App\Models\OrderDocumentGoods;
+use App\Models\OrderType;
 use App\Models\Status;
 use App\Models\User;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
@@ -44,11 +45,11 @@ class DocumentRepository implements DocumentRepositoryInterface
         return $query->paginate($filteredParams['itemsPerPage']);
     }
 
-    public function orderList(array $data): LengthAwarePaginator
+    public function orderList(array $data, OrderType $type): LengthAwarePaginator
     {
         $filteredParams = OrderDocument::filter($data);
 
-        $query = OrderDocument::query();
+        $query = OrderDocument::query()->where('order_type_id', $type->id);
 
         $query = $this->orderSearch($query, $filteredParams);
 
@@ -140,9 +141,9 @@ class DocumentRepository implements DocumentRepositoryInterface
         });
     }
 
-    public function order(OrderDocumentDTO $DTO)
+    public function order(OrderDocumentDTO $DTO, OrderType $type)
     {
-        return DB::transaction(function () use ($DTO) {
+        return DB::transaction(function () use ($DTO, $type) {
             $document = OrderDocument::create([
                 'doc_number' => $this->orderUniqueNumber(),
                 'date' => Carbon::parse($DTO->date),
@@ -154,7 +155,8 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'comment' => $DTO->comment,
                 'summa' => $DTO->summa,
                 'shipping_date' => $DTO->shipping_date,
-                'currency_id' => $DTO->currency_id
+                'currency_id' => $DTO->currency_id,
+                'order_type_id' => $type,
             ]);
 
             if (!is_null($DTO->goods))

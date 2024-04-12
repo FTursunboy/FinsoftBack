@@ -14,6 +14,7 @@ use App\Http\Resources\DocumentResource;
 use App\Http\Resources\OrderDocumentResource;
 use App\Models\Document;
 use App\Models\OrderDocument;
+use App\Models\OrderType;
 use App\Models\Status;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Repositories\Contracts\MassDeleteInterface;
@@ -59,12 +60,12 @@ class ClientDocumentController extends Controller
 
     public function orderList(FilterRequest $request): JsonResponse
     {
-        return $this->paginate(OrderDocumentResource::collection($this->repository->orderList($request->validated())));
+        return $this->paginate(OrderDocumentResource::collection($this->repository->orderList($request->validated(), OrderType::CLIENT)));
     }
 
     public function order(OrderDocumentRequest $request)
     {
-        return $this->created(OrderDocumentResource::make($this->repository->order(OrderDocumentDTO::fromRequest($request))));
+        return $this->created(OrderDocumentResource::make($this->repository->order(OrderDocumentDTO::fromRequest($request, OrderType::CLIENT))));
     }
 
     public function showOrder(OrderDocument $document)

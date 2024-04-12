@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             SettingsSeeder::class,
             ResourceSeeder::class,
             PermissionSeeder::class,
+            OrderTypeSeeder::class,
         ]);
 
         Role::create([
