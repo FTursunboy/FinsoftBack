@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('amount');
             $table->decimal('price', 10, 2);
             $table->foreignUuid('order_document_id')->constrained();
-            $table->integer('auto_sale_percent');
-            $table->decimal('auto_sale_sum');
+            $table->integer('auto_sale_percent')->nullable();
+            $table->decimal('auto_sale_sum')->nullable();
             $table->timestamps();
         });
     }
