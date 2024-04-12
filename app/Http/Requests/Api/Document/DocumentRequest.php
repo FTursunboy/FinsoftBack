@@ -36,7 +36,9 @@ class DocumentRequest extends FormRequest
             'goods' => ['nullable', 'array'],
             'goods.*.good_id' => ['required', Rule::exists('goods', 'id')],
             'goods.*.amount' => ['required', 'min:1'],
-            'goods.*.price' => ['required', 'numeric']
+            'goods.*.price' => ['required', 'numeric'],
+            'goods.*.auto_sale_percent' => ['nullable', 'numeric'],
+            'goods.*.auto_sale_sum' => ['nullable', 'numeric'],
         ];
     }
 
@@ -52,7 +54,6 @@ class DocumentRequest extends FormRequest
             'organization_id.exists' => 'Выбранное значение для поле договор контрагента не существует.',
             'storage_id.required' => 'Поле склад обязательно для заполнения.',
             'storage_id.exists' => 'Выбранное значение для поле склад не существует.',
-
         ];
     }
 }

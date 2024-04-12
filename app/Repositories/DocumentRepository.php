@@ -219,6 +219,8 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'amount' => $item['amount'],
                 'price' => $item['price'],
                 'document_id' => $document->id,
+                'auto_sale_percent' => $item['auto_sale_percent'] ?? null,
+                'auto_sale_sum' => $item['auto_sale_sum'] ?? null,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ];
@@ -254,8 +256,8 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'good_id' => $item['good_id'],
                 'amount' => $item['amount'],
                 'price' => $item['price'],
-                'auto_sale_percent' => $item['auto_sale_percent'] ?? 1,
-                'auto_sale_sum' => $item['auto_sale_sum'] ?? 1,
+                'auto_sale_percent' => $item['auto_sale_percent'] ?? null,
+                'auto_sale_sum' => $item['auto_sale_sum'] ?? null,
                 'order_document_id' => $document->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
