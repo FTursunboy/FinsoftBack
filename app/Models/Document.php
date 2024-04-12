@@ -94,6 +94,7 @@ class Document extends Model implements \App\Repositories\Contracts\SoftDeleteIn
             'organization_id' => $data['filterData']['organization_id'] ?? null,
             'counterparty_agreement_id' => $data['filterData']['counterparty_agreement_id'] ?? null,
             'storage_id' => $data['filterData']['storage_id'] ?? null,
+            'date' => $data['filterData']['date'] ?? null,
         ];
     }
 }
