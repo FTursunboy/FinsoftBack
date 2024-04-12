@@ -357,7 +357,9 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function documentAuthor(int $status)
     {
-         return $this->model::where('status_id', $status);
-
+         return User::select('users.*')
+             ->join('documents', 'documents.author_id', '=', 'users.id')
+             ->distinct()
+             ->get();
     }
 }
