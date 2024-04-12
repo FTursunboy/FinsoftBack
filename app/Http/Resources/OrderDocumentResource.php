@@ -25,7 +25,7 @@ class OrderDocumentResource extends JsonResource
             'orderStatus' => OrderStatusResource::make($this->whenLoaded('orderStatus')),
             'author' => UserResource::make($this->whenLoaded('author')),
             'currency' => CurrencyResource::make($this->whenLoaded('currency')),
-            'deleted_at' => $this->deleted_at,
+            'deleted_at' => $this->deleted_at ?? null,
             'changes' => HistoryResource::collection($this->whenLoaded('history')),
             'comment' => $this->comment,
             'summa' => $this->summa,

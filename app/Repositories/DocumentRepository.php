@@ -30,13 +30,30 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function index(int $status, array $data): LengthAwarePaginator
     {
-        $filteredParams = $this->processSearchData($data);
+        $filteredParams = $this->model::filter($data);
 
         $query = $this->model::query()->where('status_id', $status);
 
         $query = $this->search($query, $filteredParams);
 
+        $query = $this->filter($query, $filteredParams);
+
         $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency']);
+
+        return $query->paginate($filteredParams['itemsPerPage']);
+    }
+
+    public function orderList(array $data): LengthAwarePaginator
+    {
+        $filteredParams = OrderDocument::filter($data);
+
+        $query = OrderDocument::query();
+
+        $query = $this->orderSearch($query, $filteredParams);
+
+        $query = $this->orderFilter($query, $filteredParams);
+
+        $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'orderStatus', 'author', 'counterpartyAgreement', 'currency']);
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }
@@ -100,7 +117,7 @@ class DocumentRepository implements DocumentRepositoryInterface
         return DB::transaction(function () use ($DTO) {
             $document = OrderDocument::create([
                 'doc_number' => $this->orderUniqueNumber(),
-                'date' => $DTO->date,
+                'date' => Carbon::parse($DTO->date),
                 'counterparty_id' => $DTO->counterparty_id,
                 'counterparty_agreement_id' => $DTO->counterparty_agreement_id,
                 'organization_id' => $DTO->organization_id,
@@ -180,14 +197,6 @@ class DocumentRepository implements DocumentRepositoryInterface
         }, $goods);
     }
 
-    public function changeCount($good, $type)
-    {
-        dd($good);
-        return [
-            'name'
-        ];
-    }
-
     public function approve(Document $document)
     {
 
@@ -210,15 +219,15 @@ class DocumentRepository implements DocumentRepositoryInterface
         return $document->load(['history.changes', 'history.user']);
     }
 
-    public function orderGoods(OrderDocument $document, array $goods)
+    public function orderGoods(OrderDocument $document, array $goods): array
     {
         return array_map(function ($item) use ($document) {
             return [
                 'good_id' => $item['good_id'],
                 'amount' => $item['amount'],
                 'price' => $item['price'],
-                'auto_sale_percent' => $item['auto_sale_percent'],
-                'auto_sale_sum' => $item['auto_sale_sum'],
+                'auto_sale_percent' => $item['auto_sale_percent'] ?? 1,
+                'auto_sale_sum' => $item['auto_sale_sum'] ?? 1,
                 'order_document_id' => $document->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
@@ -248,5 +257,73 @@ class DocumentRepository implements DocumentRepositoryInterface
                     return $query->where('currencies.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 });
         });
+    }
+
+    public function orderSearch($query, array $data)
+    {
+        $searchTerm = explode(' ', $data['search']);
+
+        return $query->where(function ($query) use ($searchTerm) {
+            $query->where('doc_number', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhereHas('counterparty', function ($query) use ($searchTerm) {
+                    return $query->where('counterparties.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('organization', function ($query) use ($searchTerm) {
+                    return $query->where('organizations.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+//                ->orWhereHas('order_status', function ($query) use ($searchTerm) {
+//                    return $query->where('order_statuses.name', 'like', '%' . implode('%', $searchTerm) . '%');
+//                })
+                ->orWhereHas('author', function ($query) use ($searchTerm) {
+                    return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('currency', function ($query) use ($searchTerm) {
+                    return $query->where('currencies.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                });
+        });
+    }
+
+    public function filter($query, array $data)
+    {
+        return $query->when($data['currency_id'], function ($query) use ($data) {
+            return $query->where('currency_id', $data['currency_id']);
+        })
+            ->when($data['counterparty_id'], function ($query) use ($data) {
+                return $query->where('counterparty_id', $data['counterparty_id']);
+            })
+            ->when($data['organization_id'], function ($query) use ($data) {
+                return $query->where('organization_id', $data['organization_id']);
+            })
+            ->when($data['counterparty_agreement_id'], function ($query) use ($data) {
+                return $query->where('counterparty_agreement_id', $data['counterparty_agreement_id']);
+            })
+            ->when($data['storage_id'], function ($query) use ($data) {
+                return $query->where('storage_id', $data['storage_id']);
+            })
+            ->when($data['date'], function ($query) use ($data) {
+                return $query->where('date', $data['date']);
+            });
+    }
+
+    public function orderFilter($query, array $data)
+    {
+        return $query->when($data['currency_id'], function ($query) use ($data) {
+            return $query->where('currency_id', $data['currency_id']);
+        })
+            ->when($data['counterparty_id'], function ($query) use ($data) {
+                return $query->where('counterparty_id', $data['counterparty_id']);
+            })
+            ->when($data['order_status_id'], function ($query) use ($data) {
+                return $query->where('order_status_id', $data['order_status_id']);
+            })
+            ->when($data['organization_id'], function ($query) use ($data) {
+                return $query->where('organization_id', $data['organization_id']);
+            })
+            ->when($data['counterparty_agreement_id'], function ($query) use ($data) {
+                return $query->where('counterparty_agreement_id', $data['counterparty_agreement_id']);
+            })
+            ->when($data['date'], function ($query) use ($data) {
+                return $query->where('date', $data['date']);
+            });
     }
 }

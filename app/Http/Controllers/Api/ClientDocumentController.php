@@ -6,6 +6,7 @@ use App\DTO\DocumentDTO;
 use App\DTO\OrderDocumentDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Document\DocumentRequest;
+use App\Http\Requests\Api\Document\FilterRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
 use App\Http\Requests\IdRequest;
@@ -54,6 +55,11 @@ class ClientDocumentController extends Controller
     public function massRestore(IdRequest $request, MassOperationInterface $restore)
     {
         return $this->success($restore->massRestore(new Document(), $request->validated()));
+    }
+
+    public function orderList(FilterRequest $request): JsonResponse
+    {
+        return $this->paginate(OrderDocumentResource::collection($this->repository->orderList($request->validated())));
     }
 
     public function order(OrderDocumentRequest $request)
