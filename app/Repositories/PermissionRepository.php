@@ -90,7 +90,6 @@ class PermissionRepository implements PermissionRepositoryInterface
         $user->givePermissionTo($permissions['permissions']);
     }
 
-
     private function revokePermissions(User $user, ResourceTypes $type): void
     {
         $permissionsToRevoke = [];

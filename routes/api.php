@@ -224,6 +224,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
         Route::patch('/update-order/{document}', [DocumentController::class, 'updateOrder']);
         Route::get('/show/{document}', [ProviderDocumentController::class, 'show']);
+        Route::get('/document-author', [DocumentController::class, 'documentAuthor']);
 
         Route::get('/changeHistory/{document}', [DocumentController::class, 'changeHistory']);
 

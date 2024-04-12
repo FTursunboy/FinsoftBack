@@ -9,6 +9,7 @@ use App\Http\Requests\Api\Document\DocumentUpdateRequest;
 use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\DocumentHistoryResource;
+use App\Http\Resources\UserResource;
 use App\Models\Document;
 use App\Models\OrderDocument;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
@@ -56,5 +57,10 @@ class DocumentController extends Controller
     public function massRestore(IdRequest $request, MassOperationInterface $restore)
     {
         return $this->success($restore->massRestore(new Document(), $request->validated()));
+    }
+
+    public function documentAuthor()
+    {
+        return $this->success(UserResource::collection($this->repository->documentAuthor()));
     }
 }
