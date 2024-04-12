@@ -26,4 +26,6 @@ interface DocumentRepositoryInterface
     public function approve(Document $document);
 
     public function unApprove(Document $document);
+
+    public function documentAuthor(int $status);
 }

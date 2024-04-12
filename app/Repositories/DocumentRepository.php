@@ -13,6 +13,7 @@ use App\Models\GoodDocument;
 use App\Models\OrderDocument;
 use App\Models\OrderDocumentGoods;
 use App\Models\Status;
+use App\Models\User;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
@@ -352,5 +353,11 @@ class DocumentRepository implements DocumentRepositoryInterface
             ->when($data['date'], function ($query) use ($data) {
                 return $query->where('date', $data['date']);
             });
+    }
+
+    public function documentAuthor(int $status)
+    {
+         return $this->model::where('status_id', $status);
+
     }
 }
