@@ -50,8 +50,29 @@ class OrderDocument extends Model
         return $this->belongsTo(CounterpartyAgreement::class, 'counterparty_agreement_id');
     }
 
+    public function orderStatus(): BelongsTo
+    {
+        return $this->belongsTo(OrderStatus::class, 'order_status_id');
+    }
+
     public function orderDocumentGoods(): HasMany
     {
         return $this->hasMany(OrderDocumentGoods::class, 'order_document_id', 'id');
+    }
+
+    public static function filter(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'orderBy' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'currency_id' => $data['filterData']['currency_id'] ?? null,
+            'counterparty_id' => $data['filterData']['counterparty_id'] ?? null,
+            'organization_id' => $data['filterData']['organization_id'] ?? null,
+            'counterparty_agreement_id' => $data['filterData']['counterparty_agreement_id'] ?? null,
+            'order_status_id' => $data['filterData']['order_status_id'] ?? null,
+            'date' => $data['filterData']['date'] ?? null,
+        ];
     }
 }

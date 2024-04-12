@@ -89,6 +89,11 @@ class Document extends Model implements \App\Repositories\Contracts\SoftDeleteIn
             'orderBy' => $data['orderBy'] ?? null,
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'currency_id' => $data['filterData']['currency_id'] ?? null,
+            'counterparty_id' => $data['filterData']['counterparty_id'] ?? null,
+            'organization_id' => $data['filterData']['organization_id'] ?? null,
+            'counterparty_agreement_id' => $data['filterData']['counterparty_agreement_id'] ?? null,
+            'storage_id' => $data['filterData']['storage_id'] ?? null,
         ];
     }
 }

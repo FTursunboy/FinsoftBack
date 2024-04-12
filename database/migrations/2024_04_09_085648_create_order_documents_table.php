@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('comment')->nullable();
             $table->foreignId('currency_id')->constrained();
             $table->decimal('summa', 10, 2);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
