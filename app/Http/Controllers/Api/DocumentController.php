@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\DTO\DocumentUpdateDTO;
+use App\DTO\OrderDocumentDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Document\DocumentUpdateRequest;
+use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\DocumentHistoryResource;
 use App\Models\Document;
+use App\Models\OrderDocument;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
@@ -23,6 +26,11 @@ class DocumentController extends Controller
     public function update(Document $document, DocumentUpdateRequest $request): JsonResponse
     {
         return $this->success($this->repository->update($document, DocumentUpdateDTO::fromRequest($request)));
+    }
+
+    public function updateOrder(OrderDocument $document, OrderDocumentRequest $request): JsonResponse
+    {
+        return $this->success($this->repository->updateOrder($document, OrderDocumentDTO::fromRequest($request)));
     }
 
     public function changeHistory(Document $document)
