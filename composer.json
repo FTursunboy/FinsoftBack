@@ -15,6 +15,7 @@
         "laravel/scout": "^10.8",
         "laravel/telescope": "^5.0",
         "laravel/tinker": "^2.8",
+        "nativephp/electron": "^0.5.0",
         "spatie/laravel-permission": "^6.3"
     },
     "require-dev": {
