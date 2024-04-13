@@ -23,6 +23,12 @@ class MovementDocument extends Model
         'comment',
     ];
 
+    protected $keyType = 'string';
+
+    protected $primaryKey = 'id';
+
+    public $incrementing = false;
+
 
 
     public static function boot() {
