@@ -23,9 +23,7 @@ class MovementDocument extends Model
         'comment',
     ];
 
-    protected $casts = [
-        'date' => 'carbon',
-    ];
+
 
     public static function boot() {
         parent::boot();
