@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('good_id')->constrained();
             $table->integer('amount');
             $table->decimal('price', 10, 2)->nullable();
-            $table->foreignUuid('document_id')->constrained();
+            $table->foreignUuid('document_id');
             $table->integer('auto_sale_percent')->nullable();
             $table->decimal('auto_sale_sum')->nullable();
             $table->softDeletes();
