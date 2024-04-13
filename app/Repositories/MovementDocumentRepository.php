@@ -159,24 +159,16 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
     public function search($query, array $data)
     {
-        $searchTerm = explode(' ', $data['search']);
+        $search = $data['search'] ?? null;
+        $searchTerm = explode(' ', $search);
 
         return $query->where(function ($query) use ($searchTerm) {
             $query->where('doc_number', 'like', '%' . implode('%', $searchTerm) . '%')
-                ->orWhereHas('counterparty', function ($query) use ($searchTerm) {
-                    return $query->where('counterparties.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
                 ->orWhereHas('organization', function ($query) use ($searchTerm) {
                     return $query->where('organizations.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 })
-                ->orWhereHas('storage', function ($query) use ($searchTerm) {
-                    return $query->where('storages.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
                 ->orWhereHas('author', function ($query) use ($searchTerm) {
                     return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-                ->orWhereHas('currency', function ($query) use ($searchTerm) {
-                    return $query->where('currencies.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 });
         });
     }
