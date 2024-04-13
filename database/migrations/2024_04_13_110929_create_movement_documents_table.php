@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('movement_documents', function (Blueprint $table) {
-            $table->uuid();
+            $table->uuid('id');
             $table->string('doc_number')->unique();
             $table->date('date');
             $table->unsignedBigInteger('organization_id');
