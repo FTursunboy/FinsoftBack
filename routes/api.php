@@ -29,6 +29,7 @@ use App\Http\Controllers\Api\StorageEmployeeController;
 use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\UserController;
 
+use App\Http\Controllers\MovementDocumentController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
@@ -220,6 +221,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('/order', [ClientDocumentController::class, 'order']);
             Route::get('order/show/{document}', [ClientDocumentController::class, 'showOrder']);
         });
+
+        Route::resource('movement', MovementDocumentController::class)->except('destroy');
 
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
         Route::patch('/update-order/{document}', [DocumentController::class, 'updateOrder']);
