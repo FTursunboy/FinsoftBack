@@ -78,11 +78,10 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
                 'sender_storage_id' => $dto->sender_storage_id,
                 'recipient_storage_id' => $dto->sender_storage_id
             ]);
-//
-//            if (!is_null($dto->goods)) {
-//
-//                GoodDocument::query()->updateOrInsert(...$this->insertGoodDocuments($dto->goods, $document));
-//            }
+
+            if (!is_null($dto->goods)) {
+                GoodDocument::query()->updateOrInsert(...$this->insertGoodDocuments($dto->goods, $document));
+            }
 
             return $document;
 
@@ -93,7 +92,7 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
     public function uniqueNumber(): string
     {
-        $lastRecord = Document::query()->orderBy('doc_number', 'desc')->first();
+        $lastRecord = MovementDocument::query()->orderBy('doc_number', 'desc')->first();
 
         if (!$lastRecord) {
             $lastNumber = 1;
@@ -140,7 +139,6 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
     public function approve(Document $document)
     {
-
         $document->update(
             ['active' => true]
         );
@@ -148,7 +146,6 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
     public function unApprove(Document $document)
     {
-
         $document->update(
             ['active' => false]
         );

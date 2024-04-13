@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -56,7 +57,12 @@ class MovementDocument extends Model
 
     public function recipientStorage(): BelongsTo
     {
-        return $this->belongsTo(Storage::class, 'recipinet_storage_id');
+        return $this->belongsTo(Storage::class, 'recipient_storage_id');
+    }
+
+    public function goods(): HasMany
+    {
+        return $this->hasMany(Good::class, 'document_id');
     }
 
     public function organization(): BelongsTo
