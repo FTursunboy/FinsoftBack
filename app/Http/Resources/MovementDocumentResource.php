@@ -13,7 +13,6 @@ class MovementDocumentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'uuid' => $this->uuid,
             'doc_number' => $this->doc_number,
             'date' => $this->date,
             'organization_id' => OrganizationResource::make($this->whenLoaded('organization')),
@@ -21,6 +20,7 @@ class MovementDocumentResource extends JsonResource
             'recipient_storage_id' => StorageResource::make($this->whenLoaded('recipientStorage')),
             'author_id' => UserResource::make($this->whenLoaded('author')),
             'comment' => $this->comment,
+            'goods' => $this->goods()
         ];
     }
 }
