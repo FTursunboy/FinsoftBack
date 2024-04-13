@@ -27,7 +27,7 @@ class MovementDocumentController extends Controller
     {
         $this->authorize('create', MovementDocument::class);
 
-        return new MovementDocumentResource($this->service->store(MovementDocumentDTO::fromRequest($request->validated())));
+        return new MovementDocumentResource($this->service->store(MovementDocumentDTO::fromRequest($request)));
     }
 
     public function show(MovementDocument $movementDocument)
@@ -41,7 +41,7 @@ class MovementDocumentController extends Controller
     {
         $this->authorize('update', $movementDocument);
 
-        return new MovementDocumentResource($this->success($this->service->update($movementDocument, MovementDocumentDTO::fromRequest($request->validated()))));
+        return new MovementDocumentResource($this->success($this->service->update($movementDocument, MovementDocumentDTO::fromRequest($request))));
     }
 
     public function destroy(MovementDocument $movementDocument)

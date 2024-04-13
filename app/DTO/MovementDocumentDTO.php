@@ -2,8 +2,7 @@
 
 namespace App\DTO;
 
-use App\Http\Requests\Api\Document\DocumentRequest;
-use App\Http\Requests\MovementDocumentRequest;
+use App\Http\Requests\Api\MovementDocument\MovementDocumentRequest;
 use Illuminate\Http\Request;
 
 class MovementDocumentDTO
