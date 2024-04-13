@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\MovementDocument;
 
+use App\Models\MovementDocument;
 use Illuminate\Foundation\Http\FormRequest;
 
 class FilterRequest extends FormRequest
@@ -33,8 +34,6 @@ class FilterRequest extends FormRequest
 
     private function getModel()
     {
-        $repository = $this->route()->getController();
-
-        return app($repository->repository->model);
+        return app(MovementDocument::class);
     }
 }

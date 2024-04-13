@@ -20,7 +20,7 @@ class MovementDocumentController extends Controller
     {
         $this->authorize('viewAny', MovementDocument::class);
 
-        return MovementDocumentResource::collection($this->service->index($request->validated()));
+        return $this->paginate(MovementDocumentResource::collection($this->service->index($request->validated())));
     }
 
     public function store(MovementDocumentRequest $request)
