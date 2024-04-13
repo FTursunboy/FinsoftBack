@@ -22,6 +22,7 @@ use App\Repositories\Contracts\GroupRepositoryInterface;
 use App\Repositories\Contracts\ImageRepositoryInterface;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
+use App\Repositories\Contracts\MovementDocumentRepositoryInterface;
 use App\Repositories\Contracts\OrganizationBillRepositoryInterface;
 use App\Repositories\Contracts\OrganizationRepositoryInterface;
 use App\Repositories\Contracts\PermissionRepositoryInterface;
@@ -42,6 +43,7 @@ use App\Repositories\GoodRepository;
 use App\Repositories\GroupRepository;
 use App\Repositories\ImageRepository;
 use App\Repositories\MassOperation;
+use App\Repositories\MovementDocumentRepository;
 use App\Repositories\OrganizationBillRepository;
 use App\Repositories\OrganizationRepository;
 use App\Repositories\PermissionRepository;
@@ -84,7 +86,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(BarcodeRepositoryInterface::class, BarcodeRepository::class);
         $this->app->singleton(ImageRepositoryInterface::class, ImageRepository::class);
         $this->app->singleton(PermissionRepositoryInterface::class, PermissionRepository::class);
-
+        $this->app->singleton(MovementDocumentRepositoryInterface::class, MovementDocumentRepository::class);
 
     }
 
