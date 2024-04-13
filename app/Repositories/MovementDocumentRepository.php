@@ -33,7 +33,7 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
     public $model = MovementDocument::class;
 
-    public function index(int $status, array $data): LengthAwarePaginator
+    public function index(array $data): LengthAwarePaginator
     {
         $filteredParams = $this->model::filter($data);
 
@@ -68,27 +68,21 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
         });
     }
 
-    public function update(Document $document, DocumentUpdateDTO $dto): Document
+    public function update(MovementDocument $document, MovementDocumentDTO $dto): Document
     {
         return DB::transaction(function () use ($dto, $document) {
             $document->update([
-                'doc_number' => $document->doc_number,
                 'date' => $dto->date,
-                'counterparty_id' => $dto->counterparty_id,
-                'counterparty_agreement_id' => $dto->counterparty_agreement_id,
                 'organization_id' => $dto->organization_id,
-                'storage_id' => $dto->storage_id,
                 'comment' => $dto->comment,
-                'saleInteger' => $dto->saleInteger,
-                'salePercent' => $dto->salePercent,
-                'currency_id' => $dto->currency_id
-
+                'sender_storage_id' => $dto->sender_storage_id,
+                'recipient_storage_id' => $dto->sender_storage_id
             ]);
-
-            if (!is_null($dto->goods)) {
-
-                GoodDocument::query()->updateOrInsert(...$this->insertGoodDocuments($dto->goods, $document));
-            }
+//
+//            if (!is_null($dto->goods)) {
+//
+//                GoodDocument::query()->updateOrInsert(...$this->insertGoodDocuments($dto->goods, $document));
+//            }
 
             return $document;
 
