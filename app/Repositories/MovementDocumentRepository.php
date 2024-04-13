@@ -105,7 +105,7 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
     }
 
 
-    private function insertGoodDocuments(array $goods, Document $document): array
+    private function insertGoodDocuments(array $goods, MovementDocument $document): array
     {
 //        $history = DocumentHistory::create([
 //            'status' => DocumentHistoryStatuses::UPDATED,
