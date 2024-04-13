@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DTO\MovementDocumentDTO;
 use App\Http\Requests\Api\MovementDocument\FilterRequest;
-use App\Http\Requests\MovementDocumentRequest;
+use App\Http\Requests\Api\MovementDocument\MovementDocumentRequest;
 use App\Http\Resources\MovementDocumentResource;
 use App\Models\MovementDocument;
 use App\Repositories\Contracts\MovementDocumentRepositoryInterface;
