@@ -4,7 +4,7 @@ namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class ChangePinRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,17 +22,17 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'login' => ['required', 'exists:users,login'],
-            'password' => ['required'],
-            'pin' => ['nullable', 'string']
+            'oldPin' => ['required'],
+            'pin' => ['required', 'confirmed']
         ];
     }
 
     public function messages()
     {
         return [
-            'login.required' => 'Поле логин обязательно для заполнения.',
-            'password.required' => 'Поле пароль обязательно для заполнения.',
+            'oldPin.required' => 'Поле старый пин-екод обязательно для заполнения.',
+            'pin.integer' => 'Поле пин-код должно быть целым числом.',
+            'pin.confirmed' => 'Поле пин-код не совпадает с подтверждением.',
         ];
     }
 }
