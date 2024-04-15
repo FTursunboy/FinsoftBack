@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\GoodGroupController;
 use App\Http\Controllers\Api\GroupController;
 use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\InventoryDocumentController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\ProviderDocumentController;
 
@@ -222,6 +223,11 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::get('order/show/{document}', [ClientDocumentController::class, 'showOrder']);
         });
 
+        Route::group(['prefix' => '/inventory'], function () {
+            Route::get('/', [InventoryDocumentController::class, 'index']);
+            Route::post('/', [InventoryDocumentController::class, 'store']);
+        });
+
         Route::resource('movement', MovementDocumentController::class)->except('destroy');
 
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
@@ -243,8 +249,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::post('permission/podsystem/{user}', [PermissionController::class, 'givePodsystemPermission']);
         Route::get('resources', [PermissionController::class, 'getResources']);
     });
-
-
 
     Route::post('add-pin', [AuthController::class, 'addPin']);
     Route::post('change-pin', [AuthController::class, 'changePin']);

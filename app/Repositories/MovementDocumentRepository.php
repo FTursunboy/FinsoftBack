@@ -46,7 +46,6 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
         return $query->paginate($filteredParams['itemsPerPage']);
     }
 
-
     public function store(MovementDocumentDTO $dto): MovementDocument
     {
         return DB::transaction(function () use ($dto) {
@@ -87,8 +86,6 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
         });
     }
-
-
 
     public function uniqueNumber(): string
     {

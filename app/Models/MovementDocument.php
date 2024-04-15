@@ -92,7 +92,7 @@ class MovementDocument extends Model
             'senderStorage_id' => $data['filterData']['senderStorage_id'] ?? null,
             'organization_id' =>  $data['filterData']['organization_id'] ?? null,
             'author_id' =>  $data['filterData']['author_id'] ?? null,
-             'date' => $data['filterData']['date'] ?? null,
+            'date' => $data['filterData']['date'] ?? null,
         ];
     }
 }

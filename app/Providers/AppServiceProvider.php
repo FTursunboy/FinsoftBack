@@ -20,6 +20,7 @@ use App\Repositories\Contracts\GoodGroupRepositoryInterface;
 use App\Repositories\Contracts\GoodRepositoryInterface;
 use App\Repositories\Contracts\GroupRepositoryInterface;
 use App\Repositories\Contracts\ImageRepositoryInterface;
+use App\Repositories\Contracts\InventoryDocumentRepositoryInterface;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\Contracts\MovementDocumentRepositoryInterface;
@@ -42,6 +43,7 @@ use App\Repositories\GoodGroupRepository;
 use App\Repositories\GoodRepository;
 use App\Repositories\GroupRepository;
 use App\Repositories\ImageRepository;
+use App\Repositories\InventoryDocumentRepository;
 use App\Repositories\MassOperation;
 use App\Repositories\MovementDocumentRepository;
 use App\Repositories\OrganizationBillRepository;
@@ -87,6 +89,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ImageRepositoryInterface::class, ImageRepository::class);
         $this->app->singleton(PermissionRepositoryInterface::class, PermissionRepository::class);
         $this->app->singleton(MovementDocumentRepositoryInterface::class, MovementDocumentRepository::class);
+        $this->app->singleton(InventoryDocumentRepositoryInterface::class, InventoryDocumentRepository::class);
 
     }
 
