@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Filters\MovementDocumentFilter;
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +13,7 @@ use Illuminate\Support\Str;
 
 class MovementDocument extends Model
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes, HasFactory, Filterable;
 
     protected $fillable = [
         'uuid',
@@ -23,6 +25,9 @@ class MovementDocument extends Model
         'author_id',
         'comment',
     ];
+
+
+
 
     protected $keyType = 'string';
 
@@ -70,8 +75,13 @@ class MovementDocument extends Model
         return $this->belongsTo(Organization::class, 'organization_id');
     }
 
+    public function modelFilter()
+    {
+        return $this->provideFilter(MovementDocumentFilter::class);
+    }
 
-    public static function filter(array $data): array
+
+    public static function filterData(array $data): array
     {
         return [
             'search' => $data['search'] ?? '',

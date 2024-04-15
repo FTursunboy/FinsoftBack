@@ -32,6 +32,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function index(int $status, array $data): LengthAwarePaginator
     {
+        dd($data);
         $filteredParams = $this->model::filter($data);
 
         $query = $this->model::query()->where('status_id', $status);
@@ -45,11 +46,11 @@ class DocumentRepository implements DocumentRepositoryInterface
         return $query->paginate($filteredParams['itemsPerPage']);
     }
 
-    public function orderList(array $data, OrderType $type): LengthAwarePaginator
+    public function orderList(array $data, int $type): LengthAwarePaginator
     {
         $filteredParams = OrderDocument::filter($data);
 
-        $query = OrderDocument::query()->where('order_type_id', $type->id);
+        $query = OrderDocument::query()->where('order_type_id', $type);
 
         $query = $this->orderSearch($query, $filteredParams);
 
@@ -141,7 +142,7 @@ class DocumentRepository implements DocumentRepositoryInterface
         });
     }
 
-    public function order(OrderDocumentDTO $DTO, OrderType $type)
+    public function order(OrderDocumentDTO $DTO, int $type)
     {
         return DB::transaction(function () use ($DTO, $type) {
             $document = OrderDocument::create([

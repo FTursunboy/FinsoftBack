@@ -35,9 +35,9 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
     public function index(array $data): LengthAwarePaginator
     {
-        $filteredParams = $this->model::filter($data);
+        $filteredParams = $this->model::filterData($data);
 
-        $query = $this->model::query();
+        $query = $this->model::filter($filteredParams);
 
         $query = $this->search($query, $data);
 
