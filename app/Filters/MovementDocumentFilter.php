@@ -33,7 +33,6 @@ class MovementDocumentFilter extends ModelFilter
 
     public function organization(int $id)
     {
-
         return $this->where('organization_id', $id);
     }
 
