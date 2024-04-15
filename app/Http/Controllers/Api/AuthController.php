@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\DTO\LoginDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ChangePinRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\PinRequest;
 use App\Http\Resources\UserResource;
@@ -64,5 +65,20 @@ class AuthController extends Controller
             'user' => UserResource::make($user),
             'pin' => $user->pin
         ]);
+    }
+
+    public function changePin(ChangePinRequest $request)
+    {
+        $data = $request->validated();
+
+        $user = Auth::user();
+
+        if ($data['oldPin'] !== $user->pin) {
+            return $this->error('Старый пин-код не правильный!');
+        }
+
+        $user->update(['pin' => $data['pin']]);
+
+        return $this->success('Пин-код успешно изменен!');
     }
 }

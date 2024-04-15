@@ -7,7 +7,7 @@ use Illuminate\Auth\Events\Login;
 
 class LoginDTO
 {
-    public function __construct(public string $login, public string $password, public ?int $pin)
+    public function __construct(public string $login, public string $password, public ?string $pin)
     {
     }
 

@@ -22,7 +22,7 @@ class PinRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pin' => ['required', 'integer']
+            'pin' => ['required', 'string']
         ];
     }
 
