@@ -19,6 +19,7 @@ class ResourceSeeder extends Seeder
                 ['name' => 'nomenclature', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Номенклатура'],
                 ['name' => 'user', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Пользователи'],
                 ['name' => 'counterparty', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Контрагенты'],
+                ['name' => 'counterpartyAgreement', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Договор контрагента'],
                 ['name' => 'organization', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Организации'],
                 ['name' => 'employee', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Сотрудники'],
                 ['name' => 'position', 'parent_id' => 1, 'type' => ResourceTypes::AdminPanel->value, 'ru_name' => 'Должность'],

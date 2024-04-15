@@ -25,6 +25,7 @@ class CounterpartyAgreementController extends Controller
 
     public function __construct(public CounterpartyAgreementRepositoryInterface $repository)
     {
+        $this->authorizeResource(Counterparty::class, 'counterpartyAgreement');
     }
 
     public function index(IndexRequest $request) :JsonResponse
