@@ -68,7 +68,7 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
                 InventoryDocumentGoods::insert($this->insertGoodDocuments($DTO->goods, $document));
 
 
-            return $document->load(['organization', 'author', 'storage', 'responsiblePerson']);
+            return $document->load(['organization', 'author', 'storage', 'responsiblePerson', 'inventoryDocumentGoods']);
         });
     }
 

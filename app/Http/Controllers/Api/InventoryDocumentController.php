@@ -40,7 +40,7 @@ class InventoryDocumentController extends Controller
 
     public function store(InventoryDocumentRequest $request): JsonResponse
     {
-        return $this->created($this->repository->store(InventoryDocumentDTO::fromRequest($request)));
+        return $this->created(InventoryDocumentResource::make($this->repository->store(InventoryDocumentDTO::fromRequest($request))));
     }
 
     public function massDelete(IdRequest $request, MassOperationInterface $delete)

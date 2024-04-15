@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class InventoryDocument extends Model implements \App\Repositories\Contracts\SoftDeleteInterface
@@ -29,10 +30,7 @@ class InventoryDocument extends Model implements \App\Repositories\Contracts\Sof
         });
     }
 
-    public static function bootSoftDeletes()
-    {
-
-    }
+    public static function bootSoftDeletes() { }
 
     public function organization(): BelongsTo
     {
@@ -52,6 +50,11 @@ class InventoryDocument extends Model implements \App\Repositories\Contracts\Sof
     public function responsiblePerson(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'responsible_person_id');
+    }
+
+    public function inventoryDocumentGoods(): HasMany
+    {
+        return $this->hasMany(InventoryDocumentGoods::class, 'inventory_document_id', 'id');
     }
 
 }
