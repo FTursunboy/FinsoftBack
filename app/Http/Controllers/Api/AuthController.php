@@ -41,7 +41,8 @@ class AuthController extends Controller
 
     public function logout(): JsonResponse
     {
-        return $this->deleted(auth()->user()->tokens()->delete());
+        auth()->user()->tokens()->delete();
+        return $this->deleted();
     }
 
     public function addPin(PinRequest $request)
@@ -49,7 +50,9 @@ class AuthController extends Controller
         $data = $request->validated();
         $user = Auth::user();
 
-        return $this->success($user->update(['pin' => $data['pin']]));
+        $user->update(['pin' => $data['pin']]);
+
+        return $this->success();
     }
 
     public function loginWithPin(LoginRequest $request)

@@ -250,11 +250,16 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('resources', [PermissionController::class, 'getResources']);
     });
 
-    Route::post('add-pin', [AuthController::class, 'addPin']);
-    Route::post('change-pin', [AuthController::class, 'changePin']);
-    Route::get('logout', [AuthController::class, 'logout']);
+
+    Route::group(['prefix' => 'pin'], function() {
+        Route::post('/', [AuthController::class, 'addPin']);
+        Route::patch('/', [AuthController::class, 'changePin']);
+        Route::post('/logout', [AuthController::class, 'logout']);
+    });
+
+
 });
 
 
 Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login'])->name('login');
-Route::post('login-with-pin', [App\Http\Controllers\Api\AuthController::class, 'loginWithPin']);
+Route::post('loginPin', [App\Http\Controllers\Api\AuthController::class, 'loginWithPin']);
