@@ -7,13 +7,14 @@ use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class InventoryDocument extends Model implements \App\Repositories\Contracts\SoftDeleteInterface
 {
-    use Filterable;
+    use Filterable, SoftDeletes;
 
-    protected $fillable = ['doc_number', 'date', 'organization_id', 'storage_id', 'responsible_person_id', 'author_id', 'comment'];
+    protected $fillable = ['doc_number', 'date', 'organization_id', 'storage_id', 'responsible_person_id', 'author_id', 'comment', 'deleted_at'];
 
     protected $keyType = 'string';
 

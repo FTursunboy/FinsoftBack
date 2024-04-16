@@ -20,7 +20,8 @@ class InventoryDocumentResource extends JsonResource
             'responsiblePerson' => EmployeeResource::make($this->whenLoaded('responsiblePerson')),
             'author_id' => UserResource::make($this->whenLoaded('author')),
             'comment' => $this->comment,
-            'inventoryGoods' => InventoryDocumentGoodResource::collection($this->whenLoaded('inventoryDocumentGoods'))
+            'inventoryGoods' => InventoryDocumentGoodResource::collection($this->whenLoaded('inventoryDocumentGoods')),
+            'deleted_at' => $this->deleted_at
         ];
     }
 }
