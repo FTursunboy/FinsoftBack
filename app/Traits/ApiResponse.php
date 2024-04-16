@@ -14,12 +14,12 @@ trait ApiResponse
 
     public function error($result, $code = 400): JsonResponse
     {
-        return response()->json(['result' => null, 'errors' => $result ?? ApiResponseEnum::Error], $code);
+        return response()->json(['result' => "error", 'errors' => $result ?? ApiResponseEnum::Error], $code);
     }
 
     public function notAccess($result, $code = 403): JsonResponse
     {
-        return response()->json(['result' => null, 'errors' => $result ?? ApiResponseEnum::Error], $code);
+        return response()->json(['result' => "Not Access", 'errors' => $result ?? ApiResponseEnum::Error], $code);
     }
 
     public function created($result, $code = 201) :JsonResponse
