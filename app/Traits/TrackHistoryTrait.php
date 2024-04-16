@@ -11,13 +11,14 @@ use App\Models\DocumentHistory;
 use App\Models\Organization;
 use App\Models\Storage;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 trait TrackHistoryTrait
 {
-    public function create(Document $model): void
+    public function create(Model $model): void
     {
-        $user_id = \auth()->user()->id ?? User::factory()->create()->id;
+        $user_id = \auth()->user()->id;
         DocumentHistory::create([
             'status' => DocumentHistoryStatuses::CREATED,
             'user_id' => $user_id,
@@ -26,9 +27,9 @@ trait TrackHistoryTrait
     }
 
 
-    public function update(Document $model): void
+    public function update(Model $model): void
     {
-        $user_id = \auth()->user()->id ?? User::factory()->create()->id;
+        $user_id = \auth()->user()->id;
 
         if (array_key_exists('active', $model->getDirty())) {
 
@@ -71,7 +72,7 @@ trait TrackHistoryTrait
         ]);
     }
 
-    public function forceDelete(Document $model): void
+    public function forceDelete(Model $model): void
     {
         DocumentHistory::create([
             'status' => DocumentHistoryStatuses::FORCE_DELETED,
@@ -80,7 +81,7 @@ trait TrackHistoryTrait
         ]);
     }
 
-    private function getHistoryDetails(Document $document, $value, $field): array
+    private function getHistoryDetails(Model $document, $value, $field): array
     {
         $previousValue = $field !== 'date' ? $document->getOriginal($field . '_id') : $document->getOriginal($field);
 
@@ -108,7 +109,7 @@ trait TrackHistoryTrait
         ];
     }
 
-    private function track(Document $document, DocumentHistory $history): void
+    private function track(Model $document, DocumentHistory $history): void
     {
         $value = $this->getUpdated($document)
             ->map(function ($value, $field) use ($document) {
