@@ -26,16 +26,11 @@ class MovementDocument extends Model
         'comment',
     ];
 
-
-
-
     protected $keyType = 'string';
 
     protected $primaryKey = 'id';
 
     public $incrementing = false;
-
-
 
     public static function boot() {
         parent::boot();
@@ -83,7 +78,6 @@ class MovementDocument extends Model
 
     public static function filterData(array $data): array
     {
-
         return [
             'search' => $data['search'] ?? '',
             'sort' => $data['orderBy'] ?? null,
