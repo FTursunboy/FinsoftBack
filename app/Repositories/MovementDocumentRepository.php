@@ -39,9 +39,7 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
         $query = $this->model::filter($filteredParams);
 
-        $query = $this->search($query, $data);
-
-        $query = $this->sort($filteredParams, $query, ['organization', 'recipientStorage', 'author', 'senderStorage']);
+        //$query = $this->sort($filteredParams, $query, ['organization', 'recipientStorage', 'author', 'senderStorage']);
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }
@@ -154,21 +152,6 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
         return $document->load(['history.changes', 'history.user']);
     }
 
-    public function search($query, array $data)
-    {
-        $search = $data['search'] ?? null;
-        $searchTerm = explode(' ', $search);
-
-        return $query->where(function ($query) use ($searchTerm) {
-            $query->where('doc_number', 'like', '%' . implode('%', $searchTerm) . '%')
-                ->orWhereHas('organization', function ($query) use ($searchTerm) {
-                    return $query->where('organizations.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-                ->orWhereHas('author', function ($query) use ($searchTerm) {
-                    return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                });
-        });
-    }
 
     public function documentAuthor()
     {
