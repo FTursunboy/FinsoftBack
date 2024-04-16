@@ -43,11 +43,7 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
 
         $query = $this->model::filter($filteredParams);
 
-        $query = $this->search($query, $data);
-
-        $query = $this->sort($filteredParams, $query, ['organization', 'storage', 'author', 'responsiblePerson']);
-
-        return $query->paginate($filteredParams['itemsPerPage']);
+        return $query->with(['organization', 'storage', 'author', 'responsiblePerson'])->paginate($filteredParams['itemsPerPage']);
     }
 
 
