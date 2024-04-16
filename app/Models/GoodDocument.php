@@ -21,7 +21,7 @@ class GoodDocument extends Model
         return $this->belongsTo(Document::class);
     }
 
-    public function goods(): BelongsTo
+    public function good(): BelongsTo
     {
         return $this->belongsTo(Good::class, 'good_id');
     }

@@ -5,6 +5,7 @@ namespace App\Http\Requests\Api\MovementDocument;
 use App\Models\MovementDocument;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
+use ReflectionClass;
 
 class FilterRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class FilterRequest extends FormRequest
     {
         $model = $this->getModel();
 
-        $fillableFields = $this->getFillable($model);
+        $fillableFields = $this->getFillableWithRelationships($model);
 
         return [
             'search' => 'string|nullable|max:20',
@@ -23,32 +24,25 @@ class FilterRequest extends FormRequest
         ];
     }
 
-    private function getFillableWithRelationships($model) :array
+    private function getFillableWithRelationships($model): array
     {
+        $fillableFields = $this->getFillable($model);
+        $relationships = ['senderStorage', 'recipientStorage', 'organization', 'author'];
 
-        $fillableFields = $model->getFillable();
-        $relationships = [];
+        $relationshipFields = [];
+        foreach ($relationships as $relation) {
+            $relatedModel = $model->{$relation}()->getRelated();
 
-        $reflector = new ReflectionClass($model);
+            $relatedFillable = $relatedModel->getFillable();
 
-        foreach ($reflector->getMethods() as $reflectionMethod) {
-            $returnType = $reflectionMethod->getReturnType();
-
-            if ($returnType && class_basename($returnType->getName()) == 'BelongsTo' || class_basename($returnType?->getName()) == 'hasOne') {
-                $relatedModel = $model->{$reflectionMethod->getName()}()->getRelated();
-                $relatedFillable = $relatedModel->getFillable();
-
-                $relationshipName = Str::snake(Str::camel($reflectionMethod->getName()));
-
-                foreach ($relatedFillable as $field) {
-                    $relationships[] = $relationshipName . '.' . $field;
-                }
+            foreach ($relatedFillable as $field) {
+                $relationshipFields[] = $relation . '.' . $field;
             }
         }
 
-        return array_merge($fillableFields, $relationships);
-
+        return array_merge($fillableFields, $relationshipFields);
     }
+
 
     public function authorize(): bool
     {

@@ -62,30 +62,29 @@ class MovementDocumentFilter extends ModelFilter
     }
 
 
-
-
     public function sort() :MovementDocumentFilter
     {
         $filteredParams = $this->input();
-        $relations = ['senderStorage', 'recipientStorage', 'author', 'organization'];
+
+        $relations = ['senderStorage', 'recipientStorage', 'author', 'organization', 'goods'];
 
         if (!is_null($filteredParams['sort'])) {
             if (Str::contains($filteredParams['sort'], '.')) {
                 list($relation, $field) = explode('.', $filteredParams['sort']);
 
-                $relatedTable = $this->$relation()->getRelated()->getTable();
+                $relatedTable = $this->getModel()->$relation()->getModel()->getTable();
 
-                $thisTable = $this->getTable();
+                $thisTable = $this->getModel()->getTable();
 
-                return $this->join($relatedTable, "$thisTable.{$relation}_id", '=', "{$relatedTable}.id")
+                return $this->with($relations)->join($relatedTable, "$thisTable.{$relation}_id", '=', "{$relatedTable}.id")
                     ->orderBy("{$relatedTable}.{$field}", $filteredParams['direction'])
                     ->select("{$thisTable}.*");
             }
 
-            return  $this->with($relations)->orderBy($filteredParams['sort'], $filteredParams['direction']);
+            return  $this->orderBy($filteredParams['sort'], $filteredParams['direction']);
         }
 
-        return $this->with($relations)->orderBy('deleted_at')->orderBy('created_at', 'desc');
+        return $this->orderBy('deleted_at')->orderBy('created_at', 'desc');
     }
 
 }

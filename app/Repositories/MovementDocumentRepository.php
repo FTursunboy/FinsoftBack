@@ -29,7 +29,6 @@ use PhpParser\Comment\Doc;
 
 class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 {
-    use FilterTrait, Sort;
 
     public $model = MovementDocument::class;
 
@@ -39,9 +38,7 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
         $query = $this->model::filter($filteredParams);
 
-        //$query = $this->sort($filteredParams, $query, ['organization', 'recipientStorage', 'author', 'senderStorage']);
-
-        return $query->paginate($filteredParams['itemsPerPage']);
+        return $query->with(['senderStorage', 'recipientStorage', 'author', 'organization', 'goods', 'goods.good'])->paginate($filteredParams['itemsPerPage']);
     }
 
     public function store(MovementDocumentDTO $dto): MovementDocument
