@@ -16,7 +16,7 @@ class DocumentGoodResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'good' => GoodResource::make($this->goods),
+            'good' => GoodResource::make($this->whenLoaded('good')),
             'amount' => $this->amount,
             'price' => $this->price,
             'auto_sale_percent' => $this->auto_sale_percent,

@@ -67,7 +67,7 @@ class MovementDocument extends Model
 
     public function goods(): HasMany
     {
-        return $this->hasMany(Good::class, 'document_id');
+        return $this->hasMany(GoodDocument::class, 'document_id', 'id');
     }
 
     public function organization(): BelongsTo
