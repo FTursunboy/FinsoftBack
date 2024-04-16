@@ -8,21 +8,23 @@ use App\Models\Counterparty;
 use App\Models\CounterpartyAgreement;
 use App\Models\Document;
 use App\Models\DocumentHistory;
-use App\Models\MovementDocument;
 use App\Models\Organization;
 use App\Models\Storage;
 use App\Models\User;
-use App\Traits\TrackHistoryTrait;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Comment\Doc;
 
 class MovementDocumentObserver
 {
-    use TrackHistoryTrait;
-
-    public function created(MovementDocument $model): void
+    public function created(Document $model): void
     {
-        $this->created($model);
+
+        $user_id = \auth()->user()->id ?? User::factory()->create()->id;
+        DocumentHistory::create([
+            'status' => DocumentHistoryStatuses::CREATED,
+            'user_id' => $user_id,
+            'document_id' => $model->id,
+        ]);
     }
 
 

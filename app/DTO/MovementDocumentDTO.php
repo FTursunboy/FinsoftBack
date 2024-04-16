@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class MovementDocumentDTO
 {
     public function  __construct(public string $date, public int $organization_id,
-                     public int $sender_storage_id,  public int $recipient_storage_id, public string $comment, public array $goods)
+                     public int $sender_storage_id,  public int $recipient_storage_id, public ?string $comment, public array $goods)
     {
     }
 
