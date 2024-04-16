@@ -61,7 +61,7 @@ class AuthController extends Controller
 
         $user = $this->repository->checkLogin($DTO);
 
-        if ($user->pin !== $DTO->pin || $user->pin === null) return $this->error('Неправильный пин-код!');
+        if ($user?->pin !== $DTO->pin || $user?->pin === null) return $this->error('Неправильный пин-код!');
 
         return response()->json([
             'token' => $user->createToken('API TOKEN')->plainTextToken,

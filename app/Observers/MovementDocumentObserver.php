@@ -8,23 +8,21 @@ use App\Models\Counterparty;
 use App\Models\CounterpartyAgreement;
 use App\Models\Document;
 use App\Models\DocumentHistory;
+use App\Models\MovementDocument;
 use App\Models\Organization;
 use App\Models\Storage;
 use App\Models\User;
+use App\Traits\TrackHistoryTrait;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Comment\Doc;
 
-class DocumentObserver
+class MovementDocumentObserver
 {
-    public function created(Document $model): void
-    {
+    use TrackHistoryTrait;
 
-        $user_id = \auth()->user()->id ?? User::factory()->create()->id;
-        DocumentHistory::create([
-            'status' => DocumentHistoryStatuses::CREATED,
-            'user_id' => $user_id,
-            'document_id' => $model->id,
-        ]);
+    public function created(MovementDocument $model): void
+    {
+        $this->created($model);
     }
 
 
@@ -110,6 +108,26 @@ class DocumentObserver
         ];
     }
 
+    private function track(Document $document, DocumentHistory $history): void
+    {
+        $value = $this->getUpdated($document)
+            ->map(function ($value, $field) use ($document) {
+               return $this->getHistoryDetails($document, $value, $field);
+            });
 
+        ChangeHistory::create([
+            'document_history_id' => $history->id,
+            'body' => json_encode($value)
+        ]);
+    }
+
+    private function getUpdated($model)
+    {
+        return collect($model->getDirty())->filter(function ($value, $key) {
+            return !in_array($key, ['created_at', 'updated_at']);
+        })->mapWithKeys(function ($value, $key) {
+            return [str_replace('_id', '', $key) => $value];
+        });
+    }
 
 }

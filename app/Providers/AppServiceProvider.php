@@ -21,7 +21,6 @@ use App\Repositories\Contracts\GoodRepositoryInterface;
 use App\Repositories\Contracts\GroupRepositoryInterface;
 use App\Repositories\Contracts\ImageRepositoryInterface;
 use App\Repositories\Contracts\InventoryDocumentRepositoryInterface;
-use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\Contracts\MovementDocumentRepositoryInterface;
 use App\Repositories\Contracts\OrganizationBillRepositoryInterface;
