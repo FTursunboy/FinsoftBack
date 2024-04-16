@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Filters\InventoryDocumentFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -57,4 +57,8 @@ class InventoryDocument extends Model implements \App\Repositories\Contracts\Sof
         return $this->hasMany(InventoryDocumentGoods::class, 'inventory_document_id', 'id');
     }
 
+    public function modelFilter()
+    {
+        return $this->provideFilter(InventoryDocumentFilter::class);
+    }
 }
