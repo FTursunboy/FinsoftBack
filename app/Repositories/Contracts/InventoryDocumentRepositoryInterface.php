@@ -5,6 +5,7 @@ namespace App\Repositories\Contracts;
 use App\DTO\DocumentDTO;
 use App\DTO\DocumentUpdateDTO;
 use App\DTO\InventoryDocumentDTO;
+use App\DTO\InventoryDocumentUpdateDTO;
 use App\DTO\MovementDocumentDTO;
 use App\DTO\OrderDocumentDTO;
 use App\Models\Document;
@@ -21,6 +22,6 @@ interface InventoryDocumentRepositoryInterface
 
     public function store(InventoryDocumentDTO $DTO) :InventoryDocument;
 
-    public function update(InventoryDocument $document, InventoryDocumentDTO $DTO) :InventoryDocument;
+    public function update(InventoryDocument $document, InventoryDocumentUpdateDTO $DTO) :InventoryDocument;
 
 }
