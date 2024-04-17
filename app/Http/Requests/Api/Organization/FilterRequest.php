@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Organization;
 
+use App\Models\Organization;
 use ErrorException;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -39,8 +40,6 @@ class FilterRequest extends FormRequest
 
     private function getModel()
     {
-        $repository = $this->route()->getController();
-
-        return app($repository->repository->model);
+        return Organization::class;
     }
 }
