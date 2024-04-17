@@ -45,9 +45,9 @@ class InventoryDocumentController extends Controller
         return $this->created(InventoryDocumentResource::make($this->repository->store(InventoryDocumentDTO::fromRequest($request))));
     }
 
-    public function show(InventoryDocument $document)
+    public function show(InventoryDocument $inventoryDocument)
     {
-        return $this->success(InventoryDocumentResource::make($document->load('organization', 'storage', 'author', 'responsiblePerson', 'inventoryDocumentGoods')));
+        return $this->success(InventoryDocumentResource::make($inventoryDocument->load('organization', 'storage', 'author', 'responsiblePerson', 'inventoryDocumentGoods')));
     }
 
     public function update(InventoryDocument $inventoryDocument, InventoryDocumentUpdateRequest $request)
