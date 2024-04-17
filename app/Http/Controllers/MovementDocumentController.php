@@ -30,11 +30,11 @@ class MovementDocumentController extends Controller
         return new MovementDocumentResource($this->service->store(MovementDocumentDTO::fromRequest($request)));
     }
 
-    public function show(MovementDocument $movementDocument)
+    public function show(MovementDocument $movement)
     {
-        $this->authorize('view', $movementDocument);
+        $this->authorize('view', $movement);
 
-        return new MovementDocumentResource($movementDocument->load(['senderStorage', 'recipientStorage', 'author', 'organization']));
+        return new MovementDocumentResource($movement->load(['senderStorage', 'recipientStorage', 'author', 'organization']));
     }
 
     public function update(MovementDocumentRequest $request, MovementDocument $movement)

@@ -19,8 +19,7 @@ class InventoryDocumentDTO
             $request->get('storage_id'),
             $request->get('responsible_person_id'),
             $request->get('comment'),
-            $request->get('goods')
-
+            $request->get('goods'),
         );
     }
 }

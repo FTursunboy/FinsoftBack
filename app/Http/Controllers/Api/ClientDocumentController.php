@@ -65,7 +65,7 @@ class ClientDocumentController extends Controller
 
     public function order(OrderDocumentRequest $request)
     {
-        return $this->created(OrderDocumentResource::make($this->repository->order(OrderDocumentDTO::fromRequest($request, OrderType::CLIENT))));
+        return $this->created(OrderDocumentResource::make($this->repository->order(OrderDocumentDTO::fromRequest($request), OrderType::CLIENT)));
     }
 
     public function showOrder(OrderDocument $document)

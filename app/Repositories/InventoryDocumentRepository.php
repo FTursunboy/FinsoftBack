@@ -82,7 +82,7 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
                 InventoryDocumentGoods::query()->updateOrInsert(...$this->insertGoodDocuments($DTO->goods, $document));
             }
 
-            return $document;
+            return $document->load(['organization', 'author', 'storage', 'responsiblePerson', 'inventoryDocumentGoods']);
         });
     }
 
