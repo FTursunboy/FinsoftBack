@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Filters\InventoryDocumentFilter;
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class InventoryDocument extends Model implements \App\Repositories\Contracts\SoftDeleteInterface
 {
-    protected $fillable = ['doc_number', 'date', 'organization_id', 'storage_id', 'responsible_person_id', 'author_id', 'comment'];
+    use Filterable, SoftDeletes;
+
+    protected $fillable = ['doc_number', 'date', 'organization_id', 'storage_id', 'responsible_person_id', 'author_id', 'comment', 'deleted_at'];
 
     protected $keyType = 'string';
 
@@ -57,4 +61,23 @@ class InventoryDocument extends Model implements \App\Repositories\Contracts\Sof
         return $this->hasMany(InventoryDocumentGoods::class, 'inventory_document_id', 'id');
     }
 
+    public function modelFilter()
+    {
+        return $this->provideFilter(InventoryDocumentFilter::class);
+    }
+
+    public static function filterData(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'sort' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'organization_id' => $data['filterData']['organization_id'] ?? null,
+            'storage_id' => $data['filterData']['storage_id'] ?? null,
+            'responsible_person_id' =>  $data['filterData']['responsible_person_id'] ?? null,
+            'author_id' =>  $data['filterData']['author_id'] ?? null,
+            'date' => $data['filterData']['date'] ?? null,
+        ];
+    }
 }

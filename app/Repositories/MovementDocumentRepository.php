@@ -30,7 +30,6 @@ use PhpParser\Comment\Doc;
 
 class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 {
-
     public $model = MovementDocument::class;
 
     public function index(array $data): LengthAwarePaginator

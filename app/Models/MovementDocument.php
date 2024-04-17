@@ -78,7 +78,6 @@ class MovementDocument extends DocumentModel implements Documentable
 
     public static function filterData(array $data): array
     {
-
         return [
             'search' => $data['search'] ?? '',
             'sort' => $data['orderBy'] ?? null,

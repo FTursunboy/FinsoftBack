@@ -43,13 +43,8 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
 
         $query = $this->model::filter($filteredParams);
 
-        $query = $this->search($query, $data);
-
-        $query = $this->sort($filteredParams, $query, ['organization', 'storage', 'author', 'responsiblePerson']);
-
-        return $query->paginate($filteredParams['itemsPerPage']);
+        return $query->with(['organization', 'storage', 'author', 'responsiblePerson'])->paginate($filteredParams['itemsPerPage']);
     }
-
 
     public function store(InventoryDocumentDTO $DTO): InventoryDocument
     {
@@ -67,7 +62,6 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
             if (!is_null($DTO->goods))
                 InventoryDocumentGoods::insert($this->insertGoodDocuments($DTO->goods, $document));
 
-
             return $document->load(['organization', 'author', 'storage', 'responsiblePerson', 'inventoryDocumentGoods']);
         });
     }
@@ -76,12 +70,12 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
     {
         return DB::transaction(function () use ($DTO, $document) {
             $document->update([
-                'doc_number' => $this->uniqueNumber(),
+                'doc_number' => $document->doc_number,
                 'date' => $DTO->date,
                 'organization_id' => $DTO->organization_id,
                 'comment' => $DTO->comment,
                 'responsible_person_id' => $DTO->responsible_person_id,
-                'storage' => $DTO->storage_id,
+                'storage_id' => $DTO->storage_id,
             ]);
 
             if (!is_null($DTO->goods)) {
@@ -105,7 +99,6 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
         return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
     }
 
-
     private function insertGoodDocuments(array $goods, InventoryDocument $document): array
     {
         return array_map(function ($item) use ($document) {
@@ -114,25 +107,10 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
                 'accounting_quantity' => $item['accounting_quantity'],
                 'actual_quantity' => $item['actual_quantity'],
                 'difference' => $item['difference'],
-                'inventory_document_id' => $document->id
+                'inventory_document_id' => $document->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ];
         }, $goods);
-    }
-
-    public function search($query, array $data)
-    {
-        $search = $data['search'] ?? null;
-
-        $searchTerm = explode(' ', $search);
-
-        return $query->where(function ($query) use ($searchTerm) {
-            $query->where('doc_number', 'like', '%' . implode('%', $searchTerm) . '%')
-                ->orWhereHas('organization', function ($query) use ($searchTerm) {
-                    return $query->where('organizations.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-                ->orWhereHas('author', function ($query) use ($searchTerm) {
-                    return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                });
-        });
     }
 }
