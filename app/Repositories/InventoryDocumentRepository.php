@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\DTO\DocumentDTO;
 use App\DTO\DocumentUpdateDTO;
 use App\DTO\InventoryDocumentDTO;
+use App\DTO\InventoryDocumentUpdateDTO;
 use App\DTO\MovementDocumentDTO;
 use App\DTO\OrderDocumentDTO;
 use App\Enums\DocumentHistoryStatuses;
@@ -66,7 +67,7 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
         });
     }
 
-    public function update(InventoryDocument $document, InventoryDocumentDTO $DTO): InventoryDocument
+    public function update(InventoryDocument $document, InventoryDocumentUpdateDTO $DTO): InventoryDocument
     {
         return DB::transaction(function () use ($DTO, $document) {
             $document->update([
@@ -79,8 +80,7 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
             ]);
 
             if (!is_null($DTO->goods)) {
-//                InventoryDocumentGoods::query()->updateOrInsert(...$this->insertGoodDocuments($DTO->goods, $document));
-                $this->insertGoodDocuments($DTO->goods, $document);
+                $this->updateGoodDocuments($DTO->goods, $document);
             }
 
             return $document->load(['organization', 'author', 'storage', 'responsiblePerson', 'inventoryDocumentGoods']);
@@ -102,6 +102,21 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
 
     private function insertGoodDocuments(array $goods, InventoryDocument $document)
     {
+        return array_map(function ($item) use ($document) {
+            return [
+                'good_id' => $item['good_id'],
+                'accounting_quantity' => $item['accounting_quantity'],
+                'actual_quantity' => $item['actual_quantity'],
+                'difference' => $item['difference'],
+                'inventory_document_id' => $document->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ];
+        }, $goods);
+    }
+
+    private function updateGoodDocuments(array $goods, InventoryDocument $document)
+    {
         foreach ($goods as $good) {
             InventoryDocumentGoods::updateOrCreate(
                 ['id' => $good['id']],
@@ -116,17 +131,5 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
                 ]
             );
         }
-
-//        return array_map(function ($item) use ($document) {
-//            return [
-//                'good_id' => $item['good_id'],
-//                'accounting_quantity' => $item['accounting_quantity'],
-//                'actual_quantity' => $item['actual_quantity'],
-//                'difference' => $item['difference'],
-//                'inventory_document_id' => $document->id,
-//                'created_at' => Carbon::now(),
-//                'updated_at' => Carbon::now()
-//            ];
-//        }, $goods);
     }
 }
