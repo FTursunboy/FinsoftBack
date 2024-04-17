@@ -79,7 +79,8 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
             ]);
 
             if (!is_null($DTO->goods)) {
-                InventoryDocumentGoods::query()->updateOrInsert(...$this->insertGoodDocuments($DTO->goods, $document));
+//                InventoryDocumentGoods::query()->updateOrInsert(...$this->insertGoodDocuments($DTO->goods, $document));
+                $this->insertGoodDocuments($DTO->goods, $document);
             }
 
             return $document->load(['organization', 'author', 'storage', 'responsiblePerson', 'inventoryDocumentGoods']);
@@ -99,18 +100,33 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
         return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
     }
 
-    private function insertGoodDocuments(array $goods, InventoryDocument $document): array
+    private function insertGoodDocuments(array $goods, InventoryDocument $document)
     {
-        return array_map(function ($item) use ($document) {
-            return [
-                'good_id' => $item['good_id'],
-                'accounting_quantity' => $item['accounting_quantity'],
-                'actual_quantity' => $item['actual_quantity'],
-                'difference' => $item['difference'],
-                'inventory_document_id' => $document->id,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ];
-        }, $goods);
+        foreach ($goods as $good) {
+            InventoryDocumentGoods::updateOrCreate(
+                ['id' => $good['id']],
+                [
+                    'good_id' => $good['good_id'],
+                    'accounting_quantity' => $good['accounting_quantity'],
+                    'actual_quantity' => $good['actual_quantity'],
+                    'difference' => $good['difference'],
+                    'inventory_document_id' => $document->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
+                ]
+            );
+        }
+
+//        return array_map(function ($item) use ($document) {
+//            return [
+//                'good_id' => $item['good_id'],
+//                'accounting_quantity' => $item['accounting_quantity'],
+//                'actual_quantity' => $item['actual_quantity'],
+//                'difference' => $item['difference'],
+//                'inventory_document_id' => $document->id,
+//                'created_at' => Carbon::now(),
+//                'updated_at' => Carbon::now()
+//            ];
+//        }, $goods);
     }
 }
