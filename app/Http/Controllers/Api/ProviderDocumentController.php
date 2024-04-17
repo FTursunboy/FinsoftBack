@@ -14,6 +14,7 @@ use App\Http\Resources\OrderDocumentResource;
 use App\Http\Resources\OrderStatusResource;
 use App\Models\Document;
 use App\Models\OrderDocument;
+use App\Models\OrderType;
 use App\Models\Status;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Traits\ApiResponse;
@@ -62,7 +63,7 @@ class ProviderDocumentController extends Controller
 
     public function order(OrderDocumentRequest $request)
     {
-        return $this->created(OrderDocumentResource::make($this->repository->order(OrderDocumentDTO::fromRequest($request))));
+        return $this->created(OrderDocumentResource::make($this->repository->order(OrderDocumentDTO::fromRequest($request), OrderType::PROVIDER)));
     }
 
     public function showOrder(OrderDocument $document)
