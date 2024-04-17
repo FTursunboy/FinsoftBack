@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Group;
+use App\Models\OrderStatus;
 use App\Models\Setting;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -35,6 +36,15 @@ class DatabaseSeeder extends Seeder
         Group::create([
             'name' => 'group',
             'type' => 1
+        ]);
+        OrderStatus::create([
+            'name' => 'Принят',
+        ]);
+        OrderStatus::create([
+            'name' => 'Отклонен',
+        ]);
+        OrderStatus::create([
+            'name' => 'Завершен',
         ]);
 
         $user = \App\Models\User::factory()->create([

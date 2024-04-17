@@ -220,6 +220,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
             Route::get('orderList', [ClientDocumentController::class, 'orderList']);
             Route::post('/order', [ClientDocumentController::class, 'order']);
+            Route::get('/order/statuses', [ClientDocumentController::class, 'statuses']);
             Route::get('order/show/{document}', [ClientDocumentController::class, 'showOrder']);
         });
 

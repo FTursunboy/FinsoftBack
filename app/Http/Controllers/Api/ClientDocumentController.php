@@ -12,8 +12,10 @@ use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\DocumentResource;
 use App\Http\Resources\OrderDocumentResource;
+use App\Http\Resources\OrderStatusResource;
 use App\Models\Document;
 use App\Models\OrderDocument;
+use App\Models\OrderStatus;
 use App\Models\OrderType;
 use App\Models\Status;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
@@ -70,6 +72,11 @@ class ClientDocumentController extends Controller
 
     public function showOrder(OrderDocument $document)
     {
-        return $this->success(OrderDocumentResource::make($document->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods')));
+        return $this->success(OrderDocumentResource::make($document->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods', 'orderStatus')));
+    }
+
+    public function statuses()
+    {
+        return $this->success(OrderStatusResource::collection(OrderStatus::get()));
     }
 }
