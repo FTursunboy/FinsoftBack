@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Filters\MovementDocumentFilter;
+use App\Observers\MovementDocumentObserver;
+use App\Repositories\Contracts\Documentable;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +13,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class MovementDocument extends Model
+
+#[ObservedBy([MovementDocumentObserver::class])]
+class MovementDocument extends DocumentModel implements Documentable
 {
     use SoftDeletes, HasFactory, Filterable;
 
@@ -25,15 +29,6 @@ class MovementDocument extends Model
         'author_id',
         'comment',
     ];
-
-
-
-
-    protected $keyType = 'string';
-
-    protected $primaryKey = 'id';
-
-    public $incrementing = false;
 
 
 

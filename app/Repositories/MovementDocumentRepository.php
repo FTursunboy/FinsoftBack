@@ -17,6 +17,7 @@ use App\Models\OrderDocumentGoods;
 use App\Models\OrderType;
 use App\Models\Status;
 use App\Models\User;
+use App\Repositories\Contracts\Documentable;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Repositories\Contracts\MovementDocumentRepositoryInterface;
 use App\Traits\FilterTrait;
@@ -62,22 +63,21 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
         });
     }
 
-    public function update(MovementDocument $document, MovementDocumentDTO $dto): Document
+    public function update(MovementDocument $document, MovementDocumentDTO $dto): MovementDocument
     {
+
         return DB::transaction(function () use ($dto, $document) {
             $document->update([
                 'date' => $dto->date,
                 'organization_id' => $dto->organization_id,
                 'comment' => $dto->comment,
                 'sender_storage_id' => $dto->sender_storage_id,
-                'recipient_storage_id' => $dto->sender_storage_id
+                'recipient_storage_id' => $dto->recipient_storage_id
             ]);
 
-            if (!is_null($dto->goods)) {
                 GoodDocument::query()->updateOrInsert(...$this->insertGoodDocuments($dto->goods, $document));
-            }
 
-            return $document;
+            return $document->load(['senderStorage', 'recipientStorage', 'author', 'organization', 'goods', 'goods.good']);
 
         });
     }
@@ -98,6 +98,7 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
     private function insertGoodDocuments(array $goods, MovementDocument $document): array
     {
+
 //        $history = DocumentHistory::create([
 //            'status' => DocumentHistoryStatuses::UPDATED,
 //            'user_id' => Auth::user()->id,

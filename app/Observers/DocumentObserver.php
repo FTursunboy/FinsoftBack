@@ -11,29 +11,30 @@ class DocumentObserver
 
     public function created(Document $model): void
     {
-        $this->create($model);
+
+        $this->create($model, \Auth::id());
     }
 
 
     public function updated(Document $model): void
     {
-       $this->update($model);
+       $this->update($model, \Auth::id());
     }
 
     public function deleted(Document $model): void
     {
-       $this->delete($model);
+       $this->delete($model, \Auth::id());
     }
 
 
     public function restored(Document $model): void
     {
-       $this->restore($model);
+       $this->restore($model, \Auth::id());
     }
 
     public function forceDeleted(Document $model): void
     {
-        $this->forceDelete($model);
+        $this->forceDelete($model, \Auth::id());
     }
 
 

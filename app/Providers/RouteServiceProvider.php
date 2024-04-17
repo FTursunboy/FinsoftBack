@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Document;
+use App\Models\MovementDocument;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
@@ -38,6 +41,23 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+
+        Route::bind('document', function ($value) {
+            $types = [
+                Document::class,
+                MovementDocument::class
+            ];
+
+            foreach ($types as $type) {
+                $document = $type::find($value);
+                if ($document !== null) {
+                    return $document;
+                }
+            }
+
+            throw new ModelNotFoundException("Document not found");
+        });
+
     }
 
 

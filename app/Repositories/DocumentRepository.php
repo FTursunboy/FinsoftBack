@@ -15,6 +15,7 @@ use App\Models\OrderDocumentGoods;
 use App\Models\OrderType;
 use App\Models\Status;
 use App\Models\User;
+use App\Repositories\Contracts\Documentable;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
@@ -246,9 +247,9 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     }
 
-    public function changeHistory(Document $document): Document
+    public function changeHistory(Documentable $document)
     {
-        return $document->load(['history.changes', 'history.user']);
+        return  $document->load(['history.changes', 'history.user']);
     }
 
     public function orderGoods(OrderDocument $document, array $goods): array

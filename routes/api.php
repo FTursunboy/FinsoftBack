@@ -230,6 +230,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
         Route::resource('movement', MovementDocumentController::class)->except('destroy');
 
+
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
         Route::patch('/update-order/{document}', [DocumentController::class, 'updateOrder']);
         Route::get('/show/{document}', [ProviderDocumentController::class, 'show']);

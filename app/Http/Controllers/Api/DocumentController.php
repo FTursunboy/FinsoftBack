@@ -13,6 +13,7 @@ use App\Http\Resources\UserResource;
 use App\Models\Document;
 use App\Models\OrderDocument;
 use App\Models\Status;
+use App\Repositories\Contracts\Documentable;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
@@ -35,7 +36,7 @@ class DocumentController extends Controller
         return $this->success($this->repository->updateOrder($document, OrderDocumentDTO::fromRequest($request)));
     }
 
-    public function changeHistory(Document $document)
+    public function changeHistory(Documentable $document)
     {
         return $this->success(DocumentHistoryResource::make($this->repository->changeHistory($document)));
     }

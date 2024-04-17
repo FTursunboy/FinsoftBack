@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Models\Document;
 use App\Models\GoodDocument;
 use App\Models\MovementDocument;
-use App\Observers\DocumentGoodObserver;
+use App\Observers\InventoryDocumentObserver;
 use App\Observers\DocumentObserver;
 use App\Observers\MovementDocumentObserver;
 use Illuminate\Auth\Events\Registered;
@@ -32,8 +32,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
       Document::observe(DocumentObserver::class);
-   //   MovementDocument::observe(MovementDocumentObserver::class);
-
+      MovementDocument::observe(MovementDocumentObserver::class);
     }
 
     /**
