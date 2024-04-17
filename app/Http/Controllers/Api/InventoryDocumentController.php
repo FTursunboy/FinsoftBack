@@ -50,9 +50,9 @@ class InventoryDocumentController extends Controller
         return $this->success(InventoryDocumentResource::make($document->load('organization', 'storage', 'author', 'responsiblePerson', 'inventoryDocumentGoods')));
     }
 
-    public function update(InventoryDocument $document, InventoryDocumentUpdateRequest $request)
+    public function update(InventoryDocument $inventoryDocument, InventoryDocumentUpdateRequest $request)
     {
-        return $this->success(InventoryDocumentResource::make($this->repository->update($document, InventoryDocumentUpdateDTO::fromRequest($request))));
+        return $this->success(InventoryDocumentResource::make($this->repository->update($inventoryDocument, InventoryDocumentUpdateDTO::fromRequest($request))));
     }
 
     public function massDelete(IdRequest $request, MassOperationInterface $delete)
