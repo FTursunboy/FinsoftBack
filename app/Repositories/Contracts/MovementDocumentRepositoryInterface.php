@@ -19,7 +19,7 @@ interface MovementDocumentRepositoryInterface
 
     public function store(MovementDocumentDTO $DTO) :MovementDocument;
 
-    public function update(MovementDocument $document, MovementDocumentDTO $DTO) :Document;
+    public function update(MovementDocument $document, MovementDocumentDTO $DTO) :MovementDocument;
 
     public function changeHistory(Document $document);
 

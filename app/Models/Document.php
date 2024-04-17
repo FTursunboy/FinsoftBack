@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Observers\DocumentObserver;
+use App\Repositories\Contracts\Documentable;
+use App\Repositories\Contracts\SoftDeleteInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,19 +13,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 
-#[ObservedBy([DocumentObserver::class])]
-class Document extends Model implements \App\Repositories\Contracts\SoftDeleteInterface
+
+class Document extends DocumentModel implements SoftDeleteInterface
 {
     use SoftDeletes, Searchable, HasFactory;
 
     protected $fillable = ['doc_number', 'date', 'counterparty_id', 'counterparty_agreement_id', 'organization_id',
             'storage_id', 'author_id', 'active', 'status_id', 'active', 'comment', 'saleInteger', 'salePercent', 'currency_id'];
 
-    protected $keyType = 'string';
-
-    protected $primaryKey = 'id';
-
-    public $incrementing = false;
 
     protected $casts = [
         'active' => 'bool'
