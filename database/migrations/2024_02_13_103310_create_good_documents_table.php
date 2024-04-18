@@ -14,10 +14,10 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('good_id')->constrained();
             $table->integer('amount');
-            $table->decimal('price', 10, 2)->nullable();
+            $table->decimal('price', 20, 2)->nullable();
             $table->foreignUuid('document_id');
             $table->integer('auto_sale_percent')->nullable();
-            $table->decimal('auto_sale_sum')->nullable();
+            $table->decimal('auto_sale_sum', 20, 2)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

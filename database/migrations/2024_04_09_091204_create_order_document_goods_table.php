@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('good_id')->constrained();
             $table->integer('amount');
-            $table->decimal('price', 10, 2);
+            $table->decimal('price', 20,2);
             $table->foreignUuid('order_document_id')->constrained();
             $table->integer('auto_sale_percent')->nullable();
-            $table->decimal('auto_sale_sum')->nullable();
+            $table->decimal('auto_sale_sum', 20,2)->nullable();
             $table->timestamps();
         });
     }
