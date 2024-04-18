@@ -21,6 +21,7 @@ class CashStorePolicy
 
     public function create(User $user): bool
     {
+        return true;
     }
 
     public function update(User $user, CashStore $cashStore): bool

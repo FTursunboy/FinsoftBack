@@ -2,15 +2,16 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\CashOperationType;
 use Illuminate\Foundation\Http\FormRequest;
+use Livewire\Attributes\Rule;
 
-class CashStoreRequest extends FormRequest
+class ClientPaymentRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'doc_number' => ['required'],
-            'date' => ['required'],
+            'date' => ['required', 'date'],
             'organization_id' => ['required'],
             'cashRegister_id' => ['required'],
             'sum' => ['required'],
@@ -18,11 +19,8 @@ class CashStoreRequest extends FormRequest
             'counterparty_agreement_id' => ['required'],
             'basis' => ['required'],
             'comment' => ['nullable'],
-            'author_id' => ['nullable'],
-            'organizationBill_id' => ['nullable', 'integer'],
-            'senderCashRegister_id' => ['nullable', 'integer'],
-            'employee_id' => ['nullable', 'integer'],
-            'balanceKey_id' => ['required'],
+            'type_operation' => ['required', \Illuminate\Validation\Rule::enum(CashOperationType::class)],
+            'type' => ['required', 'in:RKO|PKO']
         ];
     }
 
