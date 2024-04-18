@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,7 +18,7 @@ class DocumentResource extends JsonResource
         return [
             'id' => $this->id,
             'doc_number' => $this->doc_number,
-            'date' => $this->date,
+            'date' => Carbon::parse($this->date),
             'counterparty' => CounterpartyResource::make($this->whenLoaded('counterparty')),
             'counterpartyAgreement' => CounterpartyAgreementResource::make($this->whenLoaded('counterpartyAgreement')),
             'organization' => OrganizationResource::make($this->whenLoaded('organization')),
@@ -29,6 +30,7 @@ class DocumentResource extends JsonResource
             'comment' => $this->comment,
             'saleInteger' => $this->saleInteger,
             'salePercent' => $this->salePercent,
+            'sum' => $this->totalGoodSum(),
             'goods' => DocumentGoodResource::collection($this->whenLoaded('documentGoods'))
         ];
     }
