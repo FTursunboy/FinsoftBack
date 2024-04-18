@@ -82,7 +82,8 @@ class DocumentRepository implements DocumentRepositoryInterface
             if (!is_null($dto->goods))
                 GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
-            return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency']);
+
+            return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
         });
 
     }
@@ -101,13 +102,16 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'saleInteger' => $dto->saleInteger,
                 'salePercent' => $dto->salePercent,
                 'currency_id' => $dto->currency_id
+
             ]);
 
             if (!is_null($dto->goods)) {
-                $this->updateGoodDocuments($dto->goods, $document);
+
+                GoodDocument::query()->updateOrInsert(...$this->insertGoodDocuments($dto->goods, $document));
             }
 
             return $document;
+
         });
     }
 
@@ -159,7 +163,7 @@ class DocumentRepository implements DocumentRepositoryInterface
             if (!is_null($DTO->goods))
                 OrderDocumentGoods::insert($this->orderGoods($document, $DTO->goods));
 
-            return $document->load('counterparty','organization','author','currency','counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
+            return $document->load('counterparty','organization','author','currency','counterpartyAgreement');
         });
     }
 
@@ -191,6 +195,27 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     private function insertGoodDocuments(array $goods, Document $document): array
     {
+//        $history = DocumentHistory::create([
+//            'status' => DocumentHistoryStatuses::UPDATED,
+//            'user_id' => Auth::user()->id,
+//            'document_id' => $document->id,
+//        ]);
+//
+//
+//        $changes = [];
+//
+//
+//        foreach ($goods as $good){
+//
+//           if (!$good['created']) {
+//                $changes[] = [
+//                    'document_history_id' => $history->id,
+//                    'body' => $this->changeCount($good, DocumentHistoryStatuses::CREATED)
+//                ];
+//           }
+//        }
+
+
         return array_map(function ($item) use ($document) {
             return [
                 'good_id' => $item['good_id'],
@@ -203,24 +228,6 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'updated_at' => Carbon::now()
             ];
         }, $goods);
-    }
-
-    private function updateGoodDocuments(array $goods, Document $document): array
-    {
-        foreach ($goods as $good) {
-            GoodDocument::updateOrCreate(
-                ['id' => $good['id']],
-                [
-                    'good_id' => $good['good_id'],
-                    'amount' => $good['amount'],
-                    'price' => $good['price'],
-                    'document_id' => $document->id,
-                    'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
-                    'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
-                    'updated_at' => Carbon::now()
-                ]
-            );
-        }
     }
 
     public function approve(Document $document)
@@ -246,22 +253,6 @@ class DocumentRepository implements DocumentRepositoryInterface
     }
 
     public function orderGoods(OrderDocument $document, array $goods): array
-    {
-        return array_map(function ($item) use ($document) {
-            return [
-                'good_id' => $item['good_id'],
-                'amount' => $item['amount'],
-                'price' => $item['price'],
-                'auto_sale_percent' => $item['auto_sale_percent'] ?? null,
-                'auto_sale_sum' => $item['auto_sale_sum'] ?? null,
-                'order_document_id' => $document->id,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ];
-        }, $goods);
-    }
-
-    public function updateOrderGoods(OrderDocument $document, array $goods): array
     {
         return array_map(function ($item) use ($document) {
             return [
