@@ -83,7 +83,8 @@ class DocumentRepository implements DocumentRepositoryInterface
             if (!is_null($dto->goods))
                 GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
-            return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency']);
+
+            return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
         });
 
     }
@@ -102,13 +103,16 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'saleInteger' => $dto->saleInteger,
                 'salePercent' => $dto->salePercent,
                 'currency_id' => $dto->currency_id
+
             ]);
 
             if (!is_null($dto->goods)) {
-                $this->updateGoodDocuments($dto->goods, $document);
+
+                GoodDocument::query()->updateOrInsert(...$this->insertGoodDocuments($dto->goods, $document));
             }
 
             return $document;
+
         });
     }
 
@@ -159,8 +163,6 @@ class DocumentRepository implements DocumentRepositoryInterface
                 $this->updateOrderGoods($document, $DTO->goods);
 
             return $document->load('counterparty','organization','author','currency','counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
-
-        });
     }
 
     public function uniqueNumber(): string
@@ -191,6 +193,27 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     private function insertGoodDocuments(array $goods, Document $document): array
     {
+//        $history = DocumentHistory::create([
+//            'status' => DocumentHistoryStatuses::UPDATED,
+//            'user_id' => Auth::user()->id,
+//            'document_id' => $document->id,
+//        ]);
+//
+//
+//        $changes = [];
+//
+//
+//        foreach ($goods as $good){
+//
+//           if (!$good['created']) {
+//                $changes[] = [
+//                    'document_history_id' => $history->id,
+//                    'body' => $this->changeCount($good, DocumentHistoryStatuses::CREATED)
+//                ];
+//           }
+//        }
+
+
         return array_map(function ($item) use ($document) {
             return [
                 'good_id' => $item['good_id'],
