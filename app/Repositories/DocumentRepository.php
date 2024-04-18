@@ -103,15 +103,11 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'saleInteger' => $dto->saleInteger,
                 'salePercent' => $dto->salePercent,
                 'currency_id' => $dto->currency_id
-
             ]);
 
             if (!is_null($dto->goods)) {
                 $this->updateGoodDocuments($dto->goods, $document);
             }
-
-            return true;
-
         });
     }
 

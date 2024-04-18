@@ -30,6 +30,7 @@ class DocumentUpdateRequest extends FormRequest
             'organization_id' => ['required', Rule::exists('organizations', 'id')],
             'storage_id' => ['required', Rule::exists('storages', 'id')],
             'goods' => ['nullable', 'array'],
+            'goods.*.id' => ['required', Rule::exists('good_documents', 'id')],
             'goods.*.good_id' => ['required', Rule::exists('goods', 'id')],
             'goods.*.amount' => ['required', 'min:1'],
             'goods.*.price' => ['required', 'numeric'],
