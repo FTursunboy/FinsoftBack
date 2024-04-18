@@ -107,8 +107,7 @@ class DocumentRepository implements DocumentRepositoryInterface
             ]);
 
             if (!is_null($dto->goods)) {
-
-                GoodDocument::query()->updateOrInsert(...$this->insertGoodDocuments($dto->goods, $document));
+                $this->updateGoodDocuments($dto->goods, $document);
             }
 
             return $document;
@@ -137,7 +136,7 @@ class DocumentRepository implements DocumentRepositoryInterface
             if (!is_null($DTO->goods))
                 OrderDocumentGoods::insert($this->orderGoods($document, $DTO->goods));
 
-            return $document->load('counterparty','organization','author','currency','counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
+            return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
         });
     }
 
@@ -162,7 +161,8 @@ class DocumentRepository implements DocumentRepositoryInterface
             if (!is_null($DTO->goods))
                 $this->updateOrderGoods($document, $DTO->goods);
 
-            return $document->load('counterparty','organization','author','currency','counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
+            return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
+        });
     }
 
     public function uniqueNumber(): string
@@ -193,27 +193,6 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     private function insertGoodDocuments(array $goods, Document $document): array
     {
-//        $history = DocumentHistory::create([
-//            'status' => DocumentHistoryStatuses::UPDATED,
-//            'user_id' => Auth::user()->id,
-//            'document_id' => $document->id,
-//        ]);
-//
-//
-//        $changes = [];
-//
-//
-//        foreach ($goods as $good){
-//
-//           if (!$good['created']) {
-//                $changes[] = [
-//                    'document_history_id' => $history->id,
-//                    'body' => $this->changeCount($good, DocumentHistoryStatuses::CREATED)
-//                ];
-//           }
-//        }
-
-
         return array_map(function ($item) use ($document) {
             return [
                 'good_id' => $item['good_id'],
@@ -265,7 +244,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function changeHistory(Documentable $document)
     {
-        return  $document->load(['history.changes', 'history.user']);
+        return $document->load(['history.changes', 'history.user']);
     }
 
     public function orderGoods(OrderDocument $document, array $goods): array
@@ -396,9 +375,9 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function documentAuthor(int $status)
     {
-         return User::select('users.*')
-             ->join('documents', 'documents.author_id', '=', 'users.id')
-             ->distinct()
-             ->get();
+        return User::select('users.*')
+            ->join('documents', 'documents.author_id', '=', 'users.id')
+            ->distinct()
+            ->get();
     }
 }
