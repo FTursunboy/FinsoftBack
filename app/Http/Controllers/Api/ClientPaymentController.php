@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\DTO\ClientPaymentDTO;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientPaymentRequest;
 use App\Http\Resources\CashStoreResource;
 use App\Models\CashStore;
-use App\Repositories\Contracts\CashStoreRepositoryInterface;
+use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
 use App\Traits\ApiResponse;
 
 class ClientPaymentController extends Controller
