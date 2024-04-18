@@ -58,7 +58,7 @@ class ProviderDocumentController extends Controller
 
     public function orderList(FilterRequest $request)
     {
-
+        return $this->paginate(OrderDocumentResource::collection($this->repository->orderList($request->validated(), OrderType::PROVIDER)));
     }
 
     public function order(OrderDocumentRequest $request)
@@ -67,8 +67,8 @@ class ProviderDocumentController extends Controller
         )));
     }
 
-    public function showOrder(OrderDocument $document)
+    public function showOrder(OrderDocument $orderDocument)
     {
-        return $this->success(OrderDocumentResource::make($document->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods')));
+        return $this->success(OrderDocumentResource::make($orderDocument->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods')));
     }
 }

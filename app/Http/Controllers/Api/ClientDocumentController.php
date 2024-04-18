@@ -37,7 +37,7 @@ class ClientDocumentController extends Controller
 
     public function purchase(DocumentRequest $request): JsonResponse
     {
-        return $this->created($this->repository->store(DocumentDTO::fromRequest($request), Status::CLIENT_PURCHASE));
+        return $this->created(DocumentResource::make($this->repository->store(DocumentDTO::fromRequest($request), Status::CLIENT_PURCHASE)));
     }
 
     public function returnList(IndexRequest $indexRequest): JsonResponse
@@ -70,9 +70,9 @@ class ClientDocumentController extends Controller
         return $this->created(OrderDocumentResource::make($this->repository->order(OrderDocumentDTO::fromRequest($request), OrderType::CLIENT)));
     }
 
-    public function showOrder(OrderDocument $document)
+    public function showOrder(OrderDocument $orderDocument)
     {
-        return $this->success(OrderDocumentResource::make($document->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods', 'orderStatus')));
+        return $this->success(OrderDocumentResource::make($orderDocument->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods', 'orderStatus')));
     }
 
     public function statuses()

@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\DTO\DocumentUpdateDTO;
 use App\DTO\OrderDocumentDTO;
+use App\DTO\OrderDocumentUpdateDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Document\DocumentUpdateRequest;
 use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
+use App\Http\Requests\Api\OrderDocument\OrderDocumentUpdateRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\DocumentHistoryResource;
+use App\Http\Resources\OrderDocumentResource;
 use App\Http\Resources\UserResource;
 use App\Models\Document;
 use App\Models\OrderDocument;
@@ -31,9 +34,9 @@ class DocumentController extends Controller
         return $this->success($this->repository->update($document, DocumentUpdateDTO::fromRequest($request)));
     }
 
-    public function updateOrder(OrderDocument $document, OrderDocumentRequest $request): JsonResponse
+    public function updateOrder(OrderDocument $orderDocument, OrderDocumentUpdateRequest $request): JsonResponse
     {
-        return $this->success($this->repository->updateOrder($document, OrderDocumentDTO::fromRequest($request)));
+        return $this->success(OrderDocumentResource::make($this->repository->updateOrder($orderDocument, OrderDocumentUpdateDTO::fromRequest($request))));
     }
 
     public function changeHistory(Documentable $document)

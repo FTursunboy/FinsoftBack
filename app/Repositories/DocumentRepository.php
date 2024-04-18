@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\DTO\DocumentDTO;
 use App\DTO\DocumentUpdateDTO;
 use App\DTO\OrderDocumentDTO;
+use App\DTO\OrderDocumentUpdateDTO;
 use App\Enums\DocumentHistoryStatuses;
 use App\Models\Document;
 use App\Models\DocumentHistory;
@@ -115,33 +116,6 @@ class DocumentRepository implements DocumentRepositoryInterface
         });
     }
 
-    public function updateOrder(OrderDocument $document, OrderDocumentDTO $DTO): OrderDocument
-    {
-        return DB::transaction(function () use ($DTO, $document) {
-            $document->update([
-                'doc_number' => $document->doc_number,
-                'date' => Carbon::parse($DTO->date),
-                'counterparty_id' => $DTO->counterparty_id,
-                'counterparty_agreement_id' => $DTO->counterparty_agreement_id,
-                'organization_id' => $DTO->organization_id,
-                'order_status_id' => $DTO->order_status_id,
-                'author_id' => Auth::id(),
-                'comment' => $DTO->comment,
-                'summa' => $DTO->summa,
-                'shipping_date' => $DTO->shipping_date,
-                'currency_id' => $DTO->currency_id
-
-            ]);
-
-            if (!is_null($DTO->goods)) {
-                OrderDocumentGoods::updateOrInsert(...$this->orderGoods($document, $DTO->goods));
-            }
-
-            return $document;
-
-        });
-    }
-
     public function order(OrderDocumentDTO $DTO, int $type)
     {
         return DB::transaction(function () use ($DTO, $type) {
@@ -163,8 +137,32 @@ class DocumentRepository implements DocumentRepositoryInterface
             if (!is_null($DTO->goods))
                 OrderDocumentGoods::insert($this->orderGoods($document, $DTO->goods));
 
-            return $document->load('counterparty','organization','author','currency','counterpartyAgreement');
+            return $document->load('counterparty','organization','author','currency','counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
         });
+    }
+
+    public function updateOrder(OrderDocument $document, OrderDocumentUpdateDTO $DTO): OrderDocument
+    {
+        return DB::transaction(function () use ($DTO, $document) {
+            $document->update([
+                'doc_number' => $document->doc_number,
+                'date' => Carbon::parse($DTO->date),
+                'counterparty_id' => $DTO->counterparty_id,
+                'counterparty_agreement_id' => $DTO->counterparty_agreement_id,
+                'organization_id' => $DTO->organization_id,
+                'order_status_id' => $DTO->order_status_id,
+                'author_id' => Auth::id(),
+                'comment' => $DTO->comment,
+                'summa' => $DTO->summa,
+                'shipping_date' => $DTO->shipping_date,
+                'currency_id' => $DTO->currency_id
+
+            ]);
+
+            if (!is_null($DTO->goods))
+                $this->updateOrderGoods($document, $DTO->goods);
+
+            return $document->load('counterparty','organization','author','currency','counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
     }
 
     public function uniqueNumber(): string
@@ -230,6 +228,24 @@ class DocumentRepository implements DocumentRepositoryInterface
         }, $goods);
     }
 
+    private function updateGoodDocuments(array $goods, Document $document)
+    {
+        foreach ($goods as $good) {
+            GoodDocument::updateOrCreate(
+                ['id' => $good['id']],
+                [
+                    'good_id' => $good['good_id'],
+                    'amount' => $good['amount'],
+                    'price' => $good['price'],
+                    'document_id' => $document->id,
+                    'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
+                    'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
+                    'updated_at' => Carbon::now()
+                ]
+            );
+        }
+    }
+
     public function approve(Document $document)
     {
 
@@ -266,6 +282,24 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'updated_at' => Carbon::now()
             ];
         }, $goods);
+    }
+
+    public function updateOrderGoods(OrderDocument $document, array $goods)
+    {
+        foreach ($goods as $good) {
+            OrderDocumentGoods::updateOrCreate(
+                ['id' => $good['id']],
+                [
+                    'good_id' => $good['good_id'],
+                    'amount' => $good['amount'],
+                    'price' => $good['price'],
+                    'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
+                    'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
+                    'order_document_id' => $document->id,
+                    'updated_at' => Carbon::now()
+                ]
+            );
+        }
     }
 
     public function search($query, array $data)
