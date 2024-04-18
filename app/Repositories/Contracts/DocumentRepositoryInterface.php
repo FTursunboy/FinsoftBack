@@ -5,6 +5,7 @@ namespace App\Repositories\Contracts;
 use App\DTO\DocumentDTO;
 use App\DTO\DocumentUpdateDTO;
 use App\DTO\OrderDocumentDTO;
+use App\DTO\OrderDocumentUpdateDTO;
 use App\Models\Document;
 use App\Models\OrderDocument;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -19,7 +20,7 @@ interface DocumentRepositoryInterface
 
     public function update(Document $document, DocumentUpdateDTO $DTO) :Document;
 
-    public function updateOrder(OrderDocument $document, OrderDocumentDTO $DTO) :OrderDocument;
+    public function updateOrder(OrderDocument $document, OrderDocumentUpdateDTO $DTO) :OrderDocument;
 
     public function changeHistory(Document $document);
 

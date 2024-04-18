@@ -207,8 +207,9 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::get('/returnList', [ProviderDocumentController::class, 'returnList']);
             Route::post('/return', [ProviderDocumentController::class, 'return']);
 
+            Route::get('/orderList', [ProviderDocumentController::class, 'orderList']);
             Route::post('/order', [ProviderDocumentController::class, 'order']);
-            Route::get('order/show/{document}', [ProviderDocumentController::class, 'showOrder']);
+            Route::get('order/show/{orderDocument}', [ProviderDocumentController::class, 'showOrder']);
         });
 
         Route::group(['prefix' => '/client'], function () {
@@ -221,7 +222,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::get('orderList', [ClientDocumentController::class, 'orderList']);
             Route::post('/order', [ClientDocumentController::class, 'order']);
             Route::get('/order/statuses', [ClientDocumentController::class, 'statuses']);
-            Route::get('order/show/{document}', [ClientDocumentController::class, 'showOrder']);
+            Route::get('order/show/{orderDocument}', [ClientDocumentController::class, 'showOrder']);
         });
 
         Route::group(['prefix' => '/inventory'], function () {
@@ -235,7 +236,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
 
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
-        Route::patch('/update-order/{document}', [DocumentController::class, 'updateOrder']);
+        Route::patch('/update-order/{orderDocument}', [DocumentController::class, 'updateOrder']);
         Route::get('/show/{document}', [ProviderDocumentController::class, 'show']);
         Route::get('/document-author', [DocumentController::class, 'documentAuthor']);
 
