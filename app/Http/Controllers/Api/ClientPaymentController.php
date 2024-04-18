@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CashStoreRequest;
+use App\DTO\ClientPaymentDTO;
+use App\Http\Requests\ClientPaymentRequest;
 use App\Http\Resources\CashStoreResource;
 use App\Models\CashStore;
+use App\Repositories\Contracts\CashStoreRepositoryInterface;
+use App\Traits\ApiResponse;
 
-class CashStoreController extends Controller
+class ClientPaymentController extends Controller
 {
+    use ApiResponse;
+
+    public function __construct(public CashStoreRepositoryInterface $repository) {}
+
     public function index()
     {
         $this->authorize('viewAny', CashStore::class);
@@ -15,11 +22,13 @@ class CashStoreController extends Controller
         return CashStoreResource::collection(CashStore::all());
     }
 
-    public function store(CashStoreRequest $request)
+    public function store(ClientPaymentRequest $request)
     {
         $this->authorize('create', CashStore::class);
 
-        return new CashStoreResource(CashStore::create($request->validated()));
+
+
+        return $this->success($this->repository->clientPayment(ClientPaymentDTO::fromRequest($request)));
     }
 
     public function show(CashStore $cashStore)
@@ -29,7 +38,7 @@ class CashStoreController extends Controller
         return new CashStoreResource($cashStore);
     }
 
-    public function update(CashStoreRequest $request, CashStore $cashStore)
+    public function update(ClientPaymentRequest $request, CashStore $cashStore)
     {
         $this->authorize('update', $cashStore);
 
