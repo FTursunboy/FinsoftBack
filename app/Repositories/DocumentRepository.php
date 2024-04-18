@@ -89,7 +89,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     }
 
-    public function update(Document $document, DocumentUpdateDTO $dto): Document
+    public function update(Document $document, DocumentUpdateDTO $dto)
     {
         return DB::transaction(function () use ($dto, $document) {
             $document->update([
@@ -110,7 +110,7 @@ class DocumentRepository implements DocumentRepositoryInterface
                 $this->updateGoodDocuments($dto->goods, $document);
             }
 
-            return $document;
+            return true;
 
         });
     }
