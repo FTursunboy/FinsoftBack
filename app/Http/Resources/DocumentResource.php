@@ -31,6 +31,7 @@ class DocumentResource extends JsonResource
             'saleInteger' => $this->saleInteger,
             'salePercent' => $this->salePercent,
             'sum' => $this->totalGoodSum(),
+            'goods_amount' => $this->totalGoodsAmount(),
             'goods' => DocumentGoodResource::collection($this->whenLoaded('documentGoods'))
         ];
     }

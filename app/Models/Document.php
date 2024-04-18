@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 
@@ -94,9 +95,18 @@ class Document extends DocumentModel implements SoftDeleteInterface
             'date' => $data['filterData']['date'] ?? null,
         ];
     }
-
     public function totalGoodSum(): int
     {
-        return $this->documentGoods()->sum('price');
+        return $this->documentGoods()
+            ->select(DB::raw('SUM(price * amount) as total_sum'))
+            ->first()
+            ->total_sum;
     }
+
+    public function totalGoodsAmount()
+    {
+        return $this->documentGoods()->count();
+    }
+
+
 }
