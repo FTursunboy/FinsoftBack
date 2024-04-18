@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class CashStore extends Model
 {
@@ -25,5 +26,9 @@ class CashStore extends Model
         'senderCashRegister_id',
         'employee_id',
         'balanceKey_id',
+        'operation_type',
+        'type'
     ];
+
+
 }
