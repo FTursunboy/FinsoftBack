@@ -16,7 +16,6 @@ use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\InventoryDocumentController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\ProviderDocumentController;
-
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ExchangeRateController;
 use App\Http\Controllers\Api\GoodController;
@@ -24,7 +23,6 @@ use App\Http\Controllers\Api\OrganizationBillController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\PriceTypeController;
-
 use App\Http\Controllers\Api\StorageController;
 use App\Http\Controllers\Api\StorageEmployeeController;
 use App\Http\Controllers\Api\UnitController;
@@ -82,7 +80,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('good-group', GoodGroupController::class);
 
     Route::group(['prefix' => 'cashStore'], function () {
-        Route::get('/clientPayment', [ClientPaymentController::class, 'index']);
+        Route::get('clientPayment', [ClientPaymentController::class, 'index']);
+        Route::post('clientPayment', [ClientPaymentController::class, 'store']);
     });
 
 

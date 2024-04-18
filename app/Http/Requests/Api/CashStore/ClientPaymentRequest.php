@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api\CashStore;
 
 use App\Enums\CashOperationType;
 use Illuminate\Foundation\Http\FormRequest;
@@ -20,7 +20,7 @@ class ClientPaymentRequest extends FormRequest
             'basis' => ['required'],
             'comment' => ['nullable'],
             'type_operation' => ['required', \Illuminate\Validation\Rule::enum(CashOperationType::class)],
-            'type' => ['required', 'in:RKO|PKO']
+            'type' => ['required', 'string', \Illuminate\Validation\Rule::in(['RKO', 'PKO'])]
         ];
     }
 
