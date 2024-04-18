@@ -18,7 +18,7 @@ interface DocumentRepositoryInterface
 
     public function store(DocumentDTO $DTO, int $status) :Document;
 
-    public function update(Document $document, DocumentUpdateDTO $DTO) :Document;
+    public function update(Document $document, DocumentUpdateDTO $DTO);
 
     public function updateOrder(OrderDocument $document, OrderDocumentUpdateDTO $DTO) :OrderDocument;
 
