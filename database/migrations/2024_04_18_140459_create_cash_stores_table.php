@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->integer('organizationBill_id')->nullable();
             $table->integer('senderCashRegister_id')->nullable();
             $table->integer('employee_id')->nullable();
-            $table->string('balanceKey_id');
+            $table->string('balanceKey_id')->nullable();
             $table->string('operation_type');
             $table->string('type');
             $table->softDeletes();

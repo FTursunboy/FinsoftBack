@@ -3,7 +3,7 @@
 namespace App\DTO;
 
 
-use App\Http\Requests\ClientPaymentRequest;
+use App\Http\Requests\Api\CashStore\ClientPaymentRequest;
 
 class ClientPaymentDTO
 {
