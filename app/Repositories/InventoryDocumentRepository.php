@@ -118,18 +118,29 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
     private function updateGoodDocuments(array $goods, InventoryDocument $document)
     {
         foreach ($goods as $good) {
-            InventoryDocumentGoods::updateOrCreate(
-                ['id' => $good['id']],
-                [
+            if (isset($good['id'])) {
+                InventoryDocumentGoods::updateOrCreate(
+                    ['id' => $good['id']],
+                    [
+                        'good_id' => $good['good_id'],
+                        'accounting_quantity' => $good['accounting_quantity'],
+                        'actual_quantity' => $good['actual_quantity'],
+                        'difference' => $good['difference'],
+                        'inventory_document_id' => $document->id,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now()
+                    ]
+                );
+            } else {
+                InventoryDocumentGoods::create([
                     'good_id' => $good['good_id'],
                     'accounting_quantity' => $good['accounting_quantity'],
                     'actual_quantity' => $good['actual_quantity'],
                     'difference' => $good['difference'],
                     'inventory_document_id' => $document->id,
-                    'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
-                ]
-            );
+                ]);
+            }
         }
     }
 }

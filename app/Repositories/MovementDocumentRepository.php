@@ -64,7 +64,6 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
     public function update(MovementDocument $document, MovementDocumentDTO $dto): MovementDocument
     {
-
         return DB::transaction(function () use ($dto, $document) {
             $document->update([
                 'date' => $dto->date,
@@ -74,7 +73,8 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
                 'recipient_storage_id' => $dto->recipient_storage_id
             ]);
 
-                GoodDocument::query()->updateOrInsert(...$this->insertGoodDocuments($dto->goods, $document));
+                if ($dto->goods != null)
+                    $this->updateGoodDocuments($dto->goods, $document);
 
             return $document->load(['senderStorage', 'recipientStorage', 'author', 'organization', 'goods', 'goods.good']);
 
@@ -97,28 +97,6 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
     private function insertGoodDocuments(array $goods, MovementDocument $document): array
     {
-
-//        $history = DocumentHistory::create([
-//            'status' => DocumentHistoryStatuses::UPDATED,
-//            'user_id' => Auth::user()->id,
-//            'document_id' => $document->id,
-//        ]);
-//
-//
-//        $changes = [];
-//
-//
-//        foreach ($goods as $good){
-//
-//           if (!$good['created']) {
-//                $changes[] = [
-//                    'document_history_id' => $history->id,
-//                    'body' => $this->changeCount($good, DocumentHistoryStatuses::CREATED)
-//                ];
-//           }
-//        }
-
-
         return array_map(function ($item) use ($document) {
             return [
                 'good_id' => $item['good_id'],
@@ -127,6 +105,30 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
                 'created_at' => Carbon::now()
             ];
         }, $goods);
+    }
+
+    private function updateGoodDocuments(array $goods, MovementDocument $document)
+    {
+        foreach ($goods as $good) {
+            if (isset($good['id'])) {
+                GoodDocument::updateOrCreate(
+                    ['id' => $good['id']],
+                    [
+                        'good_id' => $good['good_id'],
+                        'amount' => $good['amount'],
+                        'document_id' => $document->id,
+                        'updated_at' => Carbon::now()
+                    ]
+                );
+            } else {
+                GoodDocument::create([
+                    'good_id' => $good['good_id'],
+                    'amount' => $good['amount'],
+                    'document_id' => $document->id,
+                    'updated_at' => Carbon::now()
+                ]);
+            }
+        }
     }
 
     public function approve(Document $document)

@@ -37,7 +37,7 @@ class OrderDocumentUpdateRequest extends FormRequest
             'comment' => [''],
             'summa' => ['required', 'numeric'],
             'goods' => ['nullable', 'array'],
-            'goods.*.id' => ['required', Rule::exists('order_document_goods', 'id')],
+            'goods.*.id' => ['nullable', Rule::exists('order_document_goods', 'id')],
             'goods.*.good_id' => ['required', Rule::exists('goods', 'id')],
             'goods.*.amount' => ['required', 'min:1'],
             'goods.*.price' => ['required', 'numeric'],
