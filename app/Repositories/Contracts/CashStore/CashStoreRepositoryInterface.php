@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Contracts;
+namespace App\Repositories\Contracts\CashStore;
 
 use App\DTO\ClientPaymentDTO;
 use App\DTO\LoginDTO;

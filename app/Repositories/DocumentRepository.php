@@ -206,9 +206,21 @@ class DocumentRepository implements DocumentRepositoryInterface
     private function updateGoodDocuments(array $goods, Document $document)
     {
         foreach ($goods as $good) {
-            GoodDocument::updateOrCreate(
-                ['id' => $good['id']],
-                [
+            if (isset($good['id'])) {
+                GoodDocument::updateOrCreate(
+                    ['id' => $good['id']],
+                    [
+                        'good_id' => $good['good_id'],
+                        'amount' => $good['amount'],
+                        'price' => $good['price'],
+                        'document_id' => $document->id,
+                        'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
+                        'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
+                        'updated_at' => Carbon::now()
+                    ]
+                );
+            } else {
+                GoodDocument::create([
                     'good_id' => $good['good_id'],
                     'amount' => $good['amount'],
                     'price' => $good['price'],
@@ -216,9 +228,22 @@ class DocumentRepository implements DocumentRepositoryInterface
                     'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
                     'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
                     'updated_at' => Carbon::now()
-                ]
-            );
+                ]);
+            }
         }
+    }
+
+    public function goodDocument($good, $document)
+    {
+        return [
+            'good_id' => $good['good_id'],
+            'amount' => $good['amount'],
+            'price' => $good['price'],
+            'document_id' => $document->id,
+            'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
+            'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
+            'updated_at' => Carbon::now()
+        ];
     }
 
     public function approve(Document $document)
