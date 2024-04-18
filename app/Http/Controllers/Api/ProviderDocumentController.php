@@ -38,12 +38,12 @@ class ProviderDocumentController extends Controller
 
     public function returnList(IndexRequest $request): JsonResponse
     {
-        return $this->paginate(DocumentResource::collection($this->repository->index(Status::PROVIDER_PURCHASE, $request->validated())));
+        return $this->success(DocumentResource::collection($this->repository->index(Status::PROVIDER_PURCHASE, $request->validated())));
     }
 
     public function show(Document $document)
     {
-        return $this->success(DocumentResource::make($document->load('counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good')));
+        return $this->success(DocumentResource::make($document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good'])));
     }
 
     public function return(DocumentRequest $request): JsonResponse
@@ -63,13 +63,12 @@ class ProviderDocumentController extends Controller
 
     public function order(OrderDocumentRequest $request)
     {
-        return $this->created(OrderDocumentResource::make($this->repository->order(OrderDocumentDTO::fromRequest($request), OrderType::PROVIDER)));
+        return $this->created(OrderDocumentResource::make($this->repository->order(OrderDocumentDTO::fromRequest($request), OrderType::PROVIDER
+        )));
     }
 
     public function showOrder(OrderDocument $document)
     {
         return $this->success(OrderDocumentResource::make($document->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods')));
     }
-
-
 }
