@@ -20,7 +20,8 @@ class MovementDocumentResource extends JsonResource
             'recipient_storage_id' => StorageResource::make($this->whenLoaded('recipientStorage')),
             'author_id' => UserResource::make($this->whenLoaded('author')),
             'comment' => $this->comment,
-            'goods' => DocumentGoodResource::collection($this->whenLoaded('goods'))
+            'goods' => DocumentGoodResource::collection($this->whenLoaded('goods')),
+            'deleted_at' => $this->deleted_at
         ];
     }
 }
