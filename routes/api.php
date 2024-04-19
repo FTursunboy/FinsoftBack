@@ -154,6 +154,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::group(['prefix' => 'counterparty'], function () {
         Route::get('/clients/s', [CounterpartyController::class, 'clients']);
+        Route::get('/providers/p', [CounterpartyController::class, 'providers']);
         Route::get('/restore/{counterparty}', [CounterpartyController::class, 'restore']);
         Route::post('/massDelete', [CounterpartyController::class, 'massDelete']);
         Route::post('/massRestore', [CounterpartyController::class, 'massRestore']);

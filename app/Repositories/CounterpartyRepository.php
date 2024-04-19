@@ -20,7 +20,9 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
     {
         $filterParams = $this->model::filter($data);
 
-        $query = $this->search($filterParams);
+        $query = $this->model::query();
+
+        $query = $this->search($query, $filterParams);
 
         $query = $this->filter($query, $filterParams);
 
@@ -73,11 +75,28 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
         \DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 
-    public function search(array $filterParams)
+    public function getCounterpartyByRole(array $data, string $role) :LengthAwarePaginator
+    {
+        $filterParams = $this->model::filter($data);
+
+        $query = $this->model::whereHas('roles', function ($query) use ($role) {
+            return $query->where('name', $role);
+        });
+
+        $query = $this->search($query, $filterParams);
+
+        $query = $this->filter($query, $filterParams);
+
+        $query = $this->sort($filterParams, $query, []);
+
+        return $query->paginate($filterParams['itemsPerPage']);
+    }
+
+    public function search($query, array $filterParams)
     {
         $searchTerm = explode(' ', $filterParams['search']);
 
-        return $this->model::where(function ($query) use ($searchTerm) {
+        return $query->where(function ($query) use ($searchTerm) {
             $query->whereAny(['name', 'phone', 'address', 'email'], 'like', '%' . implode('%', $searchTerm) . '%')
                 ->orWhereHas('roles', function ($query) use ($searchTerm) {
                     return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');

@@ -17,6 +17,9 @@ Counterparty extends Model implements \App\Repositories\Contracts\SoftDeleteInte
 
     protected $fillable = ['name', 'phone', 'address', 'email', 'deleted_at', 'created_at'];
 
+    const PROVIDER = 'Поставщик';
+    const CLIENT = 'Клиент';
+
     public static function bootSoftDeletes()
     {
 
