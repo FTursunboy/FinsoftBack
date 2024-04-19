@@ -80,7 +80,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('good-group', GoodGroupController::class);
 
     Route::group(['prefix' => 'cashStore'], function () {
-        Route::get('clientPayment', [ClientPaymentController::class, 'index']);
+        Route::get('/', [ClientPaymentController::class, 'index']);
         Route::post('clientPayment', [ClientPaymentController::class, 'store']);
     });
 
