@@ -34,7 +34,7 @@ class MovementDocumentController extends Controller
     {
         $this->authorize('view', $movement);
 
-        return new MovementDocumentResource($movement->load(['senderStorage', 'recipientStorage', 'author', 'organization']));
+        return new MovementDocumentResource($movement->load(['senderStorage', 'recipientStorage', 'author', 'organization', 'goods', 'goods.good']));
     }
 
     public function update(MovementDocumentRequest $request, MovementDocument $movement)

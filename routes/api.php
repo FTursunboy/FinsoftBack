@@ -218,10 +218,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::group(['prefix' => '/client'], function () {
             Route::get('/purchasedList', [ClientDocumentController::class, 'index']);
             Route::post('/purchase', [ClientDocumentController::class, 'purchase']);
-
             Route::get('/returnList', [ClientDocumentController::class, 'returnList']);
             Route::post('/return', [ClientDocumentController::class, 'return']);
-
             Route::get('orderList', [ClientDocumentController::class, 'orderList']);
             Route::post('/order', [ClientDocumentController::class, 'order']);
             Route::get('/order/statuses', [ClientDocumentController::class, 'statuses']);
