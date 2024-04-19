@@ -44,8 +44,12 @@ class ClientPaymentRepository implements CashStoreRepositoryInterface
         return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
     }
 
-    public function index()
+    public function index(array $data)
     {
+        $filteredParams = $this->model::filterData($data);
 
+        $query = $this->model::filter($filteredParams);
+
+        return $query->with(['organization', 'cashRegister', 'counterparty', 'author', 'currency'])->paginate($filteredParams['itemsPerPage']);
     }
 }
