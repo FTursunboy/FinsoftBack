@@ -33,8 +33,8 @@ class FilterRequest extends FormRequest
         return $model->getFillable();
     }
 
-    private function getModel() :string
+    private function getModel()
     {
-        return CashStore::class;
+        return new CashStore();
     }
 }

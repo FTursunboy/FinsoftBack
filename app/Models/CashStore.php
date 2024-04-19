@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Filters\CashStoreFilter;
+use App\Filters\InventoryDocumentFilter;
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +14,7 @@ use Illuminate\Support\Str;
 
 class CashStore extends Model
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes, HasFactory, Filterable;
 
     protected $casts = [
         'date' => 'datetime'
@@ -52,9 +55,34 @@ class CashStore extends Model
         return $this->belongsTo(Currency::class, 'currency_id');
     }
 
+    public function modelFilter()
+    {
+        return $this->provideFilter(CashStoreFilter::class);
+    }
+
     public function author() :BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+
+    public function counterparty() :BelongsTo
+    {
+        return $this->belongsTo(Counterparty::class, 'counterparty_id');
+    }
+
+    public static function filterData(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'sort' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'organization_id' => $data['filterData']['organization_id'] ?? null,
+            'responsible_person_id' =>  $data['filterData']['responsible_person_id'] ?? null,
+            'author_id' =>  $data['filterData']['author_id'] ?? null,
+            'date' => $data['filterData']['date'] ?? null,
+        ];
     }
 
 }
