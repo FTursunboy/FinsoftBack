@@ -3,15 +3,16 @@
 namespace App\Repositories\CashStore;
 
 use App\DTO\ClientPaymentDTO;
+use App\DTO\WithdrawalDTO;
 use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
 
-class ClientPaymentRepository implements CashStoreRepositoryInterface
+class WithdrawalRepository implements CashStoreRepositoryInterface
 {
 
     public $model = CashStore::class;
 
-    public function clientPayment(ClientPaymentDTO $dto)
+    public function withdrawal(WithdrawalDTO $dto)
     {
         $this->model::create([
             'doc_number' => $this->orderUniqueNumber(),
@@ -19,8 +20,7 @@ class ClientPaymentRepository implements CashStoreRepositoryInterface
             'organization_id' => $dto->organization_id,
             'cashRegister_id' => $dto->cashRegister_id,
             'sum' => $dto->sum,
-            'counterparty_id' => $dto->counterparty_id,
-            'counterparty_agreement_id' => $dto->counterparty_agreement_id,
+            'organization_bill_id' => $dto->organization_bill_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
             'operation_type' => $dto->operation_type,

@@ -84,7 +84,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::post('clientPayment', [ClientPaymentController::class, 'store']);
     });
 
-
     Route::get('getExchangeRateByCurrencyId/{currency}', [CurrencyController::class, 'getExchangeRateByCurrencyId']);
 
     Route::get('group/show/{group}', [GroupController::class, 'show']);

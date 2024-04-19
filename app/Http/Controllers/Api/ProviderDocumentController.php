@@ -63,8 +63,7 @@ class ProviderDocumentController extends Controller
 
     public function order(OrderDocumentRequest $request)
     {
-        return $this->created(OrderDocumentResource::make($this->repository->order(OrderDocumentDTO::fromRequest($request), OrderType::PROVIDER
-        )));
+        return $this->created(OrderDocumentResource::make($this->repository->order(OrderDocumentDTO::fromRequest($request), OrderType::PROVIDER)));
     }
 
     public function showOrder(OrderDocument $orderDocument)
