@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\DTO\ClientPaymentDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CashStore\ClientPaymentRequest;
-
 use App\Http\Requests\Api\CashStore\FilterRequest;
 use App\Http\Resources\CashStoreResource;
 use App\Models\CashStore;

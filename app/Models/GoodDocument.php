@@ -10,11 +10,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GoodDocument extends Model
 {
-
     use SoftDeletes;
 
-
-    protected $fillable = ['good_id', 'amount', 'price', 'document_id', 'deleted_at'];
+    protected $fillable = ['good_id', 'amount', 'price', 'document_id', 'deleted_at', 'auto_sale_percent', 'auto_sale_sum'];
 
     public function document(): BelongsTo
     {
