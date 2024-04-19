@@ -235,7 +235,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::patch('/{inventoryDocument}', [InventoryDocumentController::class, 'update']);
         });
 
-        Route::resource('movement', MovementDocumentController::class)->except('destroy');
+        Route::apiResource('movement', MovementDocumentController::class)->except('destroy');
 
 
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
