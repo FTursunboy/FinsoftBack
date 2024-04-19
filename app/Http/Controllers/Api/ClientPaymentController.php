@@ -6,6 +6,7 @@ use App\DTO\ClientPaymentDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CashStore\ClientPaymentRequest;
 
+use App\Http\Requests\Api\CashStore\FilterRequest;
 use App\Http\Resources\CashStoreResource;
 use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
@@ -17,11 +18,11 @@ class ClientPaymentController extends Controller
 
     public function __construct(public CashStoreRepositoryInterface $repository) {}
 
-    public function index()
+    public function index(FilterRequest $request)
     {
         $this->authorize('viewAny', CashStore::class);
 
-        return CashStoreResource::collection(CashStore::all());
+        return CashStoreResource::collection($this->repository->index($request->validated()));
     }
 
     public function store(ClientPaymentRequest $request)

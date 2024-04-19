@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 
 interface CashStoreRepositoryInterface
 {
+    public function index();
     public function clientPayment(ClientPaymentDTO $dto);
 
 }
