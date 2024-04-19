@@ -95,7 +95,7 @@ class Document extends DocumentModel implements SoftDeleteInterface
             'date' => $data['filterData']['date'] ?? null,
         ];
     }
-    public function totalGoodSum(): int
+    public function totalGoodSum()
     {
         return $this->documentGoods()
             ->select(DB::raw('SUM(price * amount) as total_sum'))

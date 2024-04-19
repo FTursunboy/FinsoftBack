@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DepartmentRequest;
 use App\Http\Resources\DepartmentResource;
 use App\Models\Department;
+use App\Traits\ApiResponse;
 
 class DepartmentController extends Controller
 {
+    use ApiResponse;
     public function index()
     {
         $this->authorize('viewAny', Department::class);
 
-        return DepartmentResource::collection(Department::all());
+        return $this->success(DepartmentResource::collection(Department::all()););
     }
 
     public function store(DepartmentRequest $request)
