@@ -68,9 +68,14 @@ class CounterpartyController extends Controller
 
     public function clients()
     {
-        return $this->success(CounterpartyResource::collection(Counterparty::whereHas('roles', function ($query) {
+        return $this->paginate(CounterpartyResource::collection(Counterparty::whereHas('roles', function ($query) {
             return $query->where('name', 'Клиент');
-        })->get()));
+        })->paginate(20)));
+    }
+
+    public function providers(FilterRequest $request)
+    {
+        return $this->paginate(CounterpartyResource::collection($this->repository->getCounterpartyByRole($request->validated(), Counterparty::PROVIDER)));
     }
 
 

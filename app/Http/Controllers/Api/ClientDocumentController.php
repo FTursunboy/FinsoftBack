@@ -47,7 +47,7 @@ class ClientDocumentController extends Controller
 
     public function return(DocumentRequest $request): JsonResponse
     {
-        return $this->created($this->repository->store(DocumentDTO::fromRequest($request), Status::CLIENT_RETURN));
+        return $this->created(DocumentResource::make($this->repository->store(DocumentDTO::fromRequest($request), Status::CLIENT_RETURN)));
     }
 
     public function massDelete(IdRequest $request, MassOperationInterface $delete)
