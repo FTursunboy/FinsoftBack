@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignId('author_id')->constrained('users');
             $table->text('comment')->nullable();
             $table->foreignId('currency_id')->constrained();
-            $table->decimal('summa', 10, 2);
+            $table->decimal('summa', 20, 2);
             $table->foreignId('order_type_id')->constrained();
             $table->softDeletes();
             $table->timestamps();
