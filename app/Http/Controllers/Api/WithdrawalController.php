@@ -18,7 +18,7 @@ class WithdrawalController extends Controller
 
     public function index(FilterRequest $request)
     {
-        return CashStoreResource::collection($this->repository->index($request->validated()));
+        return $this->paginate(CashStoreResource::collection($this->repository->index($request->validated())));
     }
 
     public function store(WithdrawalRequest $request)
