@@ -11,7 +11,7 @@ class Category extends Model implements \App\Repositories\Contracts\SoftDeleteIn
 {
     use Searchable, SoftDeletes, HasFactory;
 
-    protected $guarded = false;
+    protected $fillable = ['name', 'deleted_at'];
 
     public static function bootSoftDeletes()
     {

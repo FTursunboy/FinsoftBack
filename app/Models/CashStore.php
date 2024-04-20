@@ -55,6 +55,12 @@ class CashStore extends Model
         return $this->belongsTo(Currency::class, 'currency_id');
     }
 
+    public function organizationBill(): BelongsTo
+    {
+        return $this->belongsTo(OrganizationBill::class, 'organizationBill_id');
+    }
+
+
     public function modelFilter()
     {
         return $this->provideFilter(CashStoreFilter::class);
