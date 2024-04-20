@@ -15,7 +15,7 @@ class WithdrawalRequest extends FormRequest
             'organization_id' => ['required', Rule::exists('organizations', 'id')],
             'cashRegister_id' => ['required', Rule::exists('cash_registers', 'id')],
             'sum' => ['required'],
-            'organizationBill_id' => ['required', Rule::exists('organization_bills', 'id')],
+            'organization_bill_id' => ['required', Rule::exists('organization_bills', 'id')],
             'basis' => ['required'],
             'comment' => ['nullable'],
             'type_operation' => ['required', Rule::enum(CashOperationType::class)],

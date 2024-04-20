@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\StorageController;
 use App\Http\Controllers\Api\StorageEmployeeController;
 use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\WithdrawalController;
 use App\Http\Controllers\MovementDocumentController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
@@ -82,6 +83,11 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::group(['prefix' => 'cashStore'], function () {
         Route::get('/', [ClientPaymentController::class, 'index']);
         Route::post('clientPayment', [ClientPaymentController::class, 'store']);
+    });
+
+    Route::group(['prefix' => 'withdrawal'], function () {
+        Route::get('/', [WithdrawalController::class, 'index']);
+        Route::post('/', [WithdrawalController::class, 'store']);
     });
 
     Route::get('getExchangeRateByCurrencyId/{currency}', [CurrencyController::class, 'getExchangeRateByCurrencyId']);
