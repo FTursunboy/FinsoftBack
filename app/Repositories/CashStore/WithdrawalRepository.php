@@ -2,19 +2,22 @@
 
 namespace App\Repositories\CashStore;
 
-use App\DTO\ClientPaymentDTO;
 use App\DTO\WithdrawalDTO;
 use App\Models\CashStore;
-use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
+use App\Repositories\Contracts\CashStore\WithdrawalRepositoryInterface;
 
-class WithdrawalRepository implements CashStoreRepositoryInterface
+class WithdrawalRepository implements WithdrawalRepositoryInterface
 {
-
     public $model = CashStore::class;
 
-    public function withdrawal(WithdrawalDTO $dto)
+    public function index(array $data)
     {
-        $this->model::create([
+
+    }
+
+    public function store(WithdrawalDTO $dto)
+    {
+        return $this->model::create([
             'doc_number' => $this->orderUniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
@@ -39,10 +42,5 @@ class WithdrawalRepository implements CashStoreRepositoryInterface
         }
 
         return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
-    }
-
-    public function index()
-    {
-
     }
 }

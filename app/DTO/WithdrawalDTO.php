@@ -2,7 +2,7 @@
 
 namespace App\DTO;
 
-use App\Http\Requests\Api\CashStore\ClientPaymentRequest;
+use App\Http\Requests\Api\CashStore\WithdrawalRequest;
 
 class WithdrawalDTO
 {
@@ -11,7 +11,7 @@ class WithdrawalDTO
     {
     }
 
-    public static function fromRequest(ClientPaymentRequest $request) :self
+    public static function fromRequest(WithdrawalRequest $request) :self
     {
         return new static(
             $request->get('date'),

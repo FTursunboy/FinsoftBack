@@ -8,8 +8,8 @@ use App\DTO\WithdrawalDTO;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
-interface CashStoreRepositoryInterface
+interface WithdrawalRepositoryInterface
 {
     public function index(array $data);
-    public function clientPayment(ClientPaymentDTO $dto);
+    public function store(WithdrawalDTO $dto);
 }
