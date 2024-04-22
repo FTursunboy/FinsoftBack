@@ -19,7 +19,6 @@ class ClientPaymentRequest extends FormRequest
             'counterparty_agreement_id' => ['required'],
             'basis' => ['required'],
             'comment' => ['nullable'],
-            'type_operation' => ['required', \Illuminate\Validation\Rule::enum(CashOperationType::class)],
             'type' => ['required', 'string', \Illuminate\Validation\Rule::in(['RKO', 'PKO'])]
         ];
     }
