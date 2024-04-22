@@ -22,7 +22,7 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
 
         $query = $this->model::query();
 
-        $query = $this->search($query, $filterParams);
+        $query = $this->search($filterParams, $query);
 
         $query = $this->filter($query, $filterParams);
 
@@ -75,24 +75,7 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
         \DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 
-    public function getCounterpartyByRole(array $data, string $role) :LengthAwarePaginator
-    {
-        $filterParams = $this->model::filter($data);
-
-        $query = $this->model::whereHas('roles', function ($query) use ($role) {
-            return $query->where('name', $role);
-        });
-
-        $query = $this->search($query, $filterParams);
-
-        $query = $this->filter($query, $filterParams);
-
-        $query = $this->sort($filterParams, $query, []);
-
-        return $query->paginate($filterParams['itemsPerPage']);
-    }
-
-    public function search($query, array $filterParams)
+    public function search(array $filterParams, $query)
     {
         $searchTerm = explode(' ', $filterParams['search']);
 
@@ -123,5 +106,37 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
                     return $query->whereIn('role_id', $data['roles']);
                 });
             });
+    }
+
+    public function providers(array $data)
+    {
+        $filterParams = $this->model::filter($data);
+        $query = $this->model::whereHas('roles', function ($query) {
+            $query->where('name', '==', 'Клиент');
+        });
+
+        $query = $this->search($filterParams, $query);
+
+        $query = $this->filter($query, $filterParams);
+
+        $query = $this->sort($filterParams, $query, []);
+
+        return $query->paginate($filterParams['itemsPerPage']);
+    }
+
+    public function clients(array $data)
+    {
+        $filterParams = $this->model::filter($data);
+        $query = $this->model::whereHas('roles', function ($query) {
+            $query->where('name', 'Поставщик');
+        });
+
+        $query = $this->search($filterParams, $query);
+
+        $query = $this->filter($query, $filterParams);
+
+        $query = $this->sort($filterParams, $query, []);
+
+        return $query->paginate($filterParams['itemsPerPage']);
     }
 }
