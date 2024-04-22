@@ -112,7 +112,7 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
     {
         $filterParams = $this->model::filter($data);
         $query = $this->model::whereHas('roles', function ($query) {
-            $query->where('name', '==', 'Клиент');
+            $query->where('name', 'Поставщик');
         });
 
         $query = $this->search($filterParams, $query);
@@ -127,8 +127,9 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
     public function clients(array $data)
     {
         $filterParams = $this->model::filter($data);
+
         $query = $this->model::whereHas('roles', function ($query) {
-            $query->where('name', 'Поставщик');
+            $query->where('name', 'Клиент');
         });
 
         $query = $this->search($filterParams, $query);
