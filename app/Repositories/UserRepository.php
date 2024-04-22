@@ -98,7 +98,6 @@ class UserRepository implements UserRepositoryInterface
 
         $query = $this->sort($filteredParams, $query);
 
-
         return $query->paginate($filteredParams['itemsPerPage']);
     }
 }

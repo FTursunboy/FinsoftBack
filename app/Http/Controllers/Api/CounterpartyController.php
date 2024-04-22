@@ -66,18 +66,13 @@ class CounterpartyController extends Controller
         return $this->success($restore->massRestore(new Counterparty(), $request->validated()));
     }
 
-    public function clients()
+    public function clients(FilterRequest $request)
     {
-        return $this->paginate(CounterpartyResource::collection(Counterparty::whereHas('roles', function ($query) {
-            return $query->where('name', 'Клиент');
-        })->paginate(25)));
+        return $this->paginate(CounterpartyResource::collection($this->repository->clients($request->validated())));
     }
-
-    public function providers()
+    public function providers(FilterRequest $request)
     {
-        return $this->paginate(CounterpartyResource::collection(Counterparty::whereHas('roles', function ($query) {
-            return $query->where('name', 'Поставщик');
-        })->paginate(25)));
+        return $this->paginate(CounterpartyResource::collection($this->repository->providers($request->validated())));
     }
 
 
