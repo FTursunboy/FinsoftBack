@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\ExchangeRateController;
 use App\Http\Controllers\Api\GoodController;
 use App\Http\Controllers\Api\GoodGroupController;
 use App\Http\Controllers\Api\GroupController;
+use App\Http\Controllers\Api\HiringController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\InventoryDocumentController;
 use App\Http\Controllers\Api\OrganizationBillController;
@@ -177,6 +178,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::post('/massDelete', [UnitController::class, 'massDelete']);
         Route::post('/massRestore', [UnitController::class, 'massRestore']);
     });
+
+    Route::apiResource('hiring', HiringController::class);
 
     Route::group(['prefix' => 'goods'], function () {
         Route::post('/massDelete', [GoodController::class, 'massDelete']);

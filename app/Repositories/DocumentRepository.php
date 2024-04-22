@@ -394,11 +394,4 @@ class DocumentRepository implements DocumentRepositoryInterface
             });
     }
 
-    public function documentAuthor(int $status)
-    {
-        return User::select('users.*')
-            ->join('documents', 'documents.author_id', '=', 'users.id')
-            ->distinct()
-            ->paginate(25);
-    }
 }

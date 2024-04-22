@@ -85,14 +85,14 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             RoleSeeder::class,
-            StatusSeeder::class,
-            FactorySeeder::class
+            StatusSeeder::class
         ]);
+
+        $this->call(FactorySeeder::class);
     }
 
     public function permissionList()
     {
        return Permission::get()->pluck('name');
-
     }
 }
