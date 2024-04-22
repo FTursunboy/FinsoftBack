@@ -6,6 +6,7 @@ use App\DTO\CashStore\ProviderRefundDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\ProviderRefundRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class ProviderRefundRepository implements ProviderRefundRepositoryInterface
 {
@@ -35,7 +36,8 @@ class ProviderRefundRepository implements ProviderRefundRepositoryInterface
             'basis' => $dto->basis,
             'comment' => $dto->comment,
             'operation_type' => CashOperationType::ProviderRefund,
-            'type' => $dto->type
+            'type' => $dto->type,
+            'author_id' => Auth::id()
         ]);
     }
 
