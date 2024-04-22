@@ -8,12 +8,14 @@ use App\Models\Category;
 use App\Models\Counterparty;
 use App\Models\CounterpartyAgreement;
 use App\Models\Currency;
+use App\Models\Department;
 use App\Models\Document;
 use App\Models\Employee;
 use App\Models\EmployeeStorage;
 use App\Models\ExchangeRate;
 use App\Models\Good;
 use App\Models\GoodGroup;
+use App\Models\Hiring;
 use App\Models\Organization;
 use App\Models\OrganizationBill;
 use App\Models\Position;
@@ -48,6 +50,8 @@ class FactorySeeder extends Seeder
         EmployeeStorage::factory(5)->create();
         ExchangeRate::factory(5)->create();
         OrganizationBill::factory(5)->create();
+        Department::factory(5)->create();
+        Hiring::factory(5)->create();
 
     }
 }

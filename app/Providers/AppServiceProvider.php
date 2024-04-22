@@ -6,6 +6,7 @@ use App\Repositories\AuthRepository;
 use App\Repositories\BarcodeRepository;
 use App\Repositories\CashRegisterRepository;
 use App\Repositories\CashStore\ClientPaymentRepository;
+use App\Repositories\Contracts\HiringRepositoryInterface;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Repositories\Contracts\BarcodeRepositoryInterface;
@@ -43,6 +44,7 @@ use App\Repositories\ExchangeRateRepository;
 use App\Repositories\GoodGroupRepository;
 use App\Repositories\GoodRepository;
 use App\Repositories\GroupRepository;
+use App\Repositories\HiringRepository;
 use App\Repositories\ImageRepository;
 use App\Repositories\InventoryDocumentRepository;
 use App\Repositories\MassOperation;
@@ -92,6 +94,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(MovementDocumentRepositoryInterface::class, MovementDocumentRepository::class);
         $this->app->singleton(InventoryDocumentRepositoryInterface::class, InventoryDocumentRepository::class);
         $this->app->singleton(CashStoreRepositoryInterface::class, ClientPaymentRepository::class);
+        $this->app->singleton(HiringRepositoryInterface::class, HiringRepository::class);
 
     }
 

@@ -22,6 +22,7 @@ class DepartmentController extends Controller
 
     public function store(DepartmentRequest $request)
     {
+
         $this->authorize('create', Department::class);
 
         return new DepartmentResource(Department::create($request->validated()));
