@@ -42,7 +42,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
         $query = $this->filter($query, $filteredParams);
 
-        $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
+        $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency']);
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }
@@ -233,6 +233,19 @@ class DocumentRepository implements DocumentRepositoryInterface
         }
     }
 
+    public function goodDocument($good, $document)
+    {
+        return [
+            'good_id' => $good['good_id'],
+            'amount' => $good['amount'],
+            'price' => $good['price'],
+            'document_id' => $document->id,
+            'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
+            'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
+            'updated_at' => Carbon::now()
+        ];
+    }
+
     public function approve(Document $document)
     {
 
@@ -274,21 +287,9 @@ class DocumentRepository implements DocumentRepositoryInterface
     public function updateOrderGoods(OrderDocument $document, array $goods)
     {
         foreach ($goods as $good) {
-            if (isset($good['id'])) {
-                OrderDocumentGoods::updateOrCreate(
-                    ['id' => $good['id']],
-                    [
-                        'good_id' => $good['good_id'],
-                        'amount' => $good['amount'],
-                        'price' => $good['price'],
-                        'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
-                        'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
-                        'order_document_id' => $document->id,
-                        'updated_at' => Carbon::now()
-                    ]
-                );
-            } else {
-                OrderDocumentGoods::create([
+            OrderDocumentGoods::updateOrCreate(
+                ['id' => $good['id']],
+                [
                     'good_id' => $good['good_id'],
                     'amount' => $good['amount'],
                     'price' => $good['price'],
@@ -296,8 +297,8 @@ class DocumentRepository implements DocumentRepositoryInterface
                     'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
                     'order_document_id' => $document->id,
                     'updated_at' => Carbon::now()
-                ]);
-            }
+                ]
+            );
         }
     }
 
@@ -398,6 +399,6 @@ class DocumentRepository implements DocumentRepositoryInterface
         return User::select('users.*')
             ->join('documents', 'documents.author_id', '=', 'users.id')
             ->distinct()
-            ->get();
+            ->paginate(25);
     }
 }

@@ -6,13 +6,11 @@ use App\Repositories\AuthRepository;
 use App\Repositories\BarcodeRepository;
 use App\Repositories\CashRegisterRepository;
 use App\Repositories\CashStore\ClientPaymentRepository;
-use App\Repositories\CashStore\WithdrawalRepository;
-use App\Repositories\CategoryRepository;
+use App\Repositories\DepartmentRepository;
 use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Repositories\Contracts\BarcodeRepositoryInterface;
 use App\Repositories\Contracts\CashRegisterRepositoryInterface;
 use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
-use App\Repositories\Contracts\CashStore\WithdrawalRepositoryInterface;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Repositories\Contracts\CounterpartyAgreementRepositoryInterface;
 use App\Repositories\Contracts\CounterpartyRepositoryInterface;
@@ -79,7 +77,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(EmployeeRepositoryInterface::class, EmployeeRepository::class);
         $this->app->singleton(UserRepositoryInterface::class, UserRepository::class);
         $this->app->singleton(StorageRepositoryInterface::class, StorageRepository::class);
-        $this->app->singleton(CategoryRepositoryInterface::class, CategoryRepository::class);
+        $this->app->singleton(CategoryRepositoryInterface::class, DepartmentRepository::class);
         $this->app->singleton(UnitRepositoryInterface::class, UnitRepository::class);
         $this->app->singleton(GoodRepositoryInterface::class, GoodRepository::class);
         $this->app->singleton(DocumentRepositoryInterface::class, DocumentRepository::class);
@@ -94,7 +92,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(MovementDocumentRepositoryInterface::class, MovementDocumentRepository::class);
         $this->app->singleton(InventoryDocumentRepositoryInterface::class, InventoryDocumentRepository::class);
         $this->app->singleton(CashStoreRepositoryInterface::class, ClientPaymentRepository::class);
-        $this->app->singleton(WithdrawalRepositoryInterface::class, WithdrawalRepository::class);
 
     }
 

@@ -28,6 +28,7 @@ use App\Http\Controllers\Api\StorageEmployeeController;
 use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WithdrawalController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MovementDocumentController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
@@ -165,6 +166,15 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::post('/massDelete', [CounterpartyController::class, 'massDelete']);
         Route::post('/massRestore', [CounterpartyController::class, 'massRestore']);
     });
+
+    Route::apiResource('department', DepartmentController::class);
+
+    Route::group(['prefix' => 'department'], function () {
+        Route::post('massDelete', [DepartmentController::class, 'destroy']);
+        Route::post('restore', [DepartmentController::class, 'restore']);
+    });
+
+
 
     Route::group(['prefix' => 'currency'], function () {
         Route::get('/restore/{currency}', [CurrencyController::class, 'restore']);
