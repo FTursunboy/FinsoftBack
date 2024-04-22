@@ -11,6 +11,8 @@ enum CashOperationType :string {
 
     case Investment = 'Вложение';
 
+    case AnotherCashRegister = 'Получение с другой кассы';
+
     case CreditReceive = 'Получение кредита';
 
     case ProviderRefund = 'Возврат от поставщика';

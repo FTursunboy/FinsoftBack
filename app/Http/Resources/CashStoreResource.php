@@ -18,6 +18,7 @@ class CashStoreResource extends JsonResource
             'doc_number' => $this->doc_number,
             'organization' => OrganizationResource::make($this->whenLoaded('organization')),
             'cashRegister' => CashRegisterResource::make($this->whenLoaded('cashRegister')),
+            'senderCashRegister' => CashRegisterResource::make($this->whenLoaded('senderCashRegister')),
             'sender' => CounterpartyResource::make($this->whenLoaded('counterparty')),
             'organizationBill' => OrganizationBillResource::make($this->whenLoaded('organizationBill')),
             'sum' => $this->sum,

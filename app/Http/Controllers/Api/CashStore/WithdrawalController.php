@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\CashStore;
 
-use App\DTO\WithdrawalDTO;
+use App\DTO\CashStore\WithdrawalDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CashStore\FilterRequest;
 use App\Http\Requests\Api\CashStore\WithdrawalRequest;

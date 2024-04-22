@@ -2,11 +2,7 @@
 
 namespace App\Repositories\Contracts\CashStore;
 
-use App\DTO\ClientPaymentDTO;
-use App\DTO\LoginDTO;
-use App\DTO\WithdrawalDTO;
-use App\Models\User;
-use Illuminate\Http\JsonResponse;
+use App\DTO\CashStore\ClientPaymentDTO;
 
 interface CashStoreRepositoryInterface
 {
