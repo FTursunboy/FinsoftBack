@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\CashStore\AnotherCashRegisterController;
 use App\Http\Controllers\Api\CashStore\ClientPaymentController;
 use App\Http\Controllers\Api\CashStore\CreditReceiveController;
 use App\Http\Controllers\Api\CashStore\InvestmentController;
+use App\Http\Controllers\Api\CashStore\OtherExpensesController;
+use App\Http\Controllers\Api\CashStore\OtherIncomesController;
 use App\Http\Controllers\Api\CashStore\ProviderRefundController;
 use App\Http\Controllers\Api\CashStore\WithdrawalController;
 use App\Http\Controllers\Api\CategoryController;
@@ -119,6 +121,16 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::group(['prefix' => 'accountable-person-refund'], function () {
         Route::get('/', [AccountablePersonRefundController::class, 'index']);
         Route::post('/', [AccountablePersonRefundController::class, 'store']);
+    });
+
+    Route::group(['prefix' => 'other-expenses'], function () {
+        Route::get('/', [OtherExpensesController::class, 'index']);
+        Route::post('/', [OtherExpensesController::class, 'store']);
+    });
+
+    Route::group(['prefix' => 'other-incomes'], function () {
+        Route::get('/', [OtherIncomesController::class, 'index']);
+        Route::post('/', [OtherIncomesController::class, 'store']);
     });
 
     Route::get('getExchangeRateByCurrencyId/{currency}', [CurrencyController::class, 'getExchangeRateByCurrencyId']);
