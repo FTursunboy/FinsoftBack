@@ -6,6 +6,7 @@ use App\DTO\CashStore\InvestmentDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\InvestmentRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class InvestmentRepository implements InvestmentRepositoryInterface
 {
@@ -36,7 +37,8 @@ class InvestmentRepository implements InvestmentRepositoryInterface
             'basis' => $dto->basis,
             'comment' => $dto->comment,
             'operation_type' => CashOperationType::Investment,
-            'type' => $dto->type
+            'type' => $dto->type,
+            'author_id' => Auth::id()
         ]);
     }
 

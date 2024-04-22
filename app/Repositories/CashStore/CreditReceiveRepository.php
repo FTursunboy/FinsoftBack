@@ -6,6 +6,7 @@ use App\DTO\CashStore\CreditReceiveDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\CreditReceiveRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class CreditReceiveRepository implements CreditReceiveRepositoryInterface
 {
@@ -36,7 +37,8 @@ class CreditReceiveRepository implements CreditReceiveRepositoryInterface
             'basis' => $dto->basis,
             'comment' => $dto->comment,
             'operation_type' => CashOperationType::CreditReceive,
-            'type' => $dto->type
+            'type' => $dto->type,
+            'author_id' => Auth::id()
         ]);
     }
 

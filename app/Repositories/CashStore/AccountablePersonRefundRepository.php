@@ -3,11 +3,10 @@
 namespace App\Repositories\CashStore;
 
 use App\DTO\CashStore\AccountablePersonRefundDTO;
-use App\DTO\CashStore\CreditReceiveDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\AccountablePersonRefundRepositoryInterface;
-use App\Repositories\Contracts\CashStore\CreditReceiveRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class AccountablePersonRefundRepository implements AccountablePersonRefundRepositoryInterface
 {
@@ -37,7 +36,8 @@ class AccountablePersonRefundRepository implements AccountablePersonRefundReposi
             'basis' => $dto->basis,
             'comment' => $dto->comment,
             'operation_type' => CashOperationType::AccountablePersonRefund,
-            'type' => $dto->type
+            'type' => $dto->type,
+            'author_id' => Auth::id()
         ]);
     }
 

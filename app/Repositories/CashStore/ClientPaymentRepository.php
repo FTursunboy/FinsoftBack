@@ -6,6 +6,7 @@ use App\DTO\CashStore\ClientPaymentDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class ClientPaymentRepository implements CashStoreRepositoryInterface
 {
@@ -34,7 +35,8 @@ class ClientPaymentRepository implements CashStoreRepositoryInterface
             'basis' => $dto->basis,
             'comment' => $dto->comment,
             'operation_type' => CashOperationType::ClientPayment,
-            'type' => $dto->type
+            'type' => $dto->type,
+            'author_id' => Auth::id()
         ]);
     }
 
