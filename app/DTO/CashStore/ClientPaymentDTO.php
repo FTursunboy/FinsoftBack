@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO;
+namespace App\DTO\CashStore;
 
 
 use App\Http\Requests\Api\CashStore\ClientPaymentRequest;
@@ -8,7 +8,7 @@ use App\Http\Requests\Api\CashStore\ClientPaymentRequest;
 class ClientPaymentDTO
 {
     public function __construct(public string $date, public int $organization_id, public int $cashRegister_id,
-                                public int $sum, public int $counterparty_id, public int $counterparty_agreement_id, public string $basis, public ?string $comment, public string $operation_type, public string $type)
+                                public int $sum, public int $counterparty_id, public int $counterparty_agreement_id, public string $basis, public ?string $comment, public ?string $type)
     {
     }
 
@@ -23,8 +23,7 @@ class ClientPaymentDTO
             $request->get('counterparty_agreement_id'),
             $request->get('basis'),
             $request->get('comment'),
-            $request->get('type_operation'),
-            $request->get('type')
+            $request->get('type'),
         );
     }
 }

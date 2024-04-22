@@ -1,13 +1,13 @@
 <?php
 
-namespace App\DTO;
+namespace App\DTO\CashStore;
 
 use App\Http\Requests\Api\CashStore\WithdrawalRequest;
 
 class WithdrawalDTO
 {
     public function __construct(public string $date, public int $organization_id, public int $cashRegister_id,
-                                public int $sum, public int $organization_bill_id, public string $basis, public ?string $comment, public string $operation_type, public string $type)
+                                public int $sum, public int $organization_bill_id, public string $basis, public ?string $comment, public ?string $type)
     {
     }
 
@@ -21,7 +21,6 @@ class WithdrawalDTO
             $request->get('organization_bill_id'),
             $request->get('basis'),
             $request->get('comment'),
-            $request->get('type_operation'),
             $request->get('type')
         );
     }

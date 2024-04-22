@@ -18,11 +18,12 @@ class CashStoreResource extends JsonResource
             'doc_number' => $this->doc_number,
             'organization' => OrganizationResource::make($this->whenLoaded('organization')),
             'cashRegister' => CashRegisterResource::make($this->whenLoaded('cashRegister')),
+            'senderCashRegister' => CashRegisterResource::make($this->whenLoaded('senderCashRegister')),
             'sender' => CounterpartyResource::make($this->whenLoaded('counterparty')),
             'organizationBill' => OrganizationBillResource::make($this->whenLoaded('organizationBill')),
             'sum' => $this->sum,
             'currency' => CurrencyResource::make($this->whenLoaded('currency')),
-            'author_id' => UserResource::make($this->author)
+            'author' => UserResource::make($this->whenLoaded('author'))
         ];
     }
 }

@@ -3,32 +3,37 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BarcodeController;
 use App\Http\Controllers\Api\CashRegisterController;
+use App\Http\Controllers\Api\CashStore\AccountablePersonRefundController;
+use App\Http\Controllers\Api\CashStore\AnotherCashRegisterController;
+use App\Http\Controllers\Api\CashStore\ClientPaymentController;
+use App\Http\Controllers\Api\CashStore\CreditReceiveController;
+use App\Http\Controllers\Api\CashStore\InvestmentController;
+use App\Http\Controllers\Api\CashStore\ProviderRefundController;
+use App\Http\Controllers\Api\CashStore\WithdrawalController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ClientDocumentController;
-use App\Http\Controllers\Api\ClientPaymentController;
 use App\Http\Controllers\Api\CounterpartyAgreementController;
 use App\Http\Controllers\Api\CounterpartyController;
 use App\Http\Controllers\Api\CurrencyController;
 use App\Http\Controllers\Api\DocumentController;
+use App\Http\Controllers\Api\EmployeeController;
+use App\Http\Controllers\Api\ExchangeRateController;
+use App\Http\Controllers\Api\GoodController;
 use App\Http\Controllers\Api\GoodGroupController;
 use App\Http\Controllers\Api\GroupController;
 use App\Http\Controllers\Api\HiringController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\InventoryDocumentController;
-use App\Http\Controllers\Api\PermissionController;
-use App\Http\Controllers\Api\ProviderDocumentController;
-use App\Http\Controllers\Api\EmployeeController;
-use App\Http\Controllers\Api\ExchangeRateController;
-use App\Http\Controllers\Api\GoodController;
 use App\Http\Controllers\Api\OrganizationBillController;
 use App\Http\Controllers\Api\OrganizationController;
+use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\PriceTypeController;
+use App\Http\Controllers\Api\ProviderDocumentController;
 use App\Http\Controllers\Api\StorageController;
 use App\Http\Controllers\Api\StorageEmployeeController;
 use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\WithdrawalController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MovementDocumentController;
 use App\Http\Controllers\SettingsController;
@@ -90,6 +95,31 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::group(['prefix' => 'withdrawal'], function () {
         Route::get('/', [WithdrawalController::class, 'index']);
         Route::post('/', [WithdrawalController::class, 'store']);
+    });
+
+    Route::group(['prefix' => 'another-cash-register'], function () {
+        Route::get('/', [AnotherCashRegisterController::class, 'index']);
+        Route::post('/', [AnotherCashRegisterController::class, 'store']);
+    });
+
+    Route::group(['prefix' => 'investment'], function () {
+        Route::get('/', [InvestmentController::class, 'index']);
+        Route::post('/', [InvestmentController::class, 'store']);
+    });
+
+    Route::group(['prefix' => 'credit-receive'], function () {
+        Route::get('/', [CreditReceiveController::class, 'index']);
+        Route::post('/', [CreditReceiveController::class, 'store']);
+    });
+
+    Route::group(['prefix' => 'provider-refund'], function () {
+        Route::get('/', [ProviderRefundController::class, 'index']);
+        Route::post('/', [ProviderRefundController::class, 'store']);
+    });
+
+    Route::group(['prefix' => 'accountable-person-refund'], function () {
+        Route::get('/', [AccountablePersonRefundController::class, 'index']);
+        Route::post('/', [AccountablePersonRefundController::class, 'store']);
     });
 
     Route::get('getExchangeRateByCurrencyId/{currency}', [CurrencyController::class, 'getExchangeRateByCurrencyId']);

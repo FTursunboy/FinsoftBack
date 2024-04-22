@@ -6,19 +6,20 @@ use App\Enums\CashOperationType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class WithdrawalRequest extends FormRequest
+class CreditReceiveRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
             'date' => ['required', 'date'],
-            'organization_id' => ['required', Rule::exists('organizations', 'id')],
-            'cashRegister_id' => ['required', Rule::exists('cash_registers', 'id')],
+            'organization_id' => ['required'],
+            'cash_register_id' => ['required', Rule::exists('cash_registers', 'id')],
             'sum' => ['required'],
-            'organization_bill_id' => ['required', Rule::exists('organization_bills', 'id')],
+            'counterparty_id' => ['required', Rule::exists('counterparties', 'id')],
+            'counterparty_agreement_id' => ['required', Rule::exists('counterparty_agreements', 'id')],
             'basis' => ['required'],
             'comment' => ['nullable'],
-            'type' => ['required', 'string', \Illuminate\Validation\Rule::in(['RKO', 'PKO'])]
+            'type' => ['required', 'string', Rule::in(['RKO', 'PKO'])]
         ];
     }
 

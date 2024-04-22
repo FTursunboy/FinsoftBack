@@ -45,6 +45,11 @@ class CashStore extends Model
         return $this->belongsTo(CashRegister::class, 'cashRegister_id');
     }
 
+    public function senderCashRegister(): BelongsTo
+    {
+        return $this->belongsTo(CashRegister::class, 'senderCashRegister_id');
+    }
+
     public function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class, 'organization_id');

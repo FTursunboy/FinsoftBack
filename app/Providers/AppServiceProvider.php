@@ -5,8 +5,20 @@ namespace App\Providers;
 use App\Repositories\AuthRepository;
 use App\Repositories\BarcodeRepository;
 use App\Repositories\CashRegisterRepository;
+use App\Repositories\CashStore\AccountablePersonRefundRepository;
+use App\Repositories\CashStore\AnotherCashRegisterRepository;
 use App\Repositories\CashStore\ClientPaymentRepository;
 use App\Repositories\Contracts\HiringRepositoryInterface;
+use App\Repositories\CashStore\CreditReceiveRepository;
+use App\Repositories\CashStore\InvestmentRepository;
+use App\Repositories\CashStore\ProviderRefundRepository;
+use App\Repositories\CashStore\WithdrawalRepository;
+use App\Repositories\Contracts\CashStore\AccountablePersonRefundRepositoryInterface;
+use App\Repositories\Contracts\CashStore\AnotherCashRegisterRepositoryInterface;
+use App\Repositories\Contracts\CashStore\CreditReceiveRepositoryInterface;
+use App\Repositories\Contracts\CashStore\InvestmentRepositoryInterface;
+use App\Repositories\Contracts\CashStore\ProviderRefundRepositoryInterface;
+use App\Repositories\Contracts\CashStore\WithdrawalRepositoryInterface;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Repositories\Contracts\BarcodeRepositoryInterface;
@@ -95,6 +107,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(InventoryDocumentRepositoryInterface::class, InventoryDocumentRepository::class);
         $this->app->singleton(CashStoreRepositoryInterface::class, ClientPaymentRepository::class);
         $this->app->singleton(HiringRepositoryInterface::class, HiringRepository::class);
+        $this->app->singleton(WithdrawalRepositoryInterface::class, WithdrawalRepository::class);
+        $this->app->singleton(AnotherCashRegisterRepositoryInterface::class, AnotherCashRegisterRepository::class);
+        $this->app->singleton(InvestmentRepositoryInterface::class, InvestmentRepository::class);
+        $this->app->singleton(CreditReceiveRepositoryInterface::class, CreditReceiveRepository::class);
+        $this->app->singleton(ProviderRefundRepositoryInterface::class, ProviderRefundRepository::class);
+        $this->app->singleton(AccountablePersonRefundRepositoryInterface::class, AccountablePersonRefundRepository::class);
 
     }
 
