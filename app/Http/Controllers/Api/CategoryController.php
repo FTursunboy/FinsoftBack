@@ -10,7 +10,7 @@ use App\Http\Requests\IdRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Models\Currency;
-use App\Repositories\CategoryRepository;
+use App\Repositories\DepartmentRepository;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
@@ -35,12 +35,12 @@ class CategoryController extends Controller
         return $this->success(CategoryResource::make($category));
     }
 
-    public function store(CategoryRequest $request, CategoryRepository $repository)
+    public function store(CategoryRequest $request, DepartmentRepository $repository)
     {
         return $this->created(CategoryResource::make($repository->store(CategoryDTO::fromRequest($request))));
     }
 
-    public function update(Category $category, CategoryRequest $request, CategoryRepository $repository)
+    public function update(Category $category, CategoryRequest $request, DepartmentRepository $repository)
     {
         return $this->success(CategoryResource::make($repository->update($category, CategoryDTO::fromRequest($request))));
     }

@@ -4,38 +4,37 @@ namespace App\Repositories;
 
 use App\DTO\CategoryDTO;
 use App\Models\Category;
+use App\Models\Department;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class CategoryRepository implements CategoryRepositoryInterface
+class DepartmentRepository implements CategoryRepositoryInterface
 {
     use Sort, FilterTrait;
 
-    public $model = Category::class;
+    public $model = Department::class;
 
     public function index(array $data): LengthAwarePaginator
     {
-        $filterParams = $this->processSearchData($data);
+        $filterParams = $this->model::filterData();
 
-        $query = $this->search($filterParams['search']);
-
-        $query = $this->sort($filterParams, $query, []);
+        $query = $this->model::filter($filterParams);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
 
 
-    public function store(CategoryDTO $DTO)
+    public function store(DepartmentDTO $DTO)
     {
-        return Category::create([
+        return $this->model::create([
             'name' => $DTO->name,
         ]);
     }
 
-    public function update(Category $category, CategoryDTO $DTO) :Category
+    public function update(Department $department, CategoryDTO $DTO) :Category
     {
         $category->update([
             'name' => $DTO->name,
@@ -44,8 +43,4 @@ class CategoryRepository implements CategoryRepositoryInterface
         return $category;
     }
 
-    public function search(string $search)
-    {
-        return $this->model::where('name', 'like', '%' . $search . '%');
-    }
 }

@@ -66,6 +66,6 @@ class DocumentController extends Controller
 
     public function documentAuthor()
     {
-        return $this->success(UserResource::collection($this->repository->documentAuthor(Status::PROVIDER_PURCHASE)));
+        return $this->paginate(UserResource::collection($this->repository->documentAuthor(Status::PROVIDER_PURCHASE)));
     }
 }

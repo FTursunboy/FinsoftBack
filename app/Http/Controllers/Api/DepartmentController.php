@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DepartmentRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\DepartmentResource;
 use App\Models\Department;
+use App\Models\Unit;
+use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 
 class DepartmentController extends Controller
@@ -14,7 +17,7 @@ class DepartmentController extends Controller
     {
         $this->authorize('viewAny', Department::class);
 
-        return $this->success(DepartmentResource::collection(Department::all()););
+        return $this->success(DepartmentResource::collection(Department::all()));
     }
 
     public function store(DepartmentRequest $request)
@@ -40,12 +43,13 @@ class DepartmentController extends Controller
         return new DepartmentResource($department);
     }
 
-    public function destroy(Department $department)
+    public function destroy(IdRequest $request, MassOperationInterface $delete)
     {
-        $this->authorize('delete', $department);
+        return $delete->massDelete(new Department(), $request->validated());
+    }
 
-        $department->delete();
-
-        return response()->json();
+    public function restore(IdRequest $request, MassOperationInterface $restore)
+    {
+        return $this->success($restore->massRestore(new Department(), $request->validated()));
     }
 }

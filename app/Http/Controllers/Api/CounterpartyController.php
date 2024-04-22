@@ -70,12 +70,14 @@ class CounterpartyController extends Controller
     {
         return $this->paginate(CounterpartyResource::collection(Counterparty::whereHas('roles', function ($query) {
             return $query->where('name', 'Клиент');
-        })->paginate(20)));
+        })->paginate(25)));
     }
 
-    public function providers(FilterRequest $request)
+    public function providers()
     {
-        return $this->paginate(CounterpartyResource::collection($this->repository->getCounterpartyByRole($request->validated(), Counterparty::PROVIDER)));
+        return $this->paginate(CounterpartyResource::collection(Counterparty::whereHas('roles', function ($query) {
+            return $query->where('name', 'Поставщик');
+        })->paginate(25)));
     }
 
 
