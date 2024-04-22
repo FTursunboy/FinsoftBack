@@ -64,8 +64,5 @@ class DocumentController extends Controller
         return $this->success($restore->massRestore(new Document(), $request->validated()));
     }
 
-    public function documentAuthor()
-    {
-        return $this->paginate(UserResource::collection($this->repository->documentAuthor(Status::PROVIDER_PURCHASE)));
-    }
+
 }
