@@ -2,12 +2,12 @@
 
 namespace App\Repositories\CashStore;
 
-use App\DTO\CashStore\ClientPaymentDTO;
+use App\DTO\CashStore\CreditReceiveDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
-use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
+use App\Repositories\Contracts\CashStore\CreditReceiveRepositoryInterface;
 
-class ClientPaymentRepository implements CashStoreRepositoryInterface
+class CreditReceiveRepository implements CreditReceiveRepositoryInterface
 {
 
     public $model = CashStore::class;
@@ -16,24 +16,26 @@ class ClientPaymentRepository implements CashStoreRepositoryInterface
     {
         $filteredParams = $this->model::filterData($data);
 
-        $query = $this->model::filter($filteredParams);
+        $query = $this->model::where('operation_type', CashOperationType::CreditReceive);
+
+        $query = $query->filter($filteredParams);
 
         return $query->with(['organization', 'cashRegister', 'counterparty', 'author', 'currency'])->paginate($filteredParams['itemsPerPage']);
     }
 
-    public function clientPayment(ClientPaymentDTO $dto)
+    public function store(CreditReceiveDTO $dto)
     {
-        $this->model::create([
+        return $this->model::create([
             'doc_number' => $this->orderUniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
-            'cashRegister_id' => $dto->cashRegister_id,
+            'cashRegister_id' => $dto->cash_register_id,
             'sum' => $dto->sum,
             'counterparty_id' => $dto->counterparty_id,
             'counterparty_agreement_id' => $dto->counterparty_agreement_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::ClientPayment,
+            'operation_type' => CashOperationType::CreditReceive,
             'type' => $dto->type
         ]);
     }
