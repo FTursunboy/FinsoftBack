@@ -76,4 +76,9 @@ class UserController extends Controller
     {
         return $this->deleted($this->repository->deleteImage($user));
     }
+
+    public function documentAuthors(FilterRequest $request)
+    {
+        return $this->paginate(UserResource::collection($this->repository->documentAuthors($request->validated())));
+    }
 }

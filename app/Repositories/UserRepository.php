@@ -22,7 +22,11 @@ class UserRepository implements UserRepositoryInterface
     {
         $filteredParams = $this->model::filter($data);
 
-        $query = $this->search($filteredParams['search']);
+        $query = $this->model::whereHas('roles', function ($query) {
+            $query->where('roles.name', '!=', 'admin');
+        });
+
+        $query = $this->search($filteredParams['search'], $query);
 
         $query = $this->sort($filteredParams, $query, ['organization', 'group']);
 
@@ -74,16 +78,27 @@ class UserRepository implements UserRepositoryInterface
         $user->update(['image' => null]);
     }
 
-    public function search(string $search)
+    public function search(string $search, $query)
     {
         $searchTerm = explode(' ', $search);
 
-        return $this->model::where(function ($query) use ($searchTerm) {
-            $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
-                ->whereHas('roles', function ($query) {
-                    $query->where('roles.name', '!=', 'admin');
-                });
+        return $query->where(function ($query) use ($searchTerm) {
+            $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
         });
 
+    }
+
+    public function documentAuthors(array $data)
+    {
+        $filteredParams = $this->model::filter($data);
+
+        $query = User::whereHas('documents');
+
+        $query = $this->search($filteredParams['search'], $query);
+
+        $query = $this->sort($filteredParams, $query);
+
+
+        return $query->paginate($filteredParams['itemsPerPage']);
     }
 }

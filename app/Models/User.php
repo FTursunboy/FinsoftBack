@@ -52,6 +52,11 @@ class User extends Authenticatable implements SoftDeleteInterface
 
     }
 
+    public function documents(): HasMany
+    {
+        return $this->hasMany(Document::class, 'author_id');
+    }
+
     public static function filter(array $data): array
     {
         return [
