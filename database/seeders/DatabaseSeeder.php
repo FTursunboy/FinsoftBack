@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\BalanceArticle;
 use App\Models\Group;
 use App\Models\OrderStatus;
 use App\Models\Setting;
@@ -45,6 +46,12 @@ class DatabaseSeeder extends Seeder
         ]);
         OrderStatus::create([
             'name' => 'Завершен',
+        ]);
+        BalanceArticle::create([
+            'name' => 'Статья 1',
+        ]);
+        BalanceArticle::create([
+            'name' => 'Статья 2',
         ]);
 
         $user = \App\Models\User::factory()->create([

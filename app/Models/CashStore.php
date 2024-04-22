@@ -34,7 +34,7 @@ class CashStore extends Model
         'organizationBill_id',
         'senderCashRegister_id',
         'employee_id',
-        'balanceKey_id',
+        'balance_article_id',
         'operation_type',
         'type'
     ];
@@ -76,10 +76,14 @@ class CashStore extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
-
     public function counterparty() :BelongsTo
     {
         return $this->belongsTo(Counterparty::class, 'counterparty_id');
+    }
+
+    public function employee() :BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'employee_id');
     }
 
     public static function filterData(array $data): array
