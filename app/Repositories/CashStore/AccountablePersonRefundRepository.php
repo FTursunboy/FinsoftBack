@@ -2,12 +2,14 @@
 
 namespace App\Repositories\CashStore;
 
-use App\DTO\CashStore\ClientPaymentDTO;
+use App\DTO\CashStore\AccountablePersonRefundDTO;
+use App\DTO\CashStore\CreditReceiveDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
-use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
+use App\Repositories\Contracts\CashStore\AccountablePersonRefundRepositoryInterface;
+use App\Repositories\Contracts\CashStore\CreditReceiveRepositoryInterface;
 
-class ClientPaymentRepository implements CashStoreRepositoryInterface
+class AccountablePersonRefundRepository implements AccountablePersonRefundRepositoryInterface
 {
 
     public $model = CashStore::class;
@@ -16,24 +18,25 @@ class ClientPaymentRepository implements CashStoreRepositoryInterface
     {
         $filteredParams = $this->model::filterData($data);
 
-        $query = $this->model::filter($filteredParams);
+        $query = $this->model::where('operation_type', CashOperationType::AccountablePersonRefund);
+
+        $query = $query->filter($filteredParams);
 
         return $query->with(['organization', 'cashRegister', 'counterparty', 'author', 'currency'])->paginate($filteredParams['itemsPerPage']);
     }
 
-    public function clientPayment(ClientPaymentDTO $dto)
+    public function store(AccountablePersonRefundDTO $dto)
     {
-        $this->model::create([
+        return $this->model::create([
             'doc_number' => $this->orderUniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
-            'cashRegister_id' => $dto->cashRegister_id,
+            'organizationBill_id' => $dto->organization_bill_id,
             'sum' => $dto->sum,
-            'counterparty_id' => $dto->counterparty_id,
-            'counterparty_agreement_id' => $dto->counterparty_agreement_id,
+            'employee_id' => $dto->employee_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::ClientPayment,
+            'operation_type' => CashOperationType::AccountablePersonRefund,
             'type' => $dto->type
         ]);
     }
