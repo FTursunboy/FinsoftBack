@@ -140,6 +140,55 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     });
 
+    Route::group(['prefix' => 'cash-store'], function () {
+        Route::group(['prefix' => 'client-payment'], function () {
+            Route::get('/', [ClientPaymentController::class, 'index']);
+            Route::post('/', [ClientPaymentController::class, 'store']);
+        });
+
+        Route::group(['prefix' => 'withdrawal'], function () {
+            Route::get('/', [WithdrawalController::class, 'index']);
+            Route::post('/', [WithdrawalController::class, 'store']);
+        });
+
+        Route::group(['prefix' => 'another-cash-register'], function () {
+            Route::get('/', [AnotherCashRegisterController::class, 'index']);
+            Route::post('/', [AnotherCashRegisterController::class, 'store']);
+        });
+
+        Route::group(['prefix' => 'investment'], function () {
+            Route::get('/', [InvestmentController::class, 'index']);
+            Route::post('/', [InvestmentController::class, 'store']);
+        });
+
+        Route::group(['prefix' => 'credit-receive'], function () {
+            Route::get('/', [CreditReceiveController::class, 'index']);
+            Route::post('/', [CreditReceiveController::class, 'store']);
+        });
+
+        Route::group(['prefix' => 'provider-refund'], function () {
+            Route::get('/', [ProviderRefundController::class, 'index']);
+            Route::post('/', [ProviderRefundController::class, 'store']);
+        });
+
+        Route::group(['prefix' => 'accountable-person-refund'], function () {
+            Route::get('/', [AccountablePersonRefundController::class, 'index']);
+            Route::post('/', [AccountablePersonRefundController::class, 'store']);
+        });
+
+        Route::group(['prefix' => 'other-expenses'], function () {
+            Route::get('/', [OtherExpensesController::class, 'index']);
+            Route::post('/', [OtherExpensesController::class, 'store']);
+            Route::get('balance-article', [OtherExpensesController::class, 'balanceArticle']);
+        });
+
+        Route::group(['prefix' => 'other-incomes'], function () {
+            Route::get('/', [OtherIncomesController::class, 'index']);
+            Route::post('/', [OtherIncomesController::class, 'store']);
+        });
+
+    });
+
     Route::get('getExchangeRateByCurrencyId/{currency}', [CurrencyController::class, 'getExchangeRateByCurrencyId']);
 
     Route::get('group/show/{group}', [GroupController::class, 'show']);
