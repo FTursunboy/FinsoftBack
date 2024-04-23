@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Api\CashStore;
+namespace App\Http\Requests\Api\CheckingAccount;
 
 use App\Enums\CashOperationType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class OtherExpensesRequest extends FormRequest
+class ProviderRefundRequest extends FormRequest
 {
     public function rules(): array
     {
@@ -15,7 +15,8 @@ class OtherExpensesRequest extends FormRequest
             'organization_id' => ['required'],
             'cash_register_id' => ['required', Rule::exists('cash_registers', 'id')],
             'sum' => ['required'],
-            'balance_article_id' => ['required', Rule::exists('balance_articles','id')],
+            'counterparty_id' => ['required', Rule::exists('counterparties', 'id')],
+            'counterparty_agreement_id' => ['required', Rule::exists('counterparty_agreements', 'id')],
             'basis' => ['required'],
             'comment' => ['nullable'],
             'type' => ['required', 'string', Rule::in(['RKO', 'PKO'])]

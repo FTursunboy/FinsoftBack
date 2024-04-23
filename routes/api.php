@@ -91,7 +91,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('group', GroupController::class)->except('index', 'show');
     Route::apiResource('good-group', GoodGroupController::class);
 
-    Route::group(['prefix' => 'cashStore'], function () {
+    Route::group(['prefix' => 'cash-store'], function () {
         Route::group(['prefix' => 'client-payment'], function () {
             Route::get('/', [ClientPaymentController::class, 'index']);
             Route::post('/', [ClientPaymentController::class, 'store']);
@@ -137,10 +137,9 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::get('/', [OtherIncomesController::class, 'index']);
             Route::post('/', [OtherIncomesController::class, 'store']);
         });
-
     });
 
-    Route::group(['prefix' => 'cash-store'], function () {
+    Route::group(['prefix' => 'checking-account'], function () {
         Route::group(['prefix' => 'client-payment'], function () {
             Route::get('/', [ClientPaymentController::class, 'index']);
             Route::post('/', [ClientPaymentController::class, 'store']);

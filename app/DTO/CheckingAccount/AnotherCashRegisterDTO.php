@@ -1,26 +1,25 @@
 <?php
 
-namespace App\DTO\CashStore;
+namespace App\DTO\CheckingAccount;
 
 
-use App\Http\Requests\Api\CashStore\AccountablePersonRefundRequest;
-use App\Http\Requests\Api\CashStore\OtherExpensesRequest;
+use App\Http\Requests\Api\CashStore\AnotherCashRegisterRequest;
 
-class OtherExpensesDTO
+class AnotherCashRegisterDTO
 {
     public function __construct(public string $date, public int $organization_id, public int $cash_register_id,
-                                public int $sum, public int $balance_article_id, public string $basis, public ?string $comment, public ?string $type)
+                                public int $sum, public int $sender_cash_register_id, public string $basis, public ?string $comment, public ?string $type)
     {
     }
 
-    public static function fromRequest(OtherExpensesRequest $request) :self
+    public static function fromRequest(AnotherCashRegisterRequest $request) :self
     {
         return new static(
             $request->get('date'),
             $request->get('organization_id'),
             $request->get('cash_register_id'),
             $request->get('sum'),
-            $request->get('balance_article_id'),
+            $request->get('sender_cash_register_id'),
             $request->get('basis'),
             $request->get('comment'),
             $request->get('type'),

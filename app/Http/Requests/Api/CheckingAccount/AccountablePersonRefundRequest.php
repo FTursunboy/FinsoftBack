@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Requests\Api\CashStore;
+namespace App\Http\Requests\Api\CheckingAccount;
 
 use App\Enums\CashOperationType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class OtherExpensesRequest extends FormRequest
+class AccountablePersonRefundRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
             'date' => ['required', 'date'],
-            'organization_id' => ['required'],
-            'cash_register_id' => ['required', Rule::exists('cash_registers', 'id')],
+            'organization_id' => ['required', Rule::exists('organizations', 'id')],
+            'organization_bill_id' => ['required', Rule::exists('organization_bills', 'id')],
             'sum' => ['required'],
-            'balance_article_id' => ['required', Rule::exists('balance_articles','id')],
+            'employee_id' => ['required', Rule::exists('employees', 'id')],
             'basis' => ['required'],
             'comment' => ['nullable'],
             'type' => ['required', 'string', Rule::in(['RKO', 'PKO'])]
