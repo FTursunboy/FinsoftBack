@@ -16,7 +16,8 @@ class HiringRequest extends FormRequest
             'department_id' => ['required', 'exists:departments,id'],
             'basis' => ['required'],
             'position_id' => ['required', 'exists:positions,id'],
-            'organization_id' => ['required', 'exists:organizations,id']
+            'organization_id' => ['required', 'exists:organizations,id'],
+            'comment' => ['nullable', 'string']
         ];
     }
 

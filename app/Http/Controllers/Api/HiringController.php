@@ -24,7 +24,7 @@ class HiringController extends Controller
     {
         $this->authorize('viewAny', Hiring::class);
 
-        return $this->success(HiringResource::collection($this->repository->index($request->validated())));
+        return $this->paginate(HiringResource::collection($this->repository->index($request->validated())));
     }
 
     public function store(HiringRequest $request)

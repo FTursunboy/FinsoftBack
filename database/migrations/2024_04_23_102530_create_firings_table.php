@@ -7,20 +7,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('hirings', function (Blueprint $table) {
+        Schema::create('firings', function (Blueprint $table) {
             $table->id();
             $table->string('doc_number');
-            $table->string('data')->nullable();
+            $table->date('date');
             $table->unsignedBigInteger('organization_id');
-            $table->integer('employee_id');
-            $table->float('salary');
-            $table->string('hiring_date');
-            $table->string('department_id');
+            $table->unsignedBigInteger('employee_id');
+            $table->date('firing_date');
             $table->string('basis')->nullable();
-            $table->string('position_id');
-            $table->string('schedule')->nullable();
-            $table->string('comment')->nullable();
             $table->unsignedBigInteger('author_id');
+            $table->string('comment')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +24,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('hirings');
+        Schema::dropIfExists('firings');
     }
 };

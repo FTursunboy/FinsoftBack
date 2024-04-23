@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Filters\FiringFilter;
 use App\Filters\HiringFilter;
 use App\Filters\MovementDocumentFilter;
 use App\Repositories\Contracts\SoftDeleteInterface;
@@ -25,12 +26,19 @@ class Hiring extends Model implements SoftDeleteInterface
         'basis',
         'position_id',
         'schedule',
-        'organization_id'
+        'organization_id',
+        'comment',
+        'author_id'
+    ];
+
+    protected $casts = [
+        'date' => 'date',
+        'hiring_date' => 'date'
     ];
 
     public function modelFilter()
     {
-        return $this->provideFilter(HiringFilter::class);
+        return $this->provideFilter(FiringFilter::class);
     }
 
 

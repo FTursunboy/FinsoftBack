@@ -12,11 +12,15 @@ return new class extends Migration {
             $table->string('doc_number');
             $table->string('date');
             $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('organization_id');
             $table->float('salary');
-            $table->unsignedBigInteger('position');
+            $table->unsignedBigInteger('position_id');
+            $table->unsignedBigInteger('department_id');
             $table->string('movement_date');
             $table->string('schedule')->nullable();
             $table->string('basis')->nullable();
+            $table->unsignedBigInteger('author_id');
+            $table->text('comment')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

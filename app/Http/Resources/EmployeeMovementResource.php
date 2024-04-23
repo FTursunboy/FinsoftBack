@@ -10,15 +10,17 @@ class EmployeeMovementResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+
         return [
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'id' => $this->id,
             'doc_number' => $this->doc_number,
             'date' => $this->date,
-            'employee_id' => $this->employee_id,
+            'employee' => EmployeeResource::make($this->whenLoaded('employee')),
+            'organization' => OrganizationResource::make($this->whenLoaded('organization')),
+            'department' => DepartmentResource::make($this->whenLoaded('department')),
             'salary' => $this->salary,
-            'position' => $this->position,
+            'position_id' => PositionResource::make($this->whenLoaded('position')),
             'movement_date' => $this->movement_date,
             'schedule' => $this->schedule,
             'basis' => $this->basis,

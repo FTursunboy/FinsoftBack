@@ -7,11 +7,14 @@ use App\Traits\Sort;
 use EloquentFilter\ModelFilter;
 use Illuminate\Support\Str;
 
-class HiringFilter extends ModelFilter
+class FiringFilter extends ModelFilter
 {
     use Sort {
         sort as traitSort;
     }
+
+
+
     /**
     * Related Models that have ModelFilters as well as the method on the ModelFilter
     * As [relationMethod => [input_key1, input_key2]].
@@ -20,37 +23,33 @@ class HiringFilter extends ModelFilter
     */
 
 
-    public function date($value) :HiringFilter
+    public function date($value) :FiringFilter
     {
         return $this->whereDate('date', $value);
     }
 
-    public function movement_date($value) :HiringFilter
+    public function hiring_date($value) :FiringFilter
     {
         return $this->whereDate('hiring_date', $value);
     }
 
-    public function department($value) :HiringFilter
-    {
-        return $this->where('department_id', $value);
-    }
 
-    public function employee($value) :HiringFilter
+    public function employee($value) :FiringFilter
     {
         return $this->where('employee_id', $value);
     }
 
-    public function organization(int $id) :HiringFilter
+    public function organization(int $id) :FiringFilter
     {
         return $this->where('organization_id', $id);
     }
 
-    public function author(int $id) :HiringFilter
+    public function author(int $id) :FiringFilter
     {
         return $this->where('author_id', $id);
     }
 
-    public function search(string $search) :HiringFilter
+    public function search(string $search) :FiringFilter
     {
         $searchTerm = explode(' ', $search);
 
@@ -62,18 +61,18 @@ class HiringFilter extends ModelFilter
                 ->orWhereHas('employee', function ($query) use ($searchTerm) {
                     return $query->where('employees.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 })
-                ->orWhereHas('position', function ($query) use ($searchTerm) {
-                    return $query->where('positions.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                ->orWhereHas('author', function ($query) use ($searchTerm) {
+                    return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 });
         });
     }
 
 
-    public function sort() :HiringFilter
+    public function sort() :FiringFilter
     {
         $filteredParams = $this->input();
 
-        $relations = ['position', 'department', 'organization', 'employee'];
+        $relations = ['organization', 'employee'];
 
         return $this->traitSort($filteredParams, $this, $relations);
     }
