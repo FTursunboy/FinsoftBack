@@ -21,6 +21,7 @@ use App\Repositories\Contracts\CashStore\InvestmentRepositoryInterface;
 use App\Repositories\Contracts\CashStore\OtherExpensesRepositoryInterface;
 use App\Repositories\Contracts\CashStore\OtherIncomesRepositoryInterface;
 use App\Repositories\Contracts\CashStore\ProviderRefundRepositoryInterface;
+use App\Repositories\CashStore\WithdrawalRepository;
 use App\Repositories\Contracts\CashStore\WithdrawalRepositoryInterface;
 use App\Repositories\Contracts\EmployeeMovementRepositoryInterface;
 use App\Repositories\Contracts\FiringRepositoryInterface;
