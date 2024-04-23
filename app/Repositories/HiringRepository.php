@@ -10,6 +10,7 @@ use App\Models\Good;
 use App\Models\Hiring;
 use App\Repositories\Contracts\BarcodeRepositoryInterface;
 use App\Repositories\Contracts\HiringRepositoryInterface;
+use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 
@@ -18,8 +19,9 @@ use function PHPUnit\Framework\isFalse;
 
 class HiringRepository implements HiringRepositoryInterface
 {
-    public $model = Hiring::class;
+    use DocNumberTrait;
 
+    public $model = Hiring::class;
 
     public function store(HiringDTO $DTO)
     {
@@ -38,18 +40,6 @@ class HiringRepository implements HiringRepositoryInterface
         ]);
     }
 
-    public function uniqueNumber(): string
-    {
-        $lastRecord = Hiring::query()->orderBy('doc_number', 'desc')->first();
-
-        if (!$lastRecord) {
-            $lastNumber = 1;
-        } else {
-            $lastNumber = (int)$lastRecord->doc_number + 1;
-        }
-
-        return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
-    }
 
 
     public function update(Hiring $hiring, HiringDTO $DTO)

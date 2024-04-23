@@ -10,10 +10,10 @@ return new class extends Migration {
         Schema::create('firings', function (Blueprint $table) {
             $table->id();
             $table->string('doc_number');
-            $table->date('date');
+            $table->string('date');
             $table->unsignedBigInteger('organization_id');
             $table->unsignedBigInteger('employee_id');
-            $table->date('firing_date');
+            $table->string('firing_date');
             $table->string('basis')->nullable();
             $table->unsignedBigInteger('author_id');
             $table->string('comment')->nullable();
