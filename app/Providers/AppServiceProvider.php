@@ -6,6 +6,8 @@ use App\Repositories\AuthRepository;
 use App\Repositories\BarcodeRepository;
 use App\Repositories\CashRegisterRepository;
 use App\Repositories\CashStore\ClientPaymentRepository;
+use App\Repositories\CashStore\WithdrawalRepository;
+use App\Repositories\Contracts\CashStore\WithdrawalRepositoryInterface;
 use App\Repositories\Contracts\EmployeeMovementRepositoryInterface;
 use App\Repositories\Contracts\FiringRepositoryInterface;
 use App\Repositories\Contracts\HiringRepositoryInterface;
@@ -101,6 +103,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(HiringRepositoryInterface::class, HiringRepository::class);
         $this->app->singleton(EmployeeMovementRepositoryInterface::class, EmployeeMovementRepository::class);
         $this->app->singleton(FiringRepositoryInterface::class, FiringRepository::class);
+        $this->app->singleton(WithdrawalRepositoryInterface::class, WithdrawalRepository::class);
 
     }
 
