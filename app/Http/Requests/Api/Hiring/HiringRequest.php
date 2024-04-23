@@ -11,7 +11,7 @@ class HiringRequest extends FormRequest
         return [
             'date' => ['required'],
             'employee_id' => ['required', 'integer', 'exists:employees,id'],
-            'salary' => ['required', 'decimal:1,10'],
+            'salary' => ['numeric',  'required', 'between:1, 9999999.9999'],
             'hiring_date' => ['required', 'date'],
             'department_id' => ['required', 'exists:departments,id'],
             'basis' => ['required'],
