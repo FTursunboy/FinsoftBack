@@ -18,9 +18,11 @@ class HiringResource extends JsonResource
             'employee' => EmployeeResource::make($this->whenLoaded('employee')),
             'salary' => $this->salary,
             'hiring_date' => $this->hiring_date,
-            'department_id' => DepartmentResource::make($this->whenLoaded('department')),
+            'department' => DepartmentResource::make($this->whenLoaded('department')),
             'basis' => $this->basis,
             'position' => PositionResource::make($this->whenLoaded('position')),
+            'organization' => OrganizationResource::make($this->whenLoaded('organization')),
+            'author' => UserResource::make($this->whenLoaded('author'))
         ];
     }
 }

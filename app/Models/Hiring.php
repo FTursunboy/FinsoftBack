@@ -47,6 +47,11 @@ class Hiring extends Model implements SoftDeleteInterface
         return $this->belongsTo(Employee::class, 'employee_id');
     }
 
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
+
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class, 'department_id');
