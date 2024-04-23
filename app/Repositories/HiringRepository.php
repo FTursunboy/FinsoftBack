@@ -32,7 +32,8 @@ class HiringRepository implements HiringRepositoryInterface
             'hiring_date' => $DTO->hiring_date,
             'employee_id' => $DTO->employee_id,
             'salary' => $DTO->salary,
-            'basis' => $DTO->basis
+            'basis' => $DTO->basis,
+           'comment' => $DTO->comment
         ]);
     }
 
@@ -60,7 +61,9 @@ class HiringRepository implements HiringRepositoryInterface
             'hiring_date' => $DTO->hiring_date,
             'employee_id' => $DTO->employee_id,
             'salary' => $DTO->salary,
-            'basis' => $DTO->basis
+            'basis' => $DTO->basis,
+            'comment' => $DTO->comment,
+            'author_id' => \Auth::id(),
         ]);
     }
 
