@@ -74,6 +74,6 @@ class HiringRepository implements HiringRepositoryInterface
 
         $query = $this->model::filter($filteredParams);
 
-        return $query->with(['employee', 'organization', 'position', 'department'])->paginate($filteredParams['itemsPerPage']);
+        return $query->with(['employee', 'organization', 'position', 'department', 'author'])->paginate($filteredParams['itemsPerPage']);
     }
 }
