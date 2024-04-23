@@ -53,6 +53,11 @@ class CheckingAccount extends Model
         return $this->belongsTo(OrganizationBill::class, 'organization_bill_id');
     }
 
+    public function checkingAccount(): BelongsTo
+    {
+        return $this->belongsTo(OrganizationBill::class, 'checking_account_id');
+    }
+
     public function author() :BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');

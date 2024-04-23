@@ -13,7 +13,7 @@ class AnotherCashRegisterRequest extends FormRequest
         return [
             'date' => ['required', 'date'],
             'organization_id' => ['required', Rule::exists('organizations', 'id')],
-            'checking_account_id' => ['required', Rule::exists('cash_registers', 'id')],
+            'checking_account_id' => ['required', Rule::exists('organization_bills', 'id')],
             'sum' => ['required'],
             'sender_cash_register_id' => ['required', Rule::exists('cash_registers', 'id')],
             'basis' => ['required'],

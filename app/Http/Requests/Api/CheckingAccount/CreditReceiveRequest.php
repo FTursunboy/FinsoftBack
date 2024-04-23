@@ -13,7 +13,7 @@ class CreditReceiveRequest extends FormRequest
         return [
             'date' => ['required', 'date'],
             'organization_id' => ['required'],
-            'checking_account_id' => ['required', Rule::exists('cash_registers', 'id')],
+            'checking_account_id' => ['required', Rule::exists('organization_bills', 'id')],
             'sum' => ['required'],
             'counterparty_id' => ['required', Rule::exists('counterparties', 'id')],
             'counterparty_agreement_id' => ['required', Rule::exists('counterparty_agreements', 'id')],

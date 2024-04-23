@@ -13,7 +13,7 @@ class AccountablePersonRefundRequest extends FormRequest
         return [
             'date' => ['required', 'date'],
             'organization_id' => ['required', Rule::exists('organizations', 'id')],
-            'organization_bill_id' => ['required', Rule::exists('organization_bills', 'id')],
+            'cash_register_id' => ['required', Rule::exists('cash_registers', 'id')],
             'sum' => ['required'],
             'employee_id' => ['required', Rule::exists('employees', 'id')],
             'basis' => ['required'],
