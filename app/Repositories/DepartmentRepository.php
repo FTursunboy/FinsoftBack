@@ -27,14 +27,14 @@ class DepartmentRepository implements CategoryRepositoryInterface
     }
 
 
-    public function store(DepartmentDTO $DTO)
+    public function store(CategoryDTO $DTO)
     {
         return $this->model::create([
             'name' => $DTO->name,
         ]);
     }
 
-    public function update(Department $department, CategoryDTO $DTO) :Category
+    public function update(Category $category, CategoryDTO $DTO) :Category
     {
         $category->update([
             'name' => $DTO->name,

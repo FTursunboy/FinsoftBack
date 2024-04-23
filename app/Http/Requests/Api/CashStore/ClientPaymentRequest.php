@@ -13,7 +13,7 @@ class ClientPaymentRequest extends FormRequest
         return [
             'date' => ['required', 'date'],
             'organization_id' => ['required'],
-            'cashRegister_id' => ['required'],
+            'cash_register_id' => ['required'],
             'sum' => ['required'],
             'counterparty_id' => ['required'],
             'counterparty_agreement_id' => ['required'],

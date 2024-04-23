@@ -13,7 +13,7 @@ class OtherExpensesRequest extends FormRequest
         return [
             'date' => ['required', 'date'],
             'organization_id' => ['required'],
-            'organization_bill_id' => ['required', Rule::exists('organization_bills', 'id')],
+            'checking_account_id' => ['required', Rule::exists('organization_bills', 'id')],
             'sum' => ['required'],
             'balance_article_id' => ['required', Rule::exists('balance_articles','id')],
             'basis' => ['required'],
