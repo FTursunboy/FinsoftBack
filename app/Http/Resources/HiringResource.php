@@ -13,7 +13,7 @@ class HiringResource extends JsonResource
         return [
             'created_at' => $this->created_at,
             'id' => $this->id,
-            'data' => $this->data,
+            'date' => $this->data,
             'doc_number' => $this->doc_number,
             'employee' => EmployeeResource::make($this->whenLoaded('employee')),
             'salary' => $this->salary,
