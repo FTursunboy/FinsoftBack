@@ -32,7 +32,7 @@ class DocumentFactory extends Factory
         return [
             'id' => Str::uuid(),
             'organization_id' => Organization::factory(),
-            'date' => "2023-12-12",
+            'date' => $this->faker->date,
             'counterparty_id' => Counterparty::factory(),
             'counterparty_agreement_id' => CounterpartyAgreement::factory(),
             'storage_id' => Storage::factory(),

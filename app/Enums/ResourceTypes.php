@@ -13,6 +13,8 @@ enum ResourceTypes :string
 
     case Report = 'report';
 
+    case CashRegister = 'kassa';
+
 
 
 }
