@@ -126,6 +126,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::group(['prefix' => 'other-expenses'], function () {
         Route::get('/', [OtherExpensesController::class, 'index']);
         Route::post('/', [OtherExpensesController::class, 'store']);
+        Route::get('balance-article', [OtherExpensesController::class, 'balanceArticle']);
     });
 
     Route::group(['prefix' => 'other-incomes'], function () {

@@ -5,6 +5,7 @@ namespace App\Repositories\CashStore;
 use App\DTO\CashStore\AccountablePersonRefundDTO;
 use App\DTO\CashStore\OtherExpensesDTO;
 use App\Enums\CashOperationType;
+use App\Models\BalanceArticle;
 use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\AccountablePersonRefundRepositoryInterface;
 use App\Repositories\Contracts\CashStore\OtherExpensesRepositoryInterface;
@@ -41,6 +42,13 @@ class OtherExpensesRepository implements OtherExpensesRepositoryInterface
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);
+    }
+
+    public function balanceArticle(array $data)
+    {
+        $filteredParams = BalanceArticle::filterData($data);
+
+        return BalanceArticle::paginate($filteredParams['itemsPerPage']);
     }
 
     public function orderUniqueNumber(): string
