@@ -31,7 +31,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-      Document::observe(DocumentObserver::class);
+  //   Document::observe(DocumentObserver::class);
       MovementDocument::observe(MovementDocumentObserver::class);
     }
 
