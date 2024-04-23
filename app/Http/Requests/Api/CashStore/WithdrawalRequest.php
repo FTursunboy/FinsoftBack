@@ -13,7 +13,7 @@ class WithdrawalRequest extends FormRequest
         return [
             'date' => ['required', 'date'],
             'organization_id' => ['required', Rule::exists('organizations', 'id')],
-            'cashRegister_id' => ['required', Rule::exists('cash_registers', 'id')],
+            'cash_register_id' => ['required', Rule::exists('cash_registers', 'id')],
             'sum' => ['required'],
             'organization_bill_id' => ['required', Rule::exists('organization_bills', 'id')],
             'basis' => ['required'],
