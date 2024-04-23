@@ -3,6 +3,15 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BarcodeController;
 use App\Http\Controllers\Api\CashRegisterController;
+use App\Http\Controllers\Api\CashStore\AccountablePersonRefundController;
+use App\Http\Controllers\Api\CashStore\AnotherCashRegisterController;
+use App\Http\Controllers\Api\CashStore\ClientPaymentController;
+use App\Http\Controllers\Api\CashStore\CreditReceiveController;
+use App\Http\Controllers\Api\CashStore\InvestmentController;
+use App\Http\Controllers\Api\CashStore\OtherExpensesController;
+use App\Http\Controllers\Api\CashStore\OtherIncomesController;
+use App\Http\Controllers\Api\CashStore\ProviderRefundController;
+use App\Http\Controllers\Api\CashStore\WithdrawalController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ClientDocumentController;
 use App\Http\Controllers\Api\ClientPaymentController;
