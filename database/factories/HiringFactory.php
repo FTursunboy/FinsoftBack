@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\Hiring;
 use App\Models\Organization;
 use App\Models\Position;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
@@ -27,6 +28,7 @@ class HiringFactory extends Factory
             'department_id' => Department::factory(),
             'basis' => $this->faker->word(),
             'position_id' => Position::factory(),
+            'author_id' => User::factory(),
             'organization_id' => Organization::factory()
         ];
     }
