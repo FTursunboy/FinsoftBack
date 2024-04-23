@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Api\CashStore;
+namespace App\Http\Requests\Api\CheckingAccount;
 
 use App\Enums\CashOperationType;
 use Illuminate\Foundation\Http\FormRequest;
@@ -13,7 +13,7 @@ class OtherExpensesRequest extends FormRequest
         return [
             'date' => ['required', 'date'],
             'organization_id' => ['required'],
-            'cash_register_id' => ['required', Rule::exists('cash_registers', 'id')],
+            'organization_bill_id' => ['required', Rule::exists('organization_bills', 'id')],
             'sum' => ['required'],
             'balance_article_id' => ['required', Rule::exists('balance_articles','id')],
             'basis' => ['required'],
