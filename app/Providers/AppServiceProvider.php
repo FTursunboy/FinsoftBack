@@ -21,7 +21,6 @@ use App\Repositories\Contracts\CashStore\InvestmentRepositoryInterface;
 use App\Repositories\Contracts\CashStore\OtherExpensesRepositoryInterface;
 use App\Repositories\Contracts\CashStore\OtherIncomesRepositoryInterface;
 use App\Repositories\Contracts\CashStore\ProviderRefundRepositoryInterface;
-use App\Repositories\CashStore\WithdrawalRepository;
 use App\Repositories\Contracts\CashStore\WithdrawalRepositoryInterface;
 use App\Repositories\Contracts\EmployeeMovementRepositoryInterface;
 use App\Repositories\Contracts\FiringRepositoryInterface;
@@ -78,7 +77,6 @@ use App\Repositories\StorageEmployeeRepository;
 use App\Repositories\StorageRepository;
 use App\Repositories\UnitRepository;
 use App\Repositories\UserRepository;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -128,6 +126,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(OtherIncomesRepositoryInterface::class, OtherIncomesRepository::class);
 
     }
+    //das
+
 
     /**
      * Bootstrap any application services.
