@@ -337,10 +337,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::patch('/', [AuthController::class, 'changePin']);
         Route::post('/logout', [AuthController::class, 'logout']);
     });
-
-
-
-
 });
 
 
