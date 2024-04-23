@@ -5,9 +5,15 @@ namespace App\Providers;
 // use Illuminate\Support\Facades\Gate;
 use App\Models\CashStore;
 use App\Models\Department;
+use App\Models\EmployeeMovement;
+use App\Models\Firing;
+use App\Models\Hiring;
 use App\Models\MovementDocument;
 use App\Policies\CashStorePolicy;
 use App\Policies\DepartmentPolicy;
+use App\Policies\EmployeeMovementPolicy;
+use App\Policies\FiringPolicy;
+use App\Policies\HiringPolicy;
 use App\Policies\MovementDocumentPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -23,6 +29,9 @@ class AuthServiceProvider extends ServiceProvider
         MovementDocument::class => MovementDocumentPolicy::class,
         CashStore::class => CashStorePolicy::class,
         Department::class => DepartmentPolicy::class,
+        Hiring::class => HiringPolicy::class,
+        EmployeeMovement::class => EmployeeMovementPolicy::class,
+        Firing::class => FiringPolicy::class,
     ];
 
     /**

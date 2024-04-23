@@ -20,6 +20,7 @@ use App\Models\User;
 use App\Repositories\Contracts\Documentable;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Repositories\Contracts\MovementDocumentRepositoryInterface;
+use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 use Carbon\Carbon;
@@ -31,6 +32,8 @@ use PhpParser\Comment\Doc;
 class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 {
     public $model = MovementDocument::class;
+
+    use DocNumberTrait;
 
     public function index(array $data): LengthAwarePaginator
     {
@@ -80,20 +83,6 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
         });
     }
-
-    public function uniqueNumber(): string
-    {
-        $lastRecord = MovementDocument::query()->orderBy('doc_number', 'desc')->first();
-
-        if (!$lastRecord) {
-            $lastNumber = 1;
-        } else {
-            $lastNumber = (int)$lastRecord->doc_number + 1;
-        }
-
-        return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
-    }
-
 
     private function insertGoodDocuments(array $goods, MovementDocument $document): array
     {

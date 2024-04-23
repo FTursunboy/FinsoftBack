@@ -59,8 +59,6 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
 
     public function delete(Counterparty $counterparty)
     {
-
-
         $counterparty->delete();
     }
 
