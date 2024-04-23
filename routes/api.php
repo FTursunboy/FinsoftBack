@@ -14,7 +14,6 @@ use App\Http\Controllers\Api\CashStore\ProviderRefundController;
 use App\Http\Controllers\Api\CashStore\WithdrawalController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ClientDocumentController;
-use App\Http\Controllers\Api\ClientPaymentController;
 use App\Http\Controllers\Api\CounterpartyAgreementController;
 use App\Http\Controllers\Api\CounterpartyController;
 use App\Http\Controllers\Api\CurrencyController;
@@ -39,7 +38,6 @@ use App\Http\Controllers\Api\StorageController;
 use App\Http\Controllers\Api\StorageEmployeeController;
 use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\WithdrawalController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MovementDocumentController;
 use App\Http\Controllers\SettingsController;
@@ -339,10 +337,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::patch('/', [AuthController::class, 'changePin']);
         Route::post('/logout', [AuthController::class, 'logout']);
     });
-
-
-
-
 });
 
 

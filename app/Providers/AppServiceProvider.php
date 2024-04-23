@@ -5,7 +5,23 @@ namespace App\Providers;
 use App\Repositories\AuthRepository;
 use App\Repositories\BarcodeRepository;
 use App\Repositories\CashRegisterRepository;
+use App\Repositories\CashStore\AccountablePersonRefundRepository;
+use App\Repositories\CashStore\AnotherCashRegisterRepository;
 use App\Repositories\CashStore\ClientPaymentRepository;
+use App\Repositories\CashStore\CreditReceiveRepository;
+use App\Repositories\CashStore\InvestmentRepository;
+use App\Repositories\CashStore\OtherExpensesRepository;
+use App\Repositories\CashStore\OtherIncomesRepository;
+use App\Repositories\CashStore\ProviderRefundRepository;
+use App\Repositories\CashStore\WithdrawalRepository;
+use App\Repositories\Contracts\CashStore\AccountablePersonRefundRepositoryInterface;
+use App\Repositories\Contracts\CashStore\AnotherCashRegisterRepositoryInterface;
+use App\Repositories\Contracts\CashStore\CreditReceiveRepositoryInterface;
+use App\Repositories\Contracts\CashStore\InvestmentRepositoryInterface;
+use App\Repositories\Contracts\CashStore\OtherExpensesRepositoryInterface;
+use App\Repositories\Contracts\CashStore\OtherIncomesRepositoryInterface;
+use App\Repositories\Contracts\CashStore\ProviderRefundRepositoryInterface;
+use App\Repositories\Contracts\CashStore\WithdrawalRepositoryInterface;
 use App\Repositories\Contracts\EmployeeMovementRepositoryInterface;
 use App\Repositories\Contracts\FiringRepositoryInterface;
 use App\Repositories\Contracts\HiringRepositoryInterface;
@@ -101,6 +117,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(HiringRepositoryInterface::class, HiringRepository::class);
         $this->app->singleton(EmployeeMovementRepositoryInterface::class, EmployeeMovementRepository::class);
         $this->app->singleton(FiringRepositoryInterface::class, FiringRepository::class);
+        $this->app->singleton(WithdrawalRepositoryInterface::class, WithdrawalRepository::class);
+        $this->app->singleton(AnotherCashRegisterRepositoryInterface::class, AnotherCashRegisterRepository::class);
+        $this->app->singleton(InvestmentRepositoryInterface::class, InvestmentRepository::class);
+        $this->app->singleton(CreditReceiveRepositoryInterface::class, CreditReceiveRepository::class);
+        $this->app->singleton(ProviderRefundRepositoryInterface::class, ProviderRefundRepository::class);
+        $this->app->singleton(AccountablePersonRefundRepositoryInterface::class, AccountablePersonRefundRepository::class);
+        $this->app->singleton(OtherExpensesRepositoryInterface::class, OtherExpensesRepository::class);
+        $this->app->singleton(OtherIncomesRepositoryInterface::class, OtherIncomesRepository::class);
 
     }
 
