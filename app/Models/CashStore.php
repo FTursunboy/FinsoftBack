@@ -65,6 +65,10 @@ class CashStore extends DocumentModel
         return $this->belongsTo(OrganizationBill::class, 'organizationBill_id');
     }
 
+    public function balanceArticle(): BelongsTo
+    {
+        return $this->belongsTo(BalanceArticle::class, 'balance_article_id');
+    }
 
     public function modelFilter()
     {

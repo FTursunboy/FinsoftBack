@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CheckingAccount\AccountablePersonRefundController;
 use App\Http\Controllers\Api\CheckingAccount\AnotherCashRegisterController;
+use App\Http\Controllers\Api\CheckingAccount\CheckingAccountController;
 use App\Http\Controllers\Api\CheckingAccount\ClientPaymentController;
 use App\Http\Controllers\Api\CheckingAccount\CreditReceiveController;
 use App\Http\Controllers\Api\CheckingAccount\InvestmentController;
@@ -24,6 +25,10 @@ use Illuminate\Support\Facades\Route;
 //
 
     Route::group(['prefix' => 'checking-account'], function () {
+
+        Route::get('/{type}', [CheckingAccountController::class, 'index']);
+        Route::get('/show/{checkingAccount}', [CheckingAccountController::class, 'show']);
+
         Route::group(['prefix' => 'client-payment'], function () {
             Route::get('/', [ClientPaymentController::class, 'index']);
             Route::post('/', [ClientPaymentController::class, 'store']);
