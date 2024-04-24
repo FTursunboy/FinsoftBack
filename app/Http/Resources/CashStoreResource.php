@@ -23,7 +23,8 @@ class CashStoreResource extends JsonResource
             'organizationBill' => OrganizationBillResource::make($this->whenLoaded('organizationBill')),
             'sum' => $this->sum,
             'currency' => CurrencyResource::make($this->whenLoaded('currency')),
-            'author' => UserResource::make($this->whenLoaded('author'))
+            'author' => UserResource::make($this->whenLoaded('author')),
+            'deleted_at' => $this->deleted_at
         ];
     }
 }
