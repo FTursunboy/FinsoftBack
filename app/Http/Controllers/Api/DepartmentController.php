@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Department\DepartmentRequest;
+use App\Http\Requests\Api\Department\FilterRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\DepartmentResource;
 use App\Models\Department;
@@ -15,11 +16,15 @@ class DepartmentController extends Controller
 {
     use ApiResponse;
 
-    public function index()
+    public function index(FilterRequest $request)
     {
         $this->authorize('viewAny', Department::class);
 
-        return $this->paginate(DepartmentResource::collection(Department::paginate(25)));
+        $data = $request->validated();
+
+        $query = Department::filter(Department::filterData($data));
+
+        return $this->paginate(DepartmentResource::collection($query->paginate($data['itemsPerPage'])));
     }
 
     public function store(DepartmentRequest $request)
