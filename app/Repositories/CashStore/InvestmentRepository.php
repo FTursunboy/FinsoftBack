@@ -21,7 +21,7 @@ class InvestmentRepository implements InvestmentRepositoryInterface
 
         $query = $query->filter($filteredParams);
 
-        return $query->with(['organization', 'cashRegister', 'counterparty', 'author', 'currency'])->paginate($filteredParams['itemsPerPage']);
+        return $query->with(['organization', 'cashRegister', 'counterparty', 'counterpartyAgreement', 'author', 'currency'])->paginate($filteredParams['itemsPerPage']);
     }
 
     public function store(InvestmentDTO $dto)

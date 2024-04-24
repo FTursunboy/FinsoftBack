@@ -20,7 +20,7 @@ class ClientPaymentRepository implements ClientPaymentRepositoryInterface
 
         $query = $this->model::filter($filteredParams);
 
-        return $query->with(['organization', 'cashRegister', 'counterparty', 'author', 'currency'])->paginate($filteredParams['itemsPerPage']);
+        return $query->with(['organization', 'cashRegister', 'counterparty', 'counterpartyAgreement', 'author', 'currency'])->paginate($filteredParams['itemsPerPage']);
     }
 
     public function clientPayment(ClientPaymentDTO $dto)

@@ -38,10 +38,23 @@ class AccountablePersonRefundRepository implements AccountablePersonRefundReposi
             'operation_type' => CashOperationType::AccountablePersonRefund,
             'type' => $dto->type,
             'author_id' => Auth::id()
-
-
-
         ]);
+    }
+
+    public function update(CashStore $cashStore, AccountablePersonRefundDTO $dto)
+    {
+        $cashStore->update([
+            'date' => $dto->date,
+            'organization_id' => $dto->organization_id,
+            'cash_register_id' => $dto->cash_register_id,
+            'sum' => $dto->sum,
+            'employee_id' => $dto->employee_id,
+            'basis' => $dto->basis,
+            'comment' => $dto->comment,
+            'type' => $dto->type,
+        ]);
+
+        return $cashStore;
     }
 
     public function orderUniqueNumber(): string

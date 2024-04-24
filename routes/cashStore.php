@@ -62,6 +62,7 @@ use Illuminate\Support\Facades\Route;
         Route::group(['prefix' => 'accountable-person-refund'], function () {
             Route::get('', [AccountablePersonRefundController::class, 'index']);
             Route::post('', [AccountablePersonRefundController::class, 'store']);
+            Route::patch('/{cashStore}', [AccountablePersonRefundController::class, 'update']);
         });
 
         Route::group(['prefix' => 'other-expenses'], function () {
