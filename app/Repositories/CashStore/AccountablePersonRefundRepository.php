@@ -30,7 +30,7 @@ class AccountablePersonRefundRepository implements AccountablePersonRefundReposi
             'doc_number' => $this->orderUniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
-            'organizationBill_id' => $dto->organization_bill_id,
+            'cash_register_id' => $dto->cash_register_id,
             'sum' => $dto->sum,
             'employee_id' => $dto->employee_id,
             'basis' => $dto->basis,
