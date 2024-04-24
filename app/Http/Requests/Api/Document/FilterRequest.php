@@ -18,6 +18,11 @@ class FilterRequest extends FormRequest
                 'orderBy' => 'nullable|in:id,deleted_at,currency.name,organization.name,author.name,storage.name,counterparty.name,' . implode(',', $fillableFields),
                 'sort' => 'in:asc,desc',
                 'filterData' => 'nullable|array',
+                'currency_id' => 'nullable|numeric',
+                'counterparty_id' => 'nullable|numeric',
+                'organization_id' => 'nullable|numeric',
+                'counterparty_agreement_id' => 'nullable|integer',
+                'storage_id' => 'nullable|integer'
             ];
     }
 
