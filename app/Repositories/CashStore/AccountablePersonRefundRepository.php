@@ -38,6 +38,9 @@ class AccountablePersonRefundRepository implements AccountablePersonRefundReposi
             'operation_type' => CashOperationType::AccountablePersonRefund,
             'type' => $dto->type,
             'author_id' => Auth::id()
+
+
+
         ]);
     }
 
