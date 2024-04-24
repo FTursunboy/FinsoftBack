@@ -10,13 +10,14 @@ use App\Http\Resources\CashStoreResource;
 use App\Models\CashStore;
 use App\Models\OperationType;
 use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
+use App\Repositories\Contracts\CashStore\ClientPaymentRepositoryInterface;
 use App\Traits\ApiResponse;
 
 class ClientPaymentController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(public CashStoreRepositoryInterface $repository) {}
+    public function __construct(public ClientPaymentRepositoryInterface $repository) {}
 
     public function index(FilterRequest $request)
     {

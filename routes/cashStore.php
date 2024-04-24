@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CashStore\AccountablePersonRefundController;
 use App\Http\Controllers\Api\CashStore\AnotherCashRegisterController;
+use App\Http\Controllers\Api\CashStore\CashStoreController;
 use App\Http\Controllers\Api\CashStore\ClientPaymentController;
 use App\Http\Controllers\Api\CashStore\CreditReceiveController;
 use App\Http\Controllers\Api\CashStore\InvestmentController;
@@ -24,6 +25,10 @@ use Illuminate\Support\Facades\Route;
 //
 
     Route::group(['prefix' => 'cash-store'], function () {
+
+        Route::get('/{type}', [CashStoreController::class, 'index']);
+        Route::get('/cashStore', [CashStoreController::class, 'show']);
+
         Route::group(['prefix' => 'client-payment'], function () {
             Route::get('', [ClientPaymentController::class, 'index']);
             Route::post('', [ClientPaymentController::class, 'store']);

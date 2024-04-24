@@ -7,6 +7,7 @@ use App\Repositories\BarcodeRepository;
 use App\Repositories\CashRegisterRepository;
 use App\Repositories\CashStore\AccountablePersonRefundRepository;
 use App\Repositories\CashStore\AnotherCashRegisterRepository;
+use App\Repositories\CashStore\CashStoreRepository;
 use App\Repositories\CashStore\ClientPaymentRepository;
 use App\Repositories\CashStore\CreditReceiveRepository;
 use App\Repositories\CashStore\InvestmentRepository;
@@ -25,6 +26,7 @@ use App\Repositories\CheckingAccount\ProviderRefundRepository as CheckingAccount
 use App\Repositories\CheckingAccount\WithdrawalRepository as CheckingAccountWithdrawalRepository;
 use App\Repositories\Contracts\CashStore\AccountablePersonRefundRepositoryInterface;
 use App\Repositories\Contracts\CashStore\AnotherCashRegisterRepositoryInterface;
+use App\Repositories\Contracts\CashStore\ClientPaymentRepositoryInterface;
 use App\Repositories\Contracts\CashStore\CreditReceiveRepositoryInterface;
 use App\Repositories\Contracts\CashStore\InvestmentRepositoryInterface;
 use App\Repositories\Contracts\CashStore\OtherExpensesRepositoryInterface;
@@ -133,7 +135,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(HiringRepositoryInterface::class, HiringRepository::class);
         $this->app->singleton(EmployeeMovementRepositoryInterface::class, EmployeeMovementRepository::class);
         $this->app->singleton(FiringRepositoryInterface::class, FiringRepository::class);
-        $this->app->singleton(CashStoreRepositoryInterface::class, ClientPaymentRepository::class);
+        $this->app->singleton(CashStoreRepositoryInterface::class, CashStoreRepository::class);
+        $this->app->singleton(ClientPaymentRepositoryInterface::class, ClientPaymentRepository::class);
         $this->app->singleton(WithdrawalRepositoryInterface::class, WithdrawalRepository::class);
         $this->app->singleton(AnotherCashRegisterRepositoryInterface::class, AnotherCashRegisterRepository::class);
         $this->app->singleton(InvestmentRepositoryInterface::class, InvestmentRepository::class);
