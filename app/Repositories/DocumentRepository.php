@@ -37,6 +37,7 @@ class DocumentRepository implements DocumentRepositoryInterface
     {
         $filteredParams = $this->model::filter($data);
 
+
         $query = $this->model::query()->where('status_id', $status);
 
         $query = $this->search($query, $filteredParams);
