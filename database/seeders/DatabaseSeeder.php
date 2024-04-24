@@ -21,10 +21,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            OperationTypeSeeder::class,
             SettingsSeeder::class,
             ResourceSeeder::class,
             PermissionSeeder::class,
-            OrderTypeSeeder::class,
+            OrderTypeSeeder::class
         ]);
 
         Role::create([

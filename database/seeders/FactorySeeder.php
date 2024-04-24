@@ -52,6 +52,5 @@ class FactorySeeder extends Seeder
         OrganizationBill::factory(5)->create();
         Department::factory(5)->create();
         Hiring::factory(5)->create();
-
     }
 }

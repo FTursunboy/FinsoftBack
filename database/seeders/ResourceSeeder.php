@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\ResourceTypes;
+use App\Models\OperationType;
 use App\Models\Resource;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -34,12 +35,22 @@ class ResourceSeeder extends Seeder
                 ['name' => 'warehouseAccounting', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Учет складов'],
                 ['name' => 'cash', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Касса и Банки'],
                 ['name' => 'salary', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Зарплата и кадры'],
-                ['name' => 'financeAnalysis', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Финансовы и анализ']
+                ['name' => 'financeAnalysis', 'parent_id' => null, 'type' => ResourceTypes::PodSystem->value, 'ru_name' => 'Финансовы и анализ'],
             ],
             ['name'],
             ['parent_id', 'type', 'ru_name']
         );
 
+        $resources = OperationType::select('title_ru', 'title_en')->get();
+
+        foreach ($resources as $resource) {
+            Resource::create([
+                'name' => $resource->title_en,
+                'ru_name' => $resource->title_ru,
+                'type' => ResourceTypes::CashRegister
+            ]);
+
+        }
 
     }
 }

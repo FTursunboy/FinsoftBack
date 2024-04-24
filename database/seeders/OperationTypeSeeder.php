@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\CashOperationType;
 use App\Models\OperationType;
 use Illuminate\Database\Seeder;
 
@@ -11,31 +12,40 @@ class OperationTypeSeeder extends Seeder
     {
         OperationType::insert([
             [
-                'title' => 'Оплата от клиента'
+                'title_ru' => CashOperationType::ClientPayment,
+                'title_en' => 'ClientPayment'
             ],
             [
-                'title' => 'Снятие с Р/С'
+                'title_ru' => CashOperationType::WithDraw,
+                'title_en' => 'Withdraw'
             ],
             [
-                'title' => 'Получение с другой кассы'
+                'title_ru' => CashOperationType::AnotherCashRegister,
+                'title_en' => 'AnotherCashRegister'
             ],
             [
-                'title' => 'Вложение'
+                'title_ru' => CashOperationType::Investment,
+                'title_en' => 'Investment'
             ],
             [
-                'title' => 'Получение кредита'
+                'title_ru' => CashOperationType::CreditReceive,
+                'title_en' => 'CreditReceive'
             ],
             [
-                'title' => 'Возврат от поставщика'
+                'title_ru' => CashOperationType::ProviderRefund,
+                'title_en' => 'ProviderRefund'
             ],
             [
-                'title' => 'Возврат от подотчетника'
+                'title_ru' => CashOperationType::AccountablePersonRefund,
+                'title_en' => 'AccountablePersonRefund'
             ],
             [
-                'title' => 'Прочие доходы'
+                'title_ru' => CashOperationType::OtherExpenses,
+                'title_en' => 'OtherExpenses'
             ],
             [
-                'title' => 'Прочие приходы'
+                'title_ru' => CashOperationType::OtherIncomes,
+                'title_en' => 'OtherIncomes'
             ]
         ]);
     }

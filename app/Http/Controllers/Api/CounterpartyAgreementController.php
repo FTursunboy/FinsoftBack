@@ -11,9 +11,7 @@ use App\Http\Resources\CounterpartyAgreementResource;
 use App\Models\Counterparty;
 use App\Models\CounterpartyAgreement;
 use App\Repositories\Contracts\CounterpartyAgreementRepositoryInterface;
-use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
-use App\Repositories\CounterpartyAgreementRepository;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 

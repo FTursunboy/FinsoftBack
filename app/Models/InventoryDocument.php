@@ -26,16 +26,6 @@ class InventoryDocument extends Model implements \App\Repositories\Contracts\Sof
         'active' => 'bool'
     ];
 
-    public static function boot() {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->id = Str::uuid();
-        });
-    }
-
-    public static function bootSoftDeletes() { }
-
     public function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class, 'organization_id');

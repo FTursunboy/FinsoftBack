@@ -4,13 +4,15 @@ namespace App\Models;
 
 use App\Filters\EmployeeMovementFilter;
 use App\Filters\FiringFilter;
+use App\Repositories\Contracts\MassOperationInterface;
+use App\Repositories\Contracts\SoftDeleteInterface;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Firing extends Model
+class Firing extends Model implements SoftDeleteInterface
 {
     use SoftDeletes, HasFactory, Filterable;
 

@@ -69,4 +69,6 @@ use Illuminate\Support\Facades\Route;
             Route::get('', [OtherIncomesController::class, 'index']);
             Route::post('', [OtherIncomesController::class, 'store']);
         });
+
+        Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
     });

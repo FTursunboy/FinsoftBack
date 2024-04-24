@@ -9,7 +9,9 @@ return new class extends Migration {
     {
         Schema::create('operation_types', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title_en');
+            $table->string('title_ru');
+
         });
     }
 

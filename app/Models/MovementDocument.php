@@ -32,19 +32,6 @@ class MovementDocument extends DocumentModel implements Documentable
 
 
 
-    public static function boot() {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->id = Str::uuid();
-        });
-    }
-
-    public static function bootSoftDeletes()
-    {
-
-    }
-
     public function author() :BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');

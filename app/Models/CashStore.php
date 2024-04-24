@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class CashStore extends Model
+class CashStore extends DocumentModel
 {
     use SoftDeletes, HasFactory, Filterable;
 
