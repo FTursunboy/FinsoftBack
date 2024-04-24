@@ -9,6 +9,7 @@ use App\Http\Requests\Api\CashStore\OtherExpensesRequest;
 use App\Http\Resources\BalanceArticleResource;
 use App\Http\Resources\CashStoreResource;
 use App\Models\BalanceArticle;
+use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\OtherExpensesRepositoryInterface;
 use App\Traits\ApiResponse;
 
@@ -26,6 +27,11 @@ class OtherExpensesController extends Controller
     public function store(OtherExpensesRequest $request)
     {
         return $this->created(CashStoreResource::make($this->repository->store(OtherExpensesDTO::fromRequest($request))));
+    }
+
+    public function update(CashStore $cashStore, OtherExpensesRequest $request)
+    {
+        return $this->created(CashStoreResource::make($this->repository->update($cashStore, OtherExpensesDTO::fromRequest($request))));
     }
 
     public function balanceArticle(FilterRequest $request)

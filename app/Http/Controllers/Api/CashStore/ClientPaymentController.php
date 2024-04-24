@@ -40,13 +40,9 @@ class ClientPaymentController extends Controller
         return new CashStoreResource($cashStore);
     }
 
-    public function update(ClientPaymentRequest $request, CashStore $cashStore)
+    public function update(CashStore $cashStore, ClientPaymentRequest $request)
     {
-        $this->authorize('update', $cashStore);
-
-        $cashStore->update($request->validated());
-
-        return new CashStoreResource($cashStore);
+        return $this->success(CashStoreResource::make($this->repository->update($cashStore, ClientPaymentDTO::fromRequest($request))));
     }
 
     public function destroy(CashStore $cashStore)
