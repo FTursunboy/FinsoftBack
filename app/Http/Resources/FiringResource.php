@@ -21,6 +21,7 @@ class FiringResource extends JsonResource
             'basis' => $this->basis,
             'author' => UserResource::make($this->whenLoaded('author')),
             'comment' => $this->comment,
+            'deleted_at' => $this->deleted_at
         ];
     }
 }

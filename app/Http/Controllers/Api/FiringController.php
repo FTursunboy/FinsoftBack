@@ -21,9 +21,7 @@ class FiringController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(public FiringRepositoryInterface $employeeMovementRepository)
-    {
-    }
+    public function __construct(public FiringRepositoryInterface $employeeMovementRepository) { }
 
     public function index(FilterRequest $request)
     {
@@ -50,9 +48,8 @@ class FiringController extends Controller
     {
         $this->authorize('update', $firing);
 
-        return $this->created(new EmployeeMovementResource($this->employeeMovementRepository->update($firing, FiringDTO::fromRequest($request))));
+        return $this->success(new EmployeeMovementResource($this->employeeMovementRepository->update($firing, FiringDTO::fromRequest($request))));
     }
-
 
     public function destroy(IdRequest $request, MassOperationInterface $delete)
     {

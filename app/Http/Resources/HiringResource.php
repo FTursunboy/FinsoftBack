@@ -22,7 +22,8 @@ class HiringResource extends JsonResource
             'basis' => $this->basis,
             'position' => PositionResource::make($this->whenLoaded('position')),
             'organization' => OrganizationResource::make($this->whenLoaded('organization')),
-            'author' => UserResource::make($this->whenLoaded('author'))
+            'author' => UserResource::make($this->whenLoaded('author')),
+            'deleted_at' => $this->deleted_at
         ];
     }
 }

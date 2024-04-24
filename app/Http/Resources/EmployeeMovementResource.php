@@ -24,6 +24,7 @@ class EmployeeMovementResource extends JsonResource
             'movement_date' => $this->movement_date,
             'schedule' => $this->schedule,
             'basis' => $this->basis,
+            'deleted_at' => $this->deleted_at
         ];
     }
 }
