@@ -12,7 +12,6 @@ class CashStoreResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'created_at' => $this->created_at,
             'id' => $this->id,
             'date' => $this->date,
             'doc_number' => $this->doc_number,
@@ -23,8 +22,15 @@ class CashStoreResource extends JsonResource
             'organizationBill' => OrganizationBillResource::make($this->whenLoaded('organizationBill')),
             'sum' => $this->sum,
             'currency' => CurrencyResource::make($this->whenLoaded('currency')),
+            'counterparty' => CounterpartyResource::make($this->whenLoaded('counterparty')),
+            'counterpartyAgreement' => CounterpartyAgreementResource::make($this->whenLoaded('counterpartyAgreement')),
+            'balanceArticle' => BalanceArticleResource::make($this->whenLoaded('balanceArticle')),
             'author' => UserResource::make($this->whenLoaded('author')),
+            'basis' => $this->basis,
+            'comment' => $this->comment,
+            'created_at' => $this->created_at,
             'deleted_at' => $this->deleted_at
         ];
     }
 }
+

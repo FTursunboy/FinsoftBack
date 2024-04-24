@@ -284,7 +284,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     require_once 'cashStore.php';
-    require_once 'clientPayment.php';
+    require_once 'checkingAccount.php';
 });
 
 

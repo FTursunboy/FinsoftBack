@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Contracts\CashStore;
 
-use App\DTO\CashStore\ClientPaymentDTO;
 
 interface CashStoreRepositoryInterface
 {
