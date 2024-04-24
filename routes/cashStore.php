@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Route;
     Route::group(['prefix' => 'cash-store'], function () {
 
         Route::get('/{type}', [CashStoreController::class, 'index']);
-        Route::get('/cashStore', [CashStoreController::class, 'show']);
+        Route::get('/show/{cashStore}', [CashStoreController::class, 'show']);
 
         Route::group(['prefix' => 'client-payment'], function () {
             Route::get('', [ClientPaymentController::class, 'index']);
