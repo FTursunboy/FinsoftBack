@@ -24,6 +24,8 @@ class EmployeeMovementResource extends JsonResource
             'movement_date' => $this->movement_date,
             'schedule' => $this->schedule,
             'basis' => $this->basis,
+            'comment' => $this->comment,
+            'author' => UserResource::make($this->whenLoaded('author')),
             'deleted_at' => $this->deleted_at
         ];
     }
