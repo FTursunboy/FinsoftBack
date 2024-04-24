@@ -6,9 +6,10 @@ use App\DTO\CashStore\ClientPaymentDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
+use App\Repositories\Contracts\CashStore\ClientPaymentRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
-class ClientPaymentRepository implements CashStoreRepositoryInterface
+class ClientPaymentRepository implements ClientPaymentRepositoryInterface
 {
 
     public $model = CashStore::class;
