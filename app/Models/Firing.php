@@ -30,7 +30,7 @@ class Firing extends Model implements SoftDeleteInterface
 
     protected $casts = [
         'date' => 'date',
-        'hiring_date' => 'date'
+        'firing_date' => 'date'
     ];
 
     public function employee(): BelongsTo
