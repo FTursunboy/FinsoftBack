@@ -70,19 +70,29 @@ class Document extends DocumentModel implements SoftDeleteInterface
 
     public static function filter(array $data): array
     {
-        return [
+        $filteredData = [
             'search' => $data['search'] ?? '',
             'orderBy' => $data['orderBy'] ?? null,
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
-            'currency_id' => $data['filterData']['currency_id'] ?? null,
-            'counterparty_id' => $data['filterData']['counterparty_id'] ?? null,
-            'organization_id' => $data['filterData']['organization_id'] ?? null,
-            'counterparty_agreement_id' => $data['filterData']['counterparty_agreement_id'] ?? null,
-            'storage_id' => $data['filterData']['storage_id'] ?? null,
-            'date' => $data['filterData']['date'] ?? null,
+            'currency_id' => $data['currency_id'] ?? null,
+            'counterparty_id' => $data['counterparty_id'] ?? null,
+            'organization_id' => $data['organization_id'] ?? null,
+            'counterparty_agreement_id' => $data['counterparty_agreement_id'] ?? null,
+            'storage_id' => $data['storage_id'] ?? null,
+            'date' => $data['date'] ?? null,
         ];
+
+        if (isset($data['filterData'])) {
+            $filteredData['currency_id'] = $data['filterData']['currency_id'] ?? $filteredData['currency_id'];
+            $filteredData['counterparty_id'] = $data['filterData']['counterparty_id'] ?? $filteredData['counterparty_id'];
+            $filteredData['organization_id'] = $data['filterData']['organization_id'] ?? $filteredData['organization_id'];
+            $filteredData['counterparty_agreement_id'] = $data['filterData']['counterparty_agreement_id'] ?? $filteredData['counterparty_agreement_id'];
+        }
+
+        return $filteredData;
     }
+
     public function totalGoodSum()
     {
         return $this->documentGoods()
