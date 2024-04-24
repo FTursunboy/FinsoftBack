@@ -20,7 +20,7 @@ class EmployeeMovementResource extends JsonResource
             'organization' => OrganizationResource::make($this->whenLoaded('organization')),
             'department' => DepartmentResource::make($this->whenLoaded('department')),
             'salary' => $this->salary,
-            'position_id' => PositionResource::make($this->whenLoaded('position')),
+            'position' => PositionResource::make($this->whenLoaded('position')),
             'movement_date' => $this->movement_date,
             'schedule' => $this->schedule,
             'basis' => $this->basis,
