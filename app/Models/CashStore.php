@@ -85,6 +85,11 @@ class CashStore extends DocumentModel
         return $this->belongsTo(Counterparty::class, 'counterparty_id');
     }
 
+    public function counterpartyAgreement() :BelongsTo
+    {
+        return $this->belongsTo(CounterpartyAgreement::class, 'counterparty_agreement_id');
+    }
+
     public function employee() :BelongsTo
     {
         return $this->belongsTo(Employee::class, 'employee_id');
