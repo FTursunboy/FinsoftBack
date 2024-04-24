@@ -30,7 +30,7 @@ class AccountablePersonRefundRepository implements AccountablePersonRefundReposi
             'doc_number' => $this->orderUniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
-            'organizationBill_id' => $dto->organization_bill_id,
+            'cash_register_id' => $dto->cash_register_id,
             'sum' => $dto->sum,
             'employee_id' => $dto->employee_id,
             'basis' => $dto->basis,
@@ -39,6 +39,22 @@ class AccountablePersonRefundRepository implements AccountablePersonRefundReposi
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);
+    }
+
+    public function update(CashStore $cashStore, AccountablePersonRefundDTO $dto)
+    {
+        $cashStore->update([
+            'date' => $dto->date,
+            'organization_id' => $dto->organization_id,
+            'cash_register_id' => $dto->cash_register_id,
+            'sum' => $dto->sum,
+            'employee_id' => $dto->employee_id,
+            'basis' => $dto->basis,
+            'comment' => $dto->comment,
+            'type' => $dto->type,
+        ]);
+
+        return $cashStore;
     }
 
     public function orderUniqueNumber(): string

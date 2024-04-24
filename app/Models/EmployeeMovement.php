@@ -32,7 +32,7 @@ class EmployeeMovement extends Model
 
     protected $casts = [
         'date' => 'date',
-        'hiring_date' => 'date'
+        'movement_date' => 'date'
     ];
 
     public function employee(): BelongsTo

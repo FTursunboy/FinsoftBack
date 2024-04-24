@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CashStore\FilterRequest;
 use App\Http\Requests\Api\CashStore\ProviderRefundRequest;
 use App\Http\Resources\CashStoreResource;
+use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\ProviderRefundRepositoryInterface;
 use App\Traits\ApiResponse;
 
@@ -24,5 +25,10 @@ class ProviderRefundController extends Controller
     public function store(ProviderRefundRequest $request)
     {
         return $this->created(CashStoreResource::make($this->repository->store(ProviderRefundDTO::fromRequest($request))));
+    }
+
+    public function update(CashStore $cashStore, ProviderRefundRequest $request)
+    {
+        return $this->created(CashStoreResource::make($this->repository->update($cashStore, ProviderRefundDTO::fromRequest($request))));
     }
 }

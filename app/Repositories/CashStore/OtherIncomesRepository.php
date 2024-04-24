@@ -45,6 +45,23 @@ class OtherIncomesRepository implements OtherIncomesRepositoryInterface
         ]);
     }
 
+    public function update(CashStore $cashStore, OtherIncomesDTO $dto)
+    {
+        $cashStore->update([
+            'date' => $dto->date,
+            'organization_id' => $dto->organization_id,
+            'organizationBill_id' => $dto->organization_bill_id,
+            'sum' => $dto->sum,
+            'balance_article_id' => $dto->balance_article_id,
+            'basis' => $dto->basis,
+            'comment' => $dto->comment,
+            'operation_type' => CashOperationType::OtherIncomes,
+            'type' => $dto->type,
+        ]);
+
+        return $cashStore;
+    }
+
     public function orderUniqueNumber(): string
     {
         $lastRecord = CashStore::query()->orderBy('doc_number', 'desc')->first();

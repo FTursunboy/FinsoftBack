@@ -21,7 +21,7 @@ class InvestmentRepository implements InvestmentRepositoryInterface
 
         $query = $query->filter($filteredParams);
 
-        return $query->with(['organization', 'cashRegister', 'counterparty', 'author', 'currency'])->paginate($filteredParams['itemsPerPage']);
+        return $query->with(['organization', 'cashRegister', 'counterparty', 'counterpartyAgreement', 'author', 'currency'])->paginate($filteredParams['itemsPerPage']);
     }
 
     public function store(InvestmentDTO $dto)
@@ -39,6 +39,22 @@ class InvestmentRepository implements InvestmentRepositoryInterface
             'operation_type' => CashOperationType::Investment,
             'type' => $dto->type,
             'author_id' => Auth::id()
+        ]);
+    }
+
+    public function update(CashStore $cashStore, InvestmentDTO $dto)
+    {
+        $cashStore->update([
+            'date' => $dto->date,
+            'organization_id' => $dto->organization_id,
+            'cashRegister_id' => $dto->cash_register_id,
+            'sum' => $dto->sum,
+            'counterparty_id' => $dto->counterparty_id,
+            'counterparty_agreement_id' => $dto->counterparty_agreement_id,
+            'basis' => $dto->basis,
+            'comment' => $dto->comment,
+            'operation_type' => CashOperationType::Investment,
+            'type' => $dto->type,
         ]);
     }
 

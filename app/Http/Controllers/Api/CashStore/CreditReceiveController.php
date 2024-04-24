@@ -11,6 +11,7 @@ use App\Http\Requests\Api\CashStore\CreditReceiveRequest;
 use App\Http\Requests\Api\CashStore\FilterRequest;
 use App\Http\Requests\Api\CashStore\InvestmentRequest;
 use App\Http\Resources\CashStoreResource;
+use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\AnotherCashRegisterRepositoryInterface;
 use App\Repositories\Contracts\CashStore\CreditReceiveRepositoryInterface;
 use App\Repositories\Contracts\CashStore\InvestmentRepositoryInterface;
@@ -30,5 +31,10 @@ class CreditReceiveController extends Controller
     public function store(CreditReceiveRequest $request)
     {
         return $this->created(CashStoreResource::make($this->repository->store(CreditReceiveDTO::fromRequest($request))));
+    }
+
+    public function update(CashStore $cashStore, CreditReceiveRequest $request)
+    {
+        return $this->created(CashStoreResource::make($this->repository->upate($cashStore, CreditReceiveDTO::fromRequest($request))));
     }
 }
