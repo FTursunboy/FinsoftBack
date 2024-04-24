@@ -1,25 +1,25 @@
 version: '3'
 services:
-    server:
+    server_develop:
         image: "nginx:stable-alpine"
         volumes:
             - ./:/var/www
             - ./_docker/nginx/conf.d/:/etc/nginx/conf.d
         ports:
-            - "8410:80"
+            - "2200:80"
         depends_on:
-            - app
-        container_name: server
-    app:
+            - app_develop
+        container_name: server_develop
+    app_develop:
         build:
             context: .
             dockerfile: _docker/app/Dockerfile
         volumes:
             - ./:/var/www
         depends_on:
-            -   database
-        container_name: app
-    database:
+            -   database_develop
+        container_name: app_develop
+    database_develop:
         image: mysql:8.0
         restart: always
         volumes:
@@ -28,7 +28,7 @@ services:
             MYSQL_DATABASE: finsoft
             MYSQL_ROOT_PASSWORD: root
         ports:
-            -   8101:3306
+            -   8102:3306
         command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
-        container_name: database
+        container_name: database_develop
 

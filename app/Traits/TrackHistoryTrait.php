@@ -3,13 +3,18 @@
 namespace App\Traits;
 
 use App\Enums\DocumentHistoryStatuses;
+use App\Models\BalanceArticle;
+use App\Models\CashRegister;
 use App\Models\ChangeHistory;
 use App\Models\Counterparty;
 use App\Models\CounterpartyAgreement;
+use App\Models\Currency;
 use App\Models\Document;
 use App\Models\DocumentHistory;
 use App\Models\DocumentModel;
+use App\Models\Employee;
 use App\Models\Organization;
+use App\Models\OrganizationBill;
 use App\Models\Storage;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -47,7 +52,6 @@ trait TrackHistoryTrait
 
     public function delete(DocumentModel $model, int $user_id): void
     {
-
         DocumentHistory::create([
             'status' => DocumentHistoryStatuses::DELETED,
             'user_id' => $user_id,
@@ -76,17 +80,10 @@ trait TrackHistoryTrait
 
     private function getHistoryDetails(DocumentModel $document, $value, $field): array
     {
-        $modelMap = [
-            'storage' => Storage::class,
-            'sender_storage' => Storage::class,
-            'recipient_storage' => Storage::class,
-            'counterparty' => Counterparty::class,
-            'counterparty_agreement' => CounterpartyAgreement::class,
-            'organization' => Organization::class,
-        ];
-
+        $modelMap = config('models.model_map');
 
         $fieldKey = isset($modelMap[$field]) ? $field . '_id' : $field;
+
         $previousValue = $document->getOriginal($fieldKey);
 
 

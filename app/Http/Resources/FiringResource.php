@@ -12,15 +12,14 @@ class FiringResource extends JsonResource
     {
         return [
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'id' => $this->id,
             'doc_number' => $this->doc_number,
             'date' => $this->date,
-            'organization_id' => $this->organization_id,
-            'employee_id' => $this->employee_id,
+            'organization' => OrganizationResource::make($this->whenLoaded('organization')),
+            'employee' => EmployeeResource::make($this->whenLoaded('employee')),
             'firing_date' => $this->firing_date,
             'basis' => $this->basis,
-            'author_id' => $this->author_id,
+            'author' => UserResource::make($this->whenLoaded('author')),
             'comment' => $this->comment,
         ];
     }

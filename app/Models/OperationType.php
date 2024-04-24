@@ -9,6 +9,7 @@ class OperationType extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'title',
+        'title_ru',
+        'title_en'
     ];
 }

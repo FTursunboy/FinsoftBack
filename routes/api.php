@@ -160,7 +160,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::post('/massRestore', [CounterpartyController::class, 'massRestore']);
     });
 
-    Route::apiResource('department', DepartmentController::class);
+    Route::apiResource('department', DepartmentController::class)->except('destroy');
     Route::apiResource('employeeMovement', EmployeeMovementController::class);
     Route::apiResource('firing', FiringController::class);
 

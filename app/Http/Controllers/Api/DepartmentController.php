@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DepartmentRequest;
+use App\Http\Requests\Api\Department\DepartmentRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\DepartmentResource;
 use App\Models\Department;
@@ -14,16 +14,16 @@ use App\Traits\ApiResponse;
 class DepartmentController extends Controller
 {
     use ApiResponse;
+
     public function index()
     {
         $this->authorize('viewAny', Department::class);
 
-        return $this->success(DepartmentResource::collection(Department::all()));
+        return $this->paginate(DepartmentResource::collection(Department::paginate(25)));
     }
 
     public function store(DepartmentRequest $request)
     {
-
         $this->authorize('create', Department::class);
 
         return new DepartmentResource(Department::create($request->validated()));

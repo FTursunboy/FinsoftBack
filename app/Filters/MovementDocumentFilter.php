@@ -2,8 +2,8 @@
 
 namespace App\Filters;
 
+use App\Traits\Sort;
 use EloquentFilter\ModelFilter;
-use Illuminate\Support\Str;
 
 class MovementDocumentFilter extends ModelFilter
 {
@@ -14,6 +14,9 @@ class MovementDocumentFilter extends ModelFilter
     * @var array
     */
 
+    use Sort {
+        sort as traitSort;
+    }
 
     public function date($value) :MovementDocumentFilter
     {
@@ -64,27 +67,9 @@ class MovementDocumentFilter extends ModelFilter
 
     public function sort() :MovementDocumentFilter
     {
-        $filteredParams = $this->input();
-
         $relations = ['senderStorage', 'recipientStorage', 'author', 'organization', 'goods'];
 
-        if (!is_null($filteredParams['sort'])) {
-            if (Str::contains($filteredParams['sort'], '.')) {
-                list($relation, $field) = explode('.', $filteredParams['sort']);
-
-                $relatedTable = $this->getModel()->$relation()->getModel()->getTable();
-
-                $thisTable = $this->getModel()->getTable();
-
-                return $this->with($relations)->join($relatedTable, "$thisTable.{$relation}_id", '=', "{$relatedTable}.id")
-                    ->orderBy("{$relatedTable}.{$field}", $filteredParams['direction'])
-                    ->select("{$thisTable}.*");
-            }
-
-            return  $this->orderBy($filteredParams['sort'], $filteredParams['direction']);
-        }
-
-        return $this->orderBy('deleted_at')->orderBy('created_at', 'desc');
+        return $this->traitSort($this->input(), $this, $relations);
     }
 
 }

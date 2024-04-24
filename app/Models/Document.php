@@ -27,18 +27,6 @@ class Document extends DocumentModel implements SoftDeleteInterface
         'active' => 'bool'
     ];
 
-    public static function boot() {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->id = Str::uuid();
-        });
-    }
-
-    public static function bootSoftDeletes()
-    {
-
-    }
 
     public function counterparty(): BelongsTo
     {

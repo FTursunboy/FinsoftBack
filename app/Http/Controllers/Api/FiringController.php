@@ -8,11 +8,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\EmployeeMovement\EmployeeMovementRequest;
 use App\Http\Requests\Api\EmployeeMovement\FilterRequest;
 use App\Http\Requests\Api\Firing\FiringRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\EmployeeMovementResource;
 use App\Http\Resources\FiringResource;
 use App\Models\EmployeeMovement;
 use App\Models\Firing;
 use App\Repositories\Contracts\FiringRepositoryInterface;
+use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 
 class FiringController extends Controller
@@ -41,7 +43,7 @@ class FiringController extends Controller
     {
         $this->authorize('view', $firing);
 
-        return FiringResource::make($firing->load(['employee', 'organization']));
+        return FiringResource::make($firing->load(['employee', 'organization', 'author']));
     }
 
     public function update(FiringRequest $request, Firing $firing)
@@ -51,12 +53,14 @@ class FiringController extends Controller
         return $this->created(new EmployeeMovementResource($this->employeeMovementRepository->update($firing, FiringDTO::fromRequest($request))));
     }
 
-    public function destroy(Firing $firing)
+
+    public function destroy(IdRequest $request, MassOperationInterface $delete)
     {
-        $this->authorize('delete', $firing);
+        return $delete->massDelete(new Firing(), $request->validated());
+    }
 
-        $employeeMovement->delete();
-
-        return response()->json();
+    public function restore(IdRequest $request, MassOperationInterface $restore)
+    {
+        return $this->success($restore->massRestore(new Firing(), $request->validated()));
     }
 }

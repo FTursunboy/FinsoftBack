@@ -28,7 +28,7 @@ class FiringRepository implements FiringRepositoryInterface
 
         $query = $this->model::filter($filterParams);
 
-        return $query->with(['employee', 'organization'])->paginate($filterParams['itemsPerPage']);
+        return $query->with(['employee', 'organization', 'author'])->paginate($filterParams['itemsPerPage']);
     }
 
 
