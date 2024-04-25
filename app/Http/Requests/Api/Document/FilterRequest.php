@@ -22,7 +22,8 @@ class FilterRequest extends FormRequest
                 'counterparty_id' => 'nullable|numeric',
                 'organization_id' => 'nullable|numeric',
                 'counterparty_agreement_id' => 'nullable|integer',
-                'storage_id' => 'nullable|integer'
+                'storage_id' => 'nullable|integer',
+                'author_id' => 'nullable|integer'
             ];
     }
 
