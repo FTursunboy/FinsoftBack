@@ -84,5 +84,4 @@ use Illuminate\Support\Facades\Route;
             Route::patch('/{cashStore}', [OtherIncomesController::class, 'update']);
         });
 
-        Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
     });
