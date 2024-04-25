@@ -385,6 +385,9 @@ class DocumentRepository implements DocumentRepositoryInterface
             })
             ->when($data['date'], function ($query) use ($data) {
                 return $query->where('date', $data['date']);
+            })
+            ->when($data['author_id'], function ($query) use ($data) {
+                return $query->where('author_id', $data['author_id']);
             });
     }
 
