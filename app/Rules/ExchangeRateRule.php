@@ -12,7 +12,6 @@ class ExchangeRateRule implements Rule
 {
     public function passes($attribute, $value): bool
     {
-
         $date = Carbon::createFromFormat('d-m-Y', $value)->format('Y-m-d');
 
         $currency = app('request')->route('currency');

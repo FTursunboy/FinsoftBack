@@ -342,7 +342,6 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function filter($query, array $data)
     {
-
         return $query->when($data['currency_id'], function ($query) use ($data) {
             return $query->where('currency_id', $data['currency_id']);
         })
@@ -359,7 +358,8 @@ class DocumentRepository implements DocumentRepositoryInterface
                 return $query->where('storage_id', $data['storage_id']);
             })
             ->when($data['date'], function ($query) use ($data) {
-                return $query->whereDate('date', $data['date']);
+                $date = Carbon::createFromFormat('Y-m-d', $data['date']);
+                return $query->where('date', $date);
             })
             ->when($data['author_id'], function ($query) use ($data) {
                 return $query->where('author_id', $data['author_id']);
