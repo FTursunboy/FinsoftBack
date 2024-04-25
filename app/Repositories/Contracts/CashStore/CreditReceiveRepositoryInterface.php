@@ -9,5 +9,5 @@ interface CreditReceiveRepositoryInterface
 {
     public function index(array $data);
     public function store(CreditReceiveDTO $dto);
-    public function upate(CashStore $cashStore, CreditReceiveDTO $dto);
+    public function update(CashStore $cashStore, CreditReceiveDTO $dto);
 }

@@ -22,7 +22,8 @@ class CheckingAccountResource extends JsonResource
             'organizationBill' => OrganizationBillResource::make($this->whenLoaded('organizationBill')),
             'sum' => $this->sum,
             'currency' => CurrencyResource::make($this->whenLoaded('currency')),
-            'author' => UserResource::make($this->whenLoaded('author'))
+            'author' => UserResource::make($this->whenLoaded('author')),
+            'operationType' => $this->operation_type,
         ];
     }
 }
