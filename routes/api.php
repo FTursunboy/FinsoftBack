@@ -3,8 +3,8 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BarcodeController;
 use App\Http\Controllers\Api\CashRegisterController;
+use App\Http\Controllers\Api\CashStore\ClientPaymentController;
 use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\Api\CheckingAccount\ClientPaymentController;
 use App\Http\Controllers\Api\ClientDocumentController;
 use App\Http\Controllers\Api\CounterpartyAgreementController;
 use App\Http\Controllers\Api\CounterpartyController;
