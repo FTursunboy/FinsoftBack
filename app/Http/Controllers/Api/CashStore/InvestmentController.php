@@ -9,6 +9,7 @@ use App\Http\Requests\Api\CashStore\AnotherCashRegisterRequest;
 use App\Http\Requests\Api\CashStore\FilterRequest;
 use App\Http\Requests\Api\CashStore\InvestmentRequest;
 use App\Http\Resources\CashStoreResource;
+use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\AnotherCashRegisterRepositoryInterface;
 use App\Repositories\Contracts\CashStore\InvestmentRepositoryInterface;
 use App\Traits\ApiResponse;
@@ -27,5 +28,10 @@ class InvestmentController extends Controller
     public function store(InvestmentRequest $request)
     {
         return $this->created(CashStoreResource::make($this->repository->store(InvestmentDTO::fromRequest($request))));
+    }
+
+    public function update(CashStore $cashStore, InvestmentRequest $request)
+    {
+        return $this->created(CashStoreResource::make($this->repository->update($cashStore, InvestmentDTO::fromRequest($request))));
     }
 }

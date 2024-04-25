@@ -21,7 +21,7 @@ class CreditReceiveRepository implements CreditReceiveRepositoryInterface
 
         $query = $query->filter($filteredParams);
 
-        return $query->with(['organization', 'cashRegister', 'counterparty', 'author', 'currency'])->paginate($filteredParams['itemsPerPage']);
+        return $query->with(['organization', 'cashRegister', 'counterparty', 'counterpartyAgreement', 'author', 'currency'])->paginate($filteredParams['itemsPerPage']);
     }
 
     public function store(CreditReceiveDTO $dto)
@@ -40,6 +40,26 @@ class CreditReceiveRepository implements CreditReceiveRepositoryInterface
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);
+    }
+
+    public function update(CashStore $cashStore, CreditReceiveDTO $dto)
+    {
+        $cashStore->update([
+            'doc_number' => $this->orderUniqueNumber(),
+            'date' => $dto->date,
+            'organization_id' => $dto->organization_id,
+            'cashRegister_id' => $dto->cash_register_id,
+            'sum' => $dto->sum,
+            'counterparty_id' => $dto->counterparty_id,
+            'counterparty_agreement_id' => $dto->counterparty_agreement_id,
+            'basis' => $dto->basis,
+            'comment' => $dto->comment,
+            'operation_type' => CashOperationType::CreditReceive,
+            'type' => $dto->type,
+            'author_id' => Auth::id()
+        ]);
+
+        return $cashStore;
     }
 
     public function orderUniqueNumber(): string

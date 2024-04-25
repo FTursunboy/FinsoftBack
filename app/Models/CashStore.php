@@ -65,6 +65,10 @@ class CashStore extends DocumentModel
         return $this->belongsTo(OrganizationBill::class, 'organizationBill_id');
     }
 
+    public function balanceArticle(): BelongsTo
+    {
+        return $this->belongsTo(BalanceArticle::class, 'balance_article_id');
+    }
 
     public function modelFilter()
     {
@@ -79,6 +83,11 @@ class CashStore extends DocumentModel
     public function counterparty() :BelongsTo
     {
         return $this->belongsTo(Counterparty::class, 'counterparty_id');
+    }
+
+    public function counterpartyAgreement() :BelongsTo
+    {
+        return $this->belongsTo(CounterpartyAgreement::class, 'counterparty_agreement_id');
     }
 
     public function employee() :BelongsTo

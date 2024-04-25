@@ -40,6 +40,23 @@ class AnotherCashRegisterRepository implements AnotherCashRegisterRepositoryInte
         ]);
     }
 
+    public function update(CashStore $cashStore, AnotherCashRegisterDTO $dto)
+    {
+        $cashStore->update([
+            'date' => $dto->date,
+            'organization_id' => $dto->organization_id,
+            'cashRegister_id' => $dto->cash_register_id,
+            'sum' => $dto->sum,
+            'senderCashRegister_id' => $dto->sender_cash_register_id,
+            'basis' => $dto->basis,
+            'comment' => $dto->comment,
+            'operation_type' => CashOperationType::AnotherCashRegister,
+            'type' => $dto->type,
+        ]);
+
+        return $cashStore;
+    }
+
     public function orderUniqueNumber(): string
     {
         $lastRecord = CashStore::query()->orderBy('doc_number', 'desc')->first();

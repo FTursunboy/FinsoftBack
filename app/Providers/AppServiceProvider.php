@@ -7,6 +7,7 @@ use App\Repositories\BarcodeRepository;
 use App\Repositories\CashRegisterRepository;
 use App\Repositories\CashStore\AccountablePersonRefundRepository;
 use App\Repositories\CashStore\AnotherCashRegisterRepository;
+use App\Repositories\CashStore\CashStoreRepository;
 use App\Repositories\CashStore\ClientPaymentRepository;
 use App\Repositories\CashStore\CreditReceiveRepository;
 use App\Repositories\CashStore\InvestmentRepository;
@@ -16,6 +17,7 @@ use App\Repositories\CashStore\ProviderRefundRepository;
 use App\Repositories\CashStore\WithdrawalRepository;
 use App\Repositories\CheckingAccount\AccountablePersonRefundRepository as CheckingAccountAccountablePersonRefundRepository;
 use App\Repositories\CheckingAccount\AnotherCashRegisterRepository as CheckingAccountAnotherCashRegisterRepository;
+use App\Repositories\CheckingAccount\CheckingAccountRepository;
 use App\Repositories\CheckingAccount\ClientPaymentRepository as CheckingAccountClientPaymentRepository;
 use App\Repositories\CheckingAccount\CreditReceiveRepository as CheckingAccountCreditReceiveRepository;
 use App\Repositories\CheckingAccount\InvestmentRepository as CheckingAccountInvestmentRepository;
@@ -25,6 +27,7 @@ use App\Repositories\CheckingAccount\ProviderRefundRepository as CheckingAccount
 use App\Repositories\CheckingAccount\WithdrawalRepository as CheckingAccountWithdrawalRepository;
 use App\Repositories\Contracts\CashStore\AccountablePersonRefundRepositoryInterface;
 use App\Repositories\Contracts\CashStore\AnotherCashRegisterRepositoryInterface;
+use App\Repositories\Contracts\CashStore\ClientPaymentRepositoryInterface;
 use App\Repositories\Contracts\CashStore\CreditReceiveRepositoryInterface;
 use App\Repositories\Contracts\CashStore\InvestmentRepositoryInterface;
 use App\Repositories\Contracts\CashStore\OtherExpensesRepositoryInterface;
@@ -34,6 +37,7 @@ use App\Repositories\Contracts\CashStore\WithdrawalRepositoryInterface;
 use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
 use App\Repositories\Contracts\CheckingAccount\AccountablePersonRefundRepositoryInterface as CheckingAccountAccountablePersonRefundRepositoryInterface;
 use App\Repositories\Contracts\CheckingAccount\AnotherCashRegisterRepositoryInterface as CheckingAccountAnotherCashRegisterRepositoryInterface;
+use App\Repositories\Contracts\CheckingAccount\CheckingAccountRepositoryInterface;
 use App\Repositories\Contracts\CheckingAccount\CreditReceiveRepositoryInterface as CheckingAccountCreditReceiveRepositoryInterface;
 use App\Repositories\Contracts\CheckingAccount\InvestmentRepositoryInterface as CheckingAccountInvestmentRepositoryInterface;
 use App\Repositories\Contracts\CheckingAccount\OtherExpensesRepositoryInterface as CheckingAccountOtherExpensesRepositoryInterface;
@@ -133,7 +137,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(HiringRepositoryInterface::class, HiringRepository::class);
         $this->app->singleton(EmployeeMovementRepositoryInterface::class, EmployeeMovementRepository::class);
         $this->app->singleton(FiringRepositoryInterface::class, FiringRepository::class);
-        $this->app->singleton(CashStoreRepositoryInterface::class, ClientPaymentRepository::class);
+        $this->app->singleton(CashStoreRepositoryInterface::class, CashStoreRepository::class);
+        $this->app->singleton(ClientPaymentRepositoryInterface::class, ClientPaymentRepository::class);
         $this->app->singleton(WithdrawalRepositoryInterface::class, WithdrawalRepository::class);
         $this->app->singleton(AnotherCashRegisterRepositoryInterface::class, AnotherCashRegisterRepository::class);
         $this->app->singleton(InvestmentRepositoryInterface::class, InvestmentRepository::class);
@@ -142,6 +147,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(AccountablePersonRefundRepositoryInterface::class, AccountablePersonRefundRepository::class);
         $this->app->singleton(OtherExpensesRepositoryInterface::class, OtherExpensesRepository::class);
         $this->app->singleton(OtherIncomesRepositoryInterface::class, OtherIncomesRepository::class);
+        $this->app->singleton(CheckingAccountRepositoryInterface::class, CheckingAccountRepository::class);
         $this->app->singleton(CheckingAccountAccountablePersonRefundRepositoryInterface::class, CheckingAccountAccountablePersonRefundRepository::class);
         $this->app->singleton(CheckingAccountAnotherCashRegisterRepositoryInterface::class, CheckingAccountAnotherCashRegisterRepository::class);
         $this->app->singleton(CheckingAccountCreditReceiveRepositoryInterface::class, CheckingAccountCreditReceiveRepository::class);
@@ -151,7 +157,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CheckingAccountProviderRefundRepositoryInterface::class, CheckingAccountProviderRefundRepository::class);
         $this->app->singleton(CheckingAccountWithdrawalRepositoryInterface::class, CheckingAccountWithdrawalRepository::class);
         $this->app->singleton(CheckingAccountCashStoreRepositoryInterface::class, CheckingAccountClientPaymentRepository::class);
-
     }
     //das
 

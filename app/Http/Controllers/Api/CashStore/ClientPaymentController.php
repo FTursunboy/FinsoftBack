@@ -10,6 +10,7 @@ use App\Http\Resources\CashStoreResource;
 use App\Models\CashStore;
 use App\Models\OperationType;
 use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
+use App\Repositories\Contracts\CashStore\ClientPaymentRepositoryInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class ClientPaymentController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(public CashStoreRepositoryInterface $repository) {}
+    public function __construct(public ClientPaymentRepositoryInterface $repository) {}
 
     public function index(FilterRequest $request)
     {
@@ -40,13 +41,9 @@ class ClientPaymentController extends Controller
         return new CashStoreResource($cashStore);
     }
 
-    public function update(ClientPaymentRequest $request, CashStore $cashStore)
+    public function update(CashStore $cashStore, ClientPaymentRequest $request)
     {
-        $this->authorize('update', $cashStore);
-
-        $cashStore->update($request->validated());
-
-        return new CashStoreResource($cashStore);
+        return $this->success(CashStoreResource::make($this->repository->update($cashStore, ClientPaymentDTO::fromRequest($request))));
     }
 
     public function destroy(CashStore $cashStore)

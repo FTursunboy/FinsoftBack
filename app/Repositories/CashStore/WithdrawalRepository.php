@@ -40,6 +40,23 @@ class WithdrawalRepository implements WithdrawalRepositoryInterface
         ]);
     }
 
+    public function update(CashStore $cashStore, WithdrawalDTO $dto)
+    {
+        $cashStore->update([
+            'date' => $dto->date,
+            'organization_id' => $dto->organization_id,
+            'cashRegister_id' => $dto->cash_register_id,
+            'sum' => $dto->sum,
+            'organizationBill_id' => $dto->organization_bill_id,
+            'basis' => $dto->basis,
+            'comment' => $dto->comment,
+            'operation_type' => CashOperationType::WithDraw,
+            'type' => $dto->type,
+        ]);
+
+        return $cashStore;
+    }
+
     public function orderUniqueNumber(): string
     {
         $lastRecord = CashStore::query()->orderBy('doc_number', 'desc')->first();
