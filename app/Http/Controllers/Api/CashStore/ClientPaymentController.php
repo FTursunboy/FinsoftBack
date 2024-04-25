@@ -12,6 +12,7 @@ use App\Models\OperationType;
 use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
 use App\Repositories\Contracts\CashStore\ClientPaymentRepositoryInterface;
 use App\Traits\ApiResponse;
+use Illuminate\Http\Request;
 
 class ClientPaymentController extends Controller
 {
@@ -54,8 +55,8 @@ class ClientPaymentController extends Controller
         return response()->json();
     }
 
-    public function getOperationTypes()
+    public function getOperationTypes(Request $request)
     {
-        return $this->success(OperationType::get());
+        return $this->success(OperationType::where('type', $request->type)->get());
     }
 }
