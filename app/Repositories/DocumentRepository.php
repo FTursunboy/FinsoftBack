@@ -42,7 +42,7 @@ class DocumentRepository implements DocumentRepositoryInterface
         $query = $this->search($query, $filteredParams);
 
         $query = $this->filter($query, $filteredParams);
-        
+
         $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency']);
 
         return $query->paginate($filteredParams['itemsPerPage']);
@@ -342,7 +342,6 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function filter($query, array $data)
     {
-
         return $query->when($data['currency_id'], function ($query) use ($data) {
             return $query->where('currency_id', $data['currency_id']);
         })
