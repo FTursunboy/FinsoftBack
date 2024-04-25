@@ -37,13 +37,12 @@ class DocumentRepository implements DocumentRepositoryInterface
     {
         $filteredParams = $this->model::filter($data);
 
-
         $query = $this->model::query()->where('status_id', $status);
 
         $query = $this->search($query, $filteredParams);
 
         $query = $this->filter($query, $filteredParams);
-
+        
         $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency']);
 
         return $query->paginate($filteredParams['itemsPerPage']);
