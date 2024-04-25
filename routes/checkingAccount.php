@@ -32,46 +32,55 @@ use Illuminate\Support\Facades\Route;
         Route::group(['prefix' => 'client-payment'], function () {
             Route::get('/', [ClientPaymentController::class, 'index']);
             Route::post('/', [ClientPaymentController::class, 'store']);
+            Route::patch('/', [ClientPaymentController::class, 'update']);
         });
 
         Route::group(['prefix' => 'withdrawal'], function () {
             Route::get('/', [WithdrawalController::class, 'index']);
             Route::post('/', [WithdrawalController::class, 'store']);
+            Route::patch('/', [WithdrawalController::class, 'update']);
         });
 
         Route::group(['prefix' => 'another-cash-register'], function () {
             Route::get('/', [AnotherCashRegisterController::class, 'index']);
             Route::post('/', [AnotherCashRegisterController::class, 'store']);
+            Route::patch('/', [AnotherCashRegisterController::class, 'update']);
         });
 
         Route::group(['prefix' => 'investment'], function () {
             Route::get('/', [InvestmentController::class, 'index']);
             Route::post('/', [InvestmentController::class, 'store']);
+            Route::patch('/', [InvestmentController::class, 'update']);
         });
 
         Route::group(['prefix' => 'credit-receive'], function () {
             Route::get('/', [CreditReceiveController::class, 'index']);
             Route::post('/', [CreditReceiveController::class, 'store']);
+            Route::patch('/', [CreditReceiveController::class, 'update']);
         });
 
         Route::group(['prefix' => 'provider-refund'], function () {
             Route::get('/', [ProviderRefundController::class, 'index']);
             Route::post('/', [ProviderRefundController::class, 'store']);
+            Route::patch('/', [ProviderRefundController::class, 'update']);
         });
 
         Route::group(['prefix' => 'accountable-person-refund'], function () {
             Route::get('/', [AccountablePersonRefundController::class, 'index']);
             Route::post('/', [AccountablePersonRefundController::class, 'store']);
+            Route::patch('/', [AccountablePersonRefundController::class, 'update']);
         });
 
         Route::group(['prefix' => 'other-expenses'], function () {
             Route::get('/', [OtherExpensesController::class, 'index']);
             Route::post('/', [OtherExpensesController::class, 'store']);
+            Route::patch('/', [OtherExpensesController::class, 'update']);
             Route::get('balance-article', [OtherExpensesController::class, 'balanceArticle']);
         });
 
         Route::group(['prefix' => 'other-incomes'], function () {
             Route::get('/', [OtherIncomesController::class, 'index']);
             Route::post('/', [OtherIncomesController::class, 'store']);
+            Route::patch('/', [OtherIncomesController::class, 'update']);
         });
     });

@@ -33,6 +33,7 @@ class CheckingAccountController extends Controller
        return $this->success(CheckingAccountResource::make($checkingAccount->load('organization', 'checkingAccount', 'counterparty', 'author', 'currency', 'senderCashRegister', 'organizationBill', 'employee')));
     }
 
+
     public function destroy(CheckingAccount $checkingAccount)
     {
         $checkingAccount->delete();

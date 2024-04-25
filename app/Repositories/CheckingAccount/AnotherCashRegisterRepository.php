@@ -2,6 +2,7 @@
 
 namespace App\Repositories\CheckingAccount;
 
+use App\DTO\CheckingAccount\AccountablePersonRefundDTO;
 use App\DTO\CheckingAccount\AnotherCashRegisterDTO;
 use App\Enums\CashOperationType;
 use App\Models\CheckingAccount;
@@ -37,6 +38,21 @@ class AnotherCashRegisterRepository implements AnotherCashRegisterRepositoryInte
             'operation_type' => CashOperationType::AnotherCashRegister,
             'type' => $dto->type,
             'author_id' => Auth::id()
+        ]);
+    }
+
+    public function update(AnotherCashRegisterDTO $dto, CheckingAccount $account)
+    {
+        $account->update([
+            'date' => $dto->date,
+            'organization_id' => $dto->organization_id,
+            'checking_account_id' => $dto->checking_account_id,
+            'sum' => $dto->sum,
+            'senderCashRegister_id' => $dto->sender_cash_register_id,
+            'basis' => $dto->basis,
+            'comment' => $dto->comment,
+            'operation_type' => CashOperationType::AnotherCashRegister,
+            'type' => $dto->type,
         ]);
     }
 

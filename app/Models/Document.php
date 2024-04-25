@@ -108,6 +108,4 @@ class Document extends DocumentModel implements SoftDeleteInterface
     {
         return $this->documentGoods()->count();
     }
-
-
 }

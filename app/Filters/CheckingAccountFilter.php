@@ -65,7 +65,7 @@ class CheckingAccountFilter extends ModelFilter
     {
         $filteredParams = $this->input();
 
-        $relations = ['employee', 'counterparty', 'author', 'organizationBill', 'currency', 'organization', 'senderCashRegister', 'checkingAccount', ''];
+        $relations = ['employee', 'counterparty', 'author', 'organizationBill', 'currency', 'organization', 'senderCashRegister', 'checkingAccount'];
 
         return $this->traitSort($filteredParams, $this, $relations);
     }

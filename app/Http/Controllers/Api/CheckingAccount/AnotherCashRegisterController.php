@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CheckingAccount\AnotherCashRegisterRequest;
 use App\Http\Requests\Api\CheckingAccount\FilterRequest;
 use App\Http\Resources\CheckingAccountResource;
+use App\Models\CheckingAccount;
 use App\Repositories\Contracts\CheckingAccount\AnotherCashRegisterRepositoryInterface;
 use App\Traits\ApiResponse;
 
@@ -24,5 +25,10 @@ class AnotherCashRegisterController extends Controller
     public function store(AnotherCashRegisterRequest $request)
     {
         return $this->created(CheckingAccountResource::make($this->repository->store(AnotherCashRegisterDTO::fromRequest($request))));
+    }
+
+    public function update(AnotherCashRegisterRequest $request, CheckingAccount $account)
+    {
+        return $this->success($this->repository->update(AnotherCashRegisterDTO::fromRequest($request), $account));
     }
 }
