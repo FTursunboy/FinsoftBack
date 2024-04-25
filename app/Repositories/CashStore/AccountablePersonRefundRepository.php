@@ -6,10 +6,13 @@ use App\DTO\CashStore\AccountablePersonRefundDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\AccountablePersonRefundRepositoryInterface;
+use App\Traits\DocNumberTrait;
 use Illuminate\Support\Facades\Auth;
 
 class AccountablePersonRefundRepository implements AccountablePersonRefundRepositoryInterface
 {
+
+    use DocNumberTrait;
 
     public $model = CashStore::class;
 
@@ -27,7 +30,7 @@ class AccountablePersonRefundRepository implements AccountablePersonRefundReposi
     public function store(AccountablePersonRefundDTO $dto)
     {
         return $this->model::create([
-            'doc_number' => $this->orderUniqueNumber(),
+            'doc_number' => $this->uniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
             'cash_register_id' => $dto->cash_register_id,
@@ -55,19 +58,6 @@ class AccountablePersonRefundRepository implements AccountablePersonRefundReposi
         ]);
 
         return $cashStore;
-    }
-
-    public function orderUniqueNumber(): string
-    {
-        $lastRecord = CashStore::query()->orderBy('doc_number', 'desc')->first();
-
-        if (!$lastRecord) {
-            $lastNumber = 1;
-        } else {
-            $lastNumber = (int)$lastRecord->doc_number + 1;
-        }
-
-        return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
     }
 
 }

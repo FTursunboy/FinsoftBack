@@ -6,12 +6,14 @@ use App\DTO\CashStore\CreditReceiveDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\CreditReceiveRepositoryInterface;
+use App\Traits\DocNumberTrait;
 use Illuminate\Support\Facades\Auth;
 
 class CreditReceiveRepository implements CreditReceiveRepositoryInterface
 {
-
     public $model = CashStore::class;
+
+    use DocNumberTrait;
 
     public function index(array $data)
     {
@@ -27,7 +29,7 @@ class CreditReceiveRepository implements CreditReceiveRepositoryInterface
     public function store(CreditReceiveDTO $dto)
     {
         return $this->model::create([
-            'doc_number' => $this->orderUniqueNumber(),
+            'doc_number' => $this->uniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
             'cashRegister_id' => $dto->cash_register_id,
@@ -45,7 +47,6 @@ class CreditReceiveRepository implements CreditReceiveRepositoryInterface
     public function update(CashStore $cashStore, CreditReceiveDTO $dto)
     {
         $cashStore->update([
-            'doc_number' => $this->orderUniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
             'cashRegister_id' => $dto->cash_register_id,
@@ -56,23 +57,9 @@ class CreditReceiveRepository implements CreditReceiveRepositoryInterface
             'comment' => $dto->comment,
             'operation_type' => CashOperationType::CreditReceive,
             'type' => $dto->type,
-            'author_id' => Auth::id()
         ]);
 
         return $cashStore;
-    }
-
-    public function orderUniqueNumber(): string
-    {
-        $lastRecord = CashStore::query()->orderBy('doc_number', 'desc')->first();
-
-        if (!$lastRecord) {
-            $lastNumber = 1;
-        } else {
-            $lastNumber = (int)$lastRecord->doc_number + 1;
-        }
-
-        return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
     }
 
 }

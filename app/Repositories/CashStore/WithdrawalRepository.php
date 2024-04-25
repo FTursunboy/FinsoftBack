@@ -6,11 +6,14 @@ use App\DTO\CashStore\WithdrawalDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
 use App\Repositories\Contracts\CashStore\WithdrawalRepositoryInterface;
+use App\Traits\DocNumberTrait;
 use Illuminate\Support\Facades\Auth;
 
 class WithdrawalRepository implements WithdrawalRepositoryInterface
 {
     public $model = CashStore::class;
+
+    use DocNumberTrait;
 
     public function index(array $data)
     {
@@ -26,7 +29,7 @@ class WithdrawalRepository implements WithdrawalRepositoryInterface
     public function store(WithdrawalDTO $dto)
     {
         return $this->model::create([
-            'doc_number' => $this->orderUniqueNumber(),
+            'doc_number' => $this->uniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
             'cashRegister_id' => $dto->cash_register_id,
@@ -50,23 +53,9 @@ class WithdrawalRepository implements WithdrawalRepositoryInterface
             'organizationBill_id' => $dto->organization_bill_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::WithDraw,
             'type' => $dto->type,
         ]);
 
         return $cashStore;
-    }
-
-    public function orderUniqueNumber(): string
-    {
-        $lastRecord = CashStore::query()->orderBy('doc_number', 'desc')->first();
-
-        if (!$lastRecord) {
-            $lastNumber = 1;
-        } else {
-            $lastNumber = (int)$lastRecord->doc_number + 1;
-        }
-
-        return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
     }
 }

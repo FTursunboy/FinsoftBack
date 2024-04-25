@@ -6,12 +6,14 @@ use App\DTO\CheckingAccount\AccountablePersonRefundDTO;
 use App\Enums\CashOperationType;
 use App\Models\CheckingAccount;
 use App\Repositories\Contracts\CheckingAccount\AccountablePersonRefundRepositoryInterface;
+use App\Traits\DocNumberTrait;
 use Illuminate\Support\Facades\Auth;
 
 class AccountablePersonRefundRepository implements AccountablePersonRefundRepositoryInterface
 {
-
     public $model = CheckingAccount::class;
+
+    use DocNumberTrait;
 
     public function index(array $data)
     {
@@ -27,7 +29,7 @@ class AccountablePersonRefundRepository implements AccountablePersonRefundReposi
     public function store(AccountablePersonRefundDTO $dto)
     {
         return $this->model::create([
-            'doc_number' => $this->orderUniqueNumber(),
+            'doc_number' => $this->uniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
             'checking_account_id' => $dto->checking_account_id,
@@ -56,17 +58,5 @@ class AccountablePersonRefundRepository implements AccountablePersonRefundReposi
         ]);
     }
 
-    public function orderUniqueNumber(): string
-    {
-        $lastRecord = CheckingAccount::query()->orderBy('doc_number', 'desc')->first();
-
-        if (!$lastRecord) {
-            $lastNumber = 1;
-        } else {
-            $lastNumber = (int)$lastRecord->doc_number + 1;
-        }
-
-        return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
-    }
 
 }

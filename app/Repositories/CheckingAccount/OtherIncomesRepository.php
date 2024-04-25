@@ -6,12 +6,14 @@ use App\DTO\CheckingAccount\OtherIncomesDTO;
 use App\Enums\CashOperationType;
 use App\Models\CheckingAccount;
 use App\Repositories\Contracts\CheckingAccount\OtherIncomesRepositoryInterface;
+use App\Traits\DocNumberTrait;
 use Illuminate\Support\Facades\Auth;
 
 class OtherIncomesRepository implements OtherIncomesRepositoryInterface
 {
-
     public $model = CheckingAccount::class;
+
+    use DocNumberTrait;
 
     public function index(array $data)
     {
@@ -27,7 +29,7 @@ class OtherIncomesRepository implements OtherIncomesRepositoryInterface
     public function store(OtherIncomesDTO $dto)
     {
         return $this->model::create([
-            'doc_number' => $this->orderUniqueNumber(),
+            'doc_number' => $this->uniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
             'checking_account_id' => $dto->checking_account_id,
@@ -44,7 +46,6 @@ class OtherIncomesRepository implements OtherIncomesRepositoryInterface
     public function update(OtherIncomesDTO $dto, CheckingAccount $account)
     {
         $account->update([
-            'doc_number' => $this->orderUniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
             'checking_account_id' => $dto->checking_account_id,
@@ -52,22 +53,8 @@ class OtherIncomesRepository implements OtherIncomesRepositoryInterface
             'balance_article_id' => $dto->balance_article_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::OtherIncomes,
             'type' => $dto->type
         ]);
-    }
-
-    public function orderUniqueNumber(): string
-    {
-        $lastRecord = CheckingAccount::query()->orderBy('doc_number', 'desc')->first();
-
-        if (!$lastRecord) {
-            $lastNumber = 1;
-        } else {
-            $lastNumber = (int)$lastRecord->doc_number + 1;
-        }
-
-        return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
     }
 
 }
