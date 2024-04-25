@@ -358,7 +358,7 @@ class DocumentRepository implements DocumentRepositoryInterface
                 return $query->where('storage_id', $data['storage_id']);
             })
             ->when($data['date'], function ($query) use ($data) {
-                $date = Carbon::createFromFormat('Y-m-d', $data['date']);
+                $date = Carbon::createFromFormat('Y-m-d', $data['date'])->format('Y-m-d');
                 return $query->where('date', $date);
             })
             ->when($data['author_id'], function ($query) use ($data) {
