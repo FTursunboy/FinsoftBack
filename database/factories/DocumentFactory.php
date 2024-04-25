@@ -10,6 +10,7 @@ use App\Models\Organization;
 use App\Models\Status;
 use App\Models\Storage;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -33,7 +34,7 @@ class DocumentFactory extends Factory
         return [
             'id' => Str::uuid(),
             'organization_id' => Organization::factory(),
-            'date' => $this->faker->date,
+            'date' => Carbon::parse($this->faker->date),
             'counterparty_id' => Counterparty::factory(),
             'counterparty_agreement_id' => CounterpartyAgreement::factory(),
             'storage_id' => Storage::factory(),
