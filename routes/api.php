@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BarcodeController;
 use App\Http\Controllers\Api\CashRegisterController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CheckingAccount\ClientPaymentController;
 use App\Http\Controllers\Api\ClientDocumentController;
 use App\Http\Controllers\Api\CounterpartyAgreementController;
 use App\Http\Controllers\Api\CounterpartyController;
@@ -282,6 +283,9 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::patch('/', [AuthController::class, 'changePin']);
         Route::post('/logout', [AuthController::class, 'logout']);
     });
+
+
+    Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
 
     require_once 'cashStore.php';
     require_once 'checkingAccount.php';
