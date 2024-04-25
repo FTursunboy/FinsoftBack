@@ -58,6 +58,8 @@ class InvestmentRepository implements InvestmentRepositoryInterface
             'operation_type' => CashOperationType::Investment,
             'type' => $dto->type,
         ]);
+
+        return $cashStore;
     }
 
 }

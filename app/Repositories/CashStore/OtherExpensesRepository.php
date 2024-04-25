@@ -49,7 +49,6 @@ class OtherExpensesRepository implements OtherExpensesRepositoryInterface
     public function update(CashStore $cashStore, OtherExpensesDTO $dto)
     {
         $cashStore->update([
-            'doc_number' => $this->orderUniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
             'organizationBill_id' => $dto->cash_register_id,
@@ -59,7 +58,6 @@ class OtherExpensesRepository implements OtherExpensesRepositoryInterface
             'comment' => $dto->comment,
             'operation_type' => CashOperationType::OtherExpenses,
             'type' => $dto->type,
-            'author_id' => Auth::id()
         ]);
 
         return $cashStore;
