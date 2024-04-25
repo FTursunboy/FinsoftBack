@@ -86,7 +86,6 @@ trait TrackHistoryTrait
 
         $previousValue = $document->getOriginal($fieldKey);
 
-
         if (isset($modelMap[$field])) {
             $model = $modelMap[$field];
             $previousModel = optional($model::find($previousValue))->name;

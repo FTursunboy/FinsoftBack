@@ -7,11 +7,14 @@ use App\DTO\CheckingAccount\AnotherCashRegisterDTO;
 use App\Enums\CashOperationType;
 use App\Models\CheckingAccount;
 use App\Repositories\Contracts\CheckingAccount\AnotherCashRegisterRepositoryInterface;
+use App\Traits\DocNumberTrait;
 use Illuminate\Support\Facades\Auth;
 
 class AnotherCashRegisterRepository implements AnotherCashRegisterRepositoryInterface
 {
     public $model = CheckingAccount::class;
+
+    use DocNumberTrait;
 
     public function index(array $data)
     {
@@ -27,7 +30,7 @@ class AnotherCashRegisterRepository implements AnotherCashRegisterRepositoryInte
     public function store(AnotherCashRegisterDTO $dto)
     {
         return $this->model::create([
-            'doc_number' => $this->orderUniqueNumber(),
+            'doc_number' => $this->uniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
             'checking_account_id' => $dto->checking_account_id,
@@ -54,18 +57,5 @@ class AnotherCashRegisterRepository implements AnotherCashRegisterRepositoryInte
             'operation_type' => CashOperationType::AnotherCashRegister,
             'type' => $dto->type,
         ]);
-    }
-
-    public function orderUniqueNumber(): string
-    {
-        $lastRecord = CheckingAccount::query()->orderBy('doc_number', 'desc')->first();
-
-        if (!$lastRecord) {
-            $lastNumber = 1;
-        } else {
-            $lastNumber = (int)$lastRecord->doc_number + 1;
-        }
-
-        return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
     }
 }

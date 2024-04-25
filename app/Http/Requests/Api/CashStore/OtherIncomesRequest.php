@@ -13,7 +13,7 @@ class OtherIncomesRequest extends FormRequest
         return [
             'date' => ['required', 'date'],
             'organization_id' => ['required'],
-            'organization_bill_id' => ['required', Rule::exists('organization_bills', 'id')],
+            'cash_register_id' => ['required', Rule::exists('cash_registers', 'id')],
             'sum' => ['required'],
             'balance_article_id' => ['required', Rule::exists('balance_articles','id')],
             'basis' => ['required'],

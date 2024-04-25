@@ -19,6 +19,7 @@ class DocumentObserver
 
     public function updated(Document $model): void
     {
+
        $this->update($model, Auth::id());
     }
 

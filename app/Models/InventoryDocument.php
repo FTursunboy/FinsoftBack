@@ -10,17 +10,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class InventoryDocument extends Model implements \App\Repositories\Contracts\SoftDeleteInterface
+class InventoryDocument extends DocumentModel implements \App\Repositories\Contracts\SoftDeleteInterface
 {
     use Filterable, SoftDeletes;
 
     protected $fillable = ['doc_number', 'date', 'organization_id', 'storage_id', 'responsible_person_id', 'author_id', 'comment', 'deleted_at'];
-
-    protected $keyType = 'string';
-
-    protected $primaryKey = 'id';
-
-    public $incrementing = false;
 
     protected $casts = [
         'active' => 'bool'
