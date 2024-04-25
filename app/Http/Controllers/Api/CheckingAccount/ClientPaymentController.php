@@ -31,4 +31,7 @@ class ClientPaymentController extends Controller
     {
         return $this->success($this->repository->update(ClientPaymentDTO::fromRequest($request), $account));
     }
+
+
+
 }
