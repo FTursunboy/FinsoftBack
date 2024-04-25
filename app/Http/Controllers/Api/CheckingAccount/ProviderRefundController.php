@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CheckingAccount\FilterRequest;
 use App\Http\Requests\Api\CheckingAccount\ProviderRefundRequest;
 use App\Http\Resources\CheckingAccountResource;
+use App\Models\CheckingAccount;
 use App\Repositories\Contracts\CheckingAccount\ProviderRefundRepositoryInterface;
 use App\Traits\ApiResponse;
 
@@ -25,4 +26,10 @@ class ProviderRefundController extends Controller
     {
         return $this->created(CheckingAccountResource::make($this->repository->store(ProviderRefundDTO::fromRequest($request))));
     }
+
+    public function update(ProviderRefundRequest $request, CheckingAccount $account)
+    {
+        return $this->success($this->repository->update(ProviderRefundDTO::fromRequest($request), $account));
+    }
 }
+

@@ -41,6 +41,21 @@ class AccountablePersonRefundRepository implements AccountablePersonRefundReposi
         ]);
     }
 
+    public function update(AccountablePersonRefundDTO $dto, CheckingAccount $account)
+    {
+        $account->update([
+            'date' => $dto->date,
+            'organization_id' => $dto->organization_id,
+            'checking_account_id' => $dto->checking_account_id,
+            'sum' => $dto->sum,
+            'employee_id' => $dto->employee_id,
+            'basis' => $dto->basis,
+            'comment' => $dto->comment,
+            'operation_type' => CashOperationType::AccountablePersonRefund,
+            'type' => $dto->type
+        ]);
+    }
+
     public function orderUniqueNumber(): string
     {
         $lastRecord = CheckingAccount::query()->orderBy('doc_number', 'desc')->first();

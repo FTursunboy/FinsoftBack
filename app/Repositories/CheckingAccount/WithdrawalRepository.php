@@ -2,6 +2,7 @@
 
 namespace App\Repositories\CheckingAccount;
 
+use App\DTO\CheckingAccount\ProviderRefundDTO;
 use App\DTO\CheckingAccount\WithdrawalDTO;
 use App\Enums\CashOperationType;
 use App\Models\CheckingAccount;
@@ -37,6 +38,21 @@ class WithdrawalRepository implements WithdrawalRepositoryInterface
             'operation_type' => CashOperationType::WithDraw,
             'type' => $dto->type,
             'author_id' => Auth::id()
+        ]);
+    }
+
+    public function update(WithdrawalDTO $dto, CheckingAccount $account)
+    {
+        return $account->update([
+            'date' => $dto->date,
+            'organization_id' => $dto->organization_id,
+            'checking_account_id' => $dto->checking_account_id,
+            'sum' => $dto->sum,
+            'organizationBill_id' => $dto->organization_bill_id,
+            'basis' => $dto->basis,
+            'comment' => $dto->comment,
+            'operation_type' => CashOperationType::WithDraw,
+            'type' => $dto->type,
         ]);
     }
 

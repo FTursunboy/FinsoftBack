@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CheckingAccount\AccountablePersonRefundRequest;
 use App\Http\Requests\Api\CheckingAccount\FilterRequest;
 use App\Http\Resources\CheckingAccountResource;
+use App\Models\CheckingAccount;
 use App\Repositories\Contracts\CheckingAccount\AccountablePersonRefundRepositoryInterface;
 use App\Traits\ApiResponse;
 
@@ -24,5 +25,10 @@ class AccountablePersonRefundController extends Controller
     public function store(AccountablePersonRefundRequest $request)
     {
         return $this->created(CheckingAccountResource::make($this->repository->store(AccountablePersonRefundDTO::fromRequest($request))));
+    }
+
+    public function update(AccountablePersonRefundRequest $request, CheckingAccount $account)
+    {
+        return $this->success($this->repository->update(AccountablePersonRefundDTO::fromRequest($request), $account));
     }
 }

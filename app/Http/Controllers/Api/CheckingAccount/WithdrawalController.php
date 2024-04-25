@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CheckingAccount\FilterRequest;
 use App\Http\Requests\Api\CheckingAccount\WithdrawalRequest;
 use App\Http\Resources\CheckingAccountResource;
+use App\Models\CheckingAccount;
 use App\Repositories\Contracts\CheckingAccount\WithdrawalRepositoryInterface;
 use App\Traits\ApiResponse;
 
@@ -24,5 +25,10 @@ class WithdrawalController extends Controller
     public function store(WithdrawalRequest $request)
     {
         return $this->created(CheckingAccountResource::make($this->repository->store(WithdrawalDTO::fromRequest($request))));
+    }
+
+    public function update(WithdrawalRequest $request, CheckingAccount $account)
+    {
+        return $this->success($this->repository->update(WithdrawalDTO::fromRequest($request), $account));
     }
 }

@@ -42,6 +42,22 @@ class OtherExpensesRepository implements OtherExpensesRepositoryInterface
         ]);
     }
 
+
+    public function update(OtherExpensesDTO $dto, CheckingAccount $account)
+    {
+        $account->update([
+            'date' => $dto->date,
+            'organization_id' => $dto->organization_id,
+            'checking_account_id' => $dto->checking_account_id,
+            'sum' => $dto->sum,
+            'balance_article_id' => $dto->balance_article_id,
+            'basis' => $dto->basis,
+            'comment' => $dto->comment,
+            'operation_type' => CashOperationType::OtherExpenses,
+            'type' => $dto->type
+        ]);
+    }
+
     public function balanceArticle(array $data)
     {
         $filteredParams = BalanceArticle::filterData($data);

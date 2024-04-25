@@ -41,6 +41,22 @@ class ProviderRefundRepository implements ProviderRefundRepositoryInterface
         ]);
     }
 
+    public function update(ProviderRefundDTO $dto, CheckingAccount $account)
+    {
+        return $account->update([
+            'date' => $dto->date,
+            'organization_id' => $dto->organization_id,
+            'checking_account_id' => $dto->checking_account_id,
+            'sum' => $dto->sum,
+            'counterparty_id' => $dto->counterparty_id,
+            'counterparty_agreement_id' => $dto->counterparty_agreement_id,
+            'basis' => $dto->basis,
+            'comment' => $dto->comment,
+            'operation_type' => CashOperationType::ProviderRefund,
+            'type' => $dto->type
+        ]);
+    }
+
     public function orderUniqueNumber(): string
     {
         $lastRecord = CheckingAccount::query()->orderBy('doc_number', 'desc')->first();

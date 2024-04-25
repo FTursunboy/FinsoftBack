@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CheckingAccount\CreditReceiveRequest;
 use App\Http\Requests\Api\CheckingAccount\FilterRequest;
 use App\Http\Resources\CheckingAccountResource;
+use App\Models\CheckingAccount;
 use App\Repositories\Contracts\CheckingAccount\CreditReceiveRepositoryInterface;
 use App\Traits\ApiResponse;
 
@@ -24,5 +25,10 @@ class CreditReceiveController extends Controller
     public function store(CreditReceiveRequest $request)
     {
         return $this->created(CheckingAccountResource::make($this->repository->store(CreditReceiveDTO::fromRequest($request))));
+    }
+
+    public function update(CreditReceiveRequest $request, CheckingAccount $account)
+    {
+        return $this->success($this->repository->update(CreditReceiveDTO::fromRequest($request), $account));
     }
 }

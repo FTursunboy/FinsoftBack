@@ -41,6 +41,22 @@ class OtherIncomesRepository implements OtherIncomesRepositoryInterface
         ]);
     }
 
+    public function update(OtherIncomesDTO $dto, CheckingAccount $account)
+    {
+        $account->update([
+            'doc_number' => $this->orderUniqueNumber(),
+            'date' => $dto->date,
+            'organization_id' => $dto->organization_id,
+            'checking_account_id' => $dto->checking_account_id,
+            'sum' => $dto->sum,
+            'balance_article_id' => $dto->balance_article_id,
+            'basis' => $dto->basis,
+            'comment' => $dto->comment,
+            'operation_type' => CashOperationType::OtherIncomes,
+            'type' => $dto->type
+        ]);
+    }
+
     public function orderUniqueNumber(): string
     {
         $lastRecord = CheckingAccount::query()->orderBy('doc_number', 'desc')->first();
