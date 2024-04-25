@@ -81,15 +81,15 @@ class Document extends DocumentModel implements SoftDeleteInterface
             'counterparty_agreement_id' => $data['counterparty_agreement_id'] ?? null,
             'storage_id' => $data['storage_id'] ?? null,
             'date' => $data['date'] ?? null,
+            'author_id' => $data['author_id'] ?? null
         ];
-
-
 
         if (isset($data['filterData'])) {
             $filteredData['currency_id'] = $data['filterData']['currency_id'] ?? $filteredData['currency_id'];
             $filteredData['counterparty_id'] = $data['filterData']['counterparty_id'] ?? $filteredData['counterparty_id'];
             $filteredData['organization_id'] = $data['filterData']['organization_id'] ?? $filteredData['organization_id'];
             $filteredData['counterparty_agreement_id'] = $data['filterData']['counterparty_agreement_id'] ?? $filteredData['counterparty_agreement_id'];
+            $filteredData['author_id'] = $data['filterData']['author_id'] ?? $filteredData['author_id'];
         }
 
 
