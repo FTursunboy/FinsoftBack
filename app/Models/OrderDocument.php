@@ -73,6 +73,7 @@ class OrderDocument extends Model
             'counterparty_agreement_id' => $data['filterData']['counterparty_agreement_id'] ?? null,
             'order_status_id' => $data['filterData']['order_status_id'] ?? null,
             'date' => $data['filterData']['date'] ?? null,
+            'author_id' => $data['filterData']['author_id'] ?? null,
         ];
     }
 }

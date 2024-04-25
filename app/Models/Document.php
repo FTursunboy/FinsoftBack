@@ -70,6 +70,7 @@ class Document extends DocumentModel implements SoftDeleteInterface
 
     public static function filter(array $data): array
     {
+
         $filteredData = [
             'search' => $data['search'] ?? '',
             'orderBy' => $data['orderBy'] ?? null,
