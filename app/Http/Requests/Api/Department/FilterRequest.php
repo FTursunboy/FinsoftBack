@@ -16,7 +16,7 @@ class FilterRequest extends FormRequest
     {
 
         return [
-            'search' => 'string|nullable|max:20',
+            'search' => 'string|nullable|max:50',
             'itemsPerPage' => 'integer|nullable',
             'orderBy' => 'nullable|in:id,name',
             'sort' => 'in:asc,desc',

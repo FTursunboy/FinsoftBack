@@ -26,7 +26,7 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
 
         $query = $this->filter($query, $filterParams);
 
-        $query = $this->sort($filterParams, $query, []);
+        $query = $this->sort($filterParams, $query, ['cpAgreements']);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
