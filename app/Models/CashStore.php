@@ -116,6 +116,7 @@ class CashStore extends DocumentModel
             'responsible_person_id' =>  $data['filterData']['responsible_person_id'] ?? null,
             'author_id' =>  $data['filterData']['author_id'] ?? null,
             'date' => $data['filterData']['date'] ?? null,
+            'operation_type' => $data['filterData']['operation_type'] ?? null,
         ];
     }
 
