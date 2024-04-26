@@ -1,13 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ReportCardRequest;
 use App\Http\Resources\ReportCardResource;
+use App\Models\Month;
+use App\Models\Organization;
 use App\Models\ReportCard;
+use App\Repositories\Contracts\ReportCardRepositoryInterface;
+use App\Repositories\ReportCardRepository;
 
 class ReportCardController extends Controller
 {
+
+    public function __construct(public ReportCardRepositoryInterface $repository)
+    {
+    }
+
     public function index()
     {
         $this->authorize('viewAny', ReportCard::class);
@@ -45,5 +55,9 @@ class ReportCardController extends Controller
         $reportCard->delete();
 
         return response()->json();
+    }
+
+    public function getEmployees(Organization $organization, Month $month) {
+        return $this->repository->getEmployees($organization, $month);
     }
 }
