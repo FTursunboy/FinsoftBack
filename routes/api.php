@@ -85,6 +85,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('good-group', GoodGroupController::class);
     Route::apiResource('worker-schedule', WorkerScheduleController::class);
 
+    Route::get('months', [WorkerScheduleController::class, 'months']);
+
     Route::get('getExchangeRateByCurrencyId/{currency}', [CurrencyController::class, 'getExchangeRateByCurrencyId']);
 
     Route::get('group/show/{group}', [GroupController::class, 'show']);

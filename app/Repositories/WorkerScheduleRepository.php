@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DTO\WorkerScheduleDTO;
+use App\Models\Month;
 use App\Models\WorkerSchedule;
 use App\Repositories\Contracts\WorkerScheduleRepositoryInterface;
 use App\Traits\FilterTrait;
@@ -34,6 +35,15 @@ class WorkerScheduleRepository implements WorkerScheduleRepositoryInterface
             'month_id' => $DTO->month_id,
             'number_of_hours' => $DTO->number_of_hours
         ]);
+    }
+
+    public function month(array $data): LengthAwarePaginator
+    {
+        $filterParams = $this->processSearchData($data);
+
+        $query = Month::query();
+
+        return $query->paginate($filterParams['itemsPerPage']);
     }
 
     public function search(string $search)
