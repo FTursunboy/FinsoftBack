@@ -19,7 +19,7 @@ class CashRegisterResource extends JsonResource
             'name' => $this->name,
             'currency' => CurrencyResource::make($this->whenLoaded('currency')),
             'organization' => OrganizationResource::make($this->whenLoaded('organization')),
-            'responsiblePerson' => EmployeeResource::make($this->responsiblePerson),
+            'responsiblePerson' => EmployeeResource::make($this->whenLoaded('responsiblePerson')),
             'balance' => 2500,
             'deleted_at' => $this->deleted_at
         ];
