@@ -2,13 +2,14 @@
 
 namespace App\Repositories\Contracts;
 
-use App\DTO\WorkerScheduleDTO;
+use App\DTO\ScheduleDTO;
+use App\Models\Schedule;
 use App\Models\WorkerSchedule;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-interface WorkerScheduleRepositoryInterface extends IndexInterface
+interface ScheduleRepositoryInterface extends IndexInterface
 {
-    public function store(WorkerScheduleDTO $dto) :WorkerSchedule;
+    public function store(ScheduleDTO $dto) :Schedule;
 
     public function month(array $data) :LengthAwarePaginator;
 }

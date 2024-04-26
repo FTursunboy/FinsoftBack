@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('worker_schedules', function (Blueprint $table) {
+        Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('schedule_id');
-            $table->unsignedBigInteger('month_id');
-            $table->integer('number_of_hours');
+            $table->string('name');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('worker_schedules');
+        Schema::dropIfExists('schedules');
     }
 };
