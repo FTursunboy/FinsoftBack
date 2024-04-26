@@ -9,7 +9,8 @@ class ReportCardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'doc_number' => ['required'],
+            'organization_id' => 'required|integer|exists:organizations,id',
+            'month_id' => 'required|integer|exists:months,id',
             'date' => ['required'],
             'comment' => ['nullable'],
         ];

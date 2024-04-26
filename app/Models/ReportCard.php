@@ -30,4 +30,6 @@ class ReportCard extends Model
     {
         return $this->hasMany('report_employees', 'report_card_id', 'id');
     }
+
+
 }
