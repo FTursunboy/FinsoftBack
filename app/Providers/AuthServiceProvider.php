@@ -9,12 +9,14 @@ use App\Models\EmployeeMovement;
 use App\Models\Firing;
 use App\Models\Hiring;
 use App\Models\MovementDocument;
+use App\Models\ReportCard;
 use App\Policies\CashStorePolicy;
 use App\Policies\DepartmentPolicy;
 use App\Policies\EmployeeMovementPolicy;
 use App\Policies\FiringPolicy;
 use App\Policies\HiringPolicy;
 use App\Policies\MovementDocumentPolicy;
+use App\Policies\ReportCardPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -32,6 +34,7 @@ class AuthServiceProvider extends ServiceProvider
         Hiring::class => HiringPolicy::class,
         EmployeeMovement::class => EmployeeMovementPolicy::class,
         Firing::class => FiringPolicy::class,
+        ReportCard::class => ReportCardPolicy::class,
     ];
 
     /**

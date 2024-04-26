@@ -23,6 +23,6 @@ class CashStoreRepository implements CashStoreRepositoryInterface
 
         $query = $query->filter($filteredParams);
 
-        return $query->with(['organization', 'cashRegister', 'counterparty', 'author', 'currency', 'senderCashRegister', 'organizationBill', 'employee'])->paginate($filteredParams['itemsPerPage']);
+        return $query->with(['organization', 'cashRegister', 'counterparty', 'author', 'currency', 'senderCashRegister', 'organizationBill', 'employee', 'responsiblePerson'])->paginate($filteredParams['itemsPerPage']);
     }
 }

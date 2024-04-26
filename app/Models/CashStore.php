@@ -100,6 +100,11 @@ class CashStore extends DocumentModel
         return $this->belongsTo(OperationType::class, 'operation_type');
     }
 
+    public function responsiblePerson(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'responsible_person_id');
+    }
+
     public static function filterData(array $data): array
     {
         return [
