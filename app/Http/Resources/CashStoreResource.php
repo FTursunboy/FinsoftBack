@@ -26,6 +26,7 @@ class CashStoreResource extends JsonResource
             'counterpartyAgreement' => CounterpartyAgreementResource::make($this->whenLoaded('counterpartyAgreement')),
             'balanceArticle' => BalanceArticleResource::make($this->whenLoaded('balanceArticle')),
             'author' => UserResource::make($this->whenLoaded('author')),
+            'responsiblePerson' => EmployeeResource::make($this->whenLoaded('responsiblePerson')),
             'operationType' => $this->operation_type,
             'basis' => $this->basis,
             'comment' => $this->comment,
