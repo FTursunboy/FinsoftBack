@@ -1,25 +1,25 @@
 version: '3'
 services:
-    server_develop:
+    server_rustam:
         image: "nginx:stable-alpine"
         volumes:
             - ./:/var/www
             - ./_docker/nginx/conf.d/:/etc/nginx/conf.d
         ports:
-            - "2200:80"
+            - "8410:80"
         depends_on:
-            - app_develop
-        container_name: server_develop
-    app_develop:
+            - app_rustam
+        container_name: server_rustam
+    app_rustam:
         build:
             context: .
             dockerfile: _docker/app/Dockerfile
         volumes:
             - ./:/var/www
         depends_on:
-            -   database_develop
-        container_name: app_develop
-    database_develop:
+            -   database_rustam
+        container_name: app_rustam
+    database_rustam:
         image: mysql:8.0
         restart: always
         volumes:
@@ -30,5 +30,5 @@ services:
         ports:
             -   8102:3306
         command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
-        container_name: database_develop
+        container_name: database_rustam
 
