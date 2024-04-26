@@ -180,8 +180,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::post('restore', [FiringController::class, 'restore']);
     });
 
-
-
     Route::group(['prefix' => 'currency'], function () {
         Route::get('/restore/{currency}', [CurrencyController::class, 'restore']);
         Route::post('/massDelete', [CurrencyController::class, 'massDelete']);
