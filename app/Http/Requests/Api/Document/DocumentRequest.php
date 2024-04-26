@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Document;
 
+use App\Models\Good;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
@@ -23,6 +24,7 @@ class DocumentRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'date' => ['required', 'date'],
             'counterparty_id' => ['required', Rule::exists('counterparties', 'id')],

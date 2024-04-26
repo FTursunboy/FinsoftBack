@@ -97,16 +97,18 @@ class Document extends DocumentModel implements SoftDeleteInterface
         return $filteredData;
     }
 
-    public function totalGoodSum()
+
+    public function totalGoodsSum() :HasMany
     {
-        return $this->documentGoods()
-            ->select(DB::raw('SUM(price * amount) as total_sum'))
-            ->first()
-            ->total_sum;
+        return $this->hasMany(GoodDocument::class)
+            ->selectRaw('document_id, SUM(price * amount) as total_sum')
+            ->groupBy('document_id');
     }
 
-    public function totalGoodsAmount()
+    public function documentGoodsWithCount() :HasMany
     {
-        return $this->documentGoods()->count();
+        return $this->hasMany(GoodDocument::class)
+            ->selectRaw('document_id, COUNT(*) as total_count')
+            ->groupBy('document_id');
     }
 }

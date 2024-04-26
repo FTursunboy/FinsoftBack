@@ -55,7 +55,7 @@ Counterparty extends Model implements \App\Repositories\Contracts\SoftDeleteInte
         ];
     }
 
-    public function cpAgreement(): HasMany
+    public function cpAgreements(): HasMany
     {
         return $this->hasMany(CounterpartyAgreement::class);
     }

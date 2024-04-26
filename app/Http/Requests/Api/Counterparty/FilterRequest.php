@@ -19,7 +19,7 @@ class FilterRequest extends FormRequest
         $fillableFields = $this->getFillable($model);
 
         return [
-                'search' => 'string|nullable|max:20',
+                'search' => 'string|nullable|max:50',
                 'itemsPerPage' => 'integer|nullable',
                 'orderBy' => 'nullable|in:id,name,phone,address,email,deleted_at,created_at' . implode(',', $fillableFields),
                 'sort' => 'in:asc,desc',

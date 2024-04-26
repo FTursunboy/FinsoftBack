@@ -10,7 +10,7 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'search' => 'string|nullable|max:20',
+                'search' => 'string|nullable|max:50',
                 'itemsPerPage' => 'integer|nullable',
                 'orderBy' => 'nullable|in:id,name,address,description,INN,director_id,chief_accountant_id',
                 'sort' => 'in:asc,desc',

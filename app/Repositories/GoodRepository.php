@@ -22,6 +22,7 @@ class GoodRepository implements GoodRepositoryInterface
 
     public function index(array $data): LengthAwarePaginator
     {
+
         $filterParams = $this->model::filter($data);
 
         $query = $this->search($filterParams['search']);
