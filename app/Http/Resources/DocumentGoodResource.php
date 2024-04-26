@@ -22,5 +22,16 @@ class DocumentGoodResource extends JsonResource
             'auto_sale_percent' => $this->auto_sale_percent,
             'auto_sale_sum' => $this->auto_sale_percent,
         ];
+
+
+
+
+
+
+
+
+
+
+
     }
 }
