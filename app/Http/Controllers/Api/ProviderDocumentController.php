@@ -43,7 +43,7 @@ class ProviderDocumentController extends Controller
 
     public function show(Document $document)
     {
-        return $this->success(DocumentResource::make($document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good'])));
+        return $this->success(DocumentResource::make($document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good', 'totalGoodsSum'])));
     }
 
     public function return(DocumentRequest $request): JsonResponse
