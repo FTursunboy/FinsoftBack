@@ -6,7 +6,7 @@ services:
             - ./:/var/www
             - ./_docker/nginx/conf.d/:/etc/nginx/conf.d
         ports:
-            - "2200:80"
+            - "8410:80"
         depends_on:
             - app_rustam
         container_name: server_rustam
