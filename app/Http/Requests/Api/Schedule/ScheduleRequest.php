@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\WorkerSchedule;
+namespace App\Http\Requests\Api\Schedule;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class WorkerScheduleRequest extends FormRequest
+class ScheduleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,9 @@ class WorkerScheduleRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'month_id' => ['required', 'exists:months,id'],
-            'number_of_hours' => ['required']
+            'data' => ['array', 'required'],
+            'data.*.month_id' => ['required', 'exists:months,id'],
+            'data.*.number_of_hours' => ['required']
         ];
     }
 }
