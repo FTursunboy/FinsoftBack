@@ -24,7 +24,8 @@ class EmployeeResource extends JsonResource
             'phone' => $this->phone,
             'email' => $this->email,
             'address' => $this->address,
-            'deleted_at' => $this->deleted_at
+            'deleted_at' => $this->deleted_at,
+            'hiring' => HiringResource::make($this->whenLoaded('hiring'))
 
         ];
     }

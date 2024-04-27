@@ -10,7 +10,7 @@ class HiringDTO
 {
     public function __construct(public string $date, public int $employee_id, public float $salary, public string $hiring_date,
                                 public int $department_id, public string $basis, public int $position_id,
-                                public int $organization_id, public ?string $comment)
+                                public int $organization_id, public ?string $comment, public int $schedule_id)
     {
     }
 
@@ -25,7 +25,8 @@ class HiringDTO
             $request->get('basis'),
             $request->get('position_id'),
             $request->get('organization_id'),
-            $request->get('comment')
+            $request->get('comment'),
+            $request->get('schedule_id')
         );
     }
 }

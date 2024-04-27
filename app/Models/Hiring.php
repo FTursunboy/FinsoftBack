@@ -25,7 +25,7 @@ class Hiring extends Model implements SoftDeleteInterface
         'department_id',
         'basis',
         'position_id',
-        'schedule',
+        'schedule_id',
         'organization_id',
         'comment',
         'author_id'
@@ -65,6 +65,11 @@ class Hiring extends Model implements SoftDeleteInterface
     public function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class, 'organization_id');
+    }
+
+    public function schedule() :BelongsTo
+    {
+        return $this->belongsTo(Schedule::class, 'schedule_id');
     }
 
     public static function filterData(array $data): array

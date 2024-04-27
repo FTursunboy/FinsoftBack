@@ -4,8 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
-class WorkerScheduleResource extends JsonResource
+class ScheduleResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +16,10 @@ class WorkerScheduleResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'number_of_hours' => $this->number_of_hours,
-            'month' => MonthResource::make($this->whenLoaded('month'))
+            'id' => $this->id,
+            'name' => $this->name,
+            'workerSchedule' => WorkerScheduleResource::collection($this->whenLoaded('workerSchedule'))
+
         ];
     }
 }

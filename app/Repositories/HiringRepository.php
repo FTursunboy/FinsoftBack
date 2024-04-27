@@ -35,6 +35,7 @@ class HiringRepository implements HiringRepositoryInterface
             'employee_id' => $DTO->employee_id,
             'salary' => $DTO->salary,
             'basis' => $DTO->basis,
+           'schedule_id' => $DTO->schedule_id,
            'comment' => $DTO->comment,
            'author_id' => \Auth::id()
         ]);

@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('department_id');
             $table->string('basis')->nullable();
             $table->string('position_id');
-            $table->string('schedule')->nullable();
+            $table->string('schedule_id')->nullable();
             $table->string('comment')->nullable();
             $table->unsignedBigInteger('author_id');
             $table->softDeletes();

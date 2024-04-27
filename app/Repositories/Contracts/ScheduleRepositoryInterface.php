@@ -12,4 +12,6 @@ interface ScheduleRepositoryInterface extends IndexInterface
     public function store(ScheduleDTO $dto) :Schedule;
 
     public function month(array $data) :LengthAwarePaginator;
+
+    public function calculateHours(array $data);
 }

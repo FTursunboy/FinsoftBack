@@ -17,7 +17,8 @@
         "laravel/tinker": "^2.8",
         "nativephp/electron": "^0.5.0",
         "spatie/laravel-permission": "^6.3",
-        "tucker-eric/eloquentfilter": "^3.3"
+        "tucker-eric/eloquentfilter": "^3.3",
+      "ext-calendar": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
