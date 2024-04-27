@@ -17,8 +17,7 @@ class WorkerScheduleResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'month' => MonthResource::make($this->whenLoaded('month')),
-            'number_of_hours' => $this->number_of_hours
+            'workerSchedule' => $this->whenLoaded('workerSchedule')
         ];
     }
 }

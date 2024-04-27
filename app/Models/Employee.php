@@ -16,11 +16,7 @@ class Employee extends Model implements \App\Repositories\Contracts\SoftDeleteIn
 
     protected $fillable = ['name', 'image', 'position_id', 'phone', 'email', 'address', 'group_id'];
 
-
-    public static function bootSoftDeletes()
-    {
-
-    }
+    public static function bootSoftDeletes(){}
 
     public function group(): BelongsTo
     {

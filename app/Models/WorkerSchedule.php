@@ -11,7 +11,7 @@ class WorkerSchedule extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'month_id', 'number_of_hours'];
+    protected $fillable = ['schedule_id', 'month_id', 'number_of_hours'];
 
     public function month(): BelongsTo
     {
