@@ -78,32 +78,23 @@ class ReportCardRepository implements ReportCardRepositoryInterface
         $month = (int)$data['month_id'];
 
         return Employee::query()
-            ->select([
-                'employees.id',
-                'employees.name',
-                'ws.number_of_hours',
-                \DB::raw("CASE
-            WHEN firings.firing_date IS NOT NULL AND MONTH(firings.firing_date) = $month THEN
-                DATEDIFF(firings.firing_date, DATE_FORMAT(CONCAT(YEAR(hirings.hiring_date), '-', MONTH(hirings.hiring_date), '-01'), '%Y-%m-%d')) * sc.hours_per_day
-            ELSE
-                ws.number_of_hours
-        END AS adjusted_hours")
-            ])
+            ->select(['employees.id', 'employees.name', 'ws.number_of_hours'])
             ->join('hirings', 'hirings.employee_id', '=', 'employees.id')
             ->join('schedules as sc', 'sc.id', '=', 'hirings.schedule_id')
             ->join('worker_schedules as ws', 'ws.schedule_id', '=', 'sc.id')
-            ->leftJoin('firings', function ($join) use ($month, $currentYear) {
-                $join->on('firings.employee_id', '=', 'hirings.employee_id')
-                    ->where('firings.organization_id', '=', 'hirings.organization_id')
-                    ->whereMonth('firings.firing_date', '=', $month)
-                    ->whereYear('firings.firing_date', '=', $currentYear);
-            })
             ->where('ws.month_id', $month)
             ->where('hirings.organization_id', $filterParams['organization_id'])
             ->whereMonth('hirings.hiring_date', '<=', $filterParams['month_id'])
             ->whereYear('hirings.hiring_date', '=', $currentYear)
+            ->whereNotExists(function ($subQuery) use ($filterParams, $currentYear, $month) {
+                $subQuery->from('firings')
+                    ->whereColumn('firings.employee_id', 'hirings.employee_id')
+                    ->where('firings.organization_id', $filterParams['organization_id'])
+                    ->whereMonth('firings.firing_date', '!=', $month)
+                    ->whereMonth('firings.firing_date', '<', $month)
+                    ->whereYear('firings.firing_date', $currentYear);
+            })
             ->paginate($filterParams['itemsPerPage']);
-
 
 
 
