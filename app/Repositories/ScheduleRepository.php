@@ -77,6 +77,8 @@ class ScheduleRepository implements ScheduleRepositoryInterface
 
         for ($month = 1; $month <= 12; $month++) {
 
+            $monthName = Month::find($month)->name;
+
             $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $currentYear);
 
             $daysCount = [
@@ -107,8 +109,9 @@ class ScheduleRepository implements ScheduleRepositoryInterface
 
 
             $totalHoursByMonth[] = [
-                'month' => $month,
+                'month' => $monthName,
                 'hours' => $totalHours,
+
             ];
         }
 
