@@ -13,7 +13,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql bcmath gd zip sockets
+RUN docker-php-ext-install pdo_mysql bcmath gd zip sockets calendar
 
 # Copy custom php.ini file
 COPY ./_docker/app/php.ini /usr/local/etc/php/conf.d/php.ini
