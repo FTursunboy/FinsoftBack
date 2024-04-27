@@ -69,7 +69,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface
         return $this->model::where('name', 'like', '%' . implode('%', $searchTerm) . '%');
     }
 
-    public function calculateHours(array $weeks)
+    public function calculateHours(array $weeks) :array
     {
         $currentYear = date('Y');
         $totalHoursByMonth = [];
