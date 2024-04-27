@@ -31,6 +31,7 @@ use App\Http\Controllers\Api\StorageController;
 use App\Http\Controllers\Api\StorageEmployeeController;
 use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\MovementDocumentController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
@@ -82,6 +83,9 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::get('barcode/{good}', [BarcodeController::class, 'index']);
     Route::apiResource('group', GroupController::class)->except('index', 'show');
     Route::apiResource('good-group', GoodGroupController::class);
+    Route::apiResource('worker-schedule', ScheduleController::class);
+
+    Route::get('months', [ScheduleController::class, 'months']);
 
     Route::get('getExchangeRateByCurrencyId/{currency}', [CurrencyController::class, 'getExchangeRateByCurrencyId']);
 

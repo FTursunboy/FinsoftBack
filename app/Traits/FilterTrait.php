@@ -8,7 +8,6 @@ trait FilterTrait
 {
     protected function processSearchData(array $data): array
     {
-
         return [
             'search' => $data['search'] ?? '',
             'orderBy' => $data['orderBy'] ?? null,

@@ -49,6 +49,9 @@ use App\Repositories\Contracts\EmployeeMovementRepositoryInterface;
 use App\Repositories\Contracts\FiringRepositoryInterface;
 use App\Repositories\Contracts\HiringRepositoryInterface;
 use App\Repositories\Contracts\ReportCardRepositoryInterface;
+
+
+use App\Repositories\Contracts\ScheduleRepositoryInterface;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Repositories\Contracts\BarcodeRepositoryInterface;
@@ -101,6 +104,7 @@ use App\Repositories\StorageEmployeeRepository;
 use App\Repositories\StorageRepository;
 use App\Repositories\UnitRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\ScheduleRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
@@ -161,6 +165,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CheckingAccountProviderRefundRepositoryInterface::class, CheckingAccountProviderRefundRepository::class);
         $this->app->singleton(CheckingAccountWithdrawalRepositoryInterface::class, CheckingAccountWithdrawalRepository::class);
         $this->app->singleton(CheckingAccountCashStoreRepositoryInterface::class, CheckingAccountClientPaymentRepository::class);
+        $this->app->singleton(ScheduleRepositoryInterface::class, ScheduleRepository::class);
     }
     //das
 

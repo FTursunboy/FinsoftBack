@@ -83,6 +83,7 @@ class CheckingAccount extends DocumentModel
             'organization_id' => $data['filterData']['organization_id'] ?? null,
             'author_id' =>  $data['filterData']['author_id'] ?? null,
             'date' => $data['filterData']['date'] ?? null,
+            'operation_type' => $data['filterData']['operation_type'] ?? null,
         ];
     }
 

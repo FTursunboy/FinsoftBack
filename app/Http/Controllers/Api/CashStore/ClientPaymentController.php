@@ -57,6 +57,14 @@ class ClientPaymentController extends Controller
 
     public function getOperationTypes(Request $request)
     {
+<<<<<<< HEAD
         return $this->success(OperationType::where('type', $request->type)->get());
+=======
+        dump(OperationType::get());
+        dd(OperationType::where('type', $request->type)->get());
+
+        return $this->success(OperationType::where('type', $request->type)->get());
+
+>>>>>>> 87d2fe6 (changes)
     }
 }

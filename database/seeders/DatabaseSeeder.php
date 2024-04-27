@@ -26,7 +26,11 @@ class DatabaseSeeder extends Seeder
             ResourceSeeder::class,
             PermissionSeeder::class,
             OrderTypeSeeder::class,
+<<<<<<< HEAD
             MonthSeeder::class
+=======
+            MonthSeeder::class,
+>>>>>>> main
         ]);
 
         Role::create([
