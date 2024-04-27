@@ -282,6 +282,9 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::post('/logout', [AuthController::class, 'logout']);
     });
 
+    Route::group(['prefix' => 'reportCard'], function () {
+       Route::get('/employees/{organization}/{month}', [\App\Http\Controllers\Api\ReportCardController::class, 'getEmployees']);
+    });
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
 

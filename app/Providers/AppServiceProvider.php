@@ -48,6 +48,7 @@ use App\Repositories\Contracts\CheckingAccount\CashStoreRepositoryInterface as C
 use App\Repositories\Contracts\EmployeeMovementRepositoryInterface;
 use App\Repositories\Contracts\FiringRepositoryInterface;
 use App\Repositories\Contracts\HiringRepositoryInterface;
+use App\Repositories\Contracts\ReportCardRepositoryInterface;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Repositories\Contracts\BarcodeRepositoryInterface;
@@ -95,6 +96,7 @@ use App\Repositories\OrganizationBillRepository;
 use App\Repositories\OrganizationRepository;
 use App\Repositories\PermissionRepository;
 use App\Repositories\PositionRepository;
+use App\Repositories\ReportCardRepository;
 use App\Repositories\StorageEmployeeRepository;
 use App\Repositories\StorageRepository;
 use App\Repositories\UnitRepository;
@@ -110,6 +112,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(AuthRepositoryInterface::class, AuthRepository::class);
+        $this->app->singleton(ReportCardRepositoryInterface::class, ReportCardRepository::class);
         $this->app->singleton(CurrencyRepositoryInterface::class, CurrencyRepository::class);
         $this->app->singleton(PriceTypeRepository::class, \App\Repositories\PriceTypeRepository::class);
         $this->app->singleton(OrganizationBillRepositoryInterface::class, OrganizationBillRepository::class);

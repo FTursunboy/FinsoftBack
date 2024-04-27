@@ -74,11 +74,9 @@ class ReportCardRepository implements ReportCardRepositoryInterface
             $query->select('employee_id')
                 ->from('hirings')
                 ->where('organization_id', $organization->id)
-                ->whereMonth('hire_date', '>=', $month);
-        })->get();
+                ->whereMonth('hiring_date', '>=', $month->id);
+        })->select(['id', 'name'])->get();
 
         return $employees;
     }
-
-
 }
