@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
@@ -41,5 +42,10 @@ class Employee extends Model implements \App\Repositories\Contracts\SoftDeleteIn
             'email' => $data['filterData']['email'] ?? null,
             'address' => $data['filterData']['address'] ?? null,
         ];
+    }
+
+    public function hiring(): HasOne
+    {
+        return $this->hasOne(Hiring::class);
     }
 }

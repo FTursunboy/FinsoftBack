@@ -3,16 +3,21 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ReportCardRequest;
+use App\Http\Requests\Api\ReportCard\FilterEmployeeRequest;
+use App\Http\Requests\Api\ReportCard\ReportCardRequest;
+use App\Http\Resources\EmployeeResource;
 use App\Http\Resources\ReportCardResource;
+use App\Models\Employee;
 use App\Models\Month;
 use App\Models\Organization;
 use App\Models\ReportCard;
 use App\Repositories\Contracts\ReportCardRepositoryInterface;
-use App\Repositories\ReportCardRepository;
+use App\Traits\ApiResponse;
 
 class ReportCardController extends Controller
 {
+
+    use ApiResponse;
 
     public function __construct(public ReportCardRepositoryInterface $repository)
     {
@@ -57,7 +62,7 @@ class ReportCardController extends Controller
         return response()->json();
     }
 
-    public function getEmployees(Organization $organization, Month $month) {
-        return $this->repository->getEmployees($organization, $month);
+    public function getEmployees(FilterEmployeeRequest $request) {
+        return  $this->paginate($this->repository->getEmployees($request->validated()));
     }
 }

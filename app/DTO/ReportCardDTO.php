@@ -2,9 +2,7 @@
 
 namespace App\DTO;
 
-use App\Http\Requests\Api\BarcodeRequest;
-use App\Http\Requests\ReportCardRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\Api\ReportCard\ReportCardRequest;
 
 class ReportCardDTO
 {

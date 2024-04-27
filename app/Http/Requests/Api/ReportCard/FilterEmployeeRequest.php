@@ -1,18 +1,21 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api\ReportCard;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ReportCardRequest extends FormRequest
+class FilterEmployeeRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
             'organization_id' => 'required|integer|exists:organizations,id',
             'month_id' => 'required|integer|exists:months,id',
-            'date' => ['required'],
-            'comment' => ['nullable'],
+            'itemsPerPage' => 'nullable|integer',
+            'search' => 'string|nullable|max:20',
+            'orderBy' => 'nullable|in:id,deleted_at,employee.name,',
+            'sort' => 'in:asc,desc',
+            'filterData' => 'nullable|array'
         ];
     }
 

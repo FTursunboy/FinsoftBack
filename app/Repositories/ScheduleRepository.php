@@ -38,7 +38,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface
 
         WorkerSchedule::insert($this->workerSchedule($DTO->data, $schedule));
 
-        return $schedule;
+        return $schedule->load('workerSchedule');
     }
 
     public function month(array $data): LengthAwarePaginator
@@ -68,4 +68,51 @@ class ScheduleRepository implements ScheduleRepositoryInterface
 
         return $this->model::where('name', 'like', '%' . implode('%', $searchTerm) . '%');
     }
+
+    public function calculateHours(array $weeks)
+    {
+        $currentYear = date('Y');
+        $totalHoursByMonth = [];
+
+
+        for ($month = 1; $month <= 12; $month++) {
+
+            $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $currentYear);
+
+            $daysCount = [
+                'Monday'    => 0,
+                'Tuesday'   => 0,
+                'Wednesday' => 0,
+                'Thursday'  => 0,
+                'Friday'    => 0,
+                'Saturday'  => 0,
+                'Sunday'    => 0,
+            ];
+
+
+            for ($day = 1; $day <= $daysInMonth; $day++) {
+                $weekDay = date('l', strtotime("$currentYear-$month-$day"));
+
+                $daysCount[$weekDay]++;
+            }
+
+
+            $totalHours = 0;
+
+            foreach ($weeks['weeks'] as $week) {
+                $weekName = array_keys($daysCount)[$week['week']];
+                $totalHours += $daysCount[$weekName] * $week['hour'];
+            }
+
+
+
+            $totalHoursByMonth[] = [
+                'month' => $month,
+                'hours' => $totalHours,
+            ];
+        }
+
+        return $totalHoursByMonth;
+    }
+
 }

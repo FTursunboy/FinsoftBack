@@ -7,6 +7,7 @@ use App\DTO\ScheduleDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\BarcodeRequest;
 use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\Schedule\CalculateHoursRequest;
 use App\Http\Requests\Api\Schedule\ScheduleRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\BarcodeResource;
@@ -43,6 +44,11 @@ class ScheduleController extends Controller
     public function months(IndexRequest $request)
     {
         return $this->paginate(MonthResource::collection($this->repository->month($request->validated())));
+    }
+
+    public function calculateHours(CalculateHoursRequest $request)
+    {
+        return $this->success($this->repository->calculateHours($request->validated()));
     }
 
 }

@@ -19,7 +19,7 @@ class MonthSeeder extends Seeder
             ['name' => 'Март', 'name_en' => 'March']
         ]);
         Month::query()->insert([
-            ['name' => 'Апрел', 'name_en' => 'April']
+            ['name' => 'Апрель', 'name_en' => 'April']
         ]);
         Month::query()->insert([
             ['name' => 'Май', 'name_en' => 'May']

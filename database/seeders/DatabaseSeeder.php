@@ -26,11 +26,7 @@ class DatabaseSeeder extends Seeder
             ResourceSeeder::class,
             PermissionSeeder::class,
             OrderTypeSeeder::class,
-<<<<<<< HEAD
             MonthSeeder::class
-=======
-            MonthSeeder::class,
->>>>>>> main
         ]);
 
         Role::create([
@@ -59,6 +55,7 @@ class DatabaseSeeder extends Seeder
         BalanceArticle::create([
             'name' => 'Статья 2',
         ]);
+
 
         $user = \App\Models\User::factory()->create([
             'name' => 'Admin',

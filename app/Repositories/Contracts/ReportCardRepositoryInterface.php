@@ -19,6 +19,6 @@ interface ReportCardRepositoryInterface
 
     public function delete(Barcode $barcode);
 
-    public function getEmployees(Organization $organization, Month $month);
+    public function getEmployees(array $data);
 
 }

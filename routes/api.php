@@ -27,15 +27,14 @@ use App\Http\Controllers\Api\OrganizationBillController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\PriceTypeController;
+use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\StorageController;
 use App\Http\Controllers\Api\StorageEmployeeController;
 use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\MovementDocumentController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -84,6 +83,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('group', GroupController::class)->except('index', 'show');
     Route::apiResource('good-group', GoodGroupController::class);
     Route::apiResource('worker-schedule', ScheduleController::class);
+    Route::post('calculateHours', [ScheduleController::class, 'calculateHours']);
 
     Route::get('months', [ScheduleController::class, 'months']);
 
@@ -287,7 +287,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'reportCard'], function () {
-       Route::get('/employees/{organization}/{month}', [\App\Http\Controllers\Api\ReportCardController::class, 'getEmployees']);
+       Route::get('/employees', [\App\Http\Controllers\Api\ReportCardController::class, 'getEmployees']);
     });
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
@@ -298,4 +298,3 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
 
 Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login'])->name('login');
-Route::post('loginPin', [App\Http\Controllers\Api\AuthController::class, 'loginWithPin']);
