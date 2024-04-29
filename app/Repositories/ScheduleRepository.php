@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\DTO\ScheduleDTO;
 use App\Models\Month;
 use App\Models\Schedule;
+use App\Models\ScheduleWeekHours;
 use App\Models\WorkerSchedule;
 use App\Repositories\Contracts\ScheduleRepositoryInterface;
 use App\Traits\FilterTrait;
@@ -38,7 +39,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface
 
         WorkerSchedule::insert($this->workerSchedule($DTO->data, $schedule));
 
-        $this->insertWeekHours($DTO->weeks, $schedule);
+        ScheduleWeekHours::insert($this->insertWeekHours($DTO->weeks, $schedule));
 
         return $schedule->load('workerSchedule', 'weekHours');
     }
@@ -49,21 +50,22 @@ class ScheduleRepository implements ScheduleRepositoryInterface
             'name' => $DTO->name,
         ]);
 
-        WorkerSchedule::updateOrInsert($this->workerSchedule($DTO->weeks, $schedule));
+        $this->updateWeekHours($DTO->weeks);
+
+        $this->updateWorkerSchedule($DTO->data);
 
         return $schedule;
     }
 
-    public function insertWeekHours(array $weeks, Schedule $schedule) :void {
-        $array_to_insert = array_map(function ($item) use ($weeks, $schedule) {
+    public function insertWeekHours(array $weeks, Schedule $schedule) :array
+    {
+        return array_map(function ($item) use ($weeks, $schedule) {
             return [
                 'schedule_id' => $schedule->id,
                 'week' => $item['week'],
                 'hours' => $item['hour']
             ];
         }, $weeks);
-
-        \DB::table('schedule_week_hours')->insert($array_to_insert);
     }
 
     public function workerSchedule(array $data, Schedule $schedule) :array
@@ -87,8 +89,6 @@ class ScheduleRepository implements ScheduleRepositoryInterface
         return $query->paginate($filterParams['itemsPerPage']);
     }
 
-
-
     public function search(string $search)
     {
         $searchTerm = explode(' ', $search);
@@ -100,7 +100,6 @@ class ScheduleRepository implements ScheduleRepositoryInterface
     {
         $currentYear = date('Y');
         $totalHoursByMonth = [];
-
 
         for ($month = 1; $month <= 12; $month++) {
 
@@ -118,13 +117,11 @@ class ScheduleRepository implements ScheduleRepositoryInterface
                 'Sunday'    => 0,
             ];
 
-
             for ($day = 1; $day <= $daysInMonth; $day++) {
                 $weekDay = date('l', strtotime("$currentYear-$month-$day"));
 
                 $daysCount[$weekDay]++;
             }
-
 
             $totalHours = 0;
 
@@ -133,16 +130,39 @@ class ScheduleRepository implements ScheduleRepositoryInterface
                 $totalHours += $daysCount[$weekName] * $week['hour'];
             }
 
-
-
             $totalHoursByMonth[] = [
                 'month' => $monthName,
                 'hours' => $totalHours,
-
             ];
         }
 
         return $totalHoursByMonth;
     }
 
+    public function updateWeekHours(array $weeks)
+    {
+        foreach ($weeks as $week) {
+            ScheduleWeekHours::updateOrCreate(
+                ['id' => $week['id']],
+                [
+                    'week' => $week['week'],
+                    'hours' => $week['hour'],
+                ]
+            );
+        }
+    }
+
+    public function updateWorkerSchedule(array $schedules)
+    {
+        foreach ($schedules as $schedule) {
+            WorkerSchedule::updateOrCreate(
+                ['id' => $schedule['id']],
+                [
+                    'month_id' => $schedule['month_id'],
+                    'number_of_hours' => $schedule['number_of_hours'],
+                    'updated_at' => Carbon::now()
+                ]
+            );
+        }
+    }
 }
