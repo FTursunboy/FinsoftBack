@@ -23,7 +23,7 @@ class EmployeeMovement extends Model
         'position_id',
         'movement_date',
         'department_id',
-        'schedule',
+        'schedule_id',
         'basis',
         'organization_id',
         'comment',
@@ -63,6 +63,11 @@ class EmployeeMovement extends Model
     public function modelFilter()
     {
         return $this->provideFilter(EmployeeMovementFilter::class);
+    }
+
+    public function schedule(): BelongsTo
+    {
+        return $this->belongsTo(Schedule::class);
     }
 
     public static function filterData(array $data): array

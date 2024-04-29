@@ -40,7 +40,7 @@ class ReportCard extends Model
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'organization_id' => $data['organization_id'] ?? null,
-            'month_id' => $data['organization_id'] ?? null,
+            'month_id' =>$data['month_id'] ?? null,
         ];
     }
 
