@@ -15,6 +15,8 @@ class CheckingAccountResource extends JsonResource
             'id' => $this->id,
             'date' => $this->date,
             'doc_number' => $this->doc_number,
+            'counterparty' => CounterpartyResource::make($this->whenLoaded('counterparty')),
+            'counterpartyAgreement' => CounterpartyAgreementResource::make($this->whenLoaded('counterpartyAgreement')),
             'organization' => OrganizationResource::make($this->whenLoaded('organization')),
             'checkingAccount' => OrganizationBillResource::make($this->whenLoaded('checkingAccount')),
             'senderCashRegister' => CashRegisterResource::make($this->whenLoaded('senderCashRegister')),
