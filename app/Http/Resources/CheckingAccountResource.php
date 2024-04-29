@@ -23,6 +23,7 @@ class CheckingAccountResource extends JsonResource
             'sender' => CounterpartyResource::make($this->whenLoaded('counterparty')),
             'organizationBill' => OrganizationBillResource::make($this->whenLoaded('organizationBill')),
             'sum' => $this->sum,
+            'basis' => $this->basis,
             'currency' => CurrencyResource::make($this->whenLoaded('currency')),
             'author' => UserResource::make($this->whenLoaded('author')),
             'operationType' => $this->operation_type,
