@@ -13,6 +13,7 @@ use App\Http\Requests\IdRequest;
 use App\Http\Resources\BarcodeResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\MonthResource;
+use App\Http\Resources\ScheduleResource;
 use App\Http\Resources\WorkerScheduleResource;
 use App\Models\Barcode;
 use App\Models\Good;
@@ -33,7 +34,7 @@ class ScheduleController extends Controller
 
     public function index(IndexRequest $request)
     {
-        return $this->paginate(WorkerScheduleResource::collection($this->repository->index($request->validated())));
+        return $this->paginate(ScheduleResource::collection($this->repository->index($request->validated())));
     }
 
     public function store(ScheduleRequest $request)

@@ -6,7 +6,7 @@ use App\Http\Requests\Api\Schedule\ScheduleRequest;
 
 class ScheduleDTO
 {
-    public function __construct(public string $name, public array $data)
+    public function __construct(public string $name, public array $data, public array $weeks)
     {
     }
 
@@ -15,6 +15,7 @@ class ScheduleDTO
         return new static(
             $request->get('name'),
             $request->get('data'),
+            $request->get('weeks')
         );
     }
 }

@@ -21,11 +21,9 @@ class GoodResource extends JsonResource
             'vendor_code' => $this->vendor_code,
             'description' => $this->description,
             'unit_id' => UnitResource::make($this->whenLoaded('unit')),
-            'barcode' => $this->barcode,
             'storage_id' => StorageResource::make($this->whenLoaded('storage')),
             'images' => ImageResource::collection($this->whenLoaded('images')),
             'deleted_at' => $this->deleted_at
-
         ];
     }
 }

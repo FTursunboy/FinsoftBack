@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
@@ -48,4 +49,31 @@ class Employee extends Model implements \App\Repositories\Contracts\SoftDeleteIn
     {
         return $this->hasOne(Hiring::class);
     }
+
+
+    // В модели Employee
+    public function schedule()
+    {
+        return $this->hasOneThrough(
+            Schedule::class,
+            Hiring::class,
+            'employee_id', // Foreign key on Hiring table...
+            'id', // Foreign key on Schedule table...
+            'id', // Local key on Employee table...
+            'schedule_id'  // Local key on Hiring table...
+        );
+    }
+
+    public function weekHour() :HasManyThrough
+    {
+        return $this->hasManyThrough(
+            ScheduleWeekHours::class,
+            Schedule::class,
+            'id', // Foreign key on Schedule table...
+            'schedule_id', // Foreign key on ScheduleWeekHour table...
+            'id', // Local key on Employee table...
+            'id'  // Local key on Schedule table through Hiring
+        )->via('schedule');
+    }
+
 }
