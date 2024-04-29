@@ -82,7 +82,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::get('barcode/{good}', [BarcodeController::class, 'index']);
     Route::apiResource('group', GroupController::class)->except('index', 'show');
     Route::apiResource('good-group', GoodGroupController::class);
-    Route::apiResource('worker-schedule', ScheduleController::class);
+    Route::apiResource('schedule', ScheduleController::class);
     Route::post('calculateHours', [ScheduleController::class, 'calculateHours']);
 
     Route::get('months', [ScheduleController::class, 'months']);
