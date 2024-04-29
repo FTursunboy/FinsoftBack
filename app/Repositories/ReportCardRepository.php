@@ -130,16 +130,13 @@ class ReportCardRepository implements ReportCardRepositoryInterface
     private function calculateMovementHours(Builder $builder)
     {
         $builder->each(function ($employee) {
-            // Если есть запись о перемещении сотрудника, обрабатываем ее
+
             if (!empty($employee->movement_date)) {
 
                 if ($employee->schedule_id !== $employee->new_schedule_id || $employee->salary !== $employee->new_salary) {
-                    // Вычисляем количество отработанных часов до перемещения
                     $workedHoursBeforeMovement = $this->calculateWorkedHours($employee->movement_date, $employee->schedule_id);
-                    // Вычисляем количество отработанных часов после перемещения
                     $workedHoursAfterMovement = $this->calculateWorkedHours($employee->firing_date, $employee->new_schedule_id);
 
-                    // Создаем две записи в коллекции: до и после перемещения
                     $employee->before_movement = [
                         'schedule_id' => $employee->schedule_id,
                         'worked_hours' => $workedHoursBeforeMovement,
