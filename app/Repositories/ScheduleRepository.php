@@ -43,6 +43,17 @@ class ScheduleRepository implements ScheduleRepositoryInterface
         return $schedule->load('workerSchedule', 'weekHours');
     }
 
+    public function update(ScheduleDTO $DTO, Schedule $schedule) :Schedule
+    {
+        $schedule->update([
+            'name' => $DTO->name,
+        ]);
+
+        WorkerSchedule::updateOrInsert($this->insertWeekHours($DTO->weeks), );
+
+        return $schedule;
+    }
+
     public function insertWeekHours(array $weeks, Schedule $schedule) :void {
         $array_to_insert = array_map(function ($item) use ($weeks, $schedule) {
             return [
