@@ -54,7 +54,7 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
                 'author_id' => Auth::id(),
                 'comment' => $dto->comment,
                 'sender_storage_id' => $dto->sender_storage_id,
-                'recipient_storage_id' => $dto->sender_storage_id
+                'recipient_storage_id' => $dto->recipient_storage_id
             ]);
 
             if (!is_null($dto->goods))

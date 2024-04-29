@@ -15,7 +15,8 @@ class WorkerScheduleResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'name' => $this->name
+            'month' => MonthResource::make($this->whenLoaded('month')),
+            'number_of_hours' => $this->number_of_hours
         ];
     }
 }

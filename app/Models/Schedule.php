@@ -14,4 +14,9 @@ class Schedule extends Model
     {
         return $this->hasMany(WorkerSchedule::class, 'schedule_id');
     }
+
+    public function weekHours(): HasMany
+    {
+        return $this->hasMany(ScheduleWeekHours::class, 'schedule_id', 'id');
+    }
 }

@@ -10,11 +10,13 @@ use App\Models\Hiring;
 use App\Models\Month;
 use App\Models\Organization;
 use App\Models\ReportCard;
+use App\Models\Schedule;
 use App\Repositories\Contracts\BarcodeRepositoryInterface;
 use App\Repositories\Contracts\ReportCardRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Ramsey\Collection\Collection;
 use function PHPUnit\Framework\isFalse;
@@ -68,35 +70,66 @@ class ReportCardRepository implements ReportCardRepositoryInterface
         return $this->model::where('barcode', 'like', '%' . implode('%', $searchTerm) . '%');
     }
 
-
-    public function getEmployees(array $data)
+    public function getEmployeeQuery(array $data)
     {
         $filterParams = $this->model::filterData($data);
-
-        $currentYear = now()->year;  // Получаем текущий год
-
+        $currentYear = now()->year;
         $month = (int)$data['month_id'];
 
         return Employee::query()
-            ->select(['employees.id', 'employees.name', 'ws.number_of_hours'])
+            ->select(['employees.id', 'employees.name', 'ws.number_of_hours', 'firings.firing_date', 'hirings.schedule_id'])
             ->join('hirings', 'hirings.employee_id', '=', 'employees.id')
             ->join('schedules as sc', 'sc.id', '=', 'hirings.schedule_id')
             ->join('worker_schedules as ws', 'ws.schedule_id', '=', 'sc.id')
+            ->leftJoin('firings', function($join) use ($filterParams, $currentYear, $month) {
+                $join->on('firings.employee_id', '=', 'employees.id')
+                    ->where('firings.organization_id', '=', $filterParams['organization_id'])
+                    ->whereYear('firings.firing_date', '=', $currentYear)
+                    ->whereMonth('firings.firing_date', '=', $month);
+            })
             ->where('ws.month_id', $month)
             ->where('hirings.organization_id', $filterParams['organization_id'])
-            ->whereMonth('hirings.hiring_date', '<=', $filterParams['month_id'])
+            ->whereMonth('hirings.hiring_date', '<=', $month)
             ->whereYear('hirings.hiring_date', '=', $currentYear)
-            ->whereNotExists(function ($subQuery) use ($filterParams, $currentYear, $month) {
-                $subQuery->from('firings')
-                    ->whereColumn('firings.employee_id', 'hirings.employee_id')
-                    ->where('firings.organization_id', $filterParams['organization_id'])
-                    ->whereMonth('firings.firing_date', '!=', $month)
-                    ->whereMonth('firings.firing_date', '<', $month)
-                    ->whereYear('firings.firing_date', $currentYear);
-            })
             ->paginate($filterParams['itemsPerPage']);
 
-
-
     }
+
+    public function calculateWorkedHours($firingDate, $scheduleId)
+    {
+        if (empty($firingDate)) {
+            return null; // Увольнения не было, выводим полное кол-во часов
+        }
+
+
+        $firingDay = Carbon::parse($firingDate)->day;
+        $startOfMonth = Carbon::parse($firingDate)->startOfMonth();
+        $endOfEmployment = Carbon::parse($firingDate)->startOfDay();
+
+        $totalHours = 0;
+        $schedule = Schedule::find($scheduleId);
+
+        $dailyHours = $schedule->weekHours->pluck('hour', 'week')->toArray();
+        dd($dailyHours);
+        for ($day = $startOfMonth; $day->lessThanOrEqualTo($endOfEmployment); $day->addDay()) {
+            $weekDay = $day->dayOfWeekIso; // ISO-8601 нумерация дней (1 = Monday, ..., 7 = Sunday)
+            $totalHours += $dailyHours[$weekDay] ?? 0;
+        }
+
+        return $totalHours;
+    }
+
+    public function getEmployees($data) {
+      $employees = $this->getEmployeeQuery($data);
+
+        foreach ($employees as $employee) {
+            $workedHours = $this->calculateWorkedHours($employee->firing_date, $employee->schedule_id);
+            $employee->worked_hours = $workedHours ?? $employee->number_of_hours;
+        }
+
+        return $employees;
+    }
+
+
+
 }

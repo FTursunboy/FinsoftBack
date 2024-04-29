@@ -18,8 +18,8 @@ class ScheduleResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'workerSchedule' => WorkerScheduleResource::collection($this->whenLoaded('workerSchedule'))
-
+            'workerSchedule' => WorkerScheduleResource::collection($this->whenLoaded('workerSchedule')),
+            'weekHours' => $this->whenLoaded('weekHours')
         ];
     }
 }

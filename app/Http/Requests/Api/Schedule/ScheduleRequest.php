@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api\Schedule;
 
 use Carbon\WeekDay;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ScheduleRequest extends FormRequest
 {
@@ -26,7 +27,14 @@ class ScheduleRequest extends FormRequest
             'name' => ['required'],
             'data' => ['array', 'required'],
             'data.*.month_id' => ['required', 'exists:months,id'],
-            'data.*.number_of_hours' => ['required']
+            'data.*.number_of_hours' => ['required'],
+            'weeks' => ['required', 'array'],
+            'weeks.*.week' => [
+                'required',
+                'integer',
+                Rule::enum(WeekDay::class)
+            ],
+            'weeks.*.hour' => ['required', 'integer', 'between:0,24']
         ];
     }
 }

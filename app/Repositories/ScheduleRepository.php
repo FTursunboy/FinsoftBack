@@ -25,7 +25,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface
 
         $query = $this->search($filterParams['search']);
 
-        $query = $this->sort($filterParams, $query, ['workerSchedule']);
+        $query = $this->sort($filterParams, $query, ['workerSchedule.month', 'weekHours']);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
@@ -38,7 +38,33 @@ class ScheduleRepository implements ScheduleRepositoryInterface
 
         WorkerSchedule::insert($this->workerSchedule($DTO->data, $schedule));
 
-        return $schedule->load('workerSchedule');
+        $this->insertWeekHours($DTO->weeks, $schedule);
+
+        return $schedule->load('workerSchedule', 'weekHours');
+    }
+
+    public function insertWeekHours(array $weeks, Schedule $schedule) :void {
+        $array_to_insert = array_map(function ($item) use ($weeks, $schedule) {
+            return [
+                'schedule_id' => $schedule->id,
+                'week' => $item['week'],
+                'hours' => $item['hour']
+            ];
+        }, $weeks);
+
+        \DB::table('schedule_week_hours')->insert($array_to_insert);
+    }
+
+    public function workerSchedule(array $data, Schedule $schedule) :array
+    {
+        return array_map(function ($item) use ($schedule) {
+            return [
+                'schedule_id' => $schedule->id,
+                'month_id' => $item['month_id'],
+                'number_of_hours' => $item['number_of_hours'],
+                'created_at' => Carbon::now()
+            ];
+        }, $data);
     }
 
     public function month(array $data): LengthAwarePaginator
@@ -50,17 +76,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface
         return $query->paginate($filterParams['itemsPerPage']);
     }
 
-    public function workerSchedule(array $data, Schedule $schedule)
-    {
-        return array_map(function ($item) use ($schedule) {
-            return [
-                'schedule_id' => $schedule->id,
-                'month_id' => $item['month_id'],
-                'number_of_hours' => $item['number_of_hours'],
-                'created_at' => Carbon::now()
-            ];
-        }, $data);
-    }
+
 
     public function search(string $search)
     {
