@@ -37,7 +37,7 @@ class EmployeeMovementController extends Controller
     {
         $this->authorize('view', $employeeMovement);
 
-       return EmployeeMovementResource::make($employeeMovement->load(['position', 'employee', 'department', 'organization']));
+       return EmployeeMovementResource::make($employeeMovement->load(['position', 'employee', 'department', 'organization', 'schedule']));
          }
 
     public function update(EmployeeMovementRequest $request, EmployeeMovement $employeeMovement)

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DTO\BarcodeDTO;
+use App\DTO\ReportCardDTO;
 use App\Models\Barcode;
 use App\Models\Employee;
 use App\Models\Good;
@@ -13,6 +14,7 @@ use App\Models\ReportCard;
 use App\Models\Schedule;
 use App\Repositories\Contracts\BarcodeRepositoryInterface;
 use App\Repositories\Contracts\ReportCardRepositoryInterface;
+use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 
@@ -23,16 +25,39 @@ use Illuminate\Support\Collection;
 
 class ReportCardRepository implements ReportCardRepositoryInterface
 {
-    use Sort, FilterTrait;
+    use Sort, FilterTrait, DocNumberTrait;
 
     public $model = ReportCard::class;
 
-    public function store(BarcodeDTO $DTO): Barcode
+    public function store(ReportCardDTO $DTO)
     {
-        return Barcode::create([
-            'barcode' => $DTO->barcode,
-            'good_id' => $DTO->good_id
+        $model = $this->model::create([
+            'doc_number' => $this->uniqueNumber(),
+            'date' => $DTO->date,
+            'organization_id' => $DTO->organization_id,
+            'month_id' => $DTO->month_id,
+            'author_id' => \Auth::id(),
+            'comment' => $DTO->comment
         ]);
+
+        $this->insertReportCardEmployees($DTO->data, $model);
+
+        return $model;
+    }
+
+    private function insertReportCardEmployees(array $data, ReportCard $model)
+    {
+
+        $array_to_insert = array_map(function ($item) use ($data, $model) {
+            return [
+                'report_card_id' => $model->id,
+                'standart_hours' => $item['standart_hours'],
+                'fact_hours' => $item['fact_hours'],
+                'employee_id' => $item['employee_id']
+            ];
+        }, $data);
+
+        \DB::table('report_employees')->insert($array_to_insert);
     }
 
     public function update(Barcode $barcode, BarcodeDTO $DTO): Barcode
@@ -108,7 +133,6 @@ class ReportCardRepository implements ReportCardRepositoryInterface
         }
 
 
-
         $firingDay = Carbon::parse($firingDate)->day;
         $startOfMonth = Carbon::parse($firingDate)->startOfMonth();
         $endOfEmployment = Carbon::parse($firingDate)->startOfDay();
@@ -144,7 +168,7 @@ class ReportCardRepository implements ReportCardRepositoryInterface
 
                     $modifiedEmployees[] = $modifiedEmployee;
 
-                   $modifiedEmployees[] = (object)[
+                    $modifiedEmployees[] = (object)[
                         'id' => $employee->id,
                         'name' => $employee->name,
                         'number_of_hours' => $workedHoursAfterMovement,
@@ -207,7 +231,6 @@ class ReportCardRepository implements ReportCardRepositoryInterface
 
         return $totalHours;
     }
-
 
 
     public function getEmployees($data)
