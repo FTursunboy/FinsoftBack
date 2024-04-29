@@ -46,6 +46,15 @@ class GoodController extends Controller implements \App\Repositories\Contracts\S
         return $this->success(GoodResource::make($this->repository->update($good, GoodUpdateDTO::fromRequest($request))));
     }
 
+    public function getByBarcode(string $barcode)
+    {
+        $good = $this->repository->getByBarcode($barcode);
+        if (!$good) {
+            return $this->notFound();
+        }
+        return $this->success(GoodResource::make($good));
+    }
+
     public function massDelete(IdRequest $request, MassOperationInterface $delete)
     {
         return $delete->massDelete(new Good(), $request->validated());

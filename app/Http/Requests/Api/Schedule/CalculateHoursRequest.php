@@ -23,6 +23,7 @@ class CalculateHoursRequest extends FormRequest
      */
     public function rules(): array
     {
+        dd($this->query);
         return [
             'weeks' => ['required', 'array'],
             'weeks.*.week' => [

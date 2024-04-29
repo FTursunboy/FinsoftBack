@@ -147,6 +147,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('hiring', HiringController::class);
 
     Route::group(['prefix' => 'goods'], function () {
+        Route::get('/getByBarcode/{barcode}', [GoodController::class, 'getByBarcode']);
         Route::post('/massDelete', [GoodController::class, 'massDelete']);
         Route::post('/massRestore', [GoodController::class, 'massRestore']);
     });

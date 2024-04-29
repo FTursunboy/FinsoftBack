@@ -148,4 +148,11 @@ class GoodRepository implements GoodRepositoryInterface
                 return $query->where('barcode', 'like', $data['barcode']);
             });
     }
+
+    public function getByBarcode(string $barcode)
+    {
+        return $this->model::whereHas('barcodes', function ($query) use ($barcode) {
+           $query->where('barcode', $barcode);
+        })->first();
+    }
 }
