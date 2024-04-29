@@ -49,7 +49,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface
             'name' => $DTO->name,
         ]);
 
-        WorkerSchedule::updateOrInsert($this->insertWeekHours($DTO->weeks) );
+        WorkerSchedule::updateOrInsert($this->workerSchedule($DTO->weeks, $schedule));
 
         return $schedule;
     }
