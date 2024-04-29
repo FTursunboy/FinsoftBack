@@ -51,6 +51,6 @@ class FactorySeeder extends Seeder
         ExchangeRate::factory(5)->create();
         OrganizationBill::factory(5)->create();
         Department::factory(5)->create();
-        Hiring::factory(5)->create();
+//        Hiring::factory(5)->create();
     }
 }
