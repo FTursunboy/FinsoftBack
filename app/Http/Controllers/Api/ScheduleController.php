@@ -42,6 +42,10 @@ class ScheduleController extends Controller
         return $this->created(ScheduleResource::make($this->repository->store(ScheduleDTO::fromRequest($request))));
     }
 
+    //sh
+
+    //change
+
     public function months(IndexRequest $request)
     {
         return $this->paginate(MonthResource::collection($this->repository->month($request->validated())));
