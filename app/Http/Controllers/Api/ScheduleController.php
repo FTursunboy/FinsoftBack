@@ -48,7 +48,10 @@ class ScheduleController extends Controller
         return $this->success(ScheduleResource::make($schedule->load('workerSchedule.month', 'weekHours')));
     }
 
-    //change
+    public function update(Schedule $schedule, ScheduleRequest $request)
+    {
+        return $this->success(ScheduleResource::make($this->repository->update(ScheduleDTO::fromRequest($request), $schedule)));
+    }
 
     public function months(IndexRequest $request)
     {
