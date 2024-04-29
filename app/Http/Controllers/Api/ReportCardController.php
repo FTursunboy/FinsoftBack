@@ -63,6 +63,6 @@ class ReportCardController extends Controller
     }
 
     public function getEmployees(FilterEmployeeRequest $request) {
-        return  $this->paginate($this->repository->getEmployees($request->validated()));
+        return  $this->success($this->repository->getEmployees($request->validated()));
     }
 }

@@ -19,6 +19,7 @@ use App\Traits\Sort;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class ReportCardRepository implements ReportCardRepositoryInterface
 {
@@ -127,29 +128,86 @@ class ReportCardRepository implements ReportCardRepositoryInterface
         return $totalHours;
     }
 
-    private function calculateMovementHours(Builder $builder)
+    private function calculateMovementHours($employees)
     {
-        $builder->each(function ($employee) {
+        $modifiedEmployees = [];
+
+        foreach ($employees as $employee) {
 
             if (!empty($employee->movement_date)) {
-
                 if ($employee->schedule_id !== $employee->new_schedule_id || $employee->salary !== $employee->new_salary) {
-                    $workedHoursBeforeMovement = $this->calculateWorkedHours($employee->movement_date, $employee->schedule_id);
-                    $workedHoursAfterMovement = $this->calculateWorkedHours($employee->firing_date, $employee->new_schedule_id);
+                    $workedHoursBeforeMovement = $this->calculateWorkedHoursBeforeMovement($employee->movement_date, $employee->schedule_id);
+                    $workedHoursAfterMovement = $this->calculateWorkedHoursAfterMovement($employee->movement_date, $employee->new_schedule_id);
 
-                    $employee->before_movement = [
-                        'schedule_id' => $employee->schedule_id,
-                        'worked_hours' => $workedHoursBeforeMovement,
-                    ];
+                    $modifiedEmployee = clone $employee;
+                    $modifiedEmployee->number_of_hours = $workedHoursBeforeMovement;
 
-                    $employee->after_movement = [
+                    $modifiedEmployees[] = $modifiedEmployee;
+
+                   $modifiedEmployees[] = (object)[
+                        'id' => $employee->id,
+                        'name' => $employee->name,
+                        'number_of_hours' => $workedHoursAfterMovement,
+                        'firing_date' => $employee->firing_date,
                         'schedule_id' => $employee->new_schedule_id,
-                        'worked_hours' => $workedHoursAfterMovement,
+                        'new_schedule_id' => $employee->new_schedule_id,
+                        'salary' => $employee->salary,
+                        'new_salary' => $employee->new_salary,
+                        'hiring_date' => $employee->hiring_date,
                     ];
                 }
             }
-        });
+        }
+
+        $employees = collect($modifiedEmployees);
+        return $employees;
     }
+
+    private function calculateWorkedHoursBeforeMovement($movementDate, $scheduleId)
+    {
+        $movementDay = Carbon::parse($movementDate)->day;
+
+
+        $startOfMonth = Carbon::parse($movementDate)->startOfMonth();
+        $endOfMonth = Carbon::parse($movementDate)->endOfMonth();
+
+
+        $totalHours = 0;
+        $schedule = Schedule::find($scheduleId);
+        $dailyHours = $schedule->weekHours->pluck('hours', 'week')->toArray();
+
+        for ($day = $startOfMonth; $day->day < $movementDay; $day->addDay()) {
+            $weekDay = $day->dayOfWeekIso - 1;
+
+            $totalHours += $dailyHours[$weekDay] ?? 0;
+        }
+
+        return $totalHours;
+    }
+
+    private function calculateWorkedHoursAfterMovement($movementDate, $scheduleId)
+    {
+
+        $startOfMonth = Carbon::parse($movementDate)->startOfMonth();
+        $endOfMonth = Carbon::parse($movementDate)->endOfMonth();
+
+
+        $movementDay = Carbon::parse($movementDate)->day;
+
+        $totalHours = 0;
+        $schedule = Schedule::find($scheduleId);
+        $dailyHours = $schedule->weekHours->pluck('hours', 'week')->toArray();
+
+        for ($day = $startOfMonth; $day->lessThanOrEqualTo($endOfMonth); $day->addDay()) {
+            if ($day->day >= $movementDay) {
+                $weekDay = $day->dayOfWeekIso - 1;
+                $totalHours += $dailyHours[$weekDay] ?? 0;
+            }
+        }
+
+        return $totalHours;
+    }
+
 
 
     public function getEmployees($data)
@@ -163,9 +221,7 @@ class ReportCardRepository implements ReportCardRepositoryInterface
             $employee->number_of_hours = $workedHours ?? $employee->number_of_hours;
         }
 
-        $this->calculateMovementHours($employees);
-
-        return $employees->paginate($filterParams['itemsPerPage']);
+        return $this->calculateMovementHours($employees->get());
     }
 
 
