@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DTO\ReportCardDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ReportCard\FilterEmployeeRequest;
 use App\Http\Requests\Api\ReportCard\ReportCardRequest;
@@ -34,7 +35,7 @@ class ReportCardController extends Controller
     {
         $this->authorize('create', ReportCard::class);
 
-        return new ReportCardResource(ReportCard::create($request->validated()));
+        return new ReportCardResource($this->repository->store(ReportCardDTO::fromRequest($request)));
     }
 
     public function show(ReportCard $reportCard)
@@ -62,7 +63,8 @@ class ReportCardController extends Controller
         return response()->json();
     }
 
-    public function getEmployees(FilterEmployeeRequest $request) {
+    public function getEmployees(FilterEmployeeRequest $request)
+    {
         return  $this->success($this->repository->getEmployees($request->validated()));
     }
 }

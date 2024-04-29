@@ -38,7 +38,7 @@ class HiringController extends Controller
     {
         $this->authorize('view', $hiring);
 
-        return new HiringResource($hiring->load('department', 'employee', 'position', 'organization'));
+        return new HiringResource($hiring->load('department', 'employee', 'position', 'organization', 'schedule'));
     }
 
     public function update(HiringRequest $request, Hiring $hiring)

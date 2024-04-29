@@ -11,6 +11,8 @@ class ReportCard extends Model
 {
     use HasFactory;
 
+    protected $guarded = false;
+
     protected function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class);

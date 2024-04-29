@@ -11,7 +11,7 @@ class EmployeeMovementRequest extends FormRequest
         return [
             'date' => ['required', 'date'],
             'employee_id' => ['required', 'integer', 'exists:employees,id'],
-            'salary' => ['required', 'decimal:1,5'],
+            'salary' => ['required', 'numeric'],
             'position_id' => ['required', 'integer', 'exists:positions,id'],
             'movement_date' => ['required', 'date'],
             'schedule_id' => ['required', 'integer', 'exists:schedules,id'],
