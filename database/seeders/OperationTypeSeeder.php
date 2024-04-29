@@ -94,16 +94,15 @@ class OperationTypeSeeder extends Seeder
                 'type' => 'RKO'
             ],
             [
-                'title_ru' => "Прочие Расходы",
+                'title_ru' => "Прочие расходы",
                 'title_en' => 'OtherExpenses',
                 'type' => 'RKO'
             ],
             [
-                'title_ru' =>"Прочие оплаты ",
+                'title_ru' =>"Прочие оплаты",
                 'title_en' => 'OtherPayment',
                 'type' => 'RKO'
             ],
-
             [
                 'title_ru' =>"Оплата зарплаты",
                 'title_en' => 'SalaryPayment',
