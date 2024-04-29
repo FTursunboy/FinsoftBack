@@ -69,7 +69,7 @@ class OperationTypeSeeder extends Seeder
                 'type' => 'RKO'
             ],
             [
-                'title_ru' => 'Отправка на другую касса',
+                'title_ru' => 'Отправка на другую кассу',
                 'title_en' => 'AnotherCashRegister',
                 'type' => 'RKO'
             ],
@@ -94,13 +94,19 @@ class OperationTypeSeeder extends Seeder
                 'type' => 'RKO'
             ],
             [
-                'title_ru' => CashOperationType::OtherExpenses,
+                'title_ru' => "Прочие Расходы",
                 'title_en' => 'OtherExpenses',
                 'type' => 'RKO'
             ],
             [
-                'title_ru' => CashOperationType::OtherIncomes,
+                'title_ru' =>"Прочие оплаты ",
                 'title_en' => 'OtherPayment',
+                'type' => 'RKO'
+            ],
+
+            [
+                'title_ru' =>"Оплата зарплаты",
+                'title_en' => 'SalaryPayment',
                 'type' => 'RKO'
             ]
         ]);
