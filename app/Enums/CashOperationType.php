@@ -19,7 +19,7 @@ enum CashOperationType :string {
 
     case AccountablePersonRefund = 'Возврат от подотчетника';
 
-    case OtherExpenses = 'Прочие расходы';
+    case OtherExpenses = 'Прочие доходы';
 
     case OtherIncomes = 'Прочие приходы';
 }
