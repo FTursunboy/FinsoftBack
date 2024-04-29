@@ -63,18 +63,18 @@ class MovementDocument extends DocumentModel implements Documentable
     }
 
 
-    public static function filterData(array $data): array
-    {
-        return [
-            'search' => $data['search'] ?? '',
-            'orderBy' => $data['orderBy'] ?? null,
-            'direction' => $data['sort'] ?? 'asc',
-            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
-            'recipientStorage_id' => $data['filterData']['recipientStorage_id'] ?? null,
-            'senderStorage_id' => $data['filterData']['senderStorage_id'] ?? null,
-            'organization_id' =>  $data['filterData']['organization_id'] ?? null,
-            'author_id' =>  $data['filterData']['author_id'] ?? null,
-            'date' => $data['filterData']['date'] ?? null,
-        ];
-    }
+        public static function filterData(array $data): array
+        {
+            return [
+                'search' => $data['search'] ?? '',
+                'orderBy' => $data['orderBy'] ?? null,
+                'direction' => $data['sort'] ?? 'asc',
+                'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+                'recipientStorage_id' => $data['filterData']['recipientStorage_id'] ?? null,
+                'senderStorage_id' => $data['filterData']['senderStorage_id'] ?? null,
+                'organization_id' =>  $data['filterData']['organization_id'] ?? null,
+                'author_id' =>  $data['filterData']['author_id'] ?? null,
+                'date' => $data['filterData']['date'] ?? null,
+            ];
+        }
 }

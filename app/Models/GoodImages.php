@@ -10,6 +10,10 @@ class GoodImages extends Model
 {
     protected $fillable = ['good_id', 'image', 'is_main', 'image_name'];
 
+    protected $casts = [
+        'is_main' => 'bool'
+    ];
+
     public static function filter(array $data): array
     {
         return [

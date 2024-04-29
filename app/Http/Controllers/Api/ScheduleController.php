@@ -39,7 +39,7 @@ class ScheduleController extends Controller
 
     public function store(ScheduleRequest $request)
     {
-        return $this->created(WorkerScheduleResource::make($this->repository->store(ScheduleDTO::fromRequest($request))));
+        return $this->created(ScheduleResource::make($this->repository->store(ScheduleDTO::fromRequest($request))));
     }
 
     public function months(IndexRequest $request)

@@ -41,7 +41,8 @@ class EmployeeMovementRepository implements EmployeeMovementRepositoryInterface
             'salary' => $DTO->salary,
             'doc_number' => $this->uniqueNumber(),
             'comment' => $DTO->comment,
-            'author_id' => \Auth::id()
+            'author_id' => \Auth::id(),
+            'schedule_id' => $DTO->schedule_id
         ]);
     }
 
