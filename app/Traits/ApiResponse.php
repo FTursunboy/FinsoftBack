@@ -17,6 +17,11 @@ trait ApiResponse
         return response()->json(['result' => "error", 'errors' => $result ?? ApiResponseEnum::Error], $code);
     }
 
+    public function notFound($result = null, $code = 404): JsonResponse
+    {
+        return response()->json(['result' => "Not Found", 'errors' => $result ?? ApiResponseEnum::NotFound], $code);
+    }
+
     public function notAccess($result, $code = 403): JsonResponse
     {
         return response()->json(['result' => "Not Access", 'errors' => $result ?? ApiResponseEnum::Error], $code);

@@ -12,4 +12,6 @@ interface GoodRepositoryInterface extends IndexInterface
     public function store(GoodDTO $DTO);
 
     public function update(Good $good, GoodUpdateDTO $DTO) :Good;
+
+    public function getByBarcode(string $barcode);
 }

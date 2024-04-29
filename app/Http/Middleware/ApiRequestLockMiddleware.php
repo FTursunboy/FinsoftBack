@@ -10,17 +10,16 @@ class ApiRequestLockMiddleware
 
     public function handle($request, Closure $next)
     {
-
         if ($request->isMethod('POST', 'PATCH') && $request->header('permission') === null) {
 
             $cacheKey = 'last_post_time_' . ($request->user()?->id);
+
             $lastPostTime = Cache::get($cacheKey);
 
             if ($lastPostTime && now()->diffInSeconds($lastPostTime) < 2) {
                 return response()->json(['error' => 'Too many attempts'], 429);
             }
 
-            Log::error($request->ip());
             Cache::put($cacheKey, now(), 5);
         }
 
