@@ -106,13 +106,15 @@ class ReportCardRepository implements ReportCardRepositoryInterface
         $startOfMonth = Carbon::parse($firingDate)->startOfMonth();
         $endOfEmployment = Carbon::parse($firingDate)->startOfDay();
 
+
         $totalHours = 0;
         $schedule = Schedule::find($scheduleId);
 
-        $dailyHours = $schedule->weekHours->pluck('hour', 'week')->toArray();
-        dd($dailyHours);
+        $dailyHours = $schedule->weekHours->pluck('hours', 'week')->toArray();
+
         for ($day = $startOfMonth; $day->lessThanOrEqualTo($endOfEmployment); $day->addDay()) {
-            $weekDay = $day->dayOfWeekIso; // ISO-8601 нумерация дней (1 = Monday, ..., 7 = Sunday)
+            $weekDay = $day->dayOfWeekIso;
+            dump($weekDay);
             $totalHours += $dailyHours[$weekDay] ?? 0;
         }
 
