@@ -16,7 +16,7 @@ class OperationTypeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'barcode' => $this->barcode,
+            'name' => $this->name,
         ];
     }
 }
