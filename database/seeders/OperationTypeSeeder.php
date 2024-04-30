@@ -103,7 +103,6 @@ class OperationTypeSeeder extends Seeder
                 'title_en' => 'OtherPayments',
                 'type' => 'RKO'
             ],
-
             [
                 'title_ru' =>CashOperationType::SalaryPayment,
                 'title_en' => 'SalaryPayment',
