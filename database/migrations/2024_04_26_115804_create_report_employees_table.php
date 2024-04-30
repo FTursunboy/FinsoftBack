@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('employee_id');
             $table->integer('standart_hours');
             $table->integer('fact_hours');
+            $table->unsignedBigInteger('schedule_id');
             $table->unsignedBigInteger('report_card_id');
             $table->timestamps();
         });
