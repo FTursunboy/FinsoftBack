@@ -16,6 +16,7 @@ class AnotherCashRegisterRequest extends FormRequest
             'cash_register_id' => ['required', Rule::exists('cash_registers', 'id')],
             'sum' => ['required'],
             'sender_cash_register_id' => ['required', Rule::exists('cash_registers', 'id')],
+            'operation_type_id' => ['required', Rule::exists('operation_types', 'id')],
             'basis' => ['required'],
             'comment' => ['nullable'],
             'type' => ['required', 'string', \Illuminate\Validation\Rule::in(['RKO', 'PKO'])]

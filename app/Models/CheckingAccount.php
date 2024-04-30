@@ -29,7 +29,7 @@ class CheckingAccount extends DocumentModel
         'sender_cash_register_id',
         'employee_id',
         'balance_article_id',
-        'operation_type',
+        'operation_type_id',
         'type'
     ];
 
@@ -76,6 +76,11 @@ class CheckingAccount extends DocumentModel
     public function employee() :BelongsTo
     {
         return $this->belongsTo(Employee::class, 'employee_id');
+    }
+
+    public function operationType() :BelongsTo
+    {
+        return $this->belongsTo(OperationType::class, 'operation_type_id');
     }
 
     public static function filterData(array $data): array

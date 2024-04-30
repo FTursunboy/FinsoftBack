@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests\Api\CheckingAccount;
 
-use App\Enums\CashOperationType;
 use Illuminate\Foundation\Http\FormRequest;
-use Livewire\Attributes\Rule;
+use Illuminate\Validation\Rule;
 
 class ClientPaymentRequest extends FormRequest
 {
@@ -12,14 +11,15 @@ class ClientPaymentRequest extends FormRequest
     {
         return [
             'date' => ['required', 'date'],
-            'organization_id' => ['required', \Illuminate\Validation\Rule::exists('organizations', 'id')],
-            'checking_account_id' => ['required', \Illuminate\Validation\Rule::exists('organization_bills', 'id')],
+            'organization_id' => ['required', Rule::exists('organizations', 'id')],
+            'checking_account_id' => ['required', Rule::exists('organization_bills', 'id')],
             'sum' => ['required'],
-            'counterparty_id' => ['required', \Illuminate\Validation\Rule::exists('counterparties', 'id')],
+            'counterparty_id' => ['required', Rule::exists('counterparties', 'id')],
+            'operation_type_id' => ['required', Rule::exists('operation_types', 'id')],
             'counterparty_agreement_id' => ['required'],
             'basis' => ['required'],
             'comment' => ['nullable'],
-            'type' => ['required', 'string', \Illuminate\Validation\Rule::in(['RKO', 'PKO'])]
+            'type' => ['required', 'string', Rule::in(['RKO', 'PKO'])]
         ];
     }
 

@@ -19,7 +19,27 @@ enum CashOperationType :string {
 
     case AccountablePersonRefund = 'Возврат от подотчетника';
 
-    case OtherExpenses = 'Прочие доходы';
+    case OtherIncomes = 'Прочие доходы';
 
-    case OtherIncomes = 'Прочие приходы';
+    case OtherParishes = 'Прочие приходы';
+
+    case ReturnToClient = 'Возврат клиенту';
+
+    case Replenishment = 'Пополнение с P/C';
+
+    case ReturnInvestment = 'Возврат вложение';
+
+    case SendingToAnotherCashRegister = 'Отправка на другую кассы';
+
+    case CreditPayment = 'Оплата кредита';
+
+    case ReturnToProvider = 'Возврат поставщику';
+
+    case AdvancePaymentToAccountant = 'Оплата аванс подотчетнику';
+
+    case OtherExpenses = 'Прочие расходы';
+
+    case OtherPayments = 'Прочие оплаты';
+
+    case SalaryPayment = 'Оплата зарплаты';
 }

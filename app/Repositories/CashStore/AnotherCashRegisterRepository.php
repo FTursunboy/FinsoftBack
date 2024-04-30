@@ -5,6 +5,7 @@ namespace App\Repositories\CashStore;
 use App\DTO\CashStore\AnotherCashRegisterDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
+use App\Models\OperationType;
 use App\Repositories\Contracts\CashStore\AnotherCashRegisterRepositoryInterface;
 use App\Traits\DocNumberTrait;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class AnotherCashRegisterRepository implements AnotherCashRegisterRepositoryInte
     {
         $filteredParams = $this->model::filterData($data);
 
-        $query = $this->model::where('operation_type', CashOperationType::AnotherCashRegister);
+        $query = $this->model::where('operation_type', OperationType::ANOTHER_CASH_REGISTER);
 
         $query = $query->filter($filteredParams);
 
@@ -37,7 +38,7 @@ class AnotherCashRegisterRepository implements AnotherCashRegisterRepositoryInte
             'senderCashRegister_id' => $dto->sender_cash_register_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::AnotherCashRegister,
+            'operation_type_id' => $dto->operation_type_id,
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);
@@ -53,7 +54,6 @@ class AnotherCashRegisterRepository implements AnotherCashRegisterRepositoryInte
             'senderCashRegister_id' => $dto->sender_cash_register_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::AnotherCashRegister,
             'type' => $dto->type,
         ]);
 

@@ -38,7 +38,7 @@ class CreditReceiveRepository implements CreditReceiveRepositoryInterface
             'counterparty_agreement_id' => $dto->counterparty_agreement_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::CreditReceive,
+            'operation_type' => $dto->operation_type_id,
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);
@@ -55,7 +55,7 @@ class CreditReceiveRepository implements CreditReceiveRepositoryInterface
             'counterparty_agreement_id' => $dto->counterparty_agreement_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::CreditReceive,
+            'operation_type_id' => $dto->operation_type_id,
             'type' => $dto->type,
         ]);
     }

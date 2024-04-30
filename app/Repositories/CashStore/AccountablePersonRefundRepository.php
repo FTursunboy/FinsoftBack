@@ -5,6 +5,7 @@ namespace App\Repositories\CashStore;
 use App\DTO\CashStore\AccountablePersonRefundDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
+use App\Models\OperationType;
 use App\Repositories\Contracts\CashStore\AccountablePersonRefundRepositoryInterface;
 use App\Traits\DocNumberTrait;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,7 @@ class AccountablePersonRefundRepository implements AccountablePersonRefundReposi
     {
         $filteredParams = $this->model::filterData($data);
 
-        $query = $this->model::where('operation_type', CashOperationType::AccountablePersonRefund);
+        $query = $this->model::where('operation_type', OperationType::ACCOUNTABLE_PERSON_REFUND);
 
         $query = $query->filter($filteredParams);
 
@@ -38,7 +39,7 @@ class AccountablePersonRefundRepository implements AccountablePersonRefundReposi
             'employee_id' => $dto->employee_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::AccountablePersonRefund,
+            'operation_type_id' => $dto->operation_type_id,
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);

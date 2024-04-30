@@ -5,6 +5,7 @@ namespace App\Repositories\CashStore;
 use App\DTO\CashStore\OtherIncomesDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
+use App\Models\OperationType;
 use App\Repositories\Contracts\CashStore\OtherIncomesRepositoryInterface;
 use App\Traits\DocNumberTrait;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class OtherIncomesRepository implements OtherIncomesRepositoryInterface
     {
         $filteredParams = $this->model::filterData($data);
 
-        $query = $this->model::where('operation_type', CashOperationType::OtherIncomes);
+        $query = $this->model::where('operation_type', OperationType::OTHER_PARISHES);
 
         $query = $query->filter($filteredParams);
 
@@ -37,7 +38,7 @@ class OtherIncomesRepository implements OtherIncomesRepositoryInterface
             'balance_article_id' => $dto->balance_article_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::OtherIncomes,
+            'operation_type_id' => $dto->operation_type_id,
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);
@@ -53,7 +54,6 @@ class OtherIncomesRepository implements OtherIncomesRepositoryInterface
             'balance_article_id' => $dto->balance_article_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::OtherIncomes,
             'type' => $dto->type,
         ]);
 

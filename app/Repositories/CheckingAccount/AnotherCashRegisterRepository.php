@@ -38,7 +38,7 @@ class AnotherCashRegisterRepository implements AnotherCashRegisterRepositoryInte
             'senderCashRegister_id' => $dto->sender_cash_register_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::AnotherCashRegister,
+            'operation_type_id' => $dto->operation_type_id,
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);
@@ -54,8 +54,8 @@ class AnotherCashRegisterRepository implements AnotherCashRegisterRepositoryInte
             'senderCashRegister_id' => $dto->sender_cash_register_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::AnotherCashRegister,
             'type' => $dto->type,
+            'operation_type_id' => $dto->operation_type_id,
         ]);
     }
 }

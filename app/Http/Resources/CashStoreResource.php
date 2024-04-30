@@ -28,7 +28,7 @@ class CashStoreResource extends JsonResource
             'balanceArticle' => BalanceArticleResource::make($this->whenLoaded('balanceArticle')),
             'author' => UserResource::make($this->whenLoaded('author')),
             'responsiblePerson' => EmployeeResource::make($this->whenLoaded('responsiblePerson')),
-            'operationType' => $this->operation_type,
+            'operationType' => OperationTypeResource::make($this->whenLoaded('operationType')),
             'basis' => $this->basis,
             'comment' => $this->comment,
             'created_at' => $this->created_at,

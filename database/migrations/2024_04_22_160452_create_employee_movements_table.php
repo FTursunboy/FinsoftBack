@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('position_id');
             $table->unsignedBigInteger('department_id');
             $table->string('movement_date');
-            $table->string('schedule')->nullable();
+            $table->string('schedule_id')->nullable();
             $table->string('basis')->nullable();
             $table->unsignedBigInteger('author_id');
             $table->text('comment')->nullable();

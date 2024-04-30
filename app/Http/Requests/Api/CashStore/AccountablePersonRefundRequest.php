@@ -16,6 +16,7 @@ class AccountablePersonRefundRequest extends FormRequest
             'cash_register_id' => ['required', Rule::exists('cash_registers', 'id')],
             'sum' => ['required'],
             'employee_id' => ['required', Rule::exists('employees', 'id')],
+            'operation_type_id' => ['required', Rule::exists('operation_types', 'id')],
             'basis' => ['required'],
             'comment' => ['nullable'],
             'type' => ['required', 'string', Rule::in(['RKO', 'PKO'])]

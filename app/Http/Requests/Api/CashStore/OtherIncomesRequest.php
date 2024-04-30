@@ -16,6 +16,7 @@ class OtherIncomesRequest extends FormRequest
             'cash_register_id' => ['required', Rule::exists('cash_registers', 'id')],
             'sum' => ['required'],
             'balance_article_id' => ['required', Rule::exists('balance_articles','id')],
+            'operation_type_id' => ['required', Rule::exists('operation_types','id')],
             'basis' => ['required'],
             'comment' => ['nullable'],
             'type' => ['required', 'string', Rule::in(['RKO', 'PKO'])]

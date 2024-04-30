@@ -22,11 +22,11 @@ class CheckingAccountResource extends JsonResource
             'senderCashRegister' => CashRegisterResource::make($this->whenLoaded('senderCashRegister')),
             'sender' => CounterpartyResource::make($this->whenLoaded('counterparty')),
             'organizationBill' => OrganizationBillResource::make($this->whenLoaded('organizationBill')),
+            'operationType' => OperationTypeResource::make($this->whenLoaded('operationType')),
             'sum' => $this->sum,
             'basis' => $this->basis,
             'currency' => CurrencyResource::make($this->whenLoaded('currency')),
             'author' => UserResource::make($this->whenLoaded('author')),
-            'operationType' => $this->operation_type,
         ];
     }
 }

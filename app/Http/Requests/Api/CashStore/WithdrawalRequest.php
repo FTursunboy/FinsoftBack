@@ -16,9 +16,10 @@ class WithdrawalRequest extends FormRequest
             'cash_register_id' => ['required', Rule::exists('cash_registers', 'id')],
             'sum' => ['required'],
             'organization_bill_id' => ['required', Rule::exists('organization_bills', 'id')],
+            'operation_type_id' => ['required', Rule::exists('operation_types', 'id')],
             'basis' => ['required'],
             'comment' => ['nullable'],
-            'type' => ['required', 'string', \Illuminate\Validation\Rule::in(['RKO', 'PKO'])]
+            'type' => ['required', 'string', Rule::in(['RKO', 'PKO'])]
         ];
     }
 
