@@ -30,11 +30,11 @@ class DocumentResource extends JsonResource
             'comment' => $this->comment,
             'saleInteger' => $this->saleInteger,
             'salePercent' => $this->salePercent,
-            'sum' => (float) $this->whenLoaded('totalGoodsSum', function ($query) {
-               return $query->first()?->total_sum ?? 0;
+            'sum' => $this->whenLoaded('totalGoodsSum', function ($query) {
+               return (float) $query->first()?->total_sum ?? 0;
             }),
             'goods_amount' => $this->whenLoaded('documentGoodsWithCount', function ( $query) {
-                    return $query->first()?->total_count ?? 0;
+                 return (float) $query->first()?->total_count ?? 0;
             }),
             'active' => $this->active,
             'goods' => DocumentGoodResource::collection($this->whenLoaded('documentGoods'))

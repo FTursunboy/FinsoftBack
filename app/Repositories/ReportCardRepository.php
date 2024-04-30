@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ReportCardRepository implements ReportCardRepositoryInterface
 {
@@ -101,8 +102,7 @@ class ReportCardRepository implements ReportCardRepositoryInterface
         $currentYear = now()->year;
         $month = $filterParams['month_id'];
 
-
-        return Employee::query()
+       return Employee::query()
             ->select(['employees.id', 'employees.name', 'ws.number_of_hours',
                 'firings.firing_date', 'hirings.schedule_id', 'employee_movements.movement_date',
                 'employee_movements.schedule_id as new_schedule_id', 'hirings.salary', 'employee_movements.salary as new_salary', 'hirings.hiring_date'])
@@ -112,13 +112,12 @@ class ReportCardRepository implements ReportCardRepositoryInterface
             ->leftJoin('firings', function ($join) use ($filterParams, $currentYear, $month) {
                 $join->on('firings.employee_id', '=', 'employees.id')
                     ->where('firings.organization_id', '=', $filterParams['organization_id'])
-                    ->whereYear('firings.firing_date', '=', $currentYear)
-                    ->whereMonth('firings.firing_date', '=', $month);
+                    ->whereYear('firings.firing_date', '=', $currentYear);
             })
             ->leftJoin('employee_movements', function ($join) use ($filterParams, $currentYear, $month) {
                 $join->on('employee_movements.employee_id', '=', 'employees.id')
                     ->whereYear('employee_movements.movement_date', '=', $currentYear)
-                    ->whereMonth('employee_movements.movement_date', '=', $month);
+                    ->whereMonth('employee_movements.movement_date', '<=', $month);
             })
             ->where('ws.month_id', $month)
             ->where('hirings.organization_id', $filterParams['organization_id'])
@@ -126,22 +125,27 @@ class ReportCardRepository implements ReportCardRepositoryInterface
             ->whereYear('hirings.hiring_date', '=', $currentYear);
     }
 
-    private function calculateWorkedHours($firingDate, $scheduleId)
+    private function calculateWorkedHours($firingDate, $scheduleId, int $month_id)
     {
-        if (empty($firingDate)) {
+        $firingMonth = Carbon::parse($firingDate)->month;
+
+
+
+        if (empty($firingDate) || $firingMonth !== $month_id) {
             return null;
         }
+
 
 
         $firingDay = Carbon::parse($firingDate)->day;
         $startOfMonth = Carbon::parse($firingDate)->startOfMonth();
         $endOfEmployment = Carbon::parse($firingDate)->startOfDay();
 
-
         $totalHours = 0;
         $schedule = Schedule::find($scheduleId);
 
         $dailyHours = $schedule->weekHours->pluck('hours', 'week')->toArray();
+
 
         for ($day = $startOfMonth; $day->lessThanOrEqualTo($endOfEmployment); $day->addDay()) {
             $weekDay = $day->dayOfWeekIso - 1;
@@ -154,7 +158,7 @@ class ReportCardRepository implements ReportCardRepositoryInterface
 
     private function calculateMovementHours($employees)
     {
-        $modifiedEmployees = [];
+        $modifiedEmployees = $employees;
 
         foreach ($employees as $employee) {
 
@@ -191,10 +195,8 @@ class ReportCardRepository implements ReportCardRepositoryInterface
     {
         $movementDay = Carbon::parse($movementDate)->day;
 
-
         $startOfMonth = Carbon::parse($movementDate)->startOfMonth();
         $endOfMonth = Carbon::parse($movementDate)->endOfMonth();
-
 
         $totalHours = 0;
         $schedule = Schedule::find($scheduleId);
@@ -233,18 +235,20 @@ class ReportCardRepository implements ReportCardRepositoryInterface
     }
 
 
-    public function getEmployees($data)
+    public function getEmployees(array $data) :Collection
     {
         $filterParams = $this->model::filterData($data);
 
         $employees = $this->getEmployeeQuery($filterParams);
 
+        $employees = $employees->get();
+
         foreach ($employees as $employee) {
-            $workedHours = $this->calculateWorkedHours($employee->firing_date, $employee->schedule_id);
+            $workedHours = $this->calculateWorkedHours($employee->firing_date, $employee->schedule_id, $filterParams['month_id']);
             $employee->number_of_hours = $workedHours ?? $employee->number_of_hours;
         }
 
-        return $this->calculateMovementHours($employees->get());
+        return $this->calculateMovementHours($employees);
     }
 
 
