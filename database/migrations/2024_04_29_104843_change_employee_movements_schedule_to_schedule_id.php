@@ -14,8 +14,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::table('employee_movements', function (Blueprint $table) {
-            $table->renameColumn('schedule', 'schedule_id');
-        });
+
     }
 };

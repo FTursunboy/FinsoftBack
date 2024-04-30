@@ -30,7 +30,7 @@ class CheckingAccountController extends Controller
 
     public function show(CheckingAccount $checkingAccount)
     {
-       return $this->success(CheckingAccountResource::make($checkingAccount->load('organization', 'checkingAccount', 'counterparty', 'author', 'currency', 'senderCashRegister', 'organizationBill', 'employee')));
+       return $this->success(CheckingAccountResource::make($checkingAccount->load('organization', 'checkingAccount', 'counterparty', 'counterpartyAgreement', 'author', 'currency', 'senderCashRegister', 'organizationBill', 'employee')));
     }
 
 

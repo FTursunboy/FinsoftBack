@@ -18,6 +18,7 @@ use App\Http\Resources\WorkerScheduleResource;
 use App\Models\Barcode;
 use App\Models\Good;
 use App\Models\Month;
+use App\Models\Schedule;
 use App\Repositories\BarcodeRepository;
 use App\Repositories\Contracts\BarcodeRepositoryInterface;
 use App\Repositories\Contracts\MassOperationInterface;
@@ -40,6 +41,16 @@ class ScheduleController extends Controller
     public function store(ScheduleRequest $request)
     {
         return $this->created(ScheduleResource::make($this->repository->store(ScheduleDTO::fromRequest($request))));
+    }
+
+    public function show(Schedule $schedule)
+    {
+        return $this->success(ScheduleResource::make($schedule->load('workerSchedule.month', 'weekHours')));
+    }
+
+    public function update(Schedule $schedule, ScheduleRequest $request)
+    {
+        return $this->success(ScheduleResource::make($this->repository->update(ScheduleDTO::fromRequest($request), $schedule)));
     }
 
     public function months(IndexRequest $request)

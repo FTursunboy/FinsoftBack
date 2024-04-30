@@ -22,6 +22,7 @@ class CashStoreResource extends JsonResource
             'organizationBill' => OrganizationBillResource::make($this->whenLoaded('organizationBill')),
             'sum' => $this->sum,
             'currency' => CurrencyResource::make($this->whenLoaded('currency')),
+            'employee' => CurrencyResource::make($this->whenLoaded('employee')),
             'counterparty' => CounterpartyResource::make($this->whenLoaded('counterparty')),
             'counterpartyAgreement' => CounterpartyAgreementResource::make($this->whenLoaded('counterpartyAgreement')),
             'balanceArticle' => BalanceArticleResource::make($this->whenLoaded('balanceArticle')),

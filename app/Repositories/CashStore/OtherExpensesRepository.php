@@ -35,7 +35,7 @@ class OtherExpensesRepository implements OtherExpensesRepositoryInterface
             'doc_number' => $this->uniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
-            'organizationBill_id' => $dto->cash_register_id,
+            'cashRegister_id' => $dto->cash_register_id,
             'sum' => $dto->sum,
             'balance_article_id' => $dto->balance_article_id,
             'basis' => $dto->basis,
