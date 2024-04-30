@@ -37,7 +37,7 @@ class AccountablePersonRefundRepository implements AccountablePersonRefundReposi
             'employee_id' => $dto->employee_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::AccountablePersonRefund,
+            'operation_type_id' => $dto->operation_type_id,
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);
@@ -53,7 +53,7 @@ class AccountablePersonRefundRepository implements AccountablePersonRefundReposi
             'employee_id' => $dto->employee_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::AccountablePersonRefund,
+            'operation_type_id' => $dto->operation_type_id,
             'type' => $dto->type
         ]);
     }

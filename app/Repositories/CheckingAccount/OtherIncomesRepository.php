@@ -37,7 +37,7 @@ class OtherIncomesRepository implements OtherIncomesRepositoryInterface
             'balance_article_id' => $dto->balance_article_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::OtherIncomes,
+            'operation_type_id' => $dto->operation_type_id,
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);
@@ -53,7 +53,8 @@ class OtherIncomesRepository implements OtherIncomesRepositoryInterface
             'balance_article_id' => $dto->balance_article_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'type' => $dto->type
+            'type' => $dto->type,
+            'operation_type_id' => $dto->operation_type_id,
         ]);
     }
 

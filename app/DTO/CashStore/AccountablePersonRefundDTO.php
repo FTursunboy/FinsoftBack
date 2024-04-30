@@ -8,7 +8,7 @@ use App\Http\Requests\Api\CashStore\AccountablePersonRefundRequest;
 class AccountablePersonRefundDTO
 {
     public function __construct(public string $date, public int $organization_id, public int $cash_register_id,
-                                public int $sum, public int $employee_id, public string $basis, public ?string $comment, public ?string $type)
+                                public int $sum, public int $employee_id, public string $basis, public ?string $comment, public ?string $type, public int $operation_type_id)
     {
     }
 
@@ -23,6 +23,7 @@ class AccountablePersonRefundDTO
             $request->get('basis'),
             $request->get('comment'),
             $request->get('type'),
+            $request->get('operation_type_id'),
         );
     }
 }

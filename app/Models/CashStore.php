@@ -35,7 +35,7 @@ class CashStore extends DocumentModel
         'senderCashRegister_id',
         'employee_id',
         'balance_article_id',
-        'operation_type',
+        'operation_type_id',
         'type'
     ];
 
@@ -97,7 +97,7 @@ class CashStore extends DocumentModel
 
     public function operationType() :BelongsTo
     {
-        return $this->belongsTo(OperationType::class, 'operation_type');
+        return $this->belongsTo(OperationType::class, 'operation_type_id');
     }
 
     public function responsiblePerson(): BelongsTo

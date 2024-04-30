@@ -17,6 +17,7 @@ class ClientPaymentRequest extends FormRequest
             'sum' => ['required'],
             'counterparty_id' => ['required'],
             'counterparty_agreement_id' => ['required'],
+            'operation_type_id' => ['required', \Illuminate\Validation\Rule::exists('operation_types', 'id')],
             'basis' => ['required'],
             'comment' => ['nullable'],
             'type' => ['required', 'string', \Illuminate\Validation\Rule::in(['RKO', 'PKO'])]

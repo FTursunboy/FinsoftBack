@@ -17,7 +17,9 @@ class CheckingAccountRepository implements CheckingAccountRepositoryInterface
 
         $query = $query->filter($filteredParams);
 
-        return $query->with(['organization', 'checkingAccount', 'counterparty', 'author', 'currency', 'senderCashRegister', 'organizationBill', 'employee'])->paginate($filteredParams['itemsPerPage']);
+        return $query->with([
+            'organization', 'checkingAccount', 'counterparty', 'author', 'currency', 'senderCashRegister', 'organizationBill', 'employee', 'operationType'
+        ])->paginate($filteredParams['itemsPerPage']);
     }
 
 

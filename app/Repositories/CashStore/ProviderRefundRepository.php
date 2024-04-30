@@ -5,6 +5,7 @@ namespace App\Repositories\CashStore;
 use App\DTO\CashStore\ProviderRefundDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
+use App\Models\OperationType;
 use App\Repositories\Contracts\CashStore\ProviderRefundRepositoryInterface;
 use App\Traits\DocNumberTrait;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class ProviderRefundRepository implements ProviderRefundRepositoryInterface
     {
         $filteredParams = $this->model::filterData($data);
 
-        $query = $this->model::where('operation_type', CashOperationType::ProviderRefund);
+        $query = $this->model::where('operation_type', OperationType::PROVIDER_REFUND);
 
         $query = $query->filter($filteredParams);
 
@@ -38,7 +39,7 @@ class ProviderRefundRepository implements ProviderRefundRepositoryInterface
             'counterparty_agreement_id' => $dto->counterparty_agreement_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::ProviderRefund,
+            'operation_type_id' => $dto->operation_type_id,
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);
@@ -55,7 +56,6 @@ class ProviderRefundRepository implements ProviderRefundRepositoryInterface
             'counterparty_agreement_id' => $dto->counterparty_agreement_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::ProviderRefund,
             'type' => $dto->type,
         ]);
 

@@ -7,8 +7,8 @@ use App\Http\Requests\Api\CheckingAccount\AccountablePersonRefundRequest;
 
 class AccountablePersonRefundDTO
 {
-    public function __construct(public string $date, public int $organization_id, public int $checking_account_id,
-                                public int $sum, public int $employee_id, public string $basis, public ?string $comment, public ?string $type)
+    public function __construct(public string $date, public int $organization_id, public int $checking_account_id, public int $sum, public int $employee_id,
+                                public string $basis, public ?string $comment, public ?string $type, public int $operation_type_id)
     {
     }
 
@@ -23,6 +23,7 @@ class AccountablePersonRefundDTO
             $request->get('basis'),
             $request->get('comment'),
             $request->get('type'),
+            $request->get('operation_type_id'),
         );
     }
 }

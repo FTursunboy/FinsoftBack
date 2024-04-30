@@ -5,6 +5,7 @@ namespace App\Repositories\CashStore;
 use App\DTO\CashStore\ClientPaymentDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
+use App\Models\OperationType;
 use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
 use App\Repositories\Contracts\CashStore\ClientPaymentRepositoryInterface;
 use App\Traits\DocNumberTrait;
@@ -27,7 +28,7 @@ class ClientPaymentRepository implements ClientPaymentRepositoryInterface
 
     public function clientPayment(ClientPaymentDTO $dto)
     {
-        $this->model::create([
+        return $this->model::create([
             'doc_number' => $this->uniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
@@ -37,7 +38,7 @@ class ClientPaymentRepository implements ClientPaymentRepositoryInterface
             'counterparty_agreement_id' => $dto->counterparty_agreement_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::ClientPayment,
+            'operation_type_id' => $dto->operation_type_id,
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);
@@ -54,7 +55,6 @@ class ClientPaymentRepository implements ClientPaymentRepositoryInterface
             'counterparty_agreement_id' => $dto->counterparty_agreement_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::ClientPayment,
             'type' => $dto->type
         ]);
 

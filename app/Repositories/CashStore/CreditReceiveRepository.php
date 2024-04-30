@@ -5,6 +5,7 @@ namespace App\Repositories\CashStore;
 use App\DTO\CashStore\CreditReceiveDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
+use App\Models\OperationType;
 use App\Repositories\Contracts\CashStore\CreditReceiveRepositoryInterface;
 use App\Traits\DocNumberTrait;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class CreditReceiveRepository implements CreditReceiveRepositoryInterface
     {
         $filteredParams = $this->model::filterData($data);
 
-        $query = $this->model::where('operation_type', CashOperationType::CreditReceive);
+        $query = $this->model::where('operation_type', OperationType::CREDIT_RECIEVE);
 
         $query = $query->filter($filteredParams);
 
@@ -38,7 +39,7 @@ class CreditReceiveRepository implements CreditReceiveRepositoryInterface
             'counterparty_agreement_id' => $dto->counterparty_agreement_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::CreditReceive,
+            'operation_type_id' => $dto->operation_type_id,
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);
@@ -55,7 +56,6 @@ class CreditReceiveRepository implements CreditReceiveRepositoryInterface
             'counterparty_agreement_id' => $dto->counterparty_agreement_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::CreditReceive,
             'type' => $dto->type,
         ]);
 

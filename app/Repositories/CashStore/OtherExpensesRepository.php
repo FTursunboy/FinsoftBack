@@ -7,6 +7,7 @@ use App\DTO\CashStore\OtherExpensesDTO;
 use App\Enums\CashOperationType;
 use App\Models\BalanceArticle;
 use App\Models\CashStore;
+use App\Models\OperationType;
 use App\Repositories\Contracts\CashStore\AccountablePersonRefundRepositoryInterface;
 use App\Repositories\Contracts\CashStore\OtherExpensesRepositoryInterface;
 use App\Traits\DocNumberTrait;
@@ -22,7 +23,7 @@ class OtherExpensesRepository implements OtherExpensesRepositoryInterface
     {
         $filteredParams = $this->model::filterData($data);
 
-        $query = $this->model::where('operation_type', CashOperationType::OtherExpenses);
+        $query = $this->model::where('operation_type', OperationType::OTHER_INCOMES);
 
         $query = $query->filter($filteredParams);
 
@@ -40,7 +41,7 @@ class OtherExpensesRepository implements OtherExpensesRepositoryInterface
             'balance_article_id' => $dto->balance_article_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::OtherExpenses,
+            'operation_type_id' => $dto->operation_type_id,
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);
@@ -56,7 +57,6 @@ class OtherExpensesRepository implements OtherExpensesRepositoryInterface
             'balance_article_id' => $dto->balance_article_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::OtherExpenses,
             'type' => $dto->type,
         ]);
 

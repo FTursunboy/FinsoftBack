@@ -5,6 +5,7 @@ namespace App\Repositories\CashStore;
 use App\DTO\CashStore\WithdrawalDTO;
 use App\Enums\CashOperationType;
 use App\Models\CashStore;
+use App\Models\OperationType;
 use App\Repositories\Contracts\CashStore\WithdrawalRepositoryInterface;
 use App\Traits\DocNumberTrait;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class WithdrawalRepository implements WithdrawalRepositoryInterface
     {
         $filteredParams = $this->model::filterData($data);
 
-        $query = $this->model::where('operation_type', CashOperationType::WithDraw);
+        $query = $this->model::where('operation_type', OperationType::WITHDRAW);
 
         $query = $query->filter($filteredParams);
 
@@ -37,7 +38,7 @@ class WithdrawalRepository implements WithdrawalRepositoryInterface
             'organizationBill_id' => $dto->organization_bill_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type' => CashOperationType::WithDraw,
+            'operation_type_id' => $dto->operation_type_id,
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);

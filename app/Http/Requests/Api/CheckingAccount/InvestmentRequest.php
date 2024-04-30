@@ -17,6 +17,7 @@ class InvestmentRequest extends FormRequest
             'sum' => ['required'],
             'counterparty_id' => ['required', Rule::exists('counterparties', 'id')],
             'counterparty_agreement_id' => ['required', Rule::exists('counterparty_agreements', 'id')],
+            'operation_type_id' => ['required', Rule::exists('operation_types', 'id')],
             'basis' => ['required'],
             'comment' => ['nullable'],
             'type' => ['required', 'string', Rule::in(['RKO', 'PKO'])]

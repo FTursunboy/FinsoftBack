@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('senderCashRegister_id')->nullable();
             $table->unsignedBigInteger('employee_id')->nullable();
             $table->unsignedBigInteger('balance_article_id')->nullable();
-            $table->string('operation_type');
+            $table->unsignedBigInteger('operation_type_id');
             $table->string('type');
             $table->softDeletes();
             $table->timestamps();

@@ -47,64 +47,64 @@ class OperationTypeSeeder extends Seeder
                 'type' => 'PKO'
             ],
             [
-                'title_ru' => CashOperationType::OtherExpenses,
-                'title_en' => 'OtherExpenses',
-                'type' => 'PKO'
-            ],
-            [
                 'title_ru' => CashOperationType::OtherIncomes,
                 'title_en' => 'OtherIncomes',
                 'type' => 'PKO'
             ],
+            [
+                'title_ru' => CashOperationType::OtherParishes,
+                'title_en' => 'OtherParishes',
+                'type' => 'PKO'
+            ],
 
 
             [
-                'title_ru' => 'Возврат клиенту',
-                'title_en' => 'ClientReturn',
+                'title_ru' => CashOperationType::ReturnToClient,
+                'title_en' => 'ReturnToClient',
                 'type' => 'RKO'
             ],
             [
-                'title_ru' => 'Пополнение с Р/С',
-                'title_en' => 'Refill',
+                'title_ru' => CashOperationType::Replenishment,
+                'title_en' => 'Replenishment',
                 'type' => 'RKO'
             ],
             [
-                'title_ru' => 'Отправка на другую кассу',
-                'title_en' => 'AnotherCashRegister',
+                'title_ru' => CashOperationType::SendingToAnotherCashRegister,
+                'title_en' => 'SendingToAnotherCashRegister',
                 'type' => 'RKO'
             ],
             [
-                'title_ru' => 'Возврат вложения',
+                'title_ru' => CashOperationType::ReturnInvestment,
                 'title_en' => 'ReturnInvestment',
                 'type' => 'RKO'
             ],
             [
-                'title_ru' => 'Оплата кредита',
+                'title_ru' => CashOperationType::CreditPayment,
                 'title_en' => 'CreditPayment',
                 'type' => 'RKO'
             ],
             [
-                'title_ru' => 'Возврат поставщику',
-                'title_en' => 'RefundToProvider',
+                'title_ru' => CashOperationType::ReturnToProvider,
+                'title_en' => 'ReturnToProvider',
                 'type' => 'RKO'
             ],
             [
-                'title_ru' => 'Оплата аванс подотчетнику',
-                'title_en' => 'AccountablePersonRefund',
+                'title_ru' => CashOperationType::AdvancePaymentToAccountant,
+                'title_en' => 'AdvancePaymentToAccountant',
                 'type' => 'RKO'
             ],
             [
-                'title_ru' => "Прочие расходы",
+                'title_ru' => CashOperationType::OtherExpenses,
                 'title_en' => 'OtherExpenses',
                 'type' => 'RKO'
             ],
             [
-                'title_ru' =>"Прочие оплаты",
-                'title_en' => 'OtherPayment',
+                'title_ru' =>CashOperationType::OtherPayments,
+                'title_en' => 'OtherPayments',
                 'type' => 'RKO'
             ],
             [
-                'title_ru' =>"Оплата зарплаты",
+                'title_ru' =>CashOperationType::SalaryPayment,
                 'title_en' => 'SalaryPayment',
                 'type' => 'RKO'
             ]
