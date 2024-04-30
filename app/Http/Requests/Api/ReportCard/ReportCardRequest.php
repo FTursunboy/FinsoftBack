@@ -17,6 +17,7 @@ class ReportCardRequest extends FormRequest
             'data.*.employee_id' => ['exists:employees,id', 'integer', 'required'],
             'data.*.standart_hours' => ['integer', 'required'],
             'data.*.fact_hours' => ['integer', 'required'],
+            'data.*.schedule_id' => ['integer', 'required', 'exists:schedules,id'],
         ];
     }
 

@@ -6,13 +6,8 @@ use App\DTO\BarcodeDTO;
 use App\DTO\ReportCardDTO;
 use App\Models\Barcode;
 use App\Models\Employee;
-use App\Models\Good;
-use App\Models\Hiring;
-use App\Models\Month;
-use App\Models\Organization;
 use App\Models\ReportCard;
 use App\Models\Schedule;
-use App\Repositories\Contracts\BarcodeRepositoryInterface;
 use App\Repositories\Contracts\ReportCardRepositoryInterface;
 use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
@@ -22,7 +17,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
 class ReportCardRepository implements ReportCardRepositoryInterface
 {
@@ -54,7 +48,8 @@ class ReportCardRepository implements ReportCardRepositoryInterface
                 'report_card_id' => $model->id,
                 'standart_hours' => $item['standart_hours'],
                 'fact_hours' => $item['fact_hours'],
-                'employee_id' => $item['employee_id']
+                'employee_id' => $item['employee_id'],
+                'schedule_id' => $item['schedule_id']
             ];
         }, $data);
 
@@ -122,13 +117,19 @@ class ReportCardRepository implements ReportCardRepositoryInterface
             ->where('ws.month_id', $month)
             ->where('hirings.organization_id', $filterParams['organization_id'])
             ->whereMonth('hirings.hiring_date', '<=', $month)
-            ->whereYear('hirings.hiring_date', '=', $currentYear);
+            ->whereYear('hirings.hiring_date', '=', $currentYear)
+            ->where(function (Builder $query) use($month) {
+                $query->whereNull('firing_date')->orWhereMonth('firing_date', '>=', $month);
+            })
+           ->where(function (Builder $query) use($month) {
+               $query->whereNull('movement_date')->orWhereMonth('movement_date', '>=', $month);
+           });
+
     }
 
     private function calculateWorkedHours($firingDate, $scheduleId, int $month_id)
     {
         $firingMonth = Carbon::parse($firingDate)->month;
-
 
 
         if (empty($firingDate) || $firingMonth !== $month_id) {
@@ -161,24 +162,19 @@ class ReportCardRepository implements ReportCardRepositoryInterface
         $modifiedEmployees = $employees;
 
         foreach ($employees as $employee) {
-
             if (!empty($employee->movement_date)) {
                 if ($employee->schedule_id !== $employee->new_schedule_id || $employee->salary !== $employee->new_salary) {
                     $workedHoursBeforeMovement = $this->calculateWorkedHoursBeforeMovement($employee->movement_date, $employee->schedule_id);
                     $workedHoursAfterMovement = $this->calculateWorkedHoursAfterMovement($employee->movement_date, $employee->new_schedule_id);
 
-                    $modifiedEmployee = clone $employee;
-                    $modifiedEmployee->number_of_hours = $workedHoursBeforeMovement;
-
-                    $modifiedEmployees[] = $modifiedEmployee;
+                    $employee->number_of_hours = $workedHoursBeforeMovement;
 
                     $modifiedEmployees[] = (object)[
                         'id' => $employee->id,
                         'name' => $employee->name,
                         'number_of_hours' => $workedHoursAfterMovement,
                         'firing_date' => $employee->firing_date,
-                        'schedule_id' => $employee->new_schedule_id,
-                        'new_schedule_id' => $employee->new_schedule_id,
+                        'schedule_id' => $employee->schedule_id,
                         'salary' => $employee->salary,
                         'new_salary' => $employee->new_salary,
                         'hiring_date' => $employee->hiring_date,
@@ -187,7 +183,7 @@ class ReportCardRepository implements ReportCardRepositoryInterface
             }
         }
 
-        $employees = collect($modifiedEmployees);
+       // $employees = collect($modifiedEmployees);
         return $employees;
     }
 
