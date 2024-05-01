@@ -44,7 +44,7 @@ class ReportCardController extends Controller
     {
         $this->authorize('view', $reportCard);
 
-        return new ReportCardResource($reportCard);
+        return new ReportCardResource($reportCard->load('employees'));
     }
 
     public function update(ReportCardRequest $request, ReportCard $reportCard)
