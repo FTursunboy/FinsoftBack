@@ -21,6 +21,9 @@ class MovementDocumentResource extends JsonResource
             'author_id' => UserResource::make($this->whenLoaded('author')),
             'comment' => $this->comment,
             'goods' => DocumentGoodResource::collection($this->whenLoaded('goods')),
+            'goods_amount' => $this->whenLoaded('documentGoodsWithCount', function ( $query) {
+                return (float) $query->first()?->total_count ?? 0;
+            }),
             'deleted_at' => $this->deleted_at
         ];
     }

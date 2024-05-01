@@ -41,7 +41,7 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
         $query = $this->model::filter($filteredParams);
 
-        return $query->with(['senderStorage', 'recipientStorage', 'author', 'organization', 'goods', 'goods.good'])->paginate($filteredParams['itemsPerPage']);
+        return $query->with(['senderStorage', 'recipientStorage', 'author', 'organization', 'goods', 'goods.good', 'documentGoodsWithCount'])->paginate($filteredParams['itemsPerPage']);
     }
 
     public function store(MovementDocumentDTO $dto): MovementDocument
