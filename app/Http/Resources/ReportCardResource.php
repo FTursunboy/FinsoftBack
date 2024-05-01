@@ -17,7 +17,7 @@ class ReportCardResource extends JsonResource
             'doc_number' => $this->doc_number,
             'date' => $this->date,
             'comment' => $this->comment,
-            'employees' => $this->whenLoaded('employees')
+            'employees' => $this->reportEmployees
         ];
     }
 }

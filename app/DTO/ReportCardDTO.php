@@ -6,7 +6,7 @@ use App\Http\Requests\Api\ReportCard\ReportCardRequest;
 
 class ReportCardDTO
 {
-    public function __construct(public string $date, public int $organization_id, public int $month_id, public string $comment, public array $data)
+    public function __construct(public string $date, public int $organization_id, public int $month_id, public ?string $comment, public array $data)
     {
     }
 

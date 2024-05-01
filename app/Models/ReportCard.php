@@ -28,9 +28,9 @@ class ReportCard extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
-    protected function employees() :HasMany
+    protected function reportEmployees() :HasMany
     {
-        return $this->hasMany('report_employees', 'report_card_id', 'id');
+        return $this->hasMany(ReportEmployees::class, 'report_card_id', 'id');
     }
 
 
