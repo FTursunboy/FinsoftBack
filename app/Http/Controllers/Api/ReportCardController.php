@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\DTO\ReportCardDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\ReportCard\EmployeeSalaryRequest;
 use App\Http\Requests\Api\ReportCard\FilterEmployeeRequest;
 use App\Http\Requests\Api\ReportCard\ReportCardRequest;
 use App\Http\Resources\EmployeeResource;
@@ -28,7 +29,7 @@ class ReportCardController extends Controller
     {
         $this->authorize('viewAny', ReportCard::class);
 
-        return ReportCardResource::collection(ReportCard::all());
+        return ReportCardResource::collection(ReportCard::get());
     }
 
     public function store(ReportCardRequest $request)
@@ -66,5 +67,10 @@ class ReportCardController extends Controller
     public function getEmployees(FilterEmployeeRequest $request)
     {
         return  $this->success($this->repository->getEmployees($request->validated()));
+    }
+
+    public function getEmployeesSalary(EmployeeSalaryRequest $request)
+    {
+        return $this->repository->getEmployeesSalary($request->validated());
     }
 }

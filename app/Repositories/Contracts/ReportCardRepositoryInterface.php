@@ -22,4 +22,6 @@ interface ReportCardRepositoryInterface
 
     public function getEmployees(array $data);
 
+    public function getEmployeesSalary(array $data);
+
 }

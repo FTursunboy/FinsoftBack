@@ -49,7 +49,8 @@ class ReportCardRepository implements ReportCardRepositoryInterface
                 'standart_hours' => $item['standart_hours'],
                 'fact_hours' => $item['fact_hours'],
                 'employee_id' => $item['employee_id'],
-                'schedule_id' => $item['schedule_id']
+                'schedule_id' => $item['schedule_id'],
+                'salary' => $item['salary']
             ];
         }, $data);
 
@@ -137,7 +138,6 @@ class ReportCardRepository implements ReportCardRepositoryInterface
         }
 
 
-
         $firingDay = Carbon::parse($firingDate)->day;
         $startOfMonth = Carbon::parse($firingDate)->startOfMonth();
         $endOfEmployment = Carbon::parse($firingDate)->startOfDay();
@@ -146,7 +146,6 @@ class ReportCardRepository implements ReportCardRepositoryInterface
         $schedule = Schedule::find($scheduleId);
 
         $dailyHours = $schedule->weekHours->pluck('hours', 'week')->toArray();
-
 
         for ($day = $startOfMonth; $day->lessThanOrEqualTo($endOfEmployment); $day->addDay()) {
             $weekDay = $day->dayOfWeekIso - 1;
@@ -248,4 +247,17 @@ class ReportCardRepository implements ReportCardRepositoryInterface
     }
 
 
+
+    public function getEmployeesSalary(array $data)
+    {
+        $month_id = $data['month_id'];
+        $organization_id = $data['organization_id'];
+
+        return  ReportCard::where('month_id', $month_id)->where('organization_id', $organization_id)
+            ->join('employees as emp', 'emp.id', 'report_card.id')
+            ->join('schedules as sc', 'sc.id', '=', 'report_cards.schedule_id')
+            ->join('worker_schedules as ws', 'ws.schedule_id', '=', 'sc.id')
+            ->select(['emp.id', 'emp.salary', 'report_cards.standart_hours', 'report_cards.fact_hours'])->get();
+
+    }
 }
