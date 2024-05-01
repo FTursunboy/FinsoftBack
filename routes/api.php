@@ -302,3 +302,4 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
 
 Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login'])->name('login');
+Route::get('logout', [AuthController::class, 'logout']);
