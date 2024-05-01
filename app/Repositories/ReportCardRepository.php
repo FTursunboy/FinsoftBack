@@ -127,11 +127,9 @@ class ReportCardRepository implements ReportCardRepositoryInterface
     {
         $firingMonth = Carbon::parse($firingDate)->month;
 
-
         if (empty($firingDate) || $firingMonth !== $month_id) {
             return null;
         }
-
 
         $firingDay = Carbon::parse($firingDate)->day;
         $startOfMonth = Carbon::parse($firingDate)->startOfMonth();
