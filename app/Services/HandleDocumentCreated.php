@@ -6,12 +6,13 @@ use App\Enums\MovementTypes;
 use App\Models\Balance;
 use App\Models\BalanceArticle;
 use App\Models\CounterpartySettlement;
+use App\Models\DocumentModel;
 use App\Models\GoodAccounting;
 use App\Repositories\Contracts\Documentable;
 
 class HandleDocumentCreated
 {
-    public function __construct(public Documentable $document, public MovementTypes $type)
+    public function __construct(public DocumentModel $document, public MovementTypes $type)
     {
 
     }
@@ -20,6 +21,7 @@ class HandleDocumentCreated
     {
         $this->counterpartySettlement();
         $this->goodAccounting();
+        $this->balance();
     }
 
     private function counterpartySettlement(): void
@@ -45,7 +47,7 @@ class HandleDocumentCreated
         foreach ($goods as $good) {
             $insertData[] = [
                 'good_id' => $good->good_id,
-                'sum' => $this->getSumByCurrency($good->price),
+                'sum' => $this->document->saleInteger,
                 'model_id' => $good->document_id,
                 'created_at' => now(),
                 'storage_id' => $this->document->storage_id,
@@ -64,7 +66,8 @@ class HandleDocumentCreated
         Balance::create([
             'credit_article' => BalanceArticle::find(1)->id,
             'debit_article' => BalanceArticle::find(1)->id,
-            'sum' => 1,
+            'organization_id' => $this->document->organization_id,
+            'sum' => $this->document->totalGoodsSum->first()->total_sum,
             'model_id' => $this->document->id,
             'active' => false
         ]);

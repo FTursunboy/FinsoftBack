@@ -68,6 +68,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function store(DocumentDTO $dto, int $status): Document
     {
+
         $document = DB::transaction(function () use ($status, $dto) {
             $document = Document::create([
                 'doc_number' => $this->uniqueNumber(),
@@ -251,7 +252,9 @@ class DocumentRepository implements DocumentRepositoryInterface
         $document->update(
             ['active' => true]
         );
+
         DocumentCreated::dispatch($document, MovementTypes::Income);
+
     }
 
     public function unApprove(Document $document)
