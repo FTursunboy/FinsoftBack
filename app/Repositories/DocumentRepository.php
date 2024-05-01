@@ -7,6 +7,9 @@ use App\DTO\DocumentUpdateDTO;
 use App\DTO\OrderDocumentDTO;
 use App\DTO\OrderDocumentUpdateDTO;
 use App\Enums\DocumentHistoryStatuses;
+use App\Enums\MovementTypes;
+use App\Events\DocumentCreated;
+use App\Models\CounterpartySettlement;
 use App\Models\Document;
 use App\Models\DocumentHistory;
 use App\Models\Good;
@@ -65,7 +68,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function store(DocumentDTO $dto, int $status): Document
     {
-        return DB::transaction(function () use ($status, $dto) {
+        $document = DB::transaction(function () use ($status, $dto) {
             $document = Document::create([
                 'doc_number' => $this->uniqueNumber(),
                 'date' => $dto->date,
@@ -81,12 +84,16 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'currency_id' => $dto->currency_id
             ]);
 
+
             if (!is_null($dto->goods))
                 GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
+            return $document;
 
-            return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
-        });
+          });
+
+        return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
+
 
     }
 
@@ -114,7 +121,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function order(OrderDocumentDTO $DTO, int $type)
     {
-        return DB::transaction(function () use ($DTO, $type) {
+        $document = DB::transaction(function () use ($DTO, $type) {
             $document = OrderDocument::create([
                 'doc_number' => $this->orderUniqueNumber(),
                 'date' => Carbon::parse($DTO->date),
@@ -133,13 +140,15 @@ class DocumentRepository implements DocumentRepositoryInterface
             if (!is_null($DTO->goods))
                 OrderDocumentGoods::insert($this->orderGoods($document, $DTO->goods));
 
-            return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
-        });
+            return $document;
+           });
+        return  $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
+
     }
 
     public function updateOrder(OrderDocument $document, OrderDocumentUpdateDTO $DTO): OrderDocument
     {
-        return DB::transaction(function () use ($DTO, $document) {
+        $document = DB::transaction(function () use ($DTO, $document) {
             $document->update([
                 'doc_number' => $document->doc_number,
                 'date' => Carbon::parse($DTO->date),
@@ -158,8 +167,9 @@ class DocumentRepository implements DocumentRepositoryInterface
             if (!is_null($DTO->goods))
                 $this->updateOrderGoods($document, $DTO->goods);
 
-            return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
+            return $document;
         });
+        return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
     }
 
 
@@ -238,19 +248,17 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function approve(Document $document)
     {
-
         $document->update(
             ['active' => true]
         );
+        DocumentCreated::dispatch($document, MovementTypes::Income);
     }
 
     public function unApprove(Document $document)
     {
-
         $document->update(
             ['active' => false]
         );
-
     }
 
     public function changeHistory(Documentable $document)
@@ -390,5 +398,13 @@ class DocumentRepository implements DocumentRepositoryInterface
                 return $query->where('author_id', $data['author_id']);
             });
     }
+
+
+
+
+
+
+
+
 
 }
