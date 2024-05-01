@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\DocumentCreated;
+use App\Listeners\DocumentListener;
 use App\Models\CashStore;
 use App\Models\CheckingAccount;
 use App\Models\Document;
@@ -28,6 +30,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        DocumentCreated::class => [
+            DocumentListener::class
+        ]
     ];
 
     /**
@@ -35,10 +40,10 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-//        Document::observe(DocumentObserver::class);
-//        MovementDocument::observe(MovementDocumentObserver::class);
-//        CashStore::observe(CashStoreObserver::class);
-//        CheckingAccount::observe(CheckingAccountObserver::class);
+        Document::observe(DocumentObserver::class);
+        MovementDocument::observe(MovementDocumentObserver::class);
+        CashStore::observe(CashStoreObserver::class);
+        CheckingAccount::observe(CheckingAccountObserver::class);
     }
 
     /**
