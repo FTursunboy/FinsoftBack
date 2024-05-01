@@ -292,14 +292,17 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
        Route::post('/', [\App\Http\Controllers\Api\ReportCardController::class, 'store']);
         Route::get('/employeeSalary', [\App\Http\Controllers\Api\ReportCardController::class, 'getEmployeesSalary']);
         Route::get('/', [\App\Http\Controllers\Api\ReportCardController::class, 'index']);
+        Route::get('/{reportCard}', [\App\Http\Controllers\Api\ReportCardController::class, 'show']);
     });
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
 
     require_once 'cashStore.php';
     require_once 'checkingAccount.php';
+
+    Route::get('logout', [AuthController::class, 'logout']);
 });
 
 
 Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login'])->name('login');
-Route::get('logout', [AuthController::class, 'logout']);
+
