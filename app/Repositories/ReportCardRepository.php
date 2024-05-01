@@ -74,15 +74,10 @@ class ReportCardRepository implements ReportCardRepositoryInterface
 
     public function index(array $data): LengthAwarePaginator
     {
-        $filterParams = $this->processSearchData($data);
+        $filterParams = $this->model::filterData($data);
 
-        $query = $this->search($filterParams['search']);
 
-        $query = $query->where('good_id', $good->id);
-
-        $query = $this->sort($filterParams, $query, []);
-
-        return $query->paginate($filterParams['itemsPerPage']);
+        return $this->model::paginate($filterParams['itemsPerPage']);
     }
 
     public function search(string $search)
