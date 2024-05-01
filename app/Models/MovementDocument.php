@@ -77,4 +77,11 @@ class MovementDocument extends DocumentModel implements Documentable
                 'date' => $data['filterData']['date'] ?? null,
             ];
         }
+
+    public function documentGoodsWithCount() :HasMany
+    {
+        return $this->hasMany(GoodDocument::class, 'document_id')
+            ->selectRaw('document_id, COUNT(*) as total_count')
+            ->groupBy('document_id');
+    }
 }
