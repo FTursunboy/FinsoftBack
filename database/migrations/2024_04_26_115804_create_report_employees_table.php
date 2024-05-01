@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->integer('fact_hours');
             $table->unsignedBigInteger('schedule_id');
             $table->unsignedBigInteger('report_card_id');
+            $table->float('salary');
             $table->timestamps();
         });
     }
