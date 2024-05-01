@@ -290,6 +290,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::group(['prefix' => 'reportCard'], function () {
        Route::get('/employees', [\App\Http\Controllers\Api\ReportCardController::class, 'getEmployees']);
        Route::post('/', [\App\Http\Controllers\Api\ReportCardController::class, 'store']);
+        Route::get('/employeeSalary', [\App\Http\Controllers\Api\ReportCardController::class, 'getEmployeesSalary']);
+        Route::get('/', [\App\Http\Controllers\Api\ReportCardController::class, 'index']);
     });
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
