@@ -6,6 +6,7 @@ use App\DTO\ReportCardDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ReportCard\EmployeeSalaryRequest;
 use App\Http\Requests\Api\ReportCard\FilterEmployeeRequest;
+use App\Http\Requests\Api\ReportCard\FilterRequest;
 use App\Http\Requests\Api\ReportCard\ReportCardRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Http\Resources\ReportCardResource;
@@ -25,11 +26,11 @@ class ReportCardController extends Controller
     {
     }
 
-    public function index()
+    public function index(FilterRequest $request)
     {
         $this->authorize('viewAny', ReportCard::class);
 
-        return ReportCardResource::collection(ReportCard::get());
+        return $this->paginate(ReportCardResource::collection($this->repository->index($request->validated())));
     }
 
     public function store(ReportCardRequest $request)
