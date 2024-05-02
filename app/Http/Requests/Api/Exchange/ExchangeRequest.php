@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Api\Exchange;
 
 use App\Rules\ExchangeRateRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ExchangeUpdateRequest extends FormRequest
+class ExchangeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,8 @@ class ExchangeUpdateRequest extends FormRequest
         return [
             'date' => [
                 'date',
-                'required'
+                'required',
+                new ExchangeRateRule
             ],
             'value' => [
                 'numeric',
@@ -42,5 +43,4 @@ class ExchangeUpdateRequest extends FormRequest
             'value.required' => 'Поле значение обязательно для заполнения.',
         ];
     }
-
 }

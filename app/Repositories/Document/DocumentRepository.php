@@ -1,24 +1,17 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Document;
 
-use App\DTO\DocumentDTO;
-use App\DTO\DocumentUpdateDTO;
-use App\DTO\OrderDocumentDTO;
-use App\DTO\OrderDocumentUpdateDTO;
-use App\Enums\DocumentHistoryStatuses;
+use App\DTO\Document\DocumentDTO;
+use App\DTO\Document\DocumentUpdateDTO;
+use App\DTO\Document\OrderDocumentDTO;
+use App\DTO\Document\OrderDocumentUpdateDTO;
 use App\Enums\MovementTypes;
 use App\Events\DocumentCreated;
-use App\Models\CounterpartySettlement;
 use App\Models\Document;
-use App\Models\DocumentHistory;
-use App\Models\Good;
 use App\Models\GoodDocument;
 use App\Models\OrderDocument;
 use App\Models\OrderDocumentGoods;
-use App\Models\OrderType;
-use App\Models\Status;
-use App\Models\User;
 use App\Repositories\Contracts\Documentable;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Traits\DocNumberTrait;
@@ -28,7 +21,6 @@ use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use PhpParser\Comment\Doc;
 
 class DocumentRepository implements DocumentRepositoryInterface
 {

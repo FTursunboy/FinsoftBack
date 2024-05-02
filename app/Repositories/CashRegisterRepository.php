@@ -3,15 +3,11 @@
 namespace App\Repositories;
 
 use App\DTO\CashRegisterDTO;
-use App\DTO\DocumentDTO;
 use App\Models\CashRegister;
 use App\Repositories\Contracts\CashRegisterRepositoryInterface;
-use App\Repositories\Contracts\IndexInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
-
 use Illuminate\Pagination\LengthAwarePaginator;
-use function PHPUnit\Framework\isFalse;
 
 class CashRegisterRepository implements CashRegisterRepositoryInterface
 {

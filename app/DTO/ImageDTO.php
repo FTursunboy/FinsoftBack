@@ -2,9 +2,7 @@
 
 namespace App\DTO;
 
-use App\Http\Requests\Api\BarcodeRequest;
 use App\Http\Requests\Api\Image\ImageRequest;
-use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 
 class ImageDTO

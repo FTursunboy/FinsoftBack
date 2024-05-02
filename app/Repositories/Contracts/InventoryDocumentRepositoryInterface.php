@@ -2,19 +2,10 @@
 
 namespace App\Repositories\Contracts;
 
-use App\DTO\DocumentDTO;
-use App\DTO\DocumentUpdateDTO;
-use App\DTO\InventoryDocumentDTO;
-use App\DTO\InventoryDocumentUpdateDTO;
-use App\DTO\MovementDocumentDTO;
-use App\DTO\OrderDocumentDTO;
-use App\Models\Document;
+use App\DTO\Document\InventoryDocumentDTO;
+use App\DTO\Document\InventoryDocumentUpdateDTO;
 use App\Models\InventoryDocument;
-use App\Models\MovementDocument;
-use App\Models\OrderDocument;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
-use PhpParser\Comment\Doc;
 
 interface InventoryDocumentRepositoryInterface
 {

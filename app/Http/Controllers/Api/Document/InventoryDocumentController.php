@@ -1,28 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Document;
 
-use App\DTO\DocumentDTO;
-use App\DTO\InventoryDocumentDTO;
-use App\DTO\InventoryDocumentUpdateDTO;
-use App\DTO\OrderDocumentDTO;
+use App\DTO\Document\InventoryDocumentDTO;
+use App\DTO\Document\InventoryDocumentUpdateDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Document\DocumentRequest;
-use App\Http\Requests\Api\Document\FilterRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\InventoryDocument\InventoryDocumentRequest;
 use App\Http\Requests\Api\InventoryDocument\InventoryDocumentUpdateRequest;
-use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
 use App\Http\Requests\IdRequest;
-use App\Http\Resources\DocumentResource;
-use App\Http\Resources\InventoryDocumentResource;
-use App\Http\Resources\OrderDocumentResource;
-use App\Models\Document;
+use App\Http\Resources\Document\InventoryDocumentResource;
 use App\Models\InventoryDocument;
-use App\Models\OrderDocument;
-use App\Models\OrderType;
-use App\Models\Status;
-use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Repositories\Contracts\InventoryDocumentRepositoryInterface;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
