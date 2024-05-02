@@ -1,8 +1,7 @@
 <?php
 
-namespace App\DTO;
+namespace App\DTO\Document;
 
-use App\Http\Requests\Api\Document\DocumentRequest;
 use Illuminate\Http\Request;
 
 class DocumentUpdateDTO

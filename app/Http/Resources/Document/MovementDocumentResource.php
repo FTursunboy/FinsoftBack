@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Document;
 
-use App\Models\User;
+use App\Http\Resources\OrganizationResource;
+use App\Http\Resources\StorageResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,6 +23,9 @@ class MovementDocumentResource extends JsonResource
             'author_id' => UserResource::make($this->whenLoaded('author')),
             'comment' => $this->comment,
             'goods' => DocumentGoodResource::collection($this->whenLoaded('goods')),
+            'goods_amount' => $this->whenLoaded('documentGoodsWithCount', function ( $query) {
+                return (float) $query->first()?->total_count ?? 0;
+            }),
             'deleted_at' => $this->deleted_at
         ];
     }

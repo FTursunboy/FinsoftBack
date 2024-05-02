@@ -1,7 +1,14 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Document;
 
+use App\Http\Resources\CounterpartyAgreementResource;
+use App\Http\Resources\CounterpartyResource;
+use App\Http\Resources\CurrencyResource;
+use App\Http\Resources\HistoryResource;
+use App\Http\Resources\OrganizationResource;
+use App\Http\Resources\StorageResource;
+use App\Http\Resources\UserResource;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

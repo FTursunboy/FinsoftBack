@@ -1,33 +1,17 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Document;
 
-use App\DTO\DocumentDTO;
-use App\DTO\DocumentUpdateDTO;
-use App\DTO\MovementDocumentDTO;
-use App\DTO\OrderDocumentDTO;
-use App\Enums\DocumentHistoryStatuses;
+use App\DTO\Document\MovementDocumentDTO;
 use App\Models\Document;
-use App\Models\DocumentHistory;
-use App\Models\Good;
 use App\Models\GoodDocument;
 use App\Models\MovementDocument;
-use App\Models\OrderDocument;
-use App\Models\OrderDocumentGoods;
-use App\Models\OrderType;
-use App\Models\Status;
-use App\Models\User;
-use App\Repositories\Contracts\Documentable;
-use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Repositories\Contracts\MovementDocumentRepositoryInterface;
 use App\Traits\DocNumberTrait;
-use App\Traits\FilterTrait;
-use App\Traits\Sort;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use PhpParser\Comment\Doc;
 
 class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 {
@@ -41,7 +25,7 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
         $query = $this->model::filter($filteredParams);
 
-        return $query->with(['senderStorage', 'recipientStorage', 'author', 'organization', 'goods', 'goods.good'])->paginate($filteredParams['itemsPerPage']);
+        return $query->with(['senderStorage', 'recipientStorage', 'author', 'organization', 'goods', 'goods.good', 'documentGoodsWithCount'])->paginate($filteredParams['itemsPerPage']);
     }
 
     public function store(MovementDocumentDTO $dto): MovementDocument

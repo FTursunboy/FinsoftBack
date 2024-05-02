@@ -4,6 +4,7 @@ namespace App\Events;
 
 use App\Enums\MovementTypes;
 use App\Models\Document;
+use App\Models\GoodDocument;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;

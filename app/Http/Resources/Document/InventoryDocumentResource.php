@@ -1,7 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Document;
 
+use App\Http\Resources\EmployeeResource;
+use App\Http\Resources\OrganizationResource;
+use App\Http\Resources\StorageResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

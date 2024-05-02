@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Document;
 
-use App\DTO\DocumentDTO;
-use App\DTO\OrderDocumentDTO;
+use App\DTO\Document\DocumentDTO;
+use App\DTO\Document\OrderDocumentDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Document\DocumentRequest;
 use App\Http\Requests\Api\Document\FilterRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
 use App\Http\Requests\IdRequest;
-use App\Http\Resources\DocumentResource;
-use App\Http\Resources\OrderDocumentResource;
+use App\Http\Resources\Document\DocumentResource;
+use App\Http\Resources\Document\OrderDocumentResource;
 use App\Http\Resources\OrderStatusResource;
 use App\Models\Document;
 use App\Models\OrderDocument;

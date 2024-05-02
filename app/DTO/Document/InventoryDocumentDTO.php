@@ -1,17 +1,17 @@
 <?php
 
-namespace App\DTO;
+namespace App\DTO\Document;
 
-use App\Http\Requests\Api\InventoryDocument\InventoryDocumentUpdateRequest;
+use App\Http\Requests\Api\InventoryDocument\InventoryDocumentRequest;
 
-class InventoryDocumentUpdateDTO
+class InventoryDocumentDTO
 {
     public function  __construct(public string $date, public int $organization_id,
                      public int $storage_id,  public int $responsible_person_id, public ?string $comment, public array $goods)
     {
     }
 
-    public static function fromRequest(InventoryDocumentUpdateRequest $request) :self
+    public static function fromRequest(InventoryDocumentRequest $request) :self
     {
         return new static(
             $request->get('date'),

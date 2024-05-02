@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Document;
 
+use App\Http\Resources\GoodResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class InventoryDocumentGoodResource extends JsonResource
+class OrderDocumentGoodResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,9 +18,10 @@ class InventoryDocumentGoodResource extends JsonResource
         return [
             'id' => $this->id,
             'good' => GoodResource::make($this->goods),
-            'accounting_quantity' => $this->accounting_quantity,
-            'actual_quantity' => $this->actual_quantity,
-            'difference' => $this->difference,
+            'amount' => $this->amount,
+            'price' => $this->price,
+            'autoSalePercent' => $this->auto_sale_percent,
+            'autiSaleSum' => $this->auto_sale_sum
         ];
     }
 }
