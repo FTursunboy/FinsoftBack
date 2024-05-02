@@ -2,9 +2,7 @@
 
 namespace App\DTO;
 
-use App\Http\Requests\Api\BarcodeRequest;
 use App\Http\Requests\Api\EmployeeMovement\EmployeeMovementRequest;
-use Illuminate\Http\Request;
 
 class EmployeeMovementDTO
 {

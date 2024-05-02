@@ -1,21 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Document;
 
-use App\DTO\DocumentUpdateDTO;
-use App\DTO\OrderDocumentDTO;
-use App\DTO\OrderDocumentUpdateDTO;
+use App\DTO\Document\DocumentUpdateDTO;
+use App\DTO\Document\OrderDocumentUpdateDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Document\DocumentUpdateRequest;
-use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
 use App\Http\Requests\Api\OrderDocument\OrderDocumentUpdateRequest;
 use App\Http\Requests\IdRequest;
+use App\Http\Resources\Document\OrderDocumentResource;
 use App\Http\Resources\DocumentHistoryResource;
-use App\Http\Resources\OrderDocumentResource;
-use App\Http\Resources\UserResource;
 use App\Models\Document;
 use App\Models\OrderDocument;
-use App\Models\Status;
 use App\Repositories\Contracts\Documentable;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Repositories\Contracts\MassOperationInterface;
