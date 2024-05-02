@@ -10,13 +10,15 @@ class ReportCardResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+
         return [
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'id' => $this->id,
             'doc_number' => $this->doc_number,
             'date' => $this->date,
-            'comment' => $this->comment
+            'comment' => $this->comment,
+            'employees' => ReportEmployeesResource::collection($this->employee)
         ];
     }
 }

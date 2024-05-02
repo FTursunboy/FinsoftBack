@@ -167,14 +167,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CheckingAccountCashStoreRepositoryInterface::class, CheckingAccountClientPaymentRepository::class);
         $this->app->singleton(ScheduleRepositoryInterface::class, ScheduleRepository::class);
     }
-    //das
-
 
     /**
      * Bootstrap any application services.
      */
     public function boot(): void
     {
-       Model::preventLazyLoading();
+     //  Model::preventLazyLoading();
     }
 }
