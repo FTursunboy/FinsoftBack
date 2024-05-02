@@ -68,8 +68,8 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function store(DocumentDTO $dto, int $status): Document
     {
-
         $document = DB::transaction(function () use ($status, $dto) {
+
             $document = Document::create([
                 'doc_number' => $this->uniqueNumber(),
                 'date' => $dto->date,
@@ -82,7 +82,9 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'comment' => $dto->comment,
                 'saleInteger' => $dto->saleInteger,
                 'salePercent' => $dto->salePercent,
-                'currency_id' => $dto->currency_id
+                'currency_id' => $dto->currency_id,
+                'sale_sum' => $dto->sale_sum,
+                'sum' => $dto->sum,
             ]);
 
 
@@ -254,7 +256,6 @@ class DocumentRepository implements DocumentRepositoryInterface
         );
 
         DocumentCreated::dispatch($document, MovementTypes::Income);
-
     }
 
     public function unApprove(Document $document)
