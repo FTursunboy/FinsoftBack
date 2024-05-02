@@ -79,14 +79,9 @@ class ReportCardRepository implements ReportCardRepositoryInterface
 
         return $this->model::paginate($filterParams['itemsPerPage']);
     }
-
-    public function search(string $search)
-    {
-        $searchTerm = explode(' ', $search);
-
-        return $this->model::where('barcode', 'like', '%' . implode('%', $searchTerm) . '%');
+    public function hel() {
+        return Employee::query();
     }
-
     public function getEmployeeQuery(array $filterParams)
     {
 
