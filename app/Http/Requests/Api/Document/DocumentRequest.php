@@ -24,6 +24,7 @@ class DocumentRequest extends FormRequest
      */
     public function rules(): array
     {
+        //todo
 
         return [
             'date' => ['required', 'date'],
@@ -32,8 +33,8 @@ class DocumentRequest extends FormRequest
             'organization_id' => ['required', Rule::exists('organizations', 'id')],
             'storage_id' => ['required', Rule::exists('storages', 'id')],
             'currency_id' => ['required', Rule::exists('currencies', 'id')],
-            'saleInteger' => ['nullable', 'integer'],
-            'salePercent' => ['nullable', 'integer'],
+            'saleInteger' => ['nullable', 'integer', 'required_without:salePercent'],
+            'salePercent' => ['nullable', 'integer', 'required_without:saleInteger'],
             'comment' => [''],
             'goods' => ['nullable', 'array'],
             'goods.*.good_id' => ['required', Rule::exists('goods', 'id')],
