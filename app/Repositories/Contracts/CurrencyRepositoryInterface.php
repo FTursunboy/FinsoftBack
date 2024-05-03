@@ -26,4 +26,6 @@ interface CurrencyRepositoryInterface extends IndexInterface
     public function getCurrencyExchangeRateByCurrencyRate(Currency $currency) :Collection;
 
     public function delete(Currency $currency);
+
+    public function addDefaultCurrency(Currency $currency);
 }

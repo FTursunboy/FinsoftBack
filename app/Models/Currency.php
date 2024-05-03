@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Repositories\Contracts\SoftDeleteInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -47,6 +48,11 @@ class Currency extends Model implements SoftDeleteInterface
             'digital_code'  => $data['filterData']['digital_code'] ?? null,
             'symbol_code'  => $data['filterData']['symbol_code'] ?? null,
         ];
+    }
+
+    public function scopeDefault(Builder $query): Builder
+    {
+        return $query->where('default', true);
     }
 
 }
