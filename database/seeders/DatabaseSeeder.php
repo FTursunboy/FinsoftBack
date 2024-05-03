@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\BalanceArticle;
+use App\Models\Currency;
 use App\Models\Group;
 use App\Models\OrderStatus;
 use App\Models\Setting;
@@ -27,6 +28,13 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             OrderTypeSeeder::class,
             MonthSeeder::class
+        ]);
+
+        Currency::create([
+            'name' => 'Сомони',
+            'symbol_code' => 'TJS',
+            'digital_code' => 23,
+            'default' => true
         ]);
 
         Role::create([
@@ -55,7 +63,6 @@ class DatabaseSeeder extends Seeder
         BalanceArticle::create([
             'name' => 'Статья 2',
         ]);
-
 
         $user = \App\Models\User::factory()->create([
             'name' => 'Admin',

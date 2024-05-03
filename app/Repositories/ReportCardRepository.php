@@ -79,12 +79,12 @@ class ReportCardRepository implements ReportCardRepositoryInterface
 
         return $this->model::paginate($filterParams['itemsPerPage']);
     }
-    public function hel() {
+    public function hel()
+    {
         return Employee::query();
     }
     public function getEmployeeQuery(array $filterParams)
     {
-
         $currentYear = now()->year;
         $month = $filterParams['month_id'];
 
@@ -115,7 +115,6 @@ class ReportCardRepository implements ReportCardRepositoryInterface
            ->where(function (Builder $query) use($month) {
                $query->whereNull('movement_date')->orWhereMonth('movement_date', '>=', $month);
            });
-
     }
 
     private function calculateWorkedHours($firingDate, $scheduleId, int $month_id)
