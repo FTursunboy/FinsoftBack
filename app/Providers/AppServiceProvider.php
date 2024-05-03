@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Kernel;
 use App\Repositories\AuthRepository;
 use App\Repositories\BarcodeRepository;
 use App\Repositories\CashRegisterRepository;
@@ -25,12 +26,8 @@ use App\Repositories\CheckingAccount\OtherExpensesRepository as CheckingAccountO
 use App\Repositories\CheckingAccount\OtherIncomesRepository as CheckingAccountOtherIncomesRepository;
 use App\Repositories\CheckingAccount\ProviderRefundRepository as CheckingAccountProviderRefundRepository;
 use App\Repositories\CheckingAccount\WithdrawalRepository as CheckingAccountWithdrawalRepository;
-use App\Repositories\Contracts\AuthRepositoryInterface;
-use App\Repositories\Contracts\BarcodeRepositoryInterface;
-use App\Repositories\Contracts\CashRegisterRepositoryInterface;
 use App\Repositories\Contracts\CashStore\AccountablePersonRefundRepositoryInterface;
 use App\Repositories\Contracts\CashStore\AnotherCashRegisterRepositoryInterface;
-use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
 use App\Repositories\Contracts\CashStore\ClientPaymentRepositoryInterface;
 use App\Repositories\Contracts\CashStore\CreditReceiveRepositoryInterface;
 use App\Repositories\Contracts\CashStore\InvestmentRepositoryInterface;
@@ -38,10 +35,9 @@ use App\Repositories\Contracts\CashStore\OtherExpensesRepositoryInterface;
 use App\Repositories\Contracts\CashStore\OtherIncomesRepositoryInterface;
 use App\Repositories\Contracts\CashStore\ProviderRefundRepositoryInterface;
 use App\Repositories\Contracts\CashStore\WithdrawalRepositoryInterface;
-use App\Repositories\Contracts\CategoryRepositoryInterface;
+use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
 use App\Repositories\Contracts\CheckingAccount\AccountablePersonRefundRepositoryInterface as CheckingAccountAccountablePersonRefundRepositoryInterface;
 use App\Repositories\Contracts\CheckingAccount\AnotherCashRegisterRepositoryInterface as CheckingAccountAnotherCashRegisterRepositoryInterface;
-use App\Repositories\Contracts\CheckingAccount\CashStoreRepositoryInterface as CheckingAccountCashStoreRepositoryInterface;
 use App\Repositories\Contracts\CheckingAccount\CheckingAccountRepositoryInterface;
 use App\Repositories\Contracts\CheckingAccount\CreditReceiveRepositoryInterface as CheckingAccountCreditReceiveRepositoryInterface;
 use App\Repositories\Contracts\CheckingAccount\InvestmentRepositoryInterface as CheckingAccountInvestmentRepositoryInterface;
@@ -49,18 +45,28 @@ use App\Repositories\Contracts\CheckingAccount\OtherExpensesRepositoryInterface 
 use App\Repositories\Contracts\CheckingAccount\OtherIncomesRepositoryInterface as CheckingAccountOtherIncomesRepositoryInterface;
 use App\Repositories\Contracts\CheckingAccount\ProviderRefundRepositoryInterface as CheckingAccountProviderRefundRepositoryInterface;
 use App\Repositories\Contracts\CheckingAccount\WithdrawalRepositoryInterface as CheckingAccountWithdrawalRepositoryInterface;
+use App\Repositories\Contracts\CheckingAccount\CashStoreRepositoryInterface as CheckingAccountCashStoreRepositoryInterface;
+use App\Repositories\Contracts\EmployeeMovementRepositoryInterface;
+use App\Repositories\Contracts\FiringRepositoryInterface;
+use App\Repositories\Contracts\HiringRepositoryInterface;
+use App\Repositories\Contracts\ReportCardRepositoryInterface;
+
+
+use App\Repositories\Contracts\ScheduleRepositoryInterface;
+use App\Repositories\DepartmentRepository;
+use App\Repositories\Contracts\AuthRepositoryInterface;
+use App\Repositories\Contracts\BarcodeRepositoryInterface;
+use App\Repositories\Contracts\CashRegisterRepositoryInterface;
+use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Repositories\Contracts\CounterpartyAgreementRepositoryInterface;
 use App\Repositories\Contracts\CounterpartyRepositoryInterface;
 use App\Repositories\Contracts\CurrencyRepositoryInterface;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
-use App\Repositories\Contracts\EmployeeMovementRepositoryInterface;
 use App\Repositories\Contracts\EmployeeRepositoryInterface;
 use App\Repositories\Contracts\ExchangeRateInterface;
-use App\Repositories\Contracts\FiringRepositoryInterface;
 use App\Repositories\Contracts\GoodGroupRepositoryInterface;
 use App\Repositories\Contracts\GoodRepositoryInterface;
 use App\Repositories\Contracts\GroupRepositoryInterface;
-use App\Repositories\Contracts\HiringRepositoryInterface;
 use App\Repositories\Contracts\ImageRepositoryInterface;
 use App\Repositories\Contracts\InventoryDocumentRepositoryInterface;
 use App\Repositories\Contracts\MassOperationInterface;
@@ -70,8 +76,6 @@ use App\Repositories\Contracts\OrganizationRepositoryInterface;
 use App\Repositories\Contracts\PermissionRepositoryInterface;
 use App\Repositories\Contracts\PositionRepositoryInterface;
 use App\Repositories\Contracts\PriceTypeRepository;
-use App\Repositories\Contracts\ReportCardRepositoryInterface;
-use App\Repositories\Contracts\ScheduleRepositoryInterface;
 use App\Repositories\Contracts\StorageEmployeeRepositoryInterface;
 use App\Repositories\Contracts\StorageRepositoryInterface;
 use App\Repositories\Contracts\UnitRepositoryInterface;
@@ -79,10 +83,7 @@ use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Repositories\CounterpartyAgreementRepository;
 use App\Repositories\CounterpartyRepository;
 use App\Repositories\CurrencyRepository;
-use App\Repositories\DepartmentRepository;
-use App\Repositories\Document\DocumentRepository;
-use App\Repositories\Document\InventoryDocumentRepository;
-use App\Repositories\Document\MovementDocumentRepository;
+use App\Repositories\DocumentRepository;
 use App\Repositories\EmployeeMovementRepository;
 use App\Repositories\EmployeeRepository;
 use App\Repositories\ExchangeRateRepository;
@@ -92,20 +93,23 @@ use App\Repositories\GoodRepository;
 use App\Repositories\GroupRepository;
 use App\Repositories\HiringRepository;
 use App\Repositories\ImageRepository;
+use App\Repositories\InventoryDocumentRepository;
 use App\Repositories\MassOperation;
+use App\Repositories\MovementDocumentRepository;
 use App\Repositories\OrganizationBillRepository;
 use App\Repositories\OrganizationRepository;
 use App\Repositories\PermissionRepository;
 use App\Repositories\PositionRepository;
 use App\Repositories\ReportCardRepository;
-use App\Repositories\ScheduleRepository;
 use App\Repositories\StorageEmployeeRepository;
 use App\Repositories\StorageRepository;
 use App\Repositories\UnitRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\ScheduleRepository;
+use Carbon\CarbonInterval;
+use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
-
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -172,6 +176,25 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-     //  Model::preventLazyLoading();
+      Model::preventLazyLoading();
+
+
+      \DB::whenQueryingForLongerThan(500, function(Connection $connection) {
+          logger()->channel()
+              ->error('whenQueryingForLonger: ',[$connection->query()->toRawSql()]);
+      });
+
+
+      $kernel = app(Kernel::class);
+
+      $kernel->whenRequestLifecycleIsLongerThan(
+          CarbonInterval::seconds(4),
+          function() {
+                logger()
+                    ->channel('telegram')
+                    ->debug('whenRequestLifecycleIsLongerThan:' . request()->url() );
+             });
+
+
     }
 }
