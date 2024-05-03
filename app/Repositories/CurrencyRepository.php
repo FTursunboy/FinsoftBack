@@ -109,4 +109,11 @@ class CurrencyRepository implements CurrencyRepositoryInterface
                 return $query->where('symbol_code', 'like', '%' . $data['symbol_code'] . '%');
             });
     }
+
+    public function addDefaultCurrency(Currency $currency)
+    {
+        $currency->update([
+            'default' => true
+        ]);
+    }
 }

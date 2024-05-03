@@ -7,8 +7,8 @@ use App\DTO\ExchangeRateDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Currency\CurrencyRequest;
 use App\Http\Requests\Api\Currency\FilterRequest;
-use App\Http\Requests\Api\Exchange\ExchangeRequest;
-use App\Http\Requests\Api\Exchange\ExchangeUpdateRequest;
+use App\Http\Requests\Api\ExchangeRequest;
+use App\Http\Requests\Api\ExchangeUpdateRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\CurrencyResource;
 use App\Http\Resources\ExchangeRateResource;
@@ -91,10 +91,18 @@ class CurrencyController extends Controller
         return $this->success($delete->massDelete(new ExchangeRate(), $request->validated()));
     }
 
+
     public function massRestoreCurrencyRate(IdRequest $request, MassOperationInterface $restore)
     {
         return $this->success($restore->massRestore(new ExchangeRate(), $request->validated()));
     }
 
+    public function addDefaultCurrency(Currency $currency)
+    {
+        if (Currency::default()->exists()) {
+            return $this->error('Уже есть дефолтная валюта');
+        }
 
+        return $this->success($this->repository->addDefaultCurrency($currency));
+    }
 }

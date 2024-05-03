@@ -5,27 +5,26 @@ use App\Http\Controllers\Api\BarcodeController;
 use App\Http\Controllers\Api\CashRegisterController;
 use App\Http\Controllers\Api\CashStore\ClientPaymentController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ClientDocumentController;
 use App\Http\Controllers\Api\CounterpartyAgreementController;
 use App\Http\Controllers\Api\CounterpartyController;
 use App\Http\Controllers\Api\CurrencyController;
 use App\Http\Controllers\Api\DepartmentController;
-use App\Http\Controllers\Api\Document\ClientDocumentController;
-use App\Http\Controllers\Api\Document\DocumentController;
-use App\Http\Controllers\Api\Document\InventoryDocumentController;
-use App\Http\Controllers\Api\Document\MovementDocumentController;
-use App\Http\Controllers\Api\Document\ProviderDocumentController;
-use App\Http\Controllers\Api\EmployeeController;
+use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\EmployeeMovementController;
-use App\Http\Controllers\Api\ExchangeRateController;
 use App\Http\Controllers\Api\FiringController;
-use App\Http\Controllers\Api\GoodController;
 use App\Http\Controllers\Api\GoodGroupController;
 use App\Http\Controllers\Api\GroupController;
 use App\Http\Controllers\Api\HiringController;
 use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\InventoryDocumentController;
+use App\Http\Controllers\Api\PermissionController;
+use App\Http\Controllers\Api\ProviderDocumentController;
+use App\Http\Controllers\Api\EmployeeController;
+use App\Http\Controllers\Api\ExchangeRateController;
+use App\Http\Controllers\Api\GoodController;
 use App\Http\Controllers\Api\OrganizationBillController;
 use App\Http\Controllers\Api\OrganizationController;
-use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\PriceTypeController;
 use App\Http\Controllers\Api\ScheduleController;
@@ -33,9 +32,9 @@ use App\Http\Controllers\Api\StorageController;
 use App\Http\Controllers\Api\StorageEmployeeController;
 use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\MovementDocumentController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -50,7 +49,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('currency', CurrencyController::class);
-
+    Route::post('currency/default/{currency}', [CurrencyController::class, 'addDefaultCurrency']);
     Route::group(['prefix' => 'currencyRate'], function () {
         Route::post('/add/{currency}', [CurrencyController::class, 'addExchangeRate']);
         Route::get('/{currency}', [ExchangeRateController::class, 'index']);
@@ -291,6 +290,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::group(['prefix' => 'reportCard'], function () {
        Route::get('/employees', [\App\Http\Controllers\Api\ReportCardController::class, 'getEmployees']);
        Route::post('/', [\App\Http\Controllers\Api\ReportCardController::class, 'store']);
+       Route::patch('/', [\App\Http\Controllers\Api\ReportCardController::class, 'update']);
         Route::get('/employeeSalary', [\App\Http\Controllers\Api\ReportCardController::class, 'getEmployeesSalary']);
         Route::get('/', [\App\Http\Controllers\Api\ReportCardController::class, 'index']);
         Route::get('/{reportCard}', [\App\Http\Controllers\Api\ReportCardController::class, 'show']);
