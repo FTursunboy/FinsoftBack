@@ -10,8 +10,7 @@ use App\Models\Currency;
 use App\Models\DocumentModel;
 use App\Models\ExchangeRate;
 use App\Models\GoodAccounting;
-use App\Models\GoodDocument;
-use App\Repositories\Contracts\Documentable;
+
 
 class HandleDocumentCreated
 {
@@ -89,13 +88,13 @@ class HandleDocumentCreated
 
     public function getCurrency()
     {
-        return Currency::where('default', true)->first();
+        return Currency::where('default', true)->first()->id;
     }
 
     public function getExcangeRate()
     {
         return ExchangeRate::query()
-            ->where('currency_id', $this->getCurrency()->id)
+            ->where('currency_id', $this->getCurrency())
             ->orderBy('date', 'desc')
             ->first()
             ->value;
