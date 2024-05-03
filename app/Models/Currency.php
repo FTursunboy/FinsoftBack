@@ -16,7 +16,7 @@ class Currency extends Model implements SoftDeleteInterface
 {
     use Searchable, SoftDeletes, HasFactory;
 
-    protected $fillable = ['name', 'digital_code', 'symbol_code'];
+    protected $fillable = ['name', 'digital_code', 'symbol_code', 'default'];
 
     public function exchangeRates() :HasMany
     {

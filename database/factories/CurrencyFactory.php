@@ -13,7 +13,7 @@ class CurrencyFactory extends Factory
     {
         return [
             'name'  => fake()->name,
-            'symbol_code'  => fake()->numberBetween(1, 10),
+            'symbol_code'  => fake()->citySuffix,
             'digital_code' => fake()->numberBetween(100, 999)
         ];
     }
