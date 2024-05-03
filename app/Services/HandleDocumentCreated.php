@@ -38,7 +38,7 @@ class HandleDocumentCreated
             'organization_id' => $this->document->organization_id,
             'movement_type' => $this->type,
             'model_id' => $this->document->id,
-            'sale_sum' => $this->document->sum,
+            'sale_sum' => $this->document->sum ?? 0,
             'sum' => $sum,
             'active' => false
         ]);
