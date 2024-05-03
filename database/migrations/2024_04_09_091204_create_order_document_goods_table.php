@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignUuid('order_document_id')->constrained();
             $table->integer('auto_sale_percent')->nullable();
             $table->decimal('auto_sale_sum', 20,2)->nullable();
+            $table->boolean('is_completed')->default(false);
             $table->timestamps();
         });
     }

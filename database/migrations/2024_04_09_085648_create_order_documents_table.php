@@ -25,6 +25,7 @@ return new class extends Migration
             $table->foreignId('currency_id')->constrained();
             $table->decimal('summa', 20, 2);
             $table->foreignId('order_type_id')->constrained();
+            $table->integer('order_completed_percent')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
