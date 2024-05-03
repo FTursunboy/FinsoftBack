@@ -31,7 +31,7 @@ class UserResource extends JsonResource
             'permissions' => $this->whenLoaded('permissions', function ($query) {
                 return $query->pluck('name');
             }),
-            'hasOneOrganization' => Organization::count() > 1
+            'hasOneOrganization' => Organization::count() <  1
         ];
     }
 }
