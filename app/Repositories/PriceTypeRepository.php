@@ -2,18 +2,12 @@
 
 namespace App\Repositories;
 
-use App\DTO\CurrencyDTO;
-use App\DTO\DocumentDTO;
-use App\DTO\ExchangeRateDTO;
 use App\DTO\PriceTypeDTO;
-use App\Models\Currency;
-use App\Models\ExchangeRate;
 use App\Models\PriceType;
 use App\Repositories\Contracts\PriceTypeRepository as PriceTypeRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Str;
 
 class PriceTypeRepository implements PriceTypeRepositoryInterface
 {

@@ -2,8 +2,7 @@
 
 namespace App\DTO;
 
-use App\Http\Requests\Api\BarcodeRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\Api\Barcode\BarcodeRequest;
 
 class BarcodeDTO
 {

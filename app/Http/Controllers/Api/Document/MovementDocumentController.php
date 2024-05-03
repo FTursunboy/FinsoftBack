@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Document;
 
-use App\DTO\MovementDocumentDTO;
+use App\DTO\Document\MovementDocumentDTO;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\MovementDocument\FilterRequest;
 use App\Http\Requests\Api\MovementDocument\MovementDocumentRequest;
-use App\Http\Resources\MovementDocumentResource;
+use App\Http\Resources\Document\MovementDocumentResource;
 use App\Models\MovementDocument;
 use App\Repositories\Contracts\MovementDocumentRepositoryInterface;
 use App\Traits\ApiResponse;

@@ -2,15 +2,12 @@
 
 namespace App\Repositories\Contracts;
 
-use App\DTO\DocumentDTO;
-use App\DTO\DocumentUpdateDTO;
-use App\DTO\OrderDocumentDTO;
-use App\DTO\OrderDocumentUpdateDTO;
+use App\DTO\Document\DocumentDTO;
+use App\DTO\Document\DocumentUpdateDTO;
+use App\DTO\Document\OrderDocumentUpdateDTO;
 use App\Models\Document;
 use App\Models\OrderDocument;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
-use PhpParser\Comment\Doc;
 
 interface DocumentRepositoryInterface
 {

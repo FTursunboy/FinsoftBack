@@ -1,9 +1,8 @@
 <?php
 
-namespace App\DTO;
+namespace App\DTO\Document;
 
 use App\Http\Requests\Api\MovementDocument\MovementDocumentRequest;
-use Illuminate\Http\Request;
 
 class MovementDocumentDTO
 {
