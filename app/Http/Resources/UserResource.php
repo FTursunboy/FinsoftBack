@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Currency;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -29,6 +31,7 @@ class UserResource extends JsonResource
             'permissions' => $this->whenLoaded('permissions', function ($query) {
                 return $query->pluck('name');
             }),
+            'hasOneOrganization' => Organization::count() > 1
         ];
     }
 }
