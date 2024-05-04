@@ -124,7 +124,7 @@ class GoodRepository implements GoodRepositoryInterface
     }
 
     public function filter($query, array $data)
-    {dd($data);
+    {
         return $query->when($data['category_id'], function ($query) use ($data) {
             return $query->where('category_id', $data['category_id']);
         })

@@ -405,12 +405,4 @@ class DocumentRepository implements DocumentRepositoryInterface
             });
     }
 
-
-
-
-
-
-
-
-
 }
