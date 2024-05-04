@@ -195,6 +195,5 @@ class AppServiceProvider extends ServiceProvider
                     ->debug('whenRequestLifecycleIsLongerThan:' . request()->url() );
              });
 
-
     }
 }
