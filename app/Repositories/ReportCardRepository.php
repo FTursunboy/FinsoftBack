@@ -246,7 +246,7 @@ class ReportCardRepository implements ReportCardRepositoryInterface
             ->join('employees as emp', 'emp.id', '=', 'rp.employee_id')
             ->join('schedules as sc', 'sc.id', '=', 'rp.schedule_id')
             ->join('worker_schedules as ws', 'ws.schedule_id', '=', 'sc.id')
-            ->select([ 'emp.id as employee_id', 'rp.salary', 'rp.standart_hours', 'rp.fact_hours'])
+            ->select([ 'emp.id as employee_id', 'emp.name as employee_name', 'rp.salary', 'rp.standart_hours', 'rp.fact_hours'])
             ->distinct()
             ->paginate(25);
 
