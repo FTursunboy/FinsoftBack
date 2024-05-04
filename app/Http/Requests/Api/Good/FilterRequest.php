@@ -21,9 +21,15 @@ class FilterRequest extends FormRequest
         return [
             'search' => 'string|nullable|max:50',
             'itemsPerPage' => 'integer|nullable',
-            'orderBy' => 'nullable|in:id,deleted_at,currency.name,organization.name,' . implode(',', $fillableFields),
+            'orderBy' => 'nullable|in:id,deleted_at,currency.name,storage.name,' . implode(',', $fillableFields),
             'sort' => 'in:asc,desc',
             'filterData' => 'nullable|array',
+            'good_group_id' => 'nullable|numeric',
+            'name' => 'nullable|string',
+            'vendor_code' => 'nullable',
+            'category_id' => 'nullable|integer',
+            'unit_id' => 'nullable|integer',
+            'storage_id' => 'nullable|integer'
         ];
     }
 

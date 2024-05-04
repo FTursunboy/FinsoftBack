@@ -124,13 +124,15 @@ class GoodRepository implements GoodRepositoryInterface
     }
 
     public function filter($query, array $data)
-    {
-
+    {dd($data);
         return $query->when($data['category_id'], function ($query) use ($data) {
             return $query->where('category_id', $data['category_id']);
         })
             ->when($data['unit_id'], function ($query) use ($data) {
                 return $query->where('unit_id', $data['unit_id']);
+            })
+            ->when($data['good_group_id'], function ($query) use ($data) {
+                return $query->where('good_group_id', $data['good_group_id']);
             })
             ->when($data['storage_id'], function ($query) use ($data) {
                 return $query->where('storage_id', $data['storage_id']);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\DTO\GoodDTO;
 use App\DTO\GoodUpdateDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Good\FilterRequest;
 use App\Http\Requests\Api\Good\GoodRequest;
 use App\Http\Requests\Api\Good\GoodUpdateRequest;
 use App\Http\Requests\Api\IndexRequest;
@@ -26,7 +27,7 @@ class GoodController extends Controller implements \App\Repositories\Contracts\S
         $this->authorizeResource(Good::class, 'good');
     }
 
-    public function index(IndexRequest $request)
+    public function index(FilterRequest $request)
     {
         return $this->paginate(GoodResource::collection($this->repository->index($request->validated())));
     }
