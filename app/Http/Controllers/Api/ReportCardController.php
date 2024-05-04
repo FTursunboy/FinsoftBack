@@ -70,6 +70,7 @@ class ReportCardController extends Controller
         return  $this->success($this->repository->getEmployees($request->validated()));
     }
 
+
     public function getEmployeesSalary(EmployeeSalaryRequest $request)
     {
         return $this->paginate( $this->repository->getEmployeesSalary($request->validated()));
