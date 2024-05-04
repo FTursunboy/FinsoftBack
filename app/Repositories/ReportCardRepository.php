@@ -240,12 +240,16 @@ class ReportCardRepository implements ReportCardRepositoryInterface
         $month_id = $data['month_id'];
         $organization_id = $data['organization_id'];
 
-         dd( ReportCard::where('month_id', $month_id)->where('organization_id', $organization_id)
-            ->join('employees as emp', 'emp.id', 'report_card.id')
-            ->join('schedules as sc', 'sc.id', '=', 'report_cards.schedule_id')
+        return ReportCard::where('report_cards.month_id', $month_id)
+            ->where('report_cards.organization_id', $organization_id)
+            ->join('report_employees as rp', 'rp.report_card_id', '=', 'report_cards.id')
+            ->join('employees as emp', 'emp.id', '=', 'rp.employee_id')
+            ->join('schedules as sc', 'sc.id', '=', 'rp.schedule_id')
             ->join('worker_schedules as ws', 'ws.schedule_id', '=', 'sc.id')
-            ->join('report_employees as rp', 'rp.id', '=', 'report_card.id')
-            ->select(['emp.id', 'rp.salary', 'rp.standart_hours', 'rp.fact_hours'])->toRawSql());
+            ->select([ 'emp.id as employee_id', 'rp.salary', 'rp.standart_hours', 'rp.fact_hours'])
+            ->distinct()
+            ->paginate(25);
+
 
     }
 }

@@ -70,8 +70,10 @@ class ReportCardController extends Controller
         return  $this->success($this->repository->getEmployees($request->validated()));
     }
 
+    //fsd
+
     public function getEmployeesSalary(EmployeeSalaryRequest $request)
     {
-        return $this->repository->getEmployeesSalary($request->validated());
+        return $this->paginate( $this->repository->getEmployeesSalary($request->validated()));
     }
 }

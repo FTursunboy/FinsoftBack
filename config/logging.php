@@ -132,7 +132,7 @@ return [
             'via' => \App\Logging\Telegram\TelegramLoggerFactory::class,
             'level' => env('LOG_LEVEL', 'debug'),
             'chat_id' => -1002002773100,
-            'token' => '7125166036:AAEcNjJObGKSRJSJu7zkItYJqQr_UvLKEPY',
+            'token' => env('TELEGRAM_BOT_TOKEN'),
             'messageThreadId' => 2
         ]
     ],
