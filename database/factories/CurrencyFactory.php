@@ -9,8 +9,7 @@ class CurrencyFactory extends Factory
 {
     public function definition(): array
     {
-        $currencySuffixes = ['tjs', 'usd', 'rub', 'eur', 'gbp', 'jpy', 'cad', 'aud', 'chf', 'cny', 'sek', 'nok', 'dkk', 'sgd', 'nzd', 'hkd', 'krw', 'inr', 'brl', 'mxn', 'try', 'zar', 'thb', 'idr', 'php', 'myr', 'rub', 'huf', 'czk', 'pln'];
-
+        $currencySuffixes = ['tjs', 'usd', 'rub', 'eur',  'czk', 'pln'];
 
         return [
             'name' => $currencySuffixes[array_rand($currencySuffixes)],
