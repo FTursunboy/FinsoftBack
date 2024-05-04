@@ -69,4 +69,5 @@ class ProviderDocumentController extends Controller
     {
         return $this->success(OrderDocumentResource::make($orderDocument->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods')));
     }
+
 }
