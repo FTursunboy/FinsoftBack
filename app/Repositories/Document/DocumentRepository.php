@@ -12,6 +12,7 @@ use App\Models\Document;
 use App\Models\GoodDocument;
 use App\Models\OrderDocument;
 use App\Models\OrderDocumentGoods;
+use App\Models\Status;
 use App\Repositories\Contracts\Documentable;
 use App\Repositories\Contracts\DocumentRepositoryInterface;
 use App\Traits\DocNumberTrait;
@@ -246,8 +247,13 @@ class DocumentRepository implements DocumentRepositoryInterface
         $document->update(
             ['active' => true]
         );
+        if ($document->status_id === Status::PROVIDER_PURCHASE || $document->status_id === Status::CLIENT_PURCHASE)
+        {
+            DocumentCreated::dispatch($document, MovementTypes::Income);
+        }
 
-        DocumentCreated::dispatch($document, MovementTypes::Income);
+
+
     }
 
     public function unApprove(Document $document)
