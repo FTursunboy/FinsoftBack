@@ -5,16 +5,15 @@ namespace Database\Factories;
 use App\Models\Currency;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CurrencyFactory extends Factory
+public function definition(): array
 {
-    protected $model = Currency::class;
+    $currencySuffixes = ['tjs', 'usd', 'rub', 'eur', 'gbp', 'jpy', 'cad', 'aud', 'chf', 'cny', 'sek', 'nok', 'dkk', 'sgd', 'nzd', 'hkd', 'krw', 'inr', 'brl', 'mxn', 'try', 'zar', 'thb', 'idr', 'php', 'myr', 'rub', 'huf', 'czk', 'pln'];
 
-    public function definition(): array
-    {
-        return [
-            'name'  => fake()->name,
-            'symbol_code'  => fake()->citySuffix,
-            'digital_code' => fake()->numberBetween(100, 999)
-        ];
-    }
+
+    return [
+        'name'  => $currencySuffixes[array_rand($currencySuffixes)],
+        'symbol_code'  => $currencySuffixes[array_rand($currencySuffixes)],
+        'digital_code' => fake()->numberBetween(100, 999)
+    ];
+
 }
