@@ -399,12 +399,4 @@ class DocumentRepository implements DocumentRepositoryInterface
             });
     }
 
-
-
-
-
-
-
-
-
 }
