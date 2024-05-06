@@ -11,7 +11,7 @@ class ReportCardRequest extends FormRequest
         return [
             'organization_id' => 'required|integer|exists:organizations,id',
             'month_id' => 'required|integer|exists:months,id',
-            'date' => ['required', 'date_format:d.m.Y H:i:s'],
+            'date' => ['required', 'date'],
             'comment' => ['nullable'],
             'data' => ['array', 'required'],
             'data.*.employee_id' => ['exists:employees,id', 'integer', 'required'],
