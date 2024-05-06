@@ -16,6 +16,7 @@ class GoodAccounting extends Model
         'sum',
         'model_id',
         'active',
+        'date'
     ];
 
     protected function storage(): BelongsTo

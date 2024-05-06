@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\Document\DocumentController;
 use App\Http\Controllers\Api\Document\InventoryDocumentController;
 use App\Http\Controllers\Api\Document\MovementDocumentController;
 use App\Http\Controllers\Api\Document\ProviderDocumentController;
+use App\Http\Controllers\Api\Document\ReturnDocumentController;
 use App\Http\Controllers\Api\EmployeeMovementController;
 use App\Http\Controllers\Api\FiringController;
 use App\Http\Controllers\Api\GoodGroupController;
@@ -227,6 +228,14 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::get('/settings', [SettingsController::class, 'index']);
     Route::post('/settings', [SettingsController::class, 'store']);
 
+    Route::group(['prefix' => 'document'], function() {
+           Route::group(['prefix' => 'return'], function () {
+              Route::post('approve/{document}', [ReturnDocumentController::class, 'approve']);
+            });
+    });
+
+
+
     Route::group(['prefix' => 'document'], function () {
         Route::group(['prefix' => '/provider'], function () {
             Route::get('/purchaseList', [ProviderDocumentController::class, 'index']);
@@ -234,7 +243,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
             Route::get('/returnList', [ProviderDocumentController::class, 'returnList']);
             Route::post('/return', [ProviderDocumentController::class, 'return']);
-
             Route::get('/orderList', [ProviderDocumentController::class, 'orderList']);
             Route::post('/order', [ProviderDocumentController::class, 'order']);
             Route::get('order/show/{orderDocument}', [ProviderDocumentController::class, 'showOrder']);
@@ -296,6 +304,13 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/', [\App\Http\Controllers\Api\ReportCardController::class, 'index']);
         Route::get('/{reportCard}', [\App\Http\Controllers\Api\ReportCardController::class, 'show']);
     });
+
+
+    Route::group(['prefix' => 'salaryDocument'], function () {
+        Route::get('/', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'index']);
+        Route::post('/', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'store']);
+        Route::patch('/', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'update']);
+        });
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
 

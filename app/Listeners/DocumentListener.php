@@ -3,10 +3,10 @@
 namespace App\Listeners;
 
 use App\Enums\MovementTypes;
-use App\Events\DocumentCreated;
+use App\Events\DocumentApprovedEvent;
 use App\Models\CounterpartySettlement;
 use App\Models\Document;
-use App\Services\HandleDocumentCreated;
+use App\Services\HandleDocumentApproveCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -23,8 +23,8 @@ class DocumentListener implements ShouldQueue
     /**
      * Handle the event.
      */
-    public function handle(DocumentCreated $event): void
+    public function handle(DocumentApprovedEvent $event): void
     {
-        (new HandleDocumentCreated($event->document, $event->movementTypes))->handle();
+        (new HandleDocumentApproveCreated($event->document, $event->movementTypes))->handle();
     }
 }

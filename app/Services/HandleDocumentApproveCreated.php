@@ -12,7 +12,7 @@ use App\Models\ExchangeRate;
 use App\Models\GoodAccounting;
 
 
-class HandleDocumentCreated
+class HandleDocumentApproveCreated
 {
     public function __construct(public DocumentModel $document, public MovementTypes $type) { }
 
@@ -31,15 +31,17 @@ class HandleDocumentCreated
              $sum = $this->document->sum * $this->getExcangeRate();
         }
 
+
         CounterpartySettlement::create([
             'counterparty_id' => $this->document->counterparty_id,
             'counterparty_agreement_id' => $this->document->counterparty_agreement_id,
             'organization_id' => $this->document->organization_id,
             'movement_type' => $this->type,
+            'date' => $this->document->date,
             'model_id' => $this->document->id,
             'sale_sum' => $this->document->sum ?? 0,
             'sum' => $sum,
-            'active' => false
+            'active' => true
         ]);
     }
 
@@ -61,7 +63,8 @@ class HandleDocumentCreated
                 'movement_type' => $this->type,
                 'organization_id' => $this->document->organization_id,
                 'amount' => $good->amount,
-                'active' => false
+                'active' => true,
+                'date' => $this->document->date
             ];
         }
 
@@ -82,7 +85,8 @@ class HandleDocumentCreated
             'organization_id' => $this->document->organization_id,
             'sum' => $sum,
             'model_id' => $this->document->id,
-            'active' => false
+            'active' => true,
+            'date' => $this->document->date,
         ]);
     }
 

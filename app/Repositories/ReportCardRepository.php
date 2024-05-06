@@ -249,7 +249,5 @@ class ReportCardRepository implements ReportCardRepositoryInterface
             ->select([ 'emp.id as employee_id', 'emp.name as employee_name', 'rp.salary', 'rp.standart_hours', 'rp.fact_hours'])
             ->distinct()
             ->paginate(25);
-
-
     }
 }

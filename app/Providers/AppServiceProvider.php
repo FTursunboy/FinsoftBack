@@ -52,6 +52,8 @@ use App\Repositories\Contracts\HiringRepositoryInterface;
 use App\Repositories\Contracts\ReportCardRepositoryInterface;
 
 
+use App\Repositories\Contracts\ReturnDocumentRepositoryInterface;
+use App\Repositories\Contracts\SalaryDocumentRepositoryInterface;
 use App\Repositories\Contracts\ScheduleRepositoryInterface;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\Contracts\AuthRepositoryInterface;
@@ -86,6 +88,8 @@ use App\Repositories\CurrencyRepository;
 use App\Repositories\Document\DocumentRepository;
 use App\Repositories\Document\InventoryDocumentRepository;
 use App\Repositories\Document\MovementDocumentRepository;
+use App\Repositories\Document\ReturnDocumentRepository;
+use App\Repositories\Document\SalaryDocumentRepository;
 use App\Repositories\EmployeeMovementRepository;
 use App\Repositories\EmployeeRepository;
 use App\Repositories\ExchangeRateRepository;
@@ -169,6 +173,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CheckingAccountWithdrawalRepositoryInterface::class, CheckingAccountWithdrawalRepository::class);
         $this->app->singleton(CheckingAccountCashStoreRepositoryInterface::class, CheckingAccountClientPaymentRepository::class);
         $this->app->singleton(ScheduleRepositoryInterface::class, ScheduleRepository::class);
+        $this->app->singleton(SalaryDocumentRepositoryInterface::class, SalaryDocumentRepository::class);
+        $this->app->singleton(ReturnDocumentRepositoryInterface::class, ReturnDocumentRepository::class);
     }
 
     /**
