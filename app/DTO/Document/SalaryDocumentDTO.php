@@ -19,9 +19,7 @@ class SalaryDocumentDTO
             $request->get('organization_id'),
             $request->get('month_id'),
             $request->get('comment'),
-            $request->get('data'),
-
-
+            $request->get('data')
         );
     }
 }
