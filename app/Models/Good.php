@@ -54,18 +54,34 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
 
     public static function filter(array $data): array
     {
-        return [
+        $filteredData = [
             'search' => $data['search'] ?? '',
             'orderBy' => $data['orderBy'] ?? null,
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
-            'vendor_code' => $data['filterData']['vendor_code'] ?? null,
-            'description' => $data['filterData']['description'] ?? null,
-            'name'  => $data['filterData']['name'] ?? null,
-            'category_id' => $data['filterData']['category_id'] ?? null,
-            'unit_id' => $data['filterData']['unit_id'] ?? null,
-            'barcode' => $data['filterData']['barcode'] ?? null,
-            'storage_id' => $data['filterData']['storage_id'] ?? null,
+            'vendor_code' => $data['vendor_code'] ?? null,
+            'description' => $data['description'] ?? null,
+            'name'  => $data['name'] ?? null,
+            'category_id' => $data['category_id'] ?? null,
+            'unit_id' => $data['unit_id'] ?? null,
+            'barcode' => $data['barcode'] ?? null,
+            'storage_id' => $data['storage_id'] ?? null,
+            'good_group_id' => $data['good_group_id'] ?? null,
+            'good_storage_id' => $data['good_storage_id'] ?? null,
+            'good_organization_id' => $data['good_organization_id'] ?? null,
         ];
+
+        if (isset($data['filterData'])) {
+            $filteredData['vendor_code'] = $data['filterData']['vendor_code'] ?? $filteredData['vendor_code'];
+            $filteredData['description'] = $data['filterData']['description'] ?? $filteredData['description'];
+            $filteredData['name'] = $data['filterData']['name'] ?? $filteredData['name'];
+            $filteredData['category_id'] = $data['filterData']['category_id'] ?? $filteredData['category_id'];
+            $filteredData['unit_id'] = $data['filterData']['unit_id'] ?? $filteredData['unit_id'];
+            $filteredData['barcode'] = $data['filterData']['barcode'] ?? $filteredData['barcode'];
+            $filteredData['storage_id'] = $data['filterData']['storage_id'] ?? $filteredData['storage_id'];
+            $filteredData['good_group_id'] = $data['filterData']['good_group_id'] ?? $filteredData['good_group_id'];
+        }
+
+        return $filteredData;
     }
 }

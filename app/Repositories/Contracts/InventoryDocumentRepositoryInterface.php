@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
+use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\InventoryDocumentDTO;
 use App\DTO\Document\InventoryDocumentUpdateDTO;
 use App\Models\InventoryDocument;
@@ -14,5 +15,7 @@ interface InventoryDocumentRepositoryInterface
     public function store(InventoryDocumentDTO $DTO) :InventoryDocument;
 
     public function update(InventoryDocument $document, InventoryDocumentUpdateDTO $DTO) :InventoryDocument;
+
+    public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO);
 
 }

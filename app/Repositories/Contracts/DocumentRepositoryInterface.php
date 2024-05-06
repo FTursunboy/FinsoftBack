@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
+use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
 use App\DTO\Document\OrderDocumentUpdateDTO;
@@ -24,4 +25,6 @@ interface DocumentRepositoryInterface
     public function approve(Document $document);
 
     public function unApprove(Document $document);
+
+    public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO);
 }

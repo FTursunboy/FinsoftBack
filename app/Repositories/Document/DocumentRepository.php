@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Document;
 
+use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
 use App\DTO\Document\OrderDocumentDTO;
@@ -168,7 +169,10 @@ class DocumentRepository implements DocumentRepositoryInterface
         return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
     }
 
-
+    public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
+    {
+        GoodDocument::whereIn('id', $DTO->ids)->delete();
+    }
 
     public function orderUniqueNumber(): string
     {
@@ -399,4 +403,5 @@ class DocumentRepository implements DocumentRepositoryInterface
                 return $query->where('author_id', $data['author_id']);
             });
     }
+
 }
