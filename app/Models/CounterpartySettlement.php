@@ -16,6 +16,7 @@ class CounterpartySettlement extends Model
         'sum',
         'model_id',
         'active',
+        'date',
         'counterparty_id',
         'counterparty_agreement_id',
         'organization_id'

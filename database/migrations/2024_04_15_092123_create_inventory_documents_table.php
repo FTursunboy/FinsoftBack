@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('inventory_documents', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('doc_number')->unique();
-            $table->date('date');
+            $table->timestamp('date');
             $table->foreignId('organization_id')->constrained();
             $table->foreignId('storage_id')->constrained();
             $table->foreignId('responsible_person_id')->constrained('employees');

@@ -16,7 +16,8 @@ class Balance extends Model
         'active',
         'credit_article',
         'organization_id',
-        'debit_article'
+        'debit_article',
+        'date'
     ];
 
     protected function creditArticle(): BelongsTo

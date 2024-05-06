@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('movement_documents', function (Blueprint $table) {
+        Schema::create('salary_documents', function (Blueprint $table) {
             $table->uuid('id');
-            $table->string('doc_number')->unique();
-            $table->timestamp('date');
+            $table->string('doc_number');
+            $table->string('date');
             $table->unsignedBigInteger('organization_id');
-            $table->unsignedBigInteger('sender_storage_id');
-            $table->unsignedBigInteger('recipient_storage_id');
+            $table->unsignedBigInteger('month_id');
             $table->unsignedBigInteger('author_id');
-            $table->text('comment')->nullable();
+            $table->string('comment')->nullable();
+            $table->boolean('active')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -23,6 +23,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('movement_documents');
+        Schema::dropIfExists('salary_documents');
     }
 };

@@ -98,12 +98,6 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
             ->when($data['unit_id'], function ($query) use ($data) {
                 return $query->where('unit_id', $data['unit_id']);
             })
-            ->when($data['category_id'], function ($query) use ($data) {
-                return $query->where('category_id', $data['category_id']);
-            })
-            ->when($data['barcode'], function ($query) use ($data) {
-                return $query->where('barcode', 'like', '%' . $data['barcode'] . '%');
-            })
             ->when($data['description'], function ($query) use ($data) {
                 return $query->where('description', 'like', '%' . $data['description'] . '%');
             })

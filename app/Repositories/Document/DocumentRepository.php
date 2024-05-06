@@ -7,7 +7,7 @@ use App\DTO\Document\DocumentUpdateDTO;
 use App\DTO\Document\OrderDocumentDTO;
 use App\DTO\Document\OrderDocumentUpdateDTO;
 use App\Enums\MovementTypes;
-use App\Events\DocumentCreated;
+use App\Events\DocumentApprovedEvent;
 use App\Models\Document;
 use App\Models\GoodDocument;
 use App\Models\OrderDocument;
@@ -249,9 +249,8 @@ class DocumentRepository implements DocumentRepositoryInterface
         );
         if ($document->status_id === Status::PROVIDER_PURCHASE || $document->status_id === Status::CLIENT_PURCHASE)
         {
-            DocumentCreated::dispatch($document, MovementTypes::Income);
+            DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
         }
-
 
 
     }

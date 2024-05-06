@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->integer('amount');
             $table->float('sum');
             $table->string('model_id');
+            $table->timestamp('date');
             $table->boolean('active');
             $table->softDeletes();
             $table->timestamps();

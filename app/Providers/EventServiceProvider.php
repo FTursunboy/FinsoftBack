@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Events\DocumentCreated;
+use App\Events\DocumentApprovedEvent;
 use App\Listeners\DocumentListener;
 use App\Models\CashStore;
 use App\Models\CheckingAccount;
@@ -30,7 +30,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        DocumentCreated::class => [
+        DocumentApprovedEvent::class => [
             DocumentListener::class
         ]
     ];
