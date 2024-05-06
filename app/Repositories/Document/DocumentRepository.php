@@ -169,7 +169,7 @@ class DocumentRepository implements DocumentRepositoryInterface
         return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
     }
 
-    public function deleteDocumentGoods(Document $document, DeleteDocumentGoodsDTO $DTO)
+    public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
     {
         GoodDocument::whereIn('id', $DTO->ids)->delete();
     }

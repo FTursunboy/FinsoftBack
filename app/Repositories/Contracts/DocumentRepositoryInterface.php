@@ -26,5 +26,5 @@ interface DocumentRepositoryInterface
 
     public function unApprove(Document $document);
 
-    public function deleteDocumentGoods(Document $document, DeleteDocumentGoodsDTO $DTO);
+    public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO);
 }

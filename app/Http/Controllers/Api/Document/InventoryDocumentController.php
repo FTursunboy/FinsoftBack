@@ -55,8 +55,8 @@ class InventoryDocumentController extends Controller
         return $this->success($restore->massRestore(new InventoryDocument(), $request->validated()));
     }
 
-    public function deleteDocumentGoods(InventoryDocument $inventoryDocument, DeleteDocumentGoodRequest $request)
+    public function deleteDocumentGoods(DeleteDocumentGoodRequest $request)
     {
-        return $this->deleted($this->repository->deleteDocumentGoods($inventoryDocument, DeleteDocumentGoodsDTO::fromRequest($request)));
+        return $this->deleted($this->repository->deleteDocumentGoods(DeleteDocumentGoodsDTO::fromRequest($request)));
     }
 }

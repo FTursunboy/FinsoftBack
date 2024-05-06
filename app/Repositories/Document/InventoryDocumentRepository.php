@@ -116,7 +116,7 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
         }
     }
 
-    public function deleteDocumentGoods(InventoryDocument $inventoryDocument, DeleteDocumentGoodsDTO $DTO)
+    public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
     {
         InventoryDocumentGoods::whereIn('id', $DTO->ids)->delete();
     }

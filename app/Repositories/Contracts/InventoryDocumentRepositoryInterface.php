@@ -16,6 +16,6 @@ interface InventoryDocumentRepositoryInterface
 
     public function update(InventoryDocument $document, InventoryDocumentUpdateDTO $DTO) :InventoryDocument;
 
-    public function deleteDocumentGoods(InventoryDocument $inventoryDocument, DeleteDocumentGoodsDTO $DTO);
+    public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO);
 
 }
