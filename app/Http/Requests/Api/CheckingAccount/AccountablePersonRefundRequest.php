@@ -11,7 +11,7 @@ class AccountablePersonRefundRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => ['required', 'date'],
+            'date' => ['required', 'date_format:d.m.Y H:i:s'],
             'organization_id' => ['required', Rule::exists('organizations', 'id')],
             'checking_account_id' => ['required', Rule::exists('organization_bills', 'id')],
             'sum' => ['required'],

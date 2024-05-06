@@ -42,7 +42,7 @@ class OrganizationBillRequest extends FormRequest
             ],
             'date' => [
                 'required',
-                'date'
+                'date_format:d.m.Y H:i:s'
             ],
             'comment' => ['']
         ];
