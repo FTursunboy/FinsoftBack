@@ -399,13 +399,4 @@ class DocumentRepository implements DocumentRepositoryInterface
                 return $query->where('author_id', $data['author_id']);
             });
     }
-
-
-
-
-
-
-
-
-
 }

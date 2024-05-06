@@ -19,6 +19,7 @@ class SalaryDocumentResource extends JsonResource
             'month_id' => $this->whenLoaded('month'),
             'author_id' => $this->whenLoaded('author'),
             'comment' => $this->comment,
+            'employees' => $this->whenLoaded('employees')
         ];
     }
 }

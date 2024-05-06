@@ -10,6 +10,7 @@ use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
 use App\Models\CounterpartySettlement;
 use App\Models\Document;
+use App\Models\Good;
 use App\Models\GoodAccounting;
 use App\Models\GoodDocument;
 use App\Models\OrderDocument;
@@ -153,9 +154,28 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
 
     public function approve(Document $document)
     {
-        $this->checkInventory($document);
+        $result = $this->checkInventory($document);
+
+        $response = [];
+
+        if ($result !== null) {
+            foreach ($result as $goods) {
+
+                $good = Good::find($goods['good_id'])->name;
+
+                $response[] = [
+                    'good' => $good,
+                    'amount' => $goods['amount']
+                ];
+            }
 
 
+            return $response;
+        }
+
+        if($document->active) {
+            $this->deleteDocumentData($document);
+        }
 
         $document->update(
             ['active' => true]
@@ -163,46 +183,52 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
     }
 
 
-    public function checkInventory(Document $document): bool
+    public function checkInventory(Document $document)
     {
         $incomingDate = $document->date;
-        $incomingGoods = $document->documentGoods->select('good_id', 'amount')->toArray();
+        $incomingGoods = $document->documentGoods->pluck('good_id', 'amount')->toArray(); // Массив товаров и их количества
 
         $previousIncomings = GoodAccounting::where('movement_type', MovementTypes::Income)
             ->where('date', '<=', $incomingDate)
             ->get();
 
-
         $previousOutgoings = GoodAccounting::where('movement_type', MovementTypes::Outcome)
             ->where('date', '<=', $incomingDate)
             ->get();
-
 
         $previousIncomingsByGoodId = $previousIncomings->groupBy('good_id')->map(function ($group) {
             return $group->sum('amount');
         });
 
-
         $previousOutgoingsByGoodId = $previousOutgoings->groupBy('good_id')->map(function ($group) {
             return $group->sum('amount');
         });
 
-        foreach ($incomingGoods as $good) {
-            $goodId = $good['good_id'];
-            $incomingAmount = $good['amount'];
+        $insufficientGoods = []; // Массив для нехватающих товаров
+
+        foreach ($incomingGoods as $incomingAmount => $goodId) {
+
 
             $totalIncoming = $previousIncomingsByGoodId->has($goodId) ? $previousIncomingsByGoodId[$goodId] : 0;
             $totalOutgoing = $previousOutgoingsByGoodId->has($goodId) ? $previousOutgoingsByGoodId[$goodId] : 0;
 
-            $availableAmount = $document->documentGoods->where('good_id', $goodId)->sum('amount') + $totalIncoming - $totalOutgoing;
+            $availableAmount = $totalIncoming - $totalOutgoing;
 
             if ($incomingAmount > $availableAmount) {
-                return false;
+                $insufficientGoods[] = [
+                    'good_id' => $goodId,
+                    'amount' => $incomingAmount - $availableAmount
+                ];
             }
         }
 
-        return true;
+
+
+        if (!empty($insufficientGoods)) {
+            return $insufficientGoods; // Возвращаем массив нехватающих товаров
+        }
     }
+
 
 
     private function checkGoodExistence(Document $document) :void
@@ -229,6 +255,13 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
     public function changeHistory(Documentable $document)
     {
         return $document->load(['history.changes', 'history.user']);
+    }
+
+    public function deleteDocumentData(Document $document)
+    {
+        $document->goodAccountents()->delete();
+        $document->counterpartySettlements()->delete();
+        $document->balances()->delete();
     }
 
 
