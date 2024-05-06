@@ -256,6 +256,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('/', [InventoryDocumentController::class, 'store']);
             Route::get('/{inventoryDocument}', [InventoryDocumentController::class, 'show']);
             Route::patch('/{inventoryDocument}', [InventoryDocumentController::class, 'update']);
+            Route::post('delete-document-goods/{inventoryDocument}', [InventoryDocumentController::class, 'deleteDocumentGoods']);
         });
 
         Route::apiResource('movement', MovementDocumentController::class)->except('destroy');
