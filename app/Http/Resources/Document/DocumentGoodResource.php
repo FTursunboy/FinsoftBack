@@ -22,6 +22,7 @@ class DocumentGoodResource extends JsonResource
             'price' => (float) $this->price,
             'auto_sale_percent' => $this->auto_sale_percent,
             'auto_sale_sum' => $this->auto_sale_percent,
+            'deleted_at' => $this->deleted_at
         ];
 
 

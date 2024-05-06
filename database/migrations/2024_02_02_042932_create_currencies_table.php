@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->integer('digital_code');
-            $table->char('symbol_code', 3);
+            $table->char('symbol_code', 5);
             $table->boolean('default')->default(false);
             $table->softDeletes();
             $table->timestamps();

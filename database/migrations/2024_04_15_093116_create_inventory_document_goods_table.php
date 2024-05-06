@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('actual_quantity');
             $table->integer('difference');
             $table->foreignUuid('inventory_document_id')->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -96,5 +96,4 @@ class CheckingAccount extends DocumentModel
             'operation_type' => $data['filterData']['operation_type'] ?? null,
         ];
     }
-
 }

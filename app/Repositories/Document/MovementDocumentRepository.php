@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Document;
 
+use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\MovementDocumentDTO;
 use App\Models\Document;
 use App\Models\GoodDocument;
@@ -43,7 +44,6 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
             if (!is_null($dto->goods))
                 GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
-
 
             return $document->load(['organization', 'author', 'senderStorage', 'recipientStorage']);
         });
@@ -128,5 +128,10 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
     public function documentAuthor()
     {
          return null;
+    }
+
+    public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
+    {
+        GoodDocument::whereIn('id', $DTO->ids)->delete();
     }
 }

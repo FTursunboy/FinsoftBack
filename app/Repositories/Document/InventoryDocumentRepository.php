@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Document;
 
+use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\InventoryDocumentDTO;
 use App\DTO\Document\InventoryDocumentUpdateDTO;
 use App\Models\InventoryDocument;
@@ -113,5 +114,10 @@ class InventoryDocumentRepository implements InventoryDocumentRepositoryInterfac
                 ]);
             }
         }
+    }
+
+    public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
+    {
+        InventoryDocumentGoods::whereIn('id', $DTO->ids)->delete();
     }
 }

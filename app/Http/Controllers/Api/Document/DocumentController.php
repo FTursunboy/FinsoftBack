@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\Document;
 
+use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\DocumentUpdateDTO;
 use App\DTO\Document\OrderDocumentUpdateDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Document\DeleteDocumentGoodRequest;
 use App\Http\Requests\Api\Document\DocumentUpdateRequest;
 use App\Http\Requests\Api\OrderDocument\OrderDocumentUpdateRequest;
 use App\Http\Requests\IdRequest;
@@ -59,5 +61,9 @@ class DocumentController extends Controller
         return $this->success($restore->massRestore(new Document(), $request->validated()));
     }
 
+    public function deleteDocumentGoods(DeleteDocumentGoodRequest $request)
+    {
+        return $this->deleted($this->repository->deleteDocumentGoods(DeleteDocumentGoodsDTO::fromRequest($request)));
+    }
 
 }
