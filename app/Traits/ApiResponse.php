@@ -12,9 +12,9 @@ trait ApiResponse
         return response()->json(['result' => $result ?? ApiResponseEnum::Success, 'errors' => null], $code);
     }
 
-    public function error($result, $code = 400): JsonResponse
+    public function error($result, $message = "error", $code = 400): JsonResponse
     {
-        return response()->json(['result' => "error", 'errors' => $result ?? ApiResponseEnum::Error], $code);
+        return response()->json(['result' => $message, 'errors' => $result ?? ApiResponseEnum::Error], $code);
     }
 
     public function notFound($result = null, $code = 404): JsonResponse
