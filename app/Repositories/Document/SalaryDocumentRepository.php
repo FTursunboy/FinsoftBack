@@ -28,7 +28,7 @@ class SalaryDocumentRepository implements SalaryDocumentRepositoryInterface
 
         $query = $this->filter($query, $filteredParams);
 
-        $query = $this->sort($filteredParams, $query, ['organization', 'author', 'month']);
+        $query = $this->sort($filteredParams, $query, ['organization', 'author', 'month', 'employees']);
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }
