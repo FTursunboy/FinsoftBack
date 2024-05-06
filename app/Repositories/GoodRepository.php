@@ -123,16 +123,17 @@ class GoodRepository implements GoodRepositoryInterface
 
         $income = MovementTypes::Income->value;
         $outcome = MovementTypes::Outcome->value;
+        $storageId = $data['good_storage_id'];
+        $organizationId = $data['good_organization_id'];
 
         $query = $this->model::leftJoin('good_accountings', 'good_accountings.good_id', '=', 'goods.id');
-//        $query->where([
-//            ['good_accountings.storage_id', '=', $data['good_storage_id']],
-//            ['good_accountings.organization_id', '=', $data['good_organization_id']],
-//        ]);
-        $query->select(
+        $query = $query->where('goods.storage_id', $storageId);
+        $query = $query->select(
             'goods.*',
-            DB::raw("SUM(CASE WHEN good_accountings.movement_type = '$income' THEN good_accountings.amount ELSE 0 END) -
-            SUM(CASE WHEN good_accountings.movement_type = '$outcome' THEN good_accountings.amount ELSE 0 END) as amount")
+            DB::raw("SUM(CASE WHEN good_accountings.movement_type = '$income'
+            and good_accountings.storage_id = $storageId and good_accountings.organization_id = $organizationId THEN good_accountings.amount ELSE 0 END) -
+            SUM(CASE WHEN good_accountings.movement_type = '$outcome' and good_accountings.storage_id = $storageId
+            and good_accountings.organization_id = $organizationId THEN good_accountings.amount ELSE 0 END) as amount")
         );
         return $query->groupBy('goods.id', 'goods.name', 'goods.vendor_code', 'goods.description', 'goods.unit_id',
             'goods.barcode', 'goods.storage_id', 'goods.good_group_id', 'goods.deleted_at', 'goods.created_at', 'goods.updated_at');
