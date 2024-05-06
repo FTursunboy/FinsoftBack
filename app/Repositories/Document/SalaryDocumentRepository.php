@@ -32,10 +32,7 @@ class SalaryDocumentRepository implements SalaryDocumentRepositoryInterface
             'author_id' => \Auth::id()
         ]);
 
-
         $this->insertDocumentTable($DTO->data,$document);
-
-
     }
 
 

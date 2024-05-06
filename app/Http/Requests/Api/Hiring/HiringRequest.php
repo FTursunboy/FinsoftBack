@@ -9,7 +9,7 @@ class HiringRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => ['required'],
+            'date' => ['required', 'date_format:d.m.Y H:i:s'],
             'employee_id' => ['required', 'integer', 'exists:employees,id'],
             'salary' => ['numeric',  'required', 'between:1, 9999999.9999'],
             'hiring_date' => ['required', 'date'],

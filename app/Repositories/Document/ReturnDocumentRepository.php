@@ -101,9 +101,6 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
         });
     }
 
-
-
-
     private function insertGoodDocuments(array $goods, Document $document): array
     {
         return array_map(function ($item) use ($document) {

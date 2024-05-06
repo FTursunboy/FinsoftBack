@@ -24,7 +24,7 @@ class ExchangeRequest extends FormRequest
     {
         return [
             'date' => [
-                'date',
+                'date_format:d.m.Y H:i:s',
                 'required',
                 new ExchangeRateRule
             ],
