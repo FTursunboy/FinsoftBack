@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Document;
 
+use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\MovementDocumentDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Document\DeleteDocumentGoodRequest;
@@ -55,8 +56,8 @@ class MovementDocumentController extends Controller
         return response()->json();
     }
 
-    public function deleteDocumentGoods(MovementDocument $movementDocument, DeleteDocumentGoodRequest $request)
+    public function deleteDocumentGoods(DeleteDocumentGoodRequest $request)
     {
-        //TODO
+        return $this->deleted($this->service->deleteDocumentGoods(DeleteDocumentGoodsDTO::fromRequest($request)));
     }
 }

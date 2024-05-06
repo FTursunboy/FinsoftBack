@@ -61,9 +61,9 @@ class DocumentController extends Controller
         return $this->success($restore->massRestore(new Document(), $request->validated()));
     }
 
-    public function deleteDocumentGoods(Document $document, DeleteDocumentGoodRequest $request)
+    public function deleteDocumentGoods(DeleteDocumentGoodRequest $request)
     {
-        return $this->deleted($this->repository->deleteDocumentGoods($document, DeleteDocumentGoodsDTO::fromRequest($request)));
+        return $this->deleted($this->repository->deleteDocumentGoods(DeleteDocumentGoodsDTO::fromRequest($request)));
     }
 
 }

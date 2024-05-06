@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
+use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\MovementDocumentDTO;
 use App\Models\Document;
 use App\Models\MovementDocument;
@@ -22,4 +23,6 @@ interface MovementDocumentRepositoryInterface
     public function unApprove(Document $document);
 
     public function documentAuthor();
+
+    public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO);
 }
