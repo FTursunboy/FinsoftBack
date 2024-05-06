@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\DTO\Document\SalaryDocumentDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\SalaryDocument\FilterRequest;
 use App\Http\Requests\Api\SalaryDocument\SalaryDocumentRequest;
 use App\Http\Resources\SalaryDocumentResource;
 use App\Models\SalaryDocument;
@@ -18,11 +19,11 @@ class SalaryDocumentController extends Controller
 
     }
 
-    public function index()
+    public function index(FilterRequest $request)
     {
         $this->authorize('viewAny', SalaryDocument::class);
 
-        return SalaryDocumentResource::collection(SalaryDocument::all());
+        return $this->paginate(SalaryDocumentResource::collection($this->repository->index($request->validated())));
     }
 
     public function store(SalaryDocumentRequest $request)
@@ -36,7 +37,7 @@ class SalaryDocumentController extends Controller
     {
         $this->authorize('view', $salaryDocument);
 
-        return new SalaryDocumentResource($salaryDocument);
+        return $this->success(new SalaryDocumentResource($salaryDocument->load('organization', 'month', 'author', 'employees')));
     }
 
     public function update(SalaryDocumentRequest $request, SalaryDocument $salaryDocument)
