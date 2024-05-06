@@ -11,7 +11,7 @@ class ClientPaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => ['required', 'date'],
+            'date' => ['required', 'date_format:d.m.Y H:i:s'],
             'organization_id' => ['required'],
             'cash_register_id' => ['required'],
             'sum' => ['required'],
