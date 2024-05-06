@@ -44,7 +44,7 @@ class SalaryDocumentController extends Controller
     {
         $this->authorize('update', $salaryDocument);
 
-        $this->success($this->repository->)
+
 
         return new SalaryDocumentResource($salaryDocument);
     }
