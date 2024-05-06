@@ -67,7 +67,11 @@ class ProviderDocumentController extends Controller
 
     public function showOrder(OrderDocument $orderDocument)
     {
-        return $this->success(OrderDocumentResource::make($orderDocument->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods')));
+        return $this->success(
+            OrderDocumentResource::make(
+                $orderDocument->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods')
+            )
+        );
     }
 
 }

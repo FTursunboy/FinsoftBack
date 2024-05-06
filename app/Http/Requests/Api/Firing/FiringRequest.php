@@ -9,7 +9,7 @@ class FiringRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => ['required', 'date_format:d.m.Y H:i:s'],
+            'date' => ['required', 'date'],
             'organization_id' => ['required', 'integer', 'exists:organizations,id'],
             'employee_id' => ['required', 'integer', 'exists:employees,id'],
             'firing_date' => ['required', 'date'],

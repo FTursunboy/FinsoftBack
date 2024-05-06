@@ -9,7 +9,7 @@ class EmployeeMovementRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => ['required', 'date_format:d.m.Y H:i:s'],
+            'date' => ['required', 'date'],
             'employee_id' => ['required', 'integer', 'exists:employees,id'],
             'salary' => ['required', 'numeric'],
             'position_id' => ['required', 'integer', 'exists:positions,id'],
