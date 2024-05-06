@@ -44,7 +44,6 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
             if (!is_null($dto->goods))
                 GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
-
             return $document->load(['organization', 'author', 'senderStorage', 'recipientStorage']);
         });
     }

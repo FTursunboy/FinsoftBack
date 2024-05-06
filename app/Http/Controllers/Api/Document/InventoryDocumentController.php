@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\Document;
 
+use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\InventoryDocumentDTO;
 use App\DTO\Document\InventoryDocumentUpdateDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Document\DeleteDocumentGoodRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\InventoryDocument\InventoryDocumentRequest;
 use App\Http\Requests\Api\InventoryDocument\InventoryDocumentUpdateRequest;
@@ -51,5 +53,10 @@ class InventoryDocumentController extends Controller
     public function massRestore(IdRequest $request, MassOperationInterface $restore)
     {
         return $this->success($restore->massRestore(new InventoryDocument(), $request->validated()));
+    }
+
+    public function deleteDocumentGoods(InventoryDocument $inventoryDocument, DeleteDocumentGoodRequest $request)
+    {
+        return $this->deleted($this->repository->deleteDocumentGoods($inventoryDocument, DeleteDocumentGoodsDTO::fromRequest($request)));
     }
 }
