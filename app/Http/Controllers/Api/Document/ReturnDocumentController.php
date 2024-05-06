@@ -37,7 +37,12 @@ class ReturnDocumentController extends Controller
 
     public function approve(Document $document)
     {
-        return $this->success($this->repository->approve($document));
+        $good = $this->repository->approve($document);
+
+        if ($good !== null) {
+            return $this->error($good, trans('errors.not enough goods'));
+        }
+        return $this->success($good);
     }
 
     public function unApprove(Document $document)

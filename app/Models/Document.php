@@ -113,4 +113,19 @@ class Document extends DocumentModel implements SoftDeleteInterface
             ->selectRaw('document_id, COUNT(*) as total_count')
             ->groupBy('document_id');
     }
+
+    public function goodAccountents()
+    {
+        return $this->hasMany(GoodAccounting::class, 'model_id');
+    }
+
+    public function counterpartySettlements(): HasMany
+    {
+        return $this->hasMany(CounterpartySettlement::class, 'model_id');
+    }
+
+    public function balances(): HasMany
+    {
+        return $this->hasMany(Balance::class, 'model_id');
+    }
 }
