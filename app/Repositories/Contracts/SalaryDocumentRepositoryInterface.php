@@ -16,5 +16,4 @@ interface SalaryDocumentRepositoryInterface
 
     public function store(SalaryDocumentDTO $DTO) ;
 
-    public function update(SalaryDocument $salaryDocument SalaryDocumentDTO $DTO);
 }
