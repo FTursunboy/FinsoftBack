@@ -27,7 +27,9 @@ class DocumentRequest extends FormRequest
         //todo
 
         return [
+
             'date' => ['required', 'date_format:Y-m-d H:i:s'],
+
             'counterparty_id' => ['required', Rule::exists('counterparties', 'id')],
             'counterparty_agreement_id' => ['required', Rule::exists('counterparty_agreements', 'id')],
             'organization_id' => ['required', Rule::exists('organizations', 'id')],

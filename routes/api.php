@@ -264,18 +264,15 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('/', [InventoryDocumentController::class, 'store']);
             Route::get('/{inventoryDocument}', [InventoryDocumentController::class, 'show']);
             Route::patch('/{inventoryDocument}', [InventoryDocumentController::class, 'update']);
-            Route::post('delete-document-goods', [InventoryDocumentController::class, 'deleteDocumentGoods']);
         });
 
         Route::apiResource('movement', MovementDocumentController::class)->except('destroy');
-        Route::post('movement/delete-document-goods', [MovementDocumentController::class, 'deleteDocumentGoods']);
 
 
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
         Route::patch('/update-order/{orderDocument}', [DocumentController::class, 'updateOrder']);
         Route::get('/show/{document}', [ProviderDocumentController::class, 'show']);
         Route::get('/document-author', [UserController::class, 'documentAuthors']);
-        Route::post('delete-document-goods', [DocumentController::class, 'deleteDocumentGoods']);
 
         Route::get('/changeHistory/{document}', [DocumentController::class, 'changeHistory']);
 
@@ -310,6 +307,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::group(['prefix' => 'salaryDocument'], function () {
         Route::get('/', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'index']);
+        Route::get('/{salaryDocument}', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'show']);
         Route::post('/', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'store']);
         Route::patch('/', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'update']);
         });
@@ -321,6 +319,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::get('logout', [AuthController::class, 'logout']);
 });
+
 
 Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login'])->name('login');
 

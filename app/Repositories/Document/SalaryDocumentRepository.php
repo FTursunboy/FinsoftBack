@@ -28,9 +28,22 @@ class SalaryDocumentRepository implements SalaryDocumentRepositoryInterface
 
         $query = $this->filter($query, $filteredParams);
 
-        $query = $this->sort($filteredParams, $query, ['organization', 'author', 'month']);
+        $query = $this->sort($filteredParams, $query, ['organization', 'author', 'month', 'employees']);
 
         return $query->paginate($filteredParams['itemsPerPage']);
+    }
+
+
+    public function update(SalaryDocument $document, SalaryDocumentDTO $DTO)
+    {
+        $document->update([
+            'date' => $DTO->date,
+            'month_id' => $DTO->month_id,
+            'organization_id' => $DTO->organization_id,
+            'comment' => $DTO->comment
+        ]);
+
+
     }
 
     public function store(SalaryDocumentDTO $DTO)
@@ -44,7 +57,10 @@ class SalaryDocumentRepository implements SalaryDocumentRepositoryInterface
             'author_id' => \Auth::id()
         ]);
 
+
         $this->insertDocumentTable($DTO->data,$document);
+
+
     }
 
 
@@ -52,6 +68,26 @@ class SalaryDocumentRepository implements SalaryDocumentRepositoryInterface
     {
         $insertArray = array_map(function ($item) use ($document) {
             return [
+                'employee_id' => $item['employee_id'],
+                'oklad' => $item['oklad'],
+                'worked_hours' =>  $item['worked_hours'],
+                'salary' =>  $item['salary'],
+                'another_payments' =>  $item['another_payments'],
+                'takes_from_salary' =>  $item['takes_from_salary'],
+                'payed_salary' => $item['payed_salary'] ?? null,
+                'salary_document_id' => $document->id,
+                'created_at' => Carbon::now()
+            ];
+        }, $data);
+
+        SalaryDocumentEmployees::insert($insertArray);
+    }
+
+    private function updateDocumentTable(array $data, SalaryDocument $document)
+    {
+        $insertArray = array_map(function ($item) use ($document) {
+            return [
+                'id' => $item['id'],
                 'employee_id' => $item['employee_id'],
                 'oklad' => $item['oklad'],
                 'worked_hours' =>  $item['worked_hours'],
