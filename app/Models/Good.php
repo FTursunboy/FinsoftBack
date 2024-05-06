@@ -67,6 +67,8 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
             'barcode' => $data['barcode'] ?? null,
             'storage_id' => $data['storage_id'] ?? null,
             'good_group_id' => $data['good_group_id'] ?? null,
+            'good_storage_id' => $data['good_storage_id'] ?? null,
+            'good_organization_id' => $data['good_organization_id'] ?? null,
         ];
 
         if (isset($data['filterData'])) {

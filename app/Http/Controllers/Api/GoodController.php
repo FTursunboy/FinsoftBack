@@ -13,6 +13,7 @@ use App\Http\Requests\IdRequest;
 use App\Http\Resources\GoodResource;
 use App\Http\Resources\GoodWithImagesResource;
 use App\Models\Good;
+use App\Models\Storage;
 use App\Repositories\Contracts\GoodRepositoryInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\GoodRepository;

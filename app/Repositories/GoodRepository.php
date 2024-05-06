@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\DTO\GoodDTO;
 use App\DTO\GoodUpdateDTO;
+use App\Enums\MovementTypes;
 use App\Models\Good;
 use App\Models\GoodImages;
 use App\Repositories\Contracts\GoodRepositoryInterface;
@@ -22,10 +23,11 @@ class GoodRepository implements GoodRepositoryInterface
 
     public function index(array $data): LengthAwarePaginator
     {
-
         $filterParams = $this->model::filter($data);
 
-        $query = $this->search($filterParams['search']);
+        $query = $this->getData($filterParams);
+
+        $query = $this->search($query, $filterParams['search']);
 
         $query = $this->filter($query, $filterParams);
 
@@ -113,10 +115,33 @@ class GoodRepository implements GoodRepositoryInterface
         }
     }
 
-    public function search(string $search)
+    public function getData(array $data)
+    {
+        if ($data['good_organization_id'] == null || $data['good_storage_id'] == null) {
+            return $this->model::query();
+        }
+
+        $income = MovementTypes::Income->value;
+        $outcome = MovementTypes::Outcome->value;
+
+        $query = $this->model::leftJoin('good_accountings', 'good_accountings.good_id', '=', 'goods.id');
+//        $query->where([
+//            ['good_accountings.storage_id', '=', $data['good_storage_id']],
+//            ['good_accountings.organization_id', '=', $data['good_organization_id']],
+//        ]);
+        $query->select(
+            'goods.*',
+            DB::raw("SUM(CASE WHEN good_accountings.movement_type = '$income' THEN good_accountings.amount ELSE 0 END) -
+            SUM(CASE WHEN good_accountings.movement_type = '$outcome' THEN good_accountings.amount ELSE 0 END) as amount")
+        );
+        return $query->groupBy('goods.id', 'goods.name', 'goods.vendor_code', 'goods.description', 'goods.unit_id',
+            'goods.barcode', 'goods.storage_id', 'goods.good_group_id', 'goods.deleted_at', 'goods.created_at', 'goods.updated_at');
+    }
+
+    public function search($query, string $search)
     {
         $words = explode(' ', $search);
-        return $this->model::where(function ($query) use ($words) {
+        return $query->where(function ($query) use ($words) {
             foreach ($words as $word) {
                 $query->where('name', 'like', '%' . $word . '%');
             }
@@ -154,7 +179,7 @@ class GoodRepository implements GoodRepositoryInterface
     public function getByBarcode(string $barcode)
     {
         return $this->model::whereHas('barcodes', function ($query) use ($barcode) {
-           $query->where('barcode', $barcode);
+            $query->where('barcode', $barcode);
         })->first();
     }
 }

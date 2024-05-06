@@ -29,7 +29,9 @@ class FilterRequest extends FormRequest
             'vendor_code' => 'nullable',
             'category_id' => 'nullable|integer',
             'unit_id' => 'nullable|integer',
-            'storage_id' => 'nullable|integer'
+            'storage_id' => 'nullable|integer',
+            'good_storage_id' => 'nullable|exists:storages,id',
+            'good_organization_id' => 'nullable|exists:organizations,id',
         ];
     }
 
