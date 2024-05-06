@@ -14,6 +14,7 @@ class SalaryDocumentRequest extends FormRequest
             'month_id' => ['required', 'integer', 'exists:months,id'],
             'comment' => ['nullable'],
             'data' => ['required', 'array'],
+            'data.*.id'  => ['nullable'],
             'data.*.employee_id'  => ['required', 'integer', 'exists:employees,id'],
             'data.*.oklad'  => ['required', 'numeric'],
             'data.*.worked_hours'  => ['required', 'integer'],

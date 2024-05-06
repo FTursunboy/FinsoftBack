@@ -12,7 +12,7 @@ abstract class DocumentModel extends Model implements Documentable
 {
     use SoftDeletes;
 
-    protected $casts = ['active' => 'bool'];
+    protected $casts = ['active' => 'bool', ];
 
     protected $keyType = 'string';
 
