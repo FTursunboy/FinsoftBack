@@ -24,7 +24,7 @@ class GoodResource extends JsonResource
             'storage_id' => StorageResource::make($this->whenLoaded('storage')),
             'images' => ImageResource::collection($this->whenLoaded('images')),
             'amount' => (int) $this->amount,
-            'good_group_id' => GoodGroupResource::make($this->whenLoaded('goodGroup')),
+            'goodGroup' => GoodGroupResource::make($this->whenLoaded('goodGroup')),
             'deleted_at' => $this->deleted_at
         ];
     }
