@@ -19,25 +19,36 @@ use App\Models\OrderStatus;
 use App\Models\OrderType;
 use App\Models\Status;
 use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
+use App\Repositories\Contracts\Document\OrderClientDocumentRepositoryInterface;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
-class ClientDocumentController extends Controller
+class OrderClientDocumentController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(public DocumentRepositoryInterface $repository) { }
+    public function __construct(public OrderClientDocumentRepositoryInterface $repository) { }
 
-    public function index(IndexRequest $indexRequest): JsonResponse
+    public function index(FilterRequest $request): JsonResponse
     {
-        return $this->paginate(DocumentResource::collection($this->repository->index(Status::CLIENT_PURCHASE, $indexRequest->validated())));
+        return $this->paginate(OrderDocumentResource::collection($this->repository->index($request->validated(), OrderType::CLIENT)));
     }
 
-    public function purchase(DocumentRequest $request): JsonResponse
+    public function store(OrderDocumentRequest $request)
     {
-        return $this->created(DocumentResource::make($this->repository->store(DocumentDTO::fromRequest($request), Status::CLIENT_PURCHASE)));
+        return $this->created(OrderDocumentResource::make($this->repository->store(OrderDocumentDTO::fromRequest($request), OrderType::CLIENT)));
+    }
+
+    public function show(OrderDocument $orderDocument)
+    {
+        return $this->success(OrderDocumentResource::make($orderDocument->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods', 'orderStatus')));
+    }
+
+    public function statuses()
+    {
+        return $this->success(OrderStatusResource::collection(OrderStatus::get()));
     }
 
     public function massDelete(IdRequest $request, MassOperationInterface $delete)
@@ -49,4 +60,5 @@ class ClientDocumentController extends Controller
     {
         return $this->success($restore->massRestore(new Document(), $request->validated()));
     }
+
 }

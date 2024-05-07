@@ -35,43 +35,14 @@ class ProviderDocumentController extends Controller
         return $this->created(DocumentResource::make($this->repository->store(DocumentDTO::fromRequest($request), Status::PROVIDER_PURCHASE)));
     }
 
-    public function returnList(IndexRequest $request): JsonResponse
-    {
-        return $this->paginate(DocumentResource::collection($this->repository->index(Status::PROVIDER_PURCHASE, $request->validated())));
-    }
-
     public function show(Document $document)
     {
         return $this->success(DocumentResource::make($document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good', 'totalGoodsSum', 'documentGoodsWithCount'])));
     }
 
-    public function return(DocumentRequest $request): JsonResponse
-    {
-        return $this->created($this->repository->store(DocumentDTO::fromRequest($request), Status::PROVIDER_RETURN));
-    }
-
     public function approve(Document $document)
     {
         return $this->success($this->repository->approve($document));
-    }
-
-    public function orderList(FilterRequest $request)
-    {
-        return $this->paginate(OrderDocumentResource::collection($this->repository->orderList($request->validated(), OrderType::PROVIDER)));
-    }
-
-    public function order(OrderDocumentRequest $request)
-    {
-        return $this->created(OrderDocumentResource::make($this->repository->order(OrderDocumentDTO::fromRequest($request), OrderType::PROVIDER)));
-    }
-
-    public function showOrder(OrderDocument $orderDocument)
-    {
-        return $this->success(
-            OrderDocumentResource::make(
-                $orderDocument->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods')
-            )
-        );
     }
 
 }

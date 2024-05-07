@@ -13,6 +13,8 @@ use App\Http\Controllers\Api\Document\ClientDocumentController;
 use App\Http\Controllers\Api\Document\DocumentController;
 use App\Http\Controllers\Api\Document\InventoryDocumentController;
 use App\Http\Controllers\Api\Document\MovementDocumentController;
+use App\Http\Controllers\Api\Document\OrderClientDocumentController;
+use App\Http\Controllers\Api\Document\OrderProviderDocumentController;
 use App\Http\Controllers\Api\Document\ProviderDocumentController;
 use App\Http\Controllers\Api\Document\ReturnClientDocumentController;
 use App\Http\Controllers\Api\Document\ReturnDocumentController;
@@ -238,9 +240,9 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::get('/returnList', [ReturnProviderDocumentController::class, 'index']);
             Route::post('/return', [ReturnProviderDocumentController::class, 'store']);
 
-            Route::get('/orderList', [ProviderDocumentController::class, 'orderList']);
-            Route::post('/order', [ProviderDocumentController::class, 'order']);
-            Route::get('order/show/{orderDocument}', [ProviderDocumentController::class, 'showOrder']);
+            Route::get('/orderList', [OrderProviderDocumentController::class, 'index']);
+            Route::post('/order', [OrderProviderDocumentController::class, 'store']);
+            Route::get('order/show/{orderDocument}', [OrderProviderDocumentController::class, 'show']);
         });
 
         Route::group(['prefix' => '/client'], function () {
@@ -250,10 +252,10 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::get('/returnList', [ReturnClientDocumentController::class, 'index']);
             Route::post('/return', [ReturnClientDocumentController::class, 'store']);
 
-            Route::get('orderList', [ClientDocumentController::class, 'orderList']);
-            Route::post('/order', [ClientDocumentController::class, 'order']);
-            Route::get('/order/statuses', [ClientDocumentController::class, 'statuses']);
-            Route::get('order/show/{orderDocument}', [ClientDocumentController::class, 'showOrder']);
+            Route::get('orderList', [OrderClientDocumentController::class, 'index']);
+            Route::post('/order', [OrderClientDocumentController::class, 'store']);
+            Route::get('/order/statuses', [OrderClientDocumentController::class, 'statuses']);
+            Route::get('order/show/{orderDocument}', [OrderClientDocumentController::class, 'show']);
         });
 
         Route::group(['prefix' => 'return'], function () {
