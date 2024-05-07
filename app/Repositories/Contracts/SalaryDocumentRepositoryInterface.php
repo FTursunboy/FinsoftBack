@@ -14,6 +14,7 @@ interface SalaryDocumentRepositoryInterface
 
     public function index(array $data) :LengthAwarePaginator;
 
-    public function store(SalaryDocumentDTO $DTO) ;
+    public function store(SalaryDocumentDTO $DTO);
+
 
 }

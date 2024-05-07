@@ -15,11 +15,11 @@ class SalaryDocumentResource extends JsonResource
             'id' => $this->id,
             'doc_number' => $this->doc_number,
             'date' => $this->date,
-            'organization_id' => $this->whenLoaded('organization'),
-            'month_id' => $this->whenLoaded('month'),
-            'author_id' => $this->whenLoaded('author'),
+            'organization' => $this->whenLoaded('organization'),
+            'month' => $this->whenLoaded('month'),
+            'author' => $this->whenLoaded('author'),
             'comment' => $this->comment,
-            'employees' => $this->whenLoaded('employees')
+            'employees' =>  SalaryDocumentEmployeeResource::collection($this->whenLoaded('employees'))
         ];
     }
 }

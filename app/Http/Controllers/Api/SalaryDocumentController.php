@@ -37,7 +37,7 @@ class SalaryDocumentController extends Controller
     {
         $this->authorize('view', $salaryDocument);
 
-        return $this->success(new SalaryDocumentResource($salaryDocument->load('organization', 'month', 'author', 'employees')));
+        return $this->success(new SalaryDocumentResource($salaryDocument->load('organization', 'month', 'author', 'employees.employee')));
     }
 
     public function update(SalaryDocumentRequest $request, SalaryDocument $salaryDocument)
