@@ -2,16 +2,10 @@
 
 namespace App\Models;
 
-use App\Observers\DocumentObserver;
-use App\Repositories\Contracts\Documentable;
 use App\Repositories\Contracts\SoftDeleteInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 
 

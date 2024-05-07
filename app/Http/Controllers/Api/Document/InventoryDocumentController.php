@@ -13,7 +13,7 @@ use App\Http\Requests\Api\InventoryDocument\InventoryDocumentUpdateRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\Document\InventoryDocumentResource;
 use App\Models\InventoryDocument;
-use App\Repositories\Contracts\InventoryDocumentRepositoryInterface;
+use App\Repositories\Contracts\Document\InventoryDocumentRepositoryInterface;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;

@@ -16,6 +16,7 @@ use App\Models\OrderDocumentGoods;
 use App\Models\Status;
 use App\Repositories\Contracts\Document\Documentable;
 use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
+use App\Repositories\Contracts\Document\ReturnProviderDocumentRepositoryInterface;
 use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
@@ -24,7 +25,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class DocumentRepository implements DocumentRepositoryInterface
+class ReturnProviderDocumentRepository implements ReturnProviderDocumentRepositoryInterface
 {
     use FilterTrait, Sort, DocNumberTrait;
 
@@ -41,21 +42,6 @@ class DocumentRepository implements DocumentRepositoryInterface
         $query = $this->filter($query, $filteredParams);
 
         $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoodsWithCount', 'totalGoodsSum']);
-
-        return $query->paginate($filteredParams['itemsPerPage']);
-    }
-
-    public function orderList(array $data, int $type): LengthAwarePaginator
-    {
-        $filteredParams = OrderDocument::filter($data);
-
-        $query = OrderDocument::query()->where('order_type_id', $type);
-
-        $query = $this->orderSearch($query, $filteredParams);
-
-        $query = $this->orderFilter($query, $filteredParams);
-
-        $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'orderStatus', 'author', 'counterpartyAgreement', 'currency']);
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }
@@ -81,7 +67,6 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'sum' => $dto->sum,
             ]);
 
-
             if (!is_null($dto->goods))
                 GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
@@ -90,7 +75,6 @@ class DocumentRepository implements DocumentRepositoryInterface
           });
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
-
 
     }
 
@@ -114,59 +98,6 @@ class DocumentRepository implements DocumentRepositoryInterface
                 $this->updateGoodDocuments($dto->goods, $document);
             }
         });
-    }
-
-    public function order(OrderDocumentDTO $DTO, int $type)
-    {
-        $document = DB::transaction(function () use ($DTO, $type) {
-            $document = OrderDocument::create([
-                'doc_number' => $this->orderUniqueNumber(),
-                'date' => Carbon::parse($DTO->date),
-                'counterparty_id' => $DTO->counterparty_id,
-                'counterparty_agreement_id' => $DTO->counterparty_agreement_id,
-                'organization_id' => $DTO->organization_id,
-                'order_status_id' => $DTO->order_status_id,
-                'author_id' => Auth::id(),
-                'comment' => $DTO->comment,
-                'summa' => $DTO->summa,
-                'shipping_date' => $DTO->shipping_date,
-                'currency_id' => $DTO->currency_id,
-                'order_type_id' => $type,
-            ]);
-
-            if (!is_null($DTO->goods))
-                OrderDocumentGoods::insert($this->orderGoods($document, $DTO->goods));
-
-            return $document;
-           });
-        return  $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
-
-    }
-
-    public function updateOrder(OrderDocument $document, OrderDocumentUpdateDTO $DTO): OrderDocument
-    {
-        $document = DB::transaction(function () use ($DTO, $document) {
-            $document->update([
-                'doc_number' => $document->doc_number,
-                'date' => Carbon::parse($DTO->date),
-                'counterparty_id' => $DTO->counterparty_id,
-                'counterparty_agreement_id' => $DTO->counterparty_agreement_id,
-                'organization_id' => $DTO->organization_id,
-                'order_status_id' => $DTO->order_status_id,
-                'author_id' => Auth::id(),
-                'comment' => $DTO->comment,
-                'summa' => $DTO->summa,
-                'shipping_date' => $DTO->shipping_date,
-                'currency_id' => $DTO->currency_id
-
-            ]);
-
-            if (!is_null($DTO->goods))
-                $this->updateOrderGoods($document, $DTO->goods);
-
-            return $document;
-        });
-        return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
     }
 
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
@@ -256,7 +187,6 @@ class DocumentRepository implements DocumentRepositoryInterface
             DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
         }
 
-
     }
 
     public function unApprove(Document $document)
@@ -287,24 +217,6 @@ class DocumentRepository implements DocumentRepositoryInterface
         }, $goods);
     }
 
-    public function updateOrderGoods(OrderDocument $document, array $goods)
-    {
-        foreach ($goods as $good) {
-            OrderDocumentGoods::updateOrCreate(
-                ['id' => $good['id']],
-                [
-                    'good_id' => $good['good_id'],
-                    'amount' => $good['amount'],
-                    'price' => $good['price'],
-                    'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
-                    'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
-                    'order_document_id' => $document->id,
-                    'updated_at' => Carbon::now()
-                ]
-            );
-        }
-    }
-
     public function search($query, array $data)
     {
         $searchTerm = explode(' ', $data['search']);
@@ -320,30 +232,6 @@ class DocumentRepository implements DocumentRepositoryInterface
                 ->orWhereHas('storage', function ($query) use ($searchTerm) {
                     return $query->where('storages.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 })
-                ->orWhereHas('author', function ($query) use ($searchTerm) {
-                    return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-                ->orWhereHas('currency', function ($query) use ($searchTerm) {
-                    return $query->where('currencies.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                });
-        });
-    }
-
-    public function orderSearch($query, array $data)
-    {
-        $searchTerm = explode(' ', $data['search']);
-
-        return $query->where(function ($query) use ($searchTerm) {
-            $query->where('doc_number', 'like', '%' . implode('%', $searchTerm) . '%')
-                ->orWhereHas('counterparty', function ($query) use ($searchTerm) {
-                    return $query->where('counterparties.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-                ->orWhereHas('organization', function ($query) use ($searchTerm) {
-                    return $query->where('organizations.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-//                ->orWhereHas('order_status', function ($query) use ($searchTerm) {
-//                    return $query->where('order_statuses.name', 'like', '%' . implode('%', $searchTerm) . '%');
-//                })
                 ->orWhereHas('author', function ($query) use ($searchTerm) {
                     return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 })
@@ -373,31 +261,6 @@ class DocumentRepository implements DocumentRepositoryInterface
             ->when($data['date'], function ($query) use ($data) {
                 $date = Carbon::createFromFormat('Y-m-d', $data['date'])->format('Y-m-d');
                 return $query->where('date', $date);
-            })
-            ->when($data['author_id'], function ($query) use ($data) {
-                return $query->where('author_id', $data['author_id']);
-            });
-    }
-
-    public function orderFilter($query, array $data)
-    {
-        return $query->when($data['currency_id'], function ($query) use ($data) {
-            return $query->where('currency_id', $data['currency_id']);
-        })
-            ->when($data['counterparty_id'], function ($query) use ($data) {
-                return $query->where('counterparty_id', $data['counterparty_id']);
-            })
-            ->when($data['order_status_id'], function ($query) use ($data) {
-                return $query->where('order_status_id', $data['order_status_id']);
-            })
-            ->when($data['organization_id'], function ($query) use ($data) {
-                return $query->where('organization_id', $data['organization_id']);
-            })
-            ->when($data['counterparty_agreement_id'], function ($query) use ($data) {
-                return $query->where('counterparty_agreement_id', $data['counterparty_agreement_id']);
-            })
-            ->when($data['date'], function ($query) use ($data) {
-                return $query->where('date', $data['date']);
             })
             ->when($data['author_id'], function ($query) use ($data) {
                 return $query->where('author_id', $data['author_id']);

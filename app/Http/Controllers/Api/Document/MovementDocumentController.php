@@ -10,7 +10,7 @@ use App\Http\Requests\Api\MovementDocument\FilterRequest;
 use App\Http\Requests\Api\MovementDocument\MovementDocumentRequest;
 use App\Http\Resources\Document\MovementDocumentResource;
 use App\Models\MovementDocument;
-use App\Repositories\Contracts\MovementDocumentRepositoryInterface;
+use App\Repositories\Contracts\Document\MovementDocumentRepositoryInterface;
 use App\Traits\ApiResponse;
 
 class MovementDocumentController extends Controller

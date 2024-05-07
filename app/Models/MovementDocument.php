@@ -4,14 +4,12 @@ namespace App\Models;
 
 use App\Filters\MovementDocumentFilter;
 use App\Observers\MovementDocumentObserver;
-use App\Repositories\Contracts\Documentable;
+use App\Repositories\Contracts\Document\Documentable;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 
 
 #[ObservedBy([MovementDocumentObserver::class])]
