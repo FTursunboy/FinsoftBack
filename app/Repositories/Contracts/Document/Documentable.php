@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Repositories\Contracts;
+namespace App\Repositories\Contracts\Document;
 
 
 use Illuminate\Database\Eloquent\Relations\HasMany;

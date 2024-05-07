@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Contracts;
+namespace App\Repositories\Contracts\Document;
 
 use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\InventoryDocumentDTO;

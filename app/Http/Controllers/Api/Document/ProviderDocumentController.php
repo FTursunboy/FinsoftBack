@@ -15,7 +15,7 @@ use App\Models\Document;
 use App\Models\OrderDocument;
 use App\Models\OrderType;
 use App\Models\Status;
-use App\Repositories\Contracts\DocumentRepositoryInterface;
+use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 

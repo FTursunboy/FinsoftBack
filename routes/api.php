@@ -14,7 +14,9 @@ use App\Http\Controllers\Api\Document\DocumentController;
 use App\Http\Controllers\Api\Document\InventoryDocumentController;
 use App\Http\Controllers\Api\Document\MovementDocumentController;
 use App\Http\Controllers\Api\Document\ProviderDocumentController;
+use App\Http\Controllers\Api\Document\ReturnClientDocumentController;
 use App\Http\Controllers\Api\Document\ReturnDocumentController;
+use App\Http\Controllers\Api\Document\ReturnProviderDocumentController;
 use App\Http\Controllers\Api\EmployeeMovementController;
 use App\Http\Controllers\Api\FiringController;
 use App\Http\Controllers\Api\GoodGroupController;
@@ -228,23 +230,14 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::get('/settings', [SettingsController::class, 'index']);
     Route::post('/settings', [SettingsController::class, 'store']);
 
-    Route::group(['prefix' => 'document'], function() {
-           Route::group(['prefix' => 'return'], function () {
-              Route::post('approve/{document}', [ReturnDocumentController::class, 'approve']);
-           });
-
-
-    });
-
-
-
     Route::group(['prefix' => 'document'], function () {
         Route::group(['prefix' => '/provider'], function () {
             Route::get('/purchaseList', [ProviderDocumentController::class, 'index']);
             Route::post('/purchase', [ProviderDocumentController::class, 'purchase']);
 
-            Route::get('/returnList', [ProviderDocumentController::class, 'returnList']);
-            Route::post('/return', [ProviderDocumentController::class, 'return']);
+            Route::get('/returnList', [ReturnProviderDocumentController::class, 'index']);
+            Route::post('/return', [ReturnProviderDocumentController::class, 'store']);
+
             Route::get('/orderList', [ProviderDocumentController::class, 'orderList']);
             Route::post('/order', [ProviderDocumentController::class, 'order']);
             Route::get('order/show/{orderDocument}', [ProviderDocumentController::class, 'showOrder']);
@@ -253,12 +246,18 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::group(['prefix' => '/client'], function () {
             Route::get('/purchasedList', [ClientDocumentController::class, 'index']);
             Route::post('/purchase', [ClientDocumentController::class, 'purchase']);
-            Route::get('/returnList', [ClientDocumentController::class, 'returnList']);
-            Route::post('/return', [ClientDocumentController::class, 'return']);
+
+            Route::get('/returnList', [ReturnClientDocumentController::class, 'index']);
+            Route::post('/return', [ReturnClientDocumentController::class, 'store']);
+
             Route::get('orderList', [ClientDocumentController::class, 'orderList']);
             Route::post('/order', [ClientDocumentController::class, 'order']);
             Route::get('/order/statuses', [ClientDocumentController::class, 'statuses']);
             Route::get('order/show/{orderDocument}', [ClientDocumentController::class, 'showOrder']);
+        });
+
+        Route::group(['prefix' => 'return'], function () {
+            Route::post('approve/{document}', [ReturnDocumentController::class, 'approve']);
         });
 
         Route::group(['prefix' => '/inventory'], function () {

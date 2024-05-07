@@ -7,7 +7,7 @@ use App\DTO\Document\InventoryDocumentDTO;
 use App\DTO\Document\InventoryDocumentUpdateDTO;
 use App\Models\InventoryDocument;
 use App\Models\InventoryDocumentGoods;
-use App\Repositories\Contracts\InventoryDocumentRepositoryInterface;
+use App\Repositories\Contracts\Document\InventoryDocumentRepositoryInterface;
 use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
