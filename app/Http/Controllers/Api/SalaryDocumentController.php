@@ -44,9 +44,8 @@ class SalaryDocumentController extends Controller
     {
         $this->authorize('update', $salaryDocument);
 
+         return $this->success($this->repository->update(SalaryDocumentDTO::fromRequest($request), $salaryDocument));
 
-
-        return new SalaryDocumentResource($salaryDocument);
     }
 
     public function destroy(SalaryDocument $salaryDocument)
