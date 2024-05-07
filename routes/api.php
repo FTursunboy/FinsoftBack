@@ -309,7 +309,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'index']);
         Route::get('/{salaryDocument}', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'show']);
         Route::post('/', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'store']);
-        Route::patch('/', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'update']);
+        Route::patch('/{salaryDocument}', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'update']);
     });
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);

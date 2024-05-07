@@ -34,16 +34,18 @@ class SalaryDocumentRepository implements SalaryDocumentRepositoryInterface
     }
 
 
-    public function update(SalaryDocument $document, SalaryDocumentDTO $DTO)
+    public function update(SalaryDocumentDTO $DTO, SalaryDocument $salaryDocument)
     {
-        $document->update([
+        $salaryDocument->update([
             'date' => $DTO->date,
             'month_id' => $DTO->month_id,
             'organization_id' => $DTO->organization_id,
             'comment' => $DTO->comment
         ]);
 
+    $this->updateDocumentTable($DTO->data, $salaryDocument);
 
+    return $salaryDocument->load(['organization', 'author', 'month', 'employees']);
     }
 
     public function store(SalaryDocumentDTO $DTO)
@@ -85,23 +87,32 @@ class SalaryDocumentRepository implements SalaryDocumentRepositoryInterface
 
     private function updateDocumentTable(array $data, SalaryDocument $document)
     {
-        $insertArray = array_map(function ($item) use ($document) {
-            return [
-                'id' => $item['id'],
-                'employee_id' => $item['employee_id'],
-                'oklad' => $item['oklad'],
-                'worked_hours' =>  $item['worked_hours'],
-                'salary' =>  $item['salary'],
-                'another_payments' =>  $item['another_payments'],
-                'takes_from_salary' =>  $item['takes_from_salary'],
-                'payed_salary' => $item['payed_salary'] ?? null,
-                'salary_document_id' => $document->id,
-                'created_at' => Carbon::now()
-            ];
-        }, $data);
-
-        SalaryDocumentEmployees::insert($insertArray);
+        foreach ($data as $item) {
+            SalaryDocumentEmployees::updateOrInsert(
+                ['id' => $item['id']], // Условия поиска
+                [
+                    'employee_id' => $item['employee_id'],
+                    'oklad' => $item['oklad'],
+                    'worked_hours' => $item['worked_hours'],
+                    'salary' => $item['salary'],
+                    'another_payments' => $item['another_payments'],
+                    'takes_from_salary' => $item['takes_from_salary'],
+                    'payed_salary' => $item['payed_salary'] ?? null,
+                    'salary_document_id' => $document->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now() // Обновляем время последнего изменения
+                ]
+            );
+        }
     }
+
+
+
+
+
+
+
+
 
 
     public function search($query, array $data)
