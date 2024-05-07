@@ -17,7 +17,7 @@ use Laravel\Scout\Searchable;
 
 class Document extends DocumentModel implements SoftDeleteInterface
 {
-    use SoftDeletes, Searchable, HasFactory;
+    use Searchable, HasFactory;
 
     protected $fillable = ['doc_number', 'date', 'counterparty_id', 'counterparty_agreement_id', 'organization_id',
             'storage_id', 'author_id', 'active', 'status_id', 'active', 'comment', 'saleInteger', 'salePercent', 'currency_id', 'sale_sum', 'sum'];

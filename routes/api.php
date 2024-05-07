@@ -232,6 +232,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
            Route::group(['prefix' => 'return'], function () {
               Route::post('approve/{document}', [ReturnDocumentController::class, 'approve']);
            });
+
+
     });
 
 
@@ -278,6 +280,9 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
         Route::patch('Approve/{document}', [DocumentController::class, 'approve']);
         Route::patch('unApprove/{document}', [DocumentController::class, 'unApprove']);
+
+        Route::post('delete', [ClientDocumentController::class, 'massDelete']);
+        Route::post('restore', [ClientDocumentController::class, 'massRestore']);
     });
 
     Route::group(['middleware' => 'role:admin'], function () {
