@@ -20,7 +20,6 @@ abstract class DocumentModel extends Model implements Documentable
 
     public $incrementing = false;
 
-
     public function history(): HasMany
     {
         return $this->hasMany(DocumentHistory::class, 'document_id')->orderBy('created_at');

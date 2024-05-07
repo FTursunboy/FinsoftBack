@@ -177,6 +177,9 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
         $document->update(
             ['active' => true]
         );
+
+        DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome);
+
     }
 
 
