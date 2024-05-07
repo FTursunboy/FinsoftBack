@@ -10,7 +10,7 @@ class ClientPaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => ['required', 'date_format:d.m.Y H:i:s'],
+            'date' => ['required', 'date_format:Y-m-d H:i:s'],
             'organization_id' => ['required', Rule::exists('organizations', 'id')],
             'checking_account_id' => ['required', Rule::exists('organization_bills', 'id')],
             'sum' => ['required'],
