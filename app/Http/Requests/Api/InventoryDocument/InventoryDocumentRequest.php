@@ -10,7 +10,7 @@ class InventoryDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => ['required', 'date_format:d.m.Y H:i:s'],
+            'date' => ['required', 'date_format:Y-m-d H:i:s'],
             'organization_id' => ['required', Rule::exists('organizations', 'id')],
             'storage_id' => ['required', Rule::exists('storages', 'id')],
             'responsible_person_id' => ['required', Rule::exists('employees', 'id')],
