@@ -21,7 +21,7 @@ class SalaryDocumentEmployees extends Model
         'employee_id'
     ];
 
-    protected function employee(): BelongsTo
+    public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
     }
