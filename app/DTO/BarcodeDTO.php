@@ -6,9 +6,7 @@ use App\Http\Requests\Api\Barcode\BarcodeRequest;
 
 class BarcodeDTO
 {
-    public function __construct(public string $barcode, public int $good_id)
-    {
-    }
+    public function __construct(public string $barcode, public int $good_id) { }
 
     public static function fromRequest(BarcodeRequest $request) :self
     {

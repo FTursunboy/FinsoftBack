@@ -21,7 +21,7 @@ class SalaryPaymentController extends Controller
     public function __construct(public SalaryPaymentRepositoryInterface $repository) {}
 
     public function index(FilterRequest $request)
-    {dd(2);
+    {
         return $this->paginate(CashStoreResource::collection($this->repository->index($request->validated())));
     }
 

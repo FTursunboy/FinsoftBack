@@ -8,9 +8,7 @@ class EmployeeMovementDTO
 {
     public function __construct(public string $date, public int $employee_id, public float  $salary,
                                 public int $position_id, public string $movement_date, public string $basis,
-                                public int $department_id, public int $organization_id, public ?string $comment, public int $schedule_id)
-    {
-    }
+                                public int $department_id, public int $organization_id, public ?string $comment, public int $schedule_id) { }
 
     public static function fromRequest(EmployeeMovementRequest $request) :self
     {
