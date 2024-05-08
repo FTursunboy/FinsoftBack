@@ -7,7 +7,7 @@ use App\DTO\Document\MovementDocumentDTO;
 use App\Models\Document;
 use App\Models\GoodDocument;
 use App\Models\MovementDocument;
-use App\Repositories\Contracts\MovementDocumentRepositoryInterface;
+use App\Repositories\Contracts\Document\MovementDocumentRepositoryInterface;
 use App\Traits\DocNumberTrait;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;

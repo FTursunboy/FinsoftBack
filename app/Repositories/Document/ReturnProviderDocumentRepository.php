@@ -2,17 +2,21 @@
 
 namespace App\Repositories\Document;
 
+use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
+use App\DTO\Document\OrderDocumentDTO;
+use App\DTO\Document\OrderDocumentUpdateDTO;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
 use App\Models\Document;
-use App\Models\Good;
-use App\Models\GoodAccounting;
 use App\Models\GoodDocument;
+use App\Models\OrderDocument;
+use App\Models\OrderDocumentGoods;
 use App\Models\Status;
 use App\Repositories\Contracts\Document\Documentable;
-use App\Repositories\Contracts\Document\ReturnDocumentRepositoryInterface;
+use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
+use App\Repositories\Contracts\Document\ReturnProviderDocumentRepositoryInterface;
 use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
@@ -21,7 +25,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
+class ReturnProviderDocumentRepository implements ReturnProviderDocumentRepositoryInterface
 {
     use FilterTrait, Sort, DocNumberTrait;
 
@@ -31,16 +35,20 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
     {
         $filteredParams = $this->model::filter($data);
 
-        $query = $this->model::query()->where('status_id', Status::PROVIDER_RETURN);
+        $query = $this->model::query()->where('status_id', $status);
+
+        $query = $this->search($query, $filteredParams);
+
+        $query = $this->filter($query, $filteredParams);
 
         $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoodsWithCount', 'totalGoodsSum']);
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }
 
-    public function store(DocumentDTO $dto): Document
+    public function store(DocumentDTO $dto, int $status): Document
     {
-        $document = DB::transaction(function () use ($dto) {
+        $document = DB::transaction(function () use ($status, $dto) {
 
             $document = Document::create([
                 'doc_number' => $this->uniqueNumber(),
@@ -50,7 +58,7 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
                 'organization_id' => $dto->organization_id,
                 'storage_id' => $dto->storage_id,
                 'author_id' => Auth::id(),
-                'status_id' => Status::PROVIDER_RETURN,
+                'status_id' => $status,
                 'comment' => $dto->comment,
                 'saleInteger' => $dto->saleInteger,
                 'salePercent' => $dto->salePercent,
@@ -58,7 +66,6 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
                 'sale_sum' => $dto->sale_sum,
                 'sum' => $dto->sum,
             ]);
-
 
             if (!is_null($dto->goods))
                 GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
@@ -68,7 +75,6 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
           });
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
-
 
     }
 
@@ -92,6 +98,24 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
                 $this->updateGoodDocuments($dto->goods, $document);
             }
         });
+    }
+
+    public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
+    {
+        GoodDocument::whereIn('id', $DTO->ids)->delete();
+    }
+
+    public function orderUniqueNumber(): string
+    {
+        $lastRecord = OrderDocument::query()->orderBy('doc_number', 'desc')->first();
+
+        if (!$lastRecord) {
+            $lastNumber = 1;
+        } else {
+            $lastNumber = (int)$lastRecord->doc_number + 1;
+        }
+
+        return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
     }
 
     private function insertGoodDocuments(array $goods, Document $document): array
@@ -140,107 +164,33 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
         }
     }
 
+    public function goodDocument($good, $document)
+    {
+        return [
+            'good_id' => $good['good_id'],
+            'amount' => $good['amount'],
+            'price' => $good['price'],
+            'document_id' => $document->id,
+            'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
+            'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
+            'updated_at' => Carbon::now()
+        ];
+    }
 
     public function approve(Document $document)
     {
-        $result = $this->checkInventory($document);
-
-        $response = [];
-
-        if ($result !== null) {
-            foreach ($result as $goods) {
-
-                $good = Good::find($goods['good_id'])->name;
-
-                $response[] = [
-                    'good' => $good,
-                    'amount' => $goods['amount']
-                ];
-            }
-
-
-            return $response;
-        }
-
-        if($document->active) {
-            $this->deleteDocumentData($document);
-        }
-
         $document->update(
             ['active' => true]
         );
-
-        DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome);
-    }
-
-
-    public function checkInventory(Document $document)
-    {
-        $incomingDate = $document->date;
-        $incomingGoods = $document->documentGoods->pluck('good_id', 'amount')->toArray();
-
-        $previousIncomings = GoodAccounting::where('movement_type', MovementTypes::Income)
-            ->where('storage_id', $document->storage_id)
-            ->where('date', '<=', $incomingDate)
-            ->get();
-
-        $previousOutgoings = GoodAccounting::where('movement_type', MovementTypes::Outcome)
-            ->where('date', '<=', $incomingDate)
-            ->where('storage_id', $document->storage_id)
-            ->get();
-
-        $previousIncomingsByGoodId = $previousIncomings->groupBy('good_id')->map(function ($group) {
-            return $group->sum('amount');
-        });
-
-        $previousOutgoingsByGoodId = $previousOutgoings->groupBy('good_id')->map(function ($group) {
-            return $group->sum('amount');
-        });
-
-        $insufficientGoods = [];
-
-        foreach ($incomingGoods as $incomingAmount => $goodId) {
-
-
-            $totalIncoming = $previousIncomingsByGoodId->has($goodId) ? $previousIncomingsByGoodId[$goodId] : 0;
-            $totalOutgoing = $previousOutgoingsByGoodId->has($goodId) ? $previousOutgoingsByGoodId[$goodId] : 0;
-
-            $availableAmount = $totalIncoming - $totalOutgoing;
-
-            if ($incomingAmount > $availableAmount) {
-                $insufficientGoods[] = [
-                    'good_id' => $goodId,
-                    'amount' => $incomingAmount - $availableAmount
-                ];
-            }
+        if ($document->status_id === Status::PROVIDER_PURCHASE || $document->status_id === Status::CLIENT_PURCHASE)
+        {
+            DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
         }
 
-
-
-        if (!empty($insufficientGoods)) {
-            return $insufficientGoods;
-        }
-    }
-
-
-
-    private function checkGoodExistence(Document $document) :void
-    {
-        $goods = [];
-
-        foreach ($document->documentGoods as $documentGood) {
-            $goods[] = [
-                'good_id' => $documentGood['good_id'],
-                'date' => $document->date
-            ];
-        }
-
-        GoodAccounting::where('movement_type');
     }
 
     public function unApprove(Document $document)
     {
-        $this->deleteDocumentData($document);
         $document->update(
             ['active' => false]
         );
@@ -251,18 +201,70 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
         return $document->load(['history.changes', 'history.user']);
     }
 
-    public function deleteDocumentData(Document $document)
+    public function orderGoods(OrderDocument $document, array $goods): array
     {
-        $document->goodAccountents()->delete();
-        $document->counterpartySettlements()->delete();
-        $document->balances()->delete();
+        return array_map(function ($item) use ($document) {
+            return [
+                'good_id' => $item['good_id'],
+                'amount' => $item['amount'],
+                'price' => $item['price'],
+                'auto_sale_percent' => $item['auto_sale_percent'] ?? null,
+                'auto_sale_sum' => $item['auto_sale_sum'] ?? null,
+                'order_document_id' => $document->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ];
+        }, $goods);
     }
 
+    public function search($query, array $data)
+    {
+        $searchTerm = explode(' ', $data['search']);
 
+        return $query->where(function ($query) use ($searchTerm) {
+            $query->where('doc_number', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhereHas('counterparty', function ($query) use ($searchTerm) {
+                    return $query->where('counterparties.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('organization', function ($query) use ($searchTerm) {
+                    return $query->where('organizations.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('storage', function ($query) use ($searchTerm) {
+                    return $query->where('storages.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('author', function ($query) use ($searchTerm) {
+                    return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('currency', function ($query) use ($searchTerm) {
+                    return $query->where('currencies.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                });
+        });
+    }
 
-
-
-
-
+    public function filter($query, array $data)
+    {
+        return $query->when($data['currency_id'], function ($query) use ($data) {
+            return $query->where('currency_id', $data['currency_id']);
+        })
+            ->when($data['counterparty_id'], function ($query) use ($data) {
+                return $query->where('counterparty_id', $data['counterparty_id']);
+            })
+            ->when($data['organization_id'], function ($query) use ($data) {
+                return $query->where('organization_id', $data['organization_id']);
+            })
+            ->when($data['counterparty_agreement_id'], function ($query) use ($data) {
+                return $query->where('counterparty_agreement_id', $data['counterparty_agreement_id']);
+            })
+            ->when($data['storage_id'], function ($query) use ($data) {
+                return $query->where('storage_id', $data['storage_id']);
+            })
+            ->when($data['date'], function ($query) use ($data) {
+                $date = Carbon::createFromFormat('Y-m-d', $data['date'])->format('Y-m-d');
+                return $query->where('date', $date);
+            })
+            ->when($data['author_id'], function ($query) use ($data) {
+                return $query->where('author_id', $data['author_id']);
+            });
+    }
 
 }

@@ -18,26 +18,26 @@ use App\Models\OrderDocument;
 use App\Models\OrderStatus;
 use App\Models\OrderType;
 use App\Models\Status;
-use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
+use App\Repositories\Contracts\Document\ReturnClientDocumentRepositoryInterface;
 use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
-class ClientDocumentController extends Controller
+class ReturnClientDocumentController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(public DocumentRepositoryInterface $repository) { }
+    public function __construct(public ReturnClientDocumentRepositoryInterface $repository) { }
 
     public function index(IndexRequest $indexRequest): JsonResponse
     {
-        return $this->paginate(DocumentResource::collection($this->repository->index(Status::CLIENT_PURCHASE, $indexRequest->validated())));
+        return $this->paginate(DocumentResource::collection($this->repository->index(Status::CLIENT_RETURN, $indexRequest->validated())));
     }
 
-    public function purchase(DocumentRequest $request): JsonResponse
+    public function store(DocumentRequest $request): JsonResponse
     {
-        return $this->created(DocumentResource::make($this->repository->store(DocumentDTO::fromRequest($request), Status::CLIENT_PURCHASE)));
+        return $this->created(DocumentResource::make($this->repository->store(DocumentDTO::fromRequest($request), Status::CLIENT_RETURN)));
     }
 
     public function massDelete(IdRequest $request, MassOperationInterface $delete)
@@ -48,5 +48,10 @@ class ClientDocumentController extends Controller
     public function massRestore(IdRequest $request, MassOperationInterface $restore)
     {
         return $this->success($restore->massRestore(new Document(), $request->validated()));
+    }
+
+    public function statuses()
+    {
+        return $this->success(OrderStatusResource::collection(OrderStatus::get()));
     }
 }
