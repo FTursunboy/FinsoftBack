@@ -307,9 +307,9 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
        Route::get('/employees', [\App\Http\Controllers\Api\ReportCardController::class, 'getEmployees']);
        Route::post('/', [\App\Http\Controllers\Api\ReportCardController::class, 'store']);
        Route::patch('/', [\App\Http\Controllers\Api\ReportCardController::class, 'update']);
-        Route::get('/employeeSalary', [\App\Http\Controllers\Api\ReportCardController::class, 'getEmployeesSalary']);
-        Route::get('/', [\App\Http\Controllers\Api\ReportCardController::class, 'index']);
-        Route::get('/{reportCard}', [\App\Http\Controllers\Api\ReportCardController::class, 'show']);
+       Route::get('/employeeSalary', [\App\Http\Controllers\Api\ReportCardController::class, 'getEmployeesSalary']);
+       Route::get('/', [\App\Http\Controllers\Api\ReportCardController::class, 'index']);
+       Route::get('/{reportCard}', [\App\Http\Controllers\Api\ReportCardController::class, 'show']);
     });
 
 
