@@ -270,7 +270,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
         Route::apiResource('movement', MovementDocumentController::class)->except('destroy');
 
-
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
         Route::patch('/update-order/{orderDocument}', [DocumentController::class, 'updateOrder']);
         Route::get('/show/{document}', [ProviderDocumentController::class, 'show']);
@@ -304,9 +303,9 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
        Route::get('/employees', [\App\Http\Controllers\Api\ReportCardController::class, 'getEmployees']);
        Route::post('/', [\App\Http\Controllers\Api\ReportCardController::class, 'store']);
        Route::patch('/', [\App\Http\Controllers\Api\ReportCardController::class, 'update']);
-        Route::get('/employeeSalary', [\App\Http\Controllers\Api\ReportCardController::class, 'getEmployeesSalary']);
-        Route::get('/', [\App\Http\Controllers\Api\ReportCardController::class, 'index']);
-        Route::get('/{reportCard}', [\App\Http\Controllers\Api\ReportCardController::class, 'show']);
+       Route::get('/employeeSalary', [\App\Http\Controllers\Api\ReportCardController::class, 'getEmployeesSalary']);
+       Route::get('/', [\App\Http\Controllers\Api\ReportCardController::class, 'index']);
+       Route::get('/{reportCard}', [\App\Http\Controllers\Api\ReportCardController::class, 'show']);
     });
 
 

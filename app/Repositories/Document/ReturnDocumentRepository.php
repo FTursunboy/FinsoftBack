@@ -179,21 +179,22 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
         );
 
         DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome);
-
     }
 
 
     public function checkInventory(Document $document)
     {
         $incomingDate = $document->date;
-        $incomingGoods = $document->documentGoods->pluck('good_id', 'amount')->toArray(); // Массив товаров и их количества
+        $incomingGoods = $document->documentGoods->pluck('good_id', 'amount')->toArray();
 
         $previousIncomings = GoodAccounting::where('movement_type', MovementTypes::Income)
+            ->where('storage_id', $document->storage_id)
             ->where('date', '<=', $incomingDate)
             ->get();
 
         $previousOutgoings = GoodAccounting::where('movement_type', MovementTypes::Outcome)
             ->where('date', '<=', $incomingDate)
+            ->where('storage_id', $document->storage_id)
             ->get();
 
         $previousIncomingsByGoodId = $previousIncomings->groupBy('good_id')->map(function ($group) {
@@ -204,7 +205,7 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
             return $group->sum('amount');
         });
 
-        $insufficientGoods = []; // Массив для нехватающих товаров
+        $insufficientGoods = [];
 
         foreach ($incomingGoods as $incomingAmount => $goodId) {
 
@@ -225,7 +226,7 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
 
 
         if (!empty($insufficientGoods)) {
-            return $insufficientGoods; // Возвращаем массив нехватающих товаров
+            return $insufficientGoods;
         }
     }
 
@@ -247,6 +248,7 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
 
     public function unApprove(Document $document)
     {
+        $this->deleteDocumentData($document);
         $document->update(
             ['active' => false]
         );
