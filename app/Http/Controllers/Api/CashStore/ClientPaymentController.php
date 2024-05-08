@@ -31,7 +31,7 @@ class ClientPaymentController extends Controller
     {
         $this->authorize('create', CashStore::class);
 
-        return $this->success($this->repository->clientPayment(ClientPaymentDTO::fromRequest($request)));
+        return $this->created($this->repository->clientPayment(ClientPaymentDTO::fromRequest($request)));
     }
 
     public function show(CashStore $cashStore)

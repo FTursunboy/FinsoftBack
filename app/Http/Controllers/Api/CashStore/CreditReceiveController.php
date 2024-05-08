@@ -35,6 +35,6 @@ class CreditReceiveController extends Controller
 
     public function update(CashStore $cashStore, CreditReceiveRequest $request)
     {
-        return $this->created(CashStoreResource::make($this->repository->upate($cashStore, CreditReceiveDTO::fromRequest($request))));
+        return $this->created(CashStoreResource::make($this->repository->update($cashStore, CreditReceiveDTO::fromRequest($request))));
     }
 }

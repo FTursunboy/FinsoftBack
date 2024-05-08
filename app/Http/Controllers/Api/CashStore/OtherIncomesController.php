@@ -32,6 +32,6 @@ class OtherIncomesController extends Controller
 
     public function update(CashStore $cashStore, OtherIncomesRequest $request)
     {
-        return $this->created(CashStoreResource::make($this->repository->update($cashStore, OtherIncomesDTO::fromRequest($request))));
+        return $this->success(CashStoreResource::make($this->repository->update($cashStore, OtherIncomesDTO::fromRequest($request))));
     }
 }
