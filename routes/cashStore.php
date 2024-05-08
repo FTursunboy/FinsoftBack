@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\CashStore\InvestmentController;
 use App\Http\Controllers\Api\CashStore\OtherExpensesController;
 use App\Http\Controllers\Api\CashStore\OtherIncomesController;
 use App\Http\Controllers\Api\CashStore\ProviderRefundController;
+use App\Http\Controllers\Api\CashStore\SalaryPaymentController;
 use App\Http\Controllers\Api\CashStore\WithdrawalController;
 use Illuminate\Support\Facades\Route;
 
@@ -82,6 +83,12 @@ use Illuminate\Support\Facades\Route;
             Route::get('', [OtherIncomesController::class, 'index']);
             Route::post('', [OtherIncomesController::class, 'store']);
             Route::patch('/{cashStore}', [OtherIncomesController::class, 'update']);
+        });
+
+        Route::group(['prefix' => 'salary-payment'], function () {
+            Route::get('/', [SalaryPaymentController::class, 'index']);
+            Route::post('/', [SalaryPaymentController::class, 'store']);
+            Route::patch('/{cashStore}', [SalaryPaymentController::class, 'update']);
         });
 
     });
