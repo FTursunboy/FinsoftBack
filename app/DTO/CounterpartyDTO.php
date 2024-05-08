@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 
 class CounterpartyDTO
 {
-    public function __construct(public string $name, public string $address, public string $phone, public string $email, public array $roles)
-    {
-    }
+    public function __construct(public string $name, public string $address, public string $phone, public string $email, public array $roles) { }
 
     public static function fromRequest(Request $request) :self
     {

@@ -8,9 +8,7 @@ use Illuminate\Http\UploadedFile;
 class EmployeeDTO
 {
     public function __construct(public string $name, public ?UploadedFile $image,
-                    public ?string $phone, public ?string $email, public ?string $address, public int $group_id)
-    {
-    }
+                    public ?string $phone, public ?string $email, public ?string $address, public int $group_id) { }
 
     public static function fromRequest(EmployeeRequest $request) :self
     {

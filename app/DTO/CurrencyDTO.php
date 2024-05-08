@@ -6,9 +6,7 @@ use App\Http\Requests\Api\Currency\CurrencyRequest;
 
 class CurrencyDTO
 {
-    public function __construct(public string $name, public int $digital_code, public string $symbol_code)
-    {
-    }
+    public function __construct(public string $name, public int $digital_code, public string $symbol_code) { }
 
     public static function fromRequest(CurrencyRequest $request) :self
     {
