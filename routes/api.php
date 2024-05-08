@@ -267,9 +267,11 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('/', [InventoryDocumentController::class, 'store']);
             Route::get('/{inventoryDocument}', [InventoryDocumentController::class, 'show']);
             Route::patch('/{inventoryDocument}', [InventoryDocumentController::class, 'update']);
+            Route::post('delete-document-goods', [InventoryDocumentController::class, 'deleteDocumentGoods']);
         });
 
         Route::apiResource('movement', MovementDocumentController::class)->except('destroy');
+        Route::post('movement/delete-document-goods', [MovementDocumentController::class, 'deleteDocumentGoods']);
 
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
         Route::patch('/update-order/{orderDocument}', [DocumentController::class, 'updateOrder']);
@@ -281,6 +283,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::patch('Approve/{document}', [DocumentController::class, 'approve']);
         Route::patch('unApprove/{document}', [DocumentController::class, 'unApprove']);
 
+        Route::post('delete-document-goods', [DocumentController::class, 'deleteDocumentGoods']);
         Route::post('delete', [ClientDocumentController::class, 'massDelete']);
         Route::post('restore', [ClientDocumentController::class, 'massRestore']);
     });
