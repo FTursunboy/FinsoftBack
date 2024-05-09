@@ -83,7 +83,6 @@ class PermissionRepository implements PermissionRepositoryInterface
         $user->givePermissionTo($permissionList);
     }
 
-
     public function giveReportPermission(User $user, array $permissions)
     {
         $this->revokePermissions($user, ResourceTypes::Report);

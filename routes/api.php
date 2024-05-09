@@ -122,6 +122,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'users'], function () {
+        Route::post('/add-fcm-token', [UserController::class, 'addFcmToken']);
         Route::post('/change-password/{user}', [UserController::class, 'changePassword']);
         Route::post('/massDelete', [UserController::class, 'massDelete']);
         Route::post('/massRestore', [UserController::class, 'massRestore']);

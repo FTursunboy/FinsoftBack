@@ -31,7 +31,6 @@ class HandleDocumentApproveCreated
              $sum = $this->document->sum * $this->getExcangeRate();
         }
 
-
         CounterpartySettlement::create([
             'counterparty_id' => $this->document->counterparty_id,
             'counterparty_agreement_id' => $this->document->counterparty_agreement_id,

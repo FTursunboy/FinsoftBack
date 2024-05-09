@@ -256,7 +256,6 @@ class DocumentRepository implements DocumentRepositoryInterface
             DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
         }
 
-
     }
 
     public function unApprove(Document $document)
