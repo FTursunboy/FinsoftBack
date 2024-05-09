@@ -86,7 +86,7 @@ class AuthController extends Controller
         return $this->success('Пин-код успешно изменен!');
     }
 
-    public function checkFcmToken(string $device, User $user)
+    public function checkFcmToken(?string $device, User $user)
     {
         foreach ($user->fcmTokens as $token)
         {
