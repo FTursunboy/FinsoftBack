@@ -1,15 +1,18 @@
 <?php
 namespace App\Http\Middleware;
 
+use App\Traits\ApiResponse;
 use Closure;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class ApiRequestLockMiddleware
 {
-
+    use ApiResponse;
     public function handle($request, Closure $next)
     {
+
+
         if ($request->isMethod('POST', 'PATCH') && $request->header('permission') === null) {
 
             $cacheKey = 'last_post_time_' . ($request->user()->id);
