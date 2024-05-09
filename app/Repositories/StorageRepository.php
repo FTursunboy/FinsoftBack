@@ -24,7 +24,7 @@ class StorageRepository implements StorageRepositoryInterface
 
     public function index(array $data): LengthAwarePaginator
     {
-        $filterParams = $this->processSearchData($data);
+        $filterParams = $this->model::filter($data);
 
         $query = $this->search($filterParams['search']);
 
