@@ -35,7 +35,8 @@ class AuthController extends Controller
         return response()->json([
             'token' => $user->createToken('API TOKEN')->plainTextToken,
             'user' => UserResource::make($user),
-            'pin' => $user->pin
+            'pin' => $user->pin,
+            'fcm_token' => $user->fcm_token ? true : false
         ]);
     }
 
