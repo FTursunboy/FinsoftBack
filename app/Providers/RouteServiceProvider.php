@@ -40,9 +40,9 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
-        });
+            });
 
-        Route::bind('document', function ($value) {
+            Route::bind('document', function ($value) {
             $types = [
                 Document::class,
                 MovementDocument::class
@@ -57,6 +57,8 @@ class RouteServiceProvider extends ServiceProvider
 
             throw new ModelNotFoundException("Document not found");
         });
+
+
 
     }
 
