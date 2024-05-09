@@ -72,5 +72,8 @@ class User extends Authenticatable implements SoftDeleteInterface
         ];
     }
 
-
+    public function fcmTokens()
+    {
+        return $this->hasMany(UserFcmToken::class, 'user_id');
+    }
 }

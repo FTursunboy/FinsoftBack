@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DTO\FcmTokenDTO;
 use App\DTO\UserDTO;
 use App\DTO\UserUpdateDTO;
 use App\Http\Controllers\Controller;
@@ -85,6 +86,6 @@ class UserController extends Controller
 
     public function addFcmToken(FcmTokenRequest $request)
     {
-        return $this->success(auth()->user()->update(['fcm_token' => $request->fcm_token]));
+        return $this->success($this->repository->addFcmToken(FcmTokenDTO::fromRequest($request)));
     }
 }

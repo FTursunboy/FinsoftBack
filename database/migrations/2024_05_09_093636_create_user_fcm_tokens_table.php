@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('fcm_token')->nullable();
+        Schema::create('user_fcm_tokens', function (Blueprint $table) {
+            $table->id();
+            $table->string('fcm_token');
+            $table->unsignedBigInteger('user_id');
+            $table->string('device');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('fcm_token');
-        });
+        Schema::dropIfExists('user_fcm_tokens');
     }
 };

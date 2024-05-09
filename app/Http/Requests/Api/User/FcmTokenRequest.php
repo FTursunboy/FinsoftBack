@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\Api\User;
 
+use App\Enums\Device;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class FcmTokenRequest extends FormRequest
 {
@@ -25,13 +27,7 @@ class FcmTokenRequest extends FormRequest
     {
         return [
             'fcm_token' => ['required'],
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'password.required' => 'Поле пароль обязательно для заполнения.',
+            'device' => ['required', Rule::enum(Device::class)]
         ];
     }
 }
