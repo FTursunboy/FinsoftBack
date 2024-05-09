@@ -70,8 +70,8 @@ class CounterpartyAgreementRepository implements CounterpartyAgreementRepository
             $query->where('counterparty_id', $counterparty->id)->with(['organization', 'counterparty', 'currency', 'payment', 'priceType']);
         });
 
-        if (!is_null($filteredParams['orderBy'])) {
-            $query->orderBy($filteredParams['orderBy'], $filteredParams['direction']);
+        if (!is_null($filteredParams['sort'])) {
+            $query->orderBy($filteredParams['sort'], $filteredParams['direction']);
         }
 
         return $query->paginate($filteredParams['itemsPerPage']);
