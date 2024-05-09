@@ -2,9 +2,11 @@
 
 namespace App\Repositories;
 
+use App\DTO\FcmTokenDTO;
 use App\DTO\UserDTO;
 use App\DTO\UserUpdateDTO;
 use App\Models\User;
+use App\Models\UserFcmToken;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
@@ -99,5 +101,14 @@ class UserRepository implements UserRepositoryInterface
         $query = $this->sort($filteredParams, $query);
 
         return $query->paginate($filteredParams['itemsPerPage']);
+    }
+
+    public function addFcmToken(FcmTokenDTO $DTO)
+    {
+        UserFcmToken::create([
+            'fcm_token' => $DTO->fcm_token,
+            'device' => $DTO->device,
+            'user_id' => auth()->id()
+        ]);
     }
 }
