@@ -72,11 +72,11 @@ class CashStoreFilter extends ModelFilter
     }
 
 
-    public function sort() :FiringFilter
+    public function sort() :CashStoreFilter
     {
         $filteredParams = $this->input();
 
-        $relations = ['employee', 'counterparty', 'author', 'organizationBill', 'currency', 'organization', 'senderCashRegister', 'cashRegister', ''];
+        $relations = ['employee', 'counterparty', 'author', 'organizationBill', 'currency', 'organization', 'senderCashRegister', 'cashRegister'];
 
         return $this->traitSort($filteredParams, $this, $relations);
     }

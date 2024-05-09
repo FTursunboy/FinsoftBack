@@ -8,9 +8,9 @@ trait Sort
 {
     public function sort(array $filteredParams, $query, array $relations = [])
     {
-        if (!is_null($filteredParams['orderBy'])) {
-            if (Str::contains($filteredParams['orderBy'], '.')) {
-                list($relation, $field) = explode('.', $filteredParams['orderBy']);
+        if (!is_null($filteredParams['sort'])) {
+            if (Str::contains($filteredParams['sort'], '.')) {
+                list($relation, $field) = explode('.', $filteredParams['sort']);
 
                 $relatedTable = app($this->model)->$relation()->getRelated()->getTable();
 
@@ -21,7 +21,7 @@ trait Sort
                         ->select("{$thisTable}.*");
             }
 
-            return  $query->with($relations)->orderBy($filteredParams['orderBy'], $filteredParams['direction']);
+            return  $query->with($relations)->orderBy($filteredParams['sort'], $filteredParams['direction']);
         }
 
         return $query->with($relations)->orderBy('deleted_at')->orderBy('created_at', 'desc');
