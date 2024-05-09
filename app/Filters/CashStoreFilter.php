@@ -71,7 +71,6 @@ class CashStoreFilter extends ModelFilter
         });
     }
 
-
     public function sort() :CashStoreFilter
     {
         $filteredParams = $this->input();

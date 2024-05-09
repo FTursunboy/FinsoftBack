@@ -44,7 +44,7 @@ class CashRegister extends Model implements \App\Repositories\Contracts\SoftDele
     {
         return [
             'search' => $data['search'] ?? '',
-            'orderBy' => $data['orderBy'] ?? null,
+            'sort' => $data['orderBy'] ?? null,
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'name'  => $data['filterData']['name'] ?? null,

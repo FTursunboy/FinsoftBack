@@ -66,7 +66,7 @@ class CheckingAccountFilter extends ModelFilter
     }
 
 
-    public function sort() :FiringFilter
+    public function sort() :CheckingAccountFilter
     {
         $filteredParams = $this->input();
 
