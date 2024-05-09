@@ -7,6 +7,7 @@ use App\DTO\UserUpdateDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\User\ChangePasswordRequest;
+use App\Http\Requests\Api\User\FcmTokenRequest;
 use App\Http\Requests\Api\User\FilterRequest;
 use App\Http\Requests\Api\User\UserRequest;
 use App\Http\Requests\Api\User\UserUpdateRequest;
@@ -80,5 +81,10 @@ class UserController extends Controller
     public function documentAuthors(FilterRequest $request)
     {
         return $this->paginate(UserResource::collection($this->repository->documentAuthors($request->validated())));
+    }
+
+    public function addFcmToken(FcmTokenRequest $request)
+    {
+        return $this->success(auth()->user()->update(['fcm_token' => $request->fcm_token]));
     }
 }

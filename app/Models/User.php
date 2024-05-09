@@ -20,7 +20,7 @@ class User extends Authenticatable implements SoftDeleteInterface
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
-    protected $fillable = ['name', 'login', 'email', 'password', 'phone', 'organization_id', 'status', 'image', 'group_id', 'pin'];
+    protected $fillable = ['name', 'login', 'email', 'password', 'phone', 'organization_id', 'status', 'image', 'group_id', 'pin', 'fcm_token'];
 
     protected $hidden = [
         'password',
