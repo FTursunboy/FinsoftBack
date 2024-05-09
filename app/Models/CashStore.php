@@ -109,7 +109,7 @@ class CashStore extends DocumentModel
     {
         $filteredData = [
             'search' => $data['search'] ?? '',
-            'sort' => $data['orderBy'] ?? null,
+            'orderBy' => $data['orderBy'] ?? null,
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'organization_id' => $data['filterData']['organization_id'] ?? null,
