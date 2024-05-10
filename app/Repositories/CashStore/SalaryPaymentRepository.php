@@ -21,7 +21,7 @@ class SalaryPaymentRepository implements SalaryPaymentRepositoryInterface
         $filteredParams = $this->model::filterData($data);
 
         $query = $this->model::where('operation_type', OperationType::SALARY_PAYMENT);
-dd($query->get());
+
         $query = $query->filter($filteredParams);
 
         return $query->with(['organization', 'cashRegister', 'counterparty', 'author', 'currency'])->paginate($filteredParams['itemsPerPage']);
