@@ -3,6 +3,7 @@
 namespace App\Filters;
 
 use App\Models\CashStore;
+use App\Models\Department;
 use EloquentFilter\ModelFilter;
 use Illuminate\Support\Str;
 
@@ -15,6 +16,7 @@ class DepartmentFilter extends ModelFilter
     * @var array
     */
 
+    protected $model = Department::class;
 
     public function name($value) :DepartmentFilter
     {

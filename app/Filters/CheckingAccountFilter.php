@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Models\CheckingAccount;
 use App\Traits\Sort;
 use EloquentFilter\ModelFilter;
 
@@ -18,6 +19,8 @@ class CheckingAccountFilter extends ModelFilter
     use Sort {
         sort as traitSort;
     }
+
+    protected $model = CheckingAccount::class;
 
     public function date($value) :CheckingAccountFilter
     {

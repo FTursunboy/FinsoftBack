@@ -3,6 +3,7 @@
 namespace App\Filters;
 
 use App\Models\CashStore;
+use App\Models\Hiring;
 use App\Traits\Sort;
 use EloquentFilter\ModelFilter;
 use Illuminate\Support\Str;
@@ -19,6 +20,7 @@ class HiringFilter extends ModelFilter
     * @var array
     */
 
+    protected $model = Hiring::class;
 
     public function date($value) :HiringFilter
     {

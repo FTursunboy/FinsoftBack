@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Models\MovementDocument;
 use App\Traits\Sort;
 use EloquentFilter\ModelFilter;
 
@@ -17,6 +18,8 @@ class MovementDocumentFilter extends ModelFilter
     use Sort {
         sort as traitSort;
     }
+
+    protected $model = MovementDocument::class;
 
     public function date($value) :MovementDocumentFilter
     {

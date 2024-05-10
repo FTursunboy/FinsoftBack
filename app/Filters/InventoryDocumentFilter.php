@@ -17,6 +17,8 @@ class InventoryDocumentFilter extends ModelFilter
     */
     public $relations = [];
 
+    protected $model = InventoryDocument::class;
+
     public function date($value) : InventoryDocumentFilter
     {
         return $this->whereDate('date', $value);

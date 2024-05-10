@@ -3,6 +3,7 @@
 namespace App\Filters;
 
 use App\Models\CashStore;
+use App\Models\Firing;
 use App\Traits\Sort;
 use EloquentFilter\ModelFilter;
 use Illuminate\Support\Str;
@@ -22,6 +23,7 @@ class FiringFilter extends ModelFilter
     * @var array
     */
 
+    protected $model = Firing::class;
 
     public function date($value) :FiringFilter
     {
