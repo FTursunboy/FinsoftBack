@@ -260,10 +260,20 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function unApprove(Document $document)
     {
+        $this->deleteDocumentData($document);
         $document->update(
             ['active' => false]
         );
     }
+
+    public function deleteDocumentData(Document $document)
+    {
+        $document->goodAccountents()->delete();
+        $document->counterpartySettlements()->delete();
+        $document->balances()->delete();
+    }
+
+
 
     public function changeHistory(Documentable $document)
     {

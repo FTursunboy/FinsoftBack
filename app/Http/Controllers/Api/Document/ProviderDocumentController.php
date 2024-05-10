@@ -44,5 +44,12 @@ class ProviderDocumentController extends Controller
     {
         return $this->success($this->repository->approve($document));
     }
+    public function unApprove(Document $document)
+    {
+
+        return $this->success($this->repository->unApprove($document));
+    }
+
+
 
 }
