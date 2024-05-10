@@ -32,9 +32,10 @@ class ManagerNotification extends Notification
                     ->line('Thank you for using our application!');
     }
 
-    public function toTelegram()
+    public function toTelegram($notifiable)
     {
         return TelegramMessage::create()
+//            ->to($notifiable->telegram_chat_id)
             ->content(
                 "Заказ #{$this->document->doc_number}
                 \n{$this->document->date}

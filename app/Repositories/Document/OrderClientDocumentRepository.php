@@ -9,6 +9,7 @@ use App\DTO\Document\OrderDocumentDTO;
 use App\DTO\Document\OrderDocumentUpdateDTO;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
+use App\Jobs\Telegram\ManagerNotifyJob;
 use App\Models\Document;
 use App\Models\GoodDocument;
 use App\Models\OrderDocument;
@@ -66,6 +67,8 @@ class OrderClientDocumentRepository implements OrderClientDocumentRepositoryInte
 
             if (!is_null($DTO->goods))
                 OrderDocumentGoods::insert($this->orderGoods($document, $DTO->goods));
+
+            ManagerNotifyJob::dispatch($document);
 
             return $document;
            });
