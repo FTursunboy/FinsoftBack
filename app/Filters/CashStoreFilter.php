@@ -20,6 +20,8 @@ class CashStoreFilter extends ModelFilter
         sort as traitSort;
     }
 
+    protected $model = CashStore::class;
+
     public function date($value) :CashStoreFilter
     {
         return $this->whereDate('date', $value);
