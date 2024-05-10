@@ -35,7 +35,8 @@ class AuthController extends Controller
         return response()->json([
             'token' => $user->createToken('API TOKEN')->plainTextToken,
             'user' => UserResource::make($user),
-            'pin' => $user->pin
+            'pin' => $user->pin,
+            'fcm_token' => $this->checkFcmToken($request->device, $user)
         ]);
     }
 
@@ -83,5 +84,15 @@ class AuthController extends Controller
         $user->update(['pin' => $data['pin']]);
 
         return $this->success('Пин-код успешно изменен!');
+    }
+
+    public function checkFcmToken(?string $device, User $user)
+    {
+        foreach ($user->fcmTokens as $token)
+        {
+            if ($token->device === $device) return true;
+        }
+
+        return false;
     }
 }

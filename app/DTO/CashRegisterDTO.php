@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 
 class CashRegisterDTO
 {
-    public function __construct(public string $name, public int $currency_id, public int $organization_id, public int $responsible_person_id)
-    {
-    }
+    public function __construct(public string $name, public int $currency_id, public int $organization_id, public int $responsible_person_id) { }
 
     public static function fromRequest(Request $request) :self
     {

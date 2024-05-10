@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
+use App\DTO\FcmTokenDTO;
 use App\DTO\UserDTO;
 use App\DTO\UserUpdateDTO;
 use App\Models\User;
@@ -19,4 +20,6 @@ interface UserRepositoryInterface extends IndexInterface
     public function deleteImage(User $user);
 
     public function documentAuthors(array $data);
+
+    public function addFcmToken(FcmTokenDTO $DTO);
 }

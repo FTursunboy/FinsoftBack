@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Enums\Device;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class LoginRequest extends FormRequest
 {
@@ -24,7 +26,8 @@ class LoginRequest extends FormRequest
         return [
             'login' => ['required', 'exists:users,login'],
             'password' => ['required'],
-            'pin' => ['nullable', 'string']
+            'pin' => ['nullable', 'string'],
+            'device' => ['nullable', Rule::enum(Device::class)]
         ];
     }
 

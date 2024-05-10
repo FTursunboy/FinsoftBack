@@ -20,7 +20,7 @@ class User extends Authenticatable implements SoftDeleteInterface
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
-    protected $fillable = ['name', 'login', 'email', 'password', 'phone', 'organization_id', 'status', 'image', 'group_id', 'pin'];
+    protected $fillable = ['name', 'login', 'email', 'password', 'phone', 'organization_id', 'status', 'image', 'group_id', 'pin', 'fcm_token'];
 
     protected $hidden = [
         'password',
@@ -61,7 +61,7 @@ class User extends Authenticatable implements SoftDeleteInterface
     {
         return [
             'search' => $data['search'] ?? '',
-            'orderBy' => $data['orderBy'] ?? null,
+            'sort' => $data['orderBy'] ?? null,
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'name'  => $data['filterData']['name'] ?? null,
@@ -72,5 +72,8 @@ class User extends Authenticatable implements SoftDeleteInterface
         ];
     }
 
-
+    public function fcmTokens()
+    {
+        return $this->hasMany(UserFcmToken::class, 'user_id');
+    }
 }

@@ -48,7 +48,7 @@ class SalaryDocument extends DocumentModel
 
         $filteredData = [
             'search' => $data['search'] ?? '',
-            'orderBy' => $data['orderBy'] ?? null,
+            'sort' => $data['orderBy'] ?? null,
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'month_id' => $data['month_id'] ?? null,

@@ -15,6 +15,7 @@ use App\Repositories\CashStore\InvestmentRepository;
 use App\Repositories\CashStore\OtherExpensesRepository;
 use App\Repositories\CashStore\OtherIncomesRepository;
 use App\Repositories\CashStore\ProviderRefundRepository;
+use App\Repositories\CashStore\SalaryPaymentRepository;
 use App\Repositories\CashStore\WithdrawalRepository;
 use App\Repositories\CheckingAccount\AccountablePersonRefundRepository as CheckingAccountAccountablePersonRefundRepository;
 use App\Repositories\CheckingAccount\AnotherCashRegisterRepository as CheckingAccountAnotherCashRegisterRepository;
@@ -38,6 +39,7 @@ use App\Repositories\Contracts\CashStore\InvestmentRepositoryInterface;
 use App\Repositories\Contracts\CashStore\OtherExpensesRepositoryInterface;
 use App\Repositories\Contracts\CashStore\OtherIncomesRepositoryInterface;
 use App\Repositories\Contracts\CashStore\ProviderRefundRepositoryInterface;
+use App\Repositories\Contracts\CashStore\SalaryPaymentRepositoryInterface;
 use App\Repositories\Contracts\CashStore\WithdrawalRepositoryInterface;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Repositories\Contracts\CheckingAccount\AccountablePersonRefundRepositoryInterface as CheckingAccountAccountablePersonRefundRepositoryInterface;
@@ -185,6 +187,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ReturnProviderDocumentRepositoryInterface::class, ReturnProviderDocumentRepository::class);
         $this->app->singleton(OrderProviderDocumentRepositoryInterface::class, OrderProviderDocumentRepository::class);
         $this->app->singleton(OrderClientDocumentRepositoryInterface::class, OrderClientDocumentRepository::class);
+        $this->app->singleton(SalaryPaymentRepositoryInterface::class, SalaryPaymentRepository::class);
     }
 
     /**
