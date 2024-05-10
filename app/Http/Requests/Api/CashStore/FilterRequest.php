@@ -18,9 +18,10 @@ class FilterRequest extends FormRequest
             'search' => 'string|nullable|max:50',
             'itemsPerPage' => 'integer|nullable',
             'orderBy' => 'nullable|in:id,name,sender.name,organization.name,counterparty.name,counterpartyAgreement.name,author.name,
-            organizationBill.name,senderCashRegister.name,employee.name,cashStore.name,storage.name,currency.name' . implode(',', $fillableFields),
+             organizationBill.name,senderCashRegister.name,employee.name,cashStore.name,storage.name,currency.name' . implode(',', $fillableFields),
             'sort' => 'in:asc,desc',
             'filterData' => 'nullable|array',
+            'operation_type_id' => 'nullable|integer'
         ];
     }
 
