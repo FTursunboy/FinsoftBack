@@ -75,6 +75,11 @@ class CashStore extends DocumentModel
         return $this->provideFilter(CashStoreFilter::class);
     }
 
+    public function month(): BelongsTo
+    {
+        return $this->belongsTo(Month::class, 'month_id');
+    }
+
     public function author() :BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
