@@ -119,11 +119,11 @@ class CashStore extends DocumentModel
             'sort' => $data['orderBy'] ?? null,
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
-            'organization_id' => $data['filterData']['organization_id'] ?? null,
-            'responsible_person_id' =>  $data['filterData']['responsible_person_id'] ?? null,
-            'author_id' =>  $data['filterData']['author_id'] ?? null,
-            'date' => $data['filterData']['date'] ?? null,
-            'operation_type' => $data['filterData']['operation_type'] ?? null,
+            'organization_id' => $data['organization_id'] ?? null,
+            'responsible_person_id' =>  $data['responsible_person_id'] ?? null,
+            'author_id' =>  $data['author_id'] ?? null,
+            'date' => $data['date'] ?? null,
+            'operation_type_id' => $data['operation_type_id'] ?? null,
         ];
 
         if (isset($data['filterData'])) {
@@ -131,7 +131,7 @@ class CashStore extends DocumentModel
             $filteredData['responsible_person_id'] = $data['filterData']['responsible_person_id'] ?? $filteredData['responsible_person_id'];
             $filteredData['author_id'] = $data['filterData']['author_id'] ?? $filteredData['author_id'];
             $filteredData['date'] = $data['filterData']['date'] ?? $filteredData['date'];
-            $filteredData['operation_type'] = $data['filterData']['operation_type'] ?? $filteredData['operation_type'];
+            $filteredData['operation_type_id'] = $data['filterData']['operation_type_id'] ?? $filteredData['operation_type_id'];
         }
 
         return $filteredData;
