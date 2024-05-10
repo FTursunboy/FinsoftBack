@@ -31,6 +31,7 @@ class CashStoreResource extends JsonResource
             'responsiblePerson' => EmployeeResource::make($this->whenLoaded('responsiblePerson')),
             'operationType' => OperationTypeResource::make($this->whenLoaded('operationType')),
             'balance_article' => BalanceArticleResource::make($this->whenLoaded('balanceArticle')),
+            'month' => MonthResource::make($this->whenLoaded('month')),
             'basis' => $this->basis,
             'comment' => $this->comment,
             'created_at' => $this->created_at,
