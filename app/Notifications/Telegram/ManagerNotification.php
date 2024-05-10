@@ -35,7 +35,7 @@ class ManagerNotification extends Notification
     public function toTelegram($notifiable)
     {
         return TelegramMessage::create()
-//            ->to($notifiable->telegram_chat_id)
+            ->to($notifiable->telegram_chat_id)
             ->content(
                 "Заказ #{$this->document->doc_number}
                 \n{$this->document->date}
