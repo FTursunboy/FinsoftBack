@@ -36,7 +36,8 @@ class CashStore extends DocumentModel
         'employee_id',
         'balance_article_id',
         'operation_type_id',
-        'type'
+        'type',
+        'month_id'
     ];
 
 

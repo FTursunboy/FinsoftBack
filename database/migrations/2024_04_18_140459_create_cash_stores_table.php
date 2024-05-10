@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('counterparty_id')->nullable();
             $table->unsignedBigInteger('counterparty_agreement_id')->nullable();
             $table->string('basis')->nullable();
+            $table->unsignedBigInteger('month_id')->nullable();
             $table->string('comment')->nullable();
             $table->unsignedBigInteger('author_id')->nullable();
             $table->unsignedBigInteger('organizationBill_id')->nullable();
