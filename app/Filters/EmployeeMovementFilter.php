@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Models\EmployeeMovement;
 use App\Traits\Sort;
 use EloquentFilter\ModelFilter;
 use Illuminate\Support\Str;
@@ -19,6 +20,7 @@ class EmployeeMovementFilter extends ModelFilter
         sort as traitSort;
     }
 
+    protected $model = EmployeeMovement::class;
 
     public function date($value) :EmployeeMovementFilter
     {
