@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\BalanceArticle;
 use App\Models\CashRegister;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -29,6 +30,7 @@ class CashStoreResource extends JsonResource
             'author' => UserResource::make($this->whenLoaded('author')),
             'responsiblePerson' => EmployeeResource::make($this->whenLoaded('responsiblePerson')),
             'operationType' => OperationTypeResource::make($this->whenLoaded('operationType')),
+            'balance_article' => BalanceArticleResource::make($this->whenLoaded('balanceArticle')),
             'basis' => $this->basis,
             'comment' => $this->comment,
             'created_at' => $this->created_at,
