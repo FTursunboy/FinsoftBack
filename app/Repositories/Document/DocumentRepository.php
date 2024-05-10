@@ -246,24 +246,31 @@ class DocumentRepository implements DocumentRepositoryInterface
         ];
     }
 
-    public function approve(Document $document)
+    public function approve(array $data)
     {
-        $document->update(
-            ['active' => true]
-        );
-        if ($document->status_id === Status::PROVIDER_PURCHASE || $document->status_id === Status::CLIENT_PURCHASE)
-        {
-            DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
+        foreach ($data['ids'] as $id) {
+            $document = Document::find($id);
+
+            $document->update(
+                ['active' => true]
+            );
+            if ($document->status_id === Status::PROVIDER_PURCHASE || $document->status_id === Status::CLIENT_PURCHASE) {
+                DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
+            }
         }
 
     }
 
-    public function unApprove(Document $document)
+    public function unApprove(array $data)
     {
-        $this->deleteDocumentData($document);
-        $document->update(
-            ['active' => false]
-        );
+        foreach ($data['ids'] as $id) {
+            $document = Document::find($id);
+
+            $this->deleteDocumentData($document);
+            $document->update(
+                ['active' => false]
+            );
+        }
     }
 
     public function deleteDocumentData(Document $document)

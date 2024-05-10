@@ -22,6 +22,13 @@ class Document extends DocumentModel implements SoftDeleteInterface
     ];
 
 
+    public static function bootSoftDeletes()
+    {
+
+    }
+
+
+
     public function counterparty(): BelongsTo
     {
         return $this->belongsTo(Counterparty::class, 'counterparty_id');

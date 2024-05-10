@@ -9,6 +9,7 @@ use App\Http\Requests\Api\Document\DocumentRequest;
 use App\Http\Requests\Api\Document\FilterRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\Document\DocumentResource;
 use App\Http\Resources\Document\OrderDocumentResource;
 use App\Models\Document;
@@ -40,14 +41,13 @@ class ProviderDocumentController extends Controller
         return $this->success(DocumentResource::make($document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good', 'totalGoodsSum', 'documentGoodsWithCount'])));
     }
 
-    public function approve(Document $document)
+    public function approve(IdRequest $request)
     {
-        return $this->success($this->repository->approve($document));
+        return $this->success($this->repository->approve($request->validated()));
     }
-    public function unApprove(Document $document)
+    public function unApprove(IdRequest $request)
     {
-
-        return $this->success($this->repository->unApprove($document));
+        return $this->success($this->repository->unApprove($request->validated()));
     }
 
 

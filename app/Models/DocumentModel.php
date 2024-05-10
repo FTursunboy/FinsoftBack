@@ -35,10 +35,5 @@ abstract class DocumentModel extends Model implements Documentable
     }
 
 
-    public static function bootSoftDeletes()
-    {
-
-    }
-
 
 }
