@@ -147,6 +147,23 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
             $document = Document::find($id);
 
 
+            $result = $this->checkInventory($document);
+
+            $response = [];
+
+            if ($result !== null) {
+                foreach ($result as $goods) {
+
+                    $good = Good::find($goods['good_id'])->name;
+
+                    $response[] = [
+                        'good' => $good,
+                        'amount' => $goods['amount']
+                    ];
+                }
+                return $response;
+            }
+
             if ($document->active) {
                 $this->deleteDocumentData($document);
             }
@@ -155,9 +172,59 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
                 ['active' => true]
             );
 
-            DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
+            DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome);
         }
     }
+
+
+    public function checkInventory(Document $document)
+    {
+        $incomingDate = $document->date;
+        $incomingGoods = $document->documentGoods->pluck('good_id', 'amount')->toArray();
+
+        $previousIncomings = GoodAccounting::where('movement_type', MovementTypes::Income)
+            ->where('storage_id', $document->storage_id)
+            ->where('date', '<=', $incomingDate)
+            ->get();
+
+        $previousOutgoings = GoodAccounting::where('movement_type', MovementTypes::Outcome)
+            ->where('date', '<=', $incomingDate)
+            ->where('storage_id', $document->storage_id)
+            ->get();
+
+        $previousIncomingsByGoodId = $previousIncomings->groupBy('good_id')->map(function ($group) {
+            return $group->sum('amount');
+        });
+
+        $previousOutgoingsByGoodId = $previousOutgoings->groupBy('good_id')->map(function ($group) {
+            return $group->sum('amount');
+        });
+
+        $insufficientGoods = [];
+
+        foreach ($incomingGoods as $incomingAmount => $goodId) {
+
+
+            $totalIncoming = $previousIncomingsByGoodId->has($goodId) ? $previousIncomingsByGoodId[$goodId] : 0;
+            $totalOutgoing = $previousOutgoingsByGoodId->has($goodId) ? $previousOutgoingsByGoodId[$goodId] : 0;
+
+            $availableAmount = $totalIncoming - $totalOutgoing;
+
+            if ($incomingAmount > $availableAmount) {
+                $insufficientGoods[] = [
+                    'good_id' => $goodId,
+                    'amount' => $incomingAmount - $availableAmount
+                ];
+            }
+        }
+
+
+
+        if (!empty($insufficientGoods)) {
+            return $insufficientGoods;
+        }
+    }
+
 
 
     private function checkGoodExistence(Document $document) :void
@@ -174,17 +241,12 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
         GoodAccounting::where('movement_type');
     }
 
-    public function unApprove(array $data)
+    public function unApprove(Document $document)
     {
-        foreach ($data as $id) {
-            $document = Document::find($id);
-
-            $this->deleteDocumentData($document);
-            $document->update(
-                ['active' => false]
-            );
-
-        }
+        $this->deleteDocumentData($document);
+        $document->update(
+            ['active' => false]
+        );
     }
 
     public function changeHistory(Documentable $document)

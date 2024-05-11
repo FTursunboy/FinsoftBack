@@ -18,8 +18,8 @@ use App\Models\OrderDocument;
 use App\Models\OrderStatus;
 use App\Models\OrderType;
 use App\Models\Status;
+use App\Repositories\Contracts\Document\ClientDocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
-use App\Repositories\Contracts\MassDeleteInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
@@ -28,16 +28,15 @@ class ClientDocumentController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(public DocumentRepositoryInterface $repository) { }
+    public function __construct(public ClientDocumentRepositoryInterface $repository) { }
 
     public function index(IndexRequest $indexRequest): JsonResponse
     {
-        return $this->paginate(DocumentResource::collection($this->repository->index(Status::CLIENT_PURCHASE, $indexRequest->validated())));
+        return $this->paginate(DocumentResource::collection($this->repository->index( $indexRequest->validated())));
     }
-
     public function purchase(DocumentRequest $request): JsonResponse
     {
-        return $this->created(DocumentResource::make($this->repository->store(DocumentDTO::fromRequest($request), Status::CLIENT_PURCHASE)));
+        return $this->created(DocumentResource::make($this->repository->store(DocumentDTO::fromRequest($request))));
     }
 
     public function massDelete(IdRequest $request, MassOperationInterface $delete)
@@ -52,12 +51,17 @@ class ClientDocumentController extends Controller
 
     public function approve(IdRequest $request)
     {
-        return $this->success($this->repository->approve($request->validated()));
+        $good = $this->repository->approve($request->validated());
+
+        if ($good !== null) {
+            return $this->error($good, trans('errors.not enough goods'));
+        }
+
+        return $this->success($good);
     }
     public function unApprove(IdRequest $request)
     {
         return $this->success($this->repository->unApprove($request->validated()));
     }
-
 
 }
