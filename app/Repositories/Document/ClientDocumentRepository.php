@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Document;
 
+use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
 use App\Enums\MovementTypes;
@@ -251,5 +252,10 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 ['active' => false]
             );
         }
+    }
+
+    public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
+    {
+        // TODO: Implement deleteDocumentGoods() method.
     }
 }
