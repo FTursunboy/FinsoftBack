@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\BalanceArticle;
 use App\Models\Currency;
+use App\Models\ExchangeRate;
 use App\Models\Group;
 use App\Models\OrderStatus;
 use App\Models\Setting;
@@ -35,6 +36,10 @@ class DatabaseSeeder extends Seeder
             'symbol_code' => 'TJS',
             'digital_code' => 23,
             'default' => true
+        ]);
+
+        ExchangeRate::create([
+
         ]);
 
         Role::create([
