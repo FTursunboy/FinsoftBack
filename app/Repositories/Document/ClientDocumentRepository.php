@@ -199,6 +199,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
     public function checkInventory(Document $document)
     {
         $incomingDate = $document->date;
+
         $incomingGoods = $document->documentGoods->pluck('good_id', 'amount')->toArray();
 
         $previousIncomings = GoodAccounting::where('movement_type', MovementTypes::Income)

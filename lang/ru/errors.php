@@ -3,7 +3,7 @@
 
 
     return [
-        'not enough goods' => 'Не хватает несколько товаров',
+        'not enough goods' => 'Not enough goods',
         'comment' => 'Комментарий',
         'sender_storage' => 'Склад отправитель',
         'recipient_storage' => 'Склад получатель',
