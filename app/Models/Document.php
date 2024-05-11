@@ -81,8 +81,9 @@ class Document extends DocumentModel implements SoftDeleteInterface
             'organization_id' => $data['organization_id'] ?? null,
             'counterparty_agreement_id' => $data['counterparty_agreement_id'] ?? null,
             'storage_id' => $data['storage_id'] ?? null,
-            'date' => $data['date'] ?? null,
-            'author_id' => $data['author_id'] ?? null
+            'author_id' => $data['author_id'] ?? null,
+            'startDate' => $data['startDate'] ?? null,
+            'endDate' => $data['endDate'] ?? null,
         ];
 
         if (isset($data['filterData'])) {
@@ -90,9 +91,10 @@ class Document extends DocumentModel implements SoftDeleteInterface
             $filteredData['currency_id'] = $data['filterData']['currency_id'] ?? $filteredData['currency_id'];
             $filteredData['counterparty_id'] = $data['filterData']['counterparty_id'] ?? $filteredData['counterparty_id'];
             $filteredData['organization_id'] = $data['filterData']['organization_id'] ?? $filteredData['organization_id'];
-            $filteredData['counterparty_agreement_id'] = $data['filterData']['counterparty_agreement_id'] ?? $filteredData['counterparty_agreement_id'];
             $filteredData['author_id'] = $data['filterData']['author_id'] ?? $filteredData['author_id'];
-            $filteredData['date'] = $data['filterData']['date'] ?? $filteredData['date'];
+            $filteredData['counterparty_agreement_id'] = $data['filterData']['counterparty_agreement_id'] ?? $filteredData['counterparty_agreement_id'];
+            $filteredData['startDate'] = $data['filterData']['startDate'] ?? $filteredData['startDate'];
+            $filteredData['endDate'] = $data['filterData']['endDate'] ?? $filteredData['endDate'];
         }
 
 

@@ -25,7 +25,8 @@ class FilterRequest extends FormRequest
             'author_id' => 'nullable|integer',
             'recipientStorage_id' => 'nullable|integer',
             'senderStorage_id' => 'nullable|integer',
-            'date' => 'nullable',
+            'startDate' => 'nullable',
+            'endDate' => 'nullable',
         ];
     }
 

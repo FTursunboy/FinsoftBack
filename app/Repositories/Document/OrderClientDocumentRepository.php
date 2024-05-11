@@ -83,8 +83,8 @@ class OrderClientDocumentRepository implements OrderClientDocumentRepositoryInte
                 'doc_number' => $document->doc_number,
                 'date' => Carbon::parse($DTO->date),
                 'counterparty_id' => $DTO->counterparty_id,
-                'counterparty_agreement_id' => $DTO->counterparty_agreement_id,
                 'organization_id' => $DTO->organization_id,
+                'counterparty_agreement_id' => $DTO->counterparty_agreement_id,
                 'order_status_id' => $DTO->order_status_id,
                 'author_id' => Auth::id(),
                 'comment' => $DTO->comment,
@@ -174,11 +174,11 @@ class OrderClientDocumentRepository implements OrderClientDocumentRepositoryInte
 //                ->orWhereHas('order_status', function ($query) use ($searchTerm) {
 //                    return $query->where('order_statuses.name', 'like', '%' . implode('%', $searchTerm) . '%');
 //                })
-                ->orWhereHas('author', function ($query) use ($searchTerm) {
-                    return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
                 ->orWhereHas('currency', function ($query) use ($searchTerm) {
                     return $query->where('currencies.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('author', function ($query) use ($searchTerm) {
+                    return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 });
         });
     }
@@ -191,17 +191,20 @@ class OrderClientDocumentRepository implements OrderClientDocumentRepositoryInte
             ->when($data['counterparty_id'], function ($query) use ($data) {
                 return $query->where('counterparty_id', $data['counterparty_id']);
             })
-            ->when($data['order_status_id'], function ($query) use ($data) {
-                return $query->where('order_status_id', $data['order_status_id']);
-            })
             ->when($data['organization_id'], function ($query) use ($data) {
                 return $query->where('organization_id', $data['organization_id']);
+            })
+            ->when($data['order_status_id'], function ($query) use ($data) {
+                return $query->where('order_status_id', $data['order_status_id']);
             })
             ->when($data['counterparty_agreement_id'], function ($query) use ($data) {
                 return $query->where('counterparty_agreement_id', $data['counterparty_agreement_id']);
             })
-            ->when($data['date'], function ($query) use ($data) {
-                return $query->where('date', $data['date']);
+            ->when($data['startDate'], function ($query) use ($data) {
+                return $query->where('date', '>=', $data['startDate']);
+            })
+            ->when($data['endDate'], function ($query) use ($data) {
+                return $query->where('date', '<=', $data['endDate']);
             })
             ->when($data['author_id'], function ($query) use ($data) {
                 return $query->where('author_id', $data['author_id']);

@@ -30,6 +30,8 @@ class ManagerNotifyJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Notification::send(auth()->user(), new ManagerNotification($this->document));
+        if (auth()->user()->telegram_chat_id !== null){
+            Notification::send(auth()->user(), new ManagerNotification($this->document));
+        }
     }
 }

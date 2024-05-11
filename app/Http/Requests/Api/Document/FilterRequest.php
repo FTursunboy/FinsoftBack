@@ -13,18 +13,20 @@ class FilterRequest extends FormRequest
         $fillableFields = $this->getFillable($model);
 
         return [
-                'search' => 'string|nullable|max:50',
-                'itemsPerPage' => 'integer|nullable',
-                'orderBy' => 'nullable|in:id,deleted_at,currency.name,organization.name,author.name,storage.name,counterparty.name,' . implode(',', $fillableFields),
-                'sort' => 'in:asc,desc',
-                'filterData' => 'nullable|array',
-                'currency_id' => 'nullable|numeric',
-                'counterparty_id' => 'nullable|numeric',
-                'organization_id' => 'nullable|numeric',
-                'counterparty_agreement_id' => 'nullable|integer',
-                'storage_id' => 'nullable|integer',
-                'author_id' => 'nullable|integer'
-            ];
+            'search' => 'string|nullable|max:50',
+            'itemsPerPage' => 'integer|nullable',
+            'orderBy' => 'nullable|in:id,deleted_at,currency.name,organization.name,author.name,storage.name,counterparty.name,' . implode(',', $fillableFields),
+            'sort' => 'in:asc,desc',
+            'filterData' => 'nullable|array',
+            'currency_id' => 'nullable|numeric',
+            'counterparty_id' => 'nullable|numeric',
+            'organization_id' => 'nullable|numeric',
+            'counterparty_agreement_id' => 'nullable|integer',
+            'storage_id' => 'nullable|integer',
+            'author_id' => 'nullable|integer',
+            'startDate' => 'nullable',
+            'endDate' => 'nullable',
+        ];
     }
 
     public function authorize(): bool
@@ -32,7 +34,7 @@ class FilterRequest extends FormRequest
         return true;
     }
 
-    private function getFillable($model) :array
+    private function getFillable($model): array
     {
         return $model->getFillable();
     }
