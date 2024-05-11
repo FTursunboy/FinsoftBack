@@ -7,6 +7,7 @@ use App\Models\Balance;
 use App\Models\BalanceArticle;
 use App\Models\CounterpartySettlement;
 use App\Models\Currency;
+use App\Models\Document;
 use App\Models\DocumentModel;
 use App\Models\ExchangeRate;
 use App\Models\GoodAccounting;
@@ -27,8 +28,8 @@ class HandleDocumentApproveCreated
     {
         $sum = $this->document->sale_sum ?? 0;
 
-        if ($this->document->currency_id !== $this->getCurrency()) {
-//             $sum = $this->document->sale_sum * $this->getExcangeRate();
+        if ($this->document->currency_id !== $this->getDefaultCurrency()) {
+            $sale_sum = $this->document->sale_sum * $this->getExcangeRate();
             $sum = $this->document->sale_sum;
         }
 
@@ -39,7 +40,7 @@ class HandleDocumentApproveCreated
             'movement_type' => $this->type,
             'date' => $this->document->date,
             'model_id' => $this->document->id,
-            'sale_sum' => $this->document->sum ?? 0,
+            'sale_sum' => $sale_sum,
             'sum' => $sum,
             'active' => true
         ]);
@@ -77,7 +78,7 @@ class HandleDocumentApproveCreated
         $sum = $this->document->sale_sum ?? 0;
 
         if ($this->document->currency_id !== $this->getCurrency()) {
-//            $sum = $this->document->sum * $this->getExcangeRate();
+           $sale_sum = $this->document->sum * $this->getExcangeRate();
             $sum = $this->document->sale_sum;
         }
 
@@ -94,6 +95,10 @@ class HandleDocumentApproveCreated
 
     public function getCurrency()
     {
+        return Currency::where('id', $this->document->currency_id)->first()->id;
+    }
+    public function getDefaultCurrency()
+    {
         return Currency::where('default', true)->first()->id;
     }
 
@@ -101,6 +106,15 @@ class HandleDocumentApproveCreated
     {
         return ExchangeRate::query()
             ->where('currency_id', $this->getCurrency())
+            ->orderBy('date', 'desc')
+            ->first()
+            ->value;
+    }
+
+    public function getDocumentRate(Document $document)
+    {
+        return ExchangeRate::query()
+            ->where('currency_id', $document->currency_id)
             ->orderBy('date', 'desc')
             ->first()
             ->value;
