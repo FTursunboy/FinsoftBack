@@ -10,6 +10,7 @@ use App\Models\ExchangeRate;
 use App\Models\Group;
 use App\Models\OrderStatus;
 use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
@@ -39,7 +40,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         ExchangeRate::create([
-
+            'date' => Carbon::now(),
+            'currency_id' => 1,
+            'value' => 100
         ]);
 
         Role::create([
