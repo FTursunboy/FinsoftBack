@@ -69,7 +69,7 @@ class MovementDocument extends DocumentModel implements Documentable
                 'direction' => $data['sort'] ?? 'asc',
                 'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
                 'recipientStorage_id' => $data['recipientStorage_id'] ?? null,
-                'senderStorage_id' => $data['senderStorage_id'] ?? null,
+                'senderStorage_id' => $data['sender_storage_id'] ?? null,
                 'organization_id' =>  $data['organization_id'] ?? null,
                 'author_id' =>  $data['author_id'] ?? null,
                 'startDate' => $data['startDate'] ?? null,
@@ -77,9 +77,9 @@ class MovementDocument extends DocumentModel implements Documentable
             ];
 
             if (isset($data['filterData'])) {
-                $filteredData['recipientStorage_id'] = $data['filterData']['recipientStorage_id'] ?? $filteredData['recipientStorage_id'];
+                $filteredData['recipientStorage_id'] = $data['filterData']['recipient_storage_id'] ?? $filteredData['recipient_storage_id'];
                 $filteredData['organization_id'] =  $data['filterData']['organization_id'] ?? $filteredData['organization_id'];
-                $filteredData['senderStorage_id'] = $data['filterData']['senderStorage_id'] ?? $filteredData['senderStorage_id'];
+                $filteredData['senderStorage_id'] = $data['filterData']['sender_storage_id'] ?? $filteredData['sender_storage_id'];
                 $filteredData['author_id'] =  $data['filterData']['author_id'] ?? $filteredData['author_id'];
                 $filteredData['startDate'] = $data['filterData']['startDate'] ?? $filteredData['startDate'];
                 $filteredData['endDate'] = $data['filterData']['endDate'] ?? $filteredData['endDate'];
