@@ -74,11 +74,11 @@ class HandleDocumentApproveCreated
 
     private function balance(): void
     {
-        $sum = $this->document->sum ?? 0;
+        $sum = $this->document->sale_sum ?? 0;
 
         if ($this->document->currency_id !== $this->getCurrency()) {
 //            $sum = $this->document->sum * $this->getExcangeRate();
-            $sum = $this->document->sum;
+            $sum = $this->document->sale_sum;
         }
 
         Balance::create([
