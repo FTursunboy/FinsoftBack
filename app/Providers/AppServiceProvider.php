@@ -55,6 +55,7 @@ use App\Repositories\Contracts\CheckingAccount\WithdrawalRepositoryInterface as 
 use App\Repositories\Contracts\CounterpartyAgreementRepositoryInterface;
 use App\Repositories\Contracts\CounterpartyRepositoryInterface;
 use App\Repositories\Contracts\CurrencyRepositoryInterface;
+use App\Repositories\Contracts\Document\ClientDocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\InventoryDocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\MovementDocumentRepositoryInterface;
@@ -89,6 +90,7 @@ use App\Repositories\CounterpartyAgreementRepository;
 use App\Repositories\CounterpartyRepository;
 use App\Repositories\CurrencyRepository;
 use App\Repositories\DepartmentRepository;
+use App\Repositories\Document\ClientDocumentRepository;
 use App\Repositories\Document\DocumentRepository;
 use App\Repositories\Document\InventoryDocumentRepository;
 use App\Repositories\Document\MovementDocumentRepository;
@@ -188,6 +190,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(OrderProviderDocumentRepositoryInterface::class, OrderProviderDocumentRepository::class);
         $this->app->singleton(OrderClientDocumentRepositoryInterface::class, OrderClientDocumentRepository::class);
         $this->app->singleton(SalaryPaymentRepositoryInterface::class, SalaryPaymentRepository::class);
+        $this->app->singleton(ClientDocumentRepositoryInterface::class, ClientDocumentRepository::class);
     }
 
     /**

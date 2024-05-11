@@ -8,6 +8,8 @@ use App\DTO\Document\DocumentUpdateDTO;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
 use App\Models\Document;
+use App\Models\Good;
+use App\Models\GoodAccounting;
 use App\Models\GoodDocument;
 use App\Models\OrderDocument;
 use App\Models\Status;
@@ -179,9 +181,7 @@ class DocumentRepository implements DocumentRepositoryInterface
             $document->update(
                 ['active' => true]
             );
-            if ($document->status_id === Status::PROVIDER_PURCHASE || $document->status_id === Status::CLIENT_PURCHASE) {
-                DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
-            }
+            DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
         }
 
     }
@@ -261,5 +261,93 @@ class DocumentRepository implements DocumentRepositoryInterface
                 return $query->where('author_id', $data['author_id']);
             });
     }
+
+
+
+
+    public function approveClient(array $data)
+    {
+        foreach ($data['ids'] as $id) {
+            $document = Document::find($id);
+
+
+            $result = $this->checkInventory($document);
+
+            $response = [];
+
+            if ($result !== null) {
+                foreach ($result as $goods) {
+
+                    $good = Good::find($goods['good_id'])->name;
+
+                    $response[] = [
+                        'good' => $good,
+                        'amount' => $goods['amount']
+                    ];
+                }
+                return $response;
+            }
+
+            if ($document->active) {
+                $this->deleteDocumentData($document);
+            }
+
+            $document->update(
+                ['active' => true]
+            );
+
+            DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome);
+        }
+    }
+
+
+    public function checkInventory(Document $document)
+    {
+        $incomingDate = $document->date;
+        $incomingGoods = $document->documentGoods->pluck('good_id', 'amount')->toArray();
+
+        $previousIncomings = GoodAccounting::where('movement_type', MovementTypes::Income)
+            ->where('storage_id', $document->storage_id)
+            ->where('date', '<=', $incomingDate)
+            ->get();
+
+        $previousOutgoings = GoodAccounting::where('movement_type', MovementTypes::Outcome)
+            ->where('date', '<=', $incomingDate)
+            ->where('storage_id', $document->storage_id)
+            ->get();
+
+        $previousIncomingsByGoodId = $previousIncomings->groupBy('good_id')->map(function ($group) {
+            return $group->sum('amount');
+        });
+
+        $previousOutgoingsByGoodId = $previousOutgoings->groupBy('good_id')->map(function ($group) {
+            return $group->sum('amount');
+        });
+
+        $insufficientGoods = [];
+
+        foreach ($incomingGoods as $incomingAmount => $goodId) {
+
+
+            $totalIncoming = $previousIncomingsByGoodId->has($goodId) ? $previousIncomingsByGoodId[$goodId] : 0;
+            $totalOutgoing = $previousOutgoingsByGoodId->has($goodId) ? $previousOutgoingsByGoodId[$goodId] : 0;
+
+            $availableAmount = $totalIncoming - $totalOutgoing;
+
+            if ($incomingAmount > $availableAmount) {
+                $insufficientGoods[] = [
+                    'good_id' => $goodId,
+                    'amount' => $incomingAmount - $availableAmount
+                ];
+            }
+        }
+
+
+
+        if (!empty($insufficientGoods)) {
+            return $insufficientGoods;
+        }
+    }
+
 
 }

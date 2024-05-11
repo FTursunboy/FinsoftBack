@@ -24,7 +24,6 @@ class ManagerNotifyJob implements ShouldQueue
     {
         $this->document = $document;
     }
-
     /**
      * Execute the job.
      */

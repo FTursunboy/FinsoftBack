@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Document;
 
+use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
 use App\Enums\MovementTypes;
@@ -11,6 +12,7 @@ use App\Models\Good;
 use App\Models\GoodAccounting;
 use App\Models\GoodDocument;
 use App\Models\Status;
+use App\Repositories\Contracts\Document\ClientDocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\Documentable;
 use App\Repositories\Contracts\Document\ReturnDocumentRepositoryInterface;
 use App\Traits\DocNumberTrait;
@@ -21,13 +23,13 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
+class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 {
     use FilterTrait, Sort, DocNumberTrait;
 
     public $model = Document::class;
 
-    public function index(int $status, array $data): LengthAwarePaginator
+    public function index(array $data): LengthAwarePaginator
     {
         $filteredParams = $this->model::filter($data);
 
@@ -50,7 +52,7 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
                 'organization_id' => $dto->organization_id,
                 'storage_id' => $dto->storage_id,
                 'author_id' => Auth::id(),
-                'status_id' => Status::PROVIDER_RETURN,
+                'status_id' => Status::CLIENT_PURCHASE,
                 'comment' => $dto->comment,
                 'saleInteger' => $dto->saleInteger,
                 'salePercent' => $dto->salePercent,
@@ -60,12 +62,11 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
             ]);
 
 
-            if (!is_null($dto->goods))
-                GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
+            GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
             return $document;
 
-          });
+        });
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
 
@@ -141,39 +142,55 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
     }
 
 
+    public function changeHistory(Documentable $document)
+    {
+        return $document->load(['history.changes', 'history.user']);
+    }
+
+    public function deleteDocumentData(Document $document)
+    {
+        $document->goodAccountents()->delete();
+        $document->counterpartySettlements()->delete();
+        $document->balances()->delete();
+    }
+
+
+
     public function approve(array $data)
     {
-        foreach ($data['ids'] as $id) {
-            $document = Document::find($id);
+        DB::transaction(function () use ($data) {
+            foreach ($data['ids'] as $id) {
+                $document = Document::find($id);
 
 
-            $result = $this->checkInventory($document);
+                $result = $this->checkInventory($document);
 
-            $response = [];
+                $response = [];
 
-            if ($result !== null) {
-                foreach ($result as $goods) {
+                if ($result !== null) {
+                    foreach ($result as $goods) {
 
-                    $good = Good::find($goods['good_id'])->name;
+                        $good = Good::find($goods['good_id'])->name;
 
-                    $response[] = [
-                        'good' => $good,
-                        'amount' => $goods['amount']
-                    ];
+                        $response[] = [
+                            'good' => $good,
+                            'amount' => $goods['amount']
+                        ];
+                    }
+                    return $response;
                 }
-                return $response;
+
+                if ($document->active) {
+                    $this->deleteDocumentData($document);
+                }
+
+                $document->update(
+                    ['active' => true]
+                );
+
+                DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome);
             }
-
-            if ($document->active) {
-                $this->deleteDocumentData($document);
-            }
-
-            $document->update(
-                ['active' => true]
-            );
-
-            DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome);
-        }
+        });
     }
 
 
@@ -225,47 +242,20 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
         }
     }
 
-
-
-    private function checkGoodExistence(Document $document) :void
+    public function unApprove(array $data)
     {
-        $goods = [];
+        foreach ($data['ids'] as $id) {
+            $document = Document::find($id);
 
-        foreach ($document->documentGoods as $documentGood) {
-            $goods[] = [
-                'good_id' => $documentGood['good_id'],
-                'date' => $document->date
-            ];
+            $this->deleteDocumentData($document);
+            $document->update(
+                ['active' => false]
+            );
         }
-
-        GoodAccounting::where('movement_type');
     }
 
-    public function unApprove(Document $document)
+    public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
     {
-        $this->deleteDocumentData($document);
-        $document->update(
-            ['active' => false]
-        );
+        // TODO: Implement deleteDocumentGoods() method.
     }
-
-    public function changeHistory(Documentable $document)
-    {
-        return $document->load(['history.changes', 'history.user']);
-    }
-
-    public function deleteDocumentData(Document $document)
-    {
-        $document->goodAccountents()->delete();
-        $document->counterpartySettlements()->delete();
-        $document->balances()->delete();
-    }
-
-
-
-
-
-
-
-
 }

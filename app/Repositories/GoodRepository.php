@@ -127,7 +127,6 @@ class GoodRepository implements GoodRepositoryInterface
         $organizationId = $data['good_organization_id'];
 
         $query = $this->model::leftJoin('good_accountings', 'good_accountings.good_id', '=', 'goods.id');
-        $query = $query->where('goods.storage_id', $storageId);
         $query = $query->select(
             'goods.*',
             DB::raw("SUM(CASE WHEN good_accountings.movement_type = '$income'
