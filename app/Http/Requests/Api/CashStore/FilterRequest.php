@@ -22,17 +22,17 @@ class FilterRequest extends FormRequest
             'sort' => 'in:asc,desc',
             'filterData' => 'nullable|array',
             'operation_type_id' => 'nullable|integer',
-            'cashRegister' => 'nullable|integer',
-            'senderCashRegister' => 'nullable|integer',
-            'organization' => 'nullable|integer',
-            'currency' => 'nullable|integer',
-            'organizationBill' => 'nullable|integer',
-            'balanceArticle' => 'nullable|integer',
-            'author' => 'nullable|integer',
-            'month' => 'nullable|integer',
-            'counterpartyAgreement' => 'nullable|integer',
-            'counterparty' => 'nullable|integer',
-            'responsiblePerson' => 'nullable|integer'
+            'cash_register_id' => 'nullable|integer',
+            'sender_cashRegister_id' => 'nullable|integer',
+            'organization_id' => 'nullable|integer',
+            'currency_id' => 'nullable|integer',
+            'organization_bill_id' => 'nullable|integer',
+            'balance_article_id' => 'nullable|integer',
+            'author_id' => 'nullable|integer',
+            'month_id' => 'nullable|integer',
+            'counterparty_agreement_id' => 'nullable|integer',
+            'counterparty_id' => 'nullable|integer',
+            'responsible_person_id' => 'nullable|integer'
         ];
     }
 
