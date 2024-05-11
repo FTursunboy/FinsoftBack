@@ -258,9 +258,11 @@ class ReturnProviderDocumentRepository implements ReturnProviderDocumentReposito
             ->when($data['storage_id'], function ($query) use ($data) {
                 return $query->where('storage_id', $data['storage_id']);
             })
-            ->when($data['date'], function ($query) use ($data) {
-                $date = Carbon::createFromFormat('Y-m-d', $data['date'])->format('Y-m-d');
-                return $query->where('date', $date);
+            ->when($data['startDate'], function ($query) use ($data) {
+                return $query->where('date', '>=', $data['startDate']);
+            })
+            ->when($data['endDate'], function ($query) use ($data) {
+                return $query->where('date', '<=', $data['endDate']);
             })
             ->when($data['author_id'], function ($query) use ($data) {
                 return $query->where('author_id', $data['author_id']);
