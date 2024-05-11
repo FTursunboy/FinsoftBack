@@ -40,7 +40,6 @@ class HandleDocumentApproveCreated
             'movement_type' => $this->type,
             'date' => $this->document->date,
             'model_id' => $this->document->id,
-            'sale_sum' => $sale_sum,
             'sum' => $sum,
             'active' => true
         ]);
