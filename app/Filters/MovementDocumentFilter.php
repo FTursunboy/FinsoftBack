@@ -21,9 +21,14 @@ class MovementDocumentFilter extends ModelFilter
 
     protected $model = MovementDocument::class;
 
-    public function date($value) :MovementDocumentFilter
+    public function startDate($startDate) :MovementDocumentFilter
     {
-        return $this->whereDate('date', $value);
+        return $this->whereDate('date', '>=', $startDate);
+    }
+
+    public function endDate($endDate) :MovementDocumentFilter
+    {
+        return $this->whereDate('date', '<=', $endDate);
     }
 
     public function senderStorage(int $id) :MovementDocumentFilter

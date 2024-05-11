@@ -62,18 +62,32 @@ class OrderDocument extends Model
 
     public static function filter(array $data): array
     {
-        return [
+        $filteredData =  [
             'search' => $data['search'] ?? '',
             'sort' => $data['orderBy'] ?? null,
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
-            'currency_id' => $data['filterData']['currency_id'] ?? null,
-            'counterparty_id' => $data['filterData']['counterparty_id'] ?? null,
-            'organization_id' => $data['filterData']['organization_id'] ?? null,
-            'counterparty_agreement_id' => $data['filterData']['counterparty_agreement_id'] ?? null,
-            'order_status_id' => $data['filterData']['order_status_id'] ?? null,
-            'date' => $data['filterData']['date'] ?? null,
-            'author_id' => $data['filterData']['author_id'] ?? null,
+            'currency_id' => $data['currency_id'] ?? null,
+            'counterparty_id' => $data['counterparty_id'] ?? null,
+            'organization_id' => $data['organization_id'] ?? null,
+            'counterparty_agreement_id' => $data['counterparty_agreement_id'] ?? null,
+            'order_status_id' => $data['order_status_id'] ?? null,
+            'startDate' => $data['startDate'] ?? null,
+            'endDate' => $data['endDate'] ?? null,
+            'author_id' => $data['author_id'] ?? null,
         ];
+
+        if (isset($data['filterData'])) {
+            $filteredData['counterparty_id'] = $data['filterData']['counterparty_id'] ?? $filteredData['counterparty_id'];
+            $filteredData['currency_id'] = $data['filterData']['currency_id'] ?? $filteredData['currency_id'];
+            $filteredData['organization_id'] = $data['filterData']['organization_id'] ?? $filteredData['organization_id'];
+            $filteredData['counterparty_agreement_id'] = $data['filterData']['counterparty_agreement_id'] ?? $filteredData['counterparty_agreement_id'];
+            $filteredData['order_status_id'] = $data['filterData']['order_status_id'] ?? $filteredData['order_status_id'];
+            $filteredData['startDate'] = $data['filterData']['startDate'] ?? $filteredData['startDate'];
+            $filteredData['endDate'] = $data['filterData']['endDate'] ?? $filteredData['endDate'];
+            $filteredData['author_id'] = $data['filterData']['author_id'] ?? $filteredData['author_id'];
+        }
+
+        return $filteredData;
     }
 }

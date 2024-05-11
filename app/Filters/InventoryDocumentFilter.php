@@ -19,9 +19,14 @@ class InventoryDocumentFilter extends ModelFilter
 
     protected $model = InventoryDocument::class;
 
-    public function date($value) : InventoryDocumentFilter
+    public function startDate($startDate) :InventoryDocumentFilter
     {
-        return $this->whereDate('date', $value);
+        return $this->whereDate('date', '>=', $startDate);
+    }
+
+    public function endDate($endDate) :InventoryDocumentFilter
+    {
+        return $this->whereDate('date', '<=', $endDate);
     }
 
     public function organization($value) : InventoryDocumentFilter

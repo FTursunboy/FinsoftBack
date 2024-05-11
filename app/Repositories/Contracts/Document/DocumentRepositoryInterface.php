@@ -18,8 +18,6 @@ interface DocumentRepositoryInterface
 
     public function update(Document $document, DocumentUpdateDTO $DTO);
 
-    public function updateOrder(OrderDocument $document, OrderDocumentUpdateDTO $DTO) :OrderDocument;
-
     public function changeHistory(Document $document);
 
     public function approve(array $data);
