@@ -11,6 +11,7 @@ use App\Models\Good;
 use App\Models\GoodAccounting;
 use App\Models\GoodDocument;
 use App\Models\Status;
+use App\Repositories\Contracts\Document\ClientDocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\Documentable;
 use App\Repositories\Contracts\Document\ReturnDocumentRepositoryInterface;
 use App\Traits\DocNumberTrait;
@@ -21,13 +22,13 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
+class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 {
     use FilterTrait, Sort, DocNumberTrait;
 
     public $model = Document::class;
 
-    public function index(int $status, array $data): LengthAwarePaginator
+    public function index(array $data): LengthAwarePaginator
     {
         $filteredParams = $this->model::filter($data);
 
@@ -50,7 +51,7 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
                 'organization_id' => $dto->organization_id,
                 'storage_id' => $dto->storage_id,
                 'author_id' => Auth::id(),
-                'status_id' => Status::PROVIDER_RETURN,
+                'status_id' => Status::CLIENT_PURCHASE,
                 'comment' => $dto->comment,
                 'saleInteger' => $dto->saleInteger,
                 'salePercent' => $dto->salePercent,
@@ -60,12 +61,11 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
             ]);
 
 
-            if (!is_null($dto->goods))
-                GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
+            GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
             return $document;
 
-          });
+        });
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
 
@@ -141,52 +141,6 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
     }
 
 
-    public function approve(array $data)
-    {
-        foreach ($data['ids'] as $id) {
-            $document = Document::find($id);
-
-
-            if ($document->active) {
-                $this->deleteDocumentData($document);
-            }
-
-            $document->update(
-                ['active' => true]
-            );
-
-            DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
-        }
-    }
-
-
-    private function checkGoodExistence(Document $document) :void
-    {
-        $goods = [];
-
-        foreach ($document->documentGoods as $documentGood) {
-            $goods[] = [
-                'good_id' => $documentGood['good_id'],
-                'date' => $document->date
-            ];
-        }
-
-        GoodAccounting::where('movement_type');
-    }
-
-    public function unApprove(array $data)
-    {
-        foreach ($data as $id) {
-            $document = Document::find($id);
-
-            $this->deleteDocumentData($document);
-            $document->update(
-                ['active' => false]
-            );
-
-        }
-    }
-
     public function changeHistory(Documentable $document)
     {
         return $document->load(['history.changes', 'history.user']);
@@ -201,9 +155,101 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
 
 
 
+    public function approve(array $data)
+    {
+        DB::transaction(function () use ($data) {
+            foreach ($data['ids'] as $id) {
+                $document = Document::find($id);
+
+
+                $result = $this->checkInventory($document);
+
+                $response = [];
+
+                if ($result !== null) {
+                    foreach ($result as $goods) {
+
+                        $good = Good::find($goods['good_id'])->name;
+
+                        $response[] = [
+                            'good' => $good,
+                            'amount' => $goods['amount']
+                        ];
+                    }
+                    return $response;
+                }
+
+                if ($document->active) {
+                    $this->deleteDocumentData($document);
+                }
+
+                $document->update(
+                    ['active' => true]
+                );
+
+                DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome);
+            }
+        });
+    }
+
+
+    public function checkInventory(Document $document)
+    {
+        $incomingDate = $document->date;
+        $incomingGoods = $document->documentGoods->pluck('good_id', 'amount')->toArray();
+
+        $previousIncomings = GoodAccounting::where('movement_type', MovementTypes::Income)
+            ->where('storage_id', $document->storage_id)
+            ->where('date', '<=', $incomingDate)
+            ->get();
+
+        $previousOutgoings = GoodAccounting::where('movement_type', MovementTypes::Outcome)
+            ->where('date', '<=', $incomingDate)
+            ->where('storage_id', $document->storage_id)
+            ->get();
+
+        $previousIncomingsByGoodId = $previousIncomings->groupBy('good_id')->map(function ($group) {
+            return $group->sum('amount');
+        });
+
+        $previousOutgoingsByGoodId = $previousOutgoings->groupBy('good_id')->map(function ($group) {
+            return $group->sum('amount');
+        });
+
+        $insufficientGoods = [];
+
+        foreach ($incomingGoods as $incomingAmount => $goodId) {
+
+
+            $totalIncoming = $previousIncomingsByGoodId->has($goodId) ? $previousIncomingsByGoodId[$goodId] : 0;
+            $totalOutgoing = $previousOutgoingsByGoodId->has($goodId) ? $previousOutgoingsByGoodId[$goodId] : 0;
+
+            $availableAmount = $totalIncoming - $totalOutgoing;
+
+            if ($incomingAmount > $availableAmount) {
+                $insufficientGoods[] = [
+                    'good_id' => $goodId,
+                    'amount' => $incomingAmount - $availableAmount
+                ];
+            }
+        }
 
 
 
+        if (!empty($insufficientGoods)) {
+            return $insufficientGoods;
+        }
+    }
 
+    public function unApprove(array $data)
+    {
+        foreach ($data['ids'] as $id) {
+            $document = Document::find($id);
 
+            $this->deleteDocumentData($document);
+            $document->update(
+                ['active' => false]
+            );
+        }
+    }
 }

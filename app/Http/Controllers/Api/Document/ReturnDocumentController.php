@@ -30,13 +30,14 @@ class ReturnDocumentController extends Controller
         return $this->success(DocumentHistoryResource::make($this->repository->changeHistory($document)));
     }
 
-    public function approve(Document $document)
+    public function approve(IdRequest $request)
     {
-        $good = $this->repository->approve($document);
+        $good = $this->repository->approve($request->validated());
 
         if ($good !== null) {
             return $this->error($good, trans('errors.not enough goods'));
         }
+
         return $this->success($good);
     }
 
