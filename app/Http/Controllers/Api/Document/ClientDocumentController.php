@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Document;
 
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\OrderDocumentDTO;
+use App\Enums\ApiResponse as ApiResponseEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Document\DocumentRequest;
 use App\Http\Requests\Api\Document\FilterRequest;
@@ -51,8 +52,13 @@ class ClientDocumentController extends Controller
 
     public function approve(IdRequest $request)
     {
+        $good = $this->repository->approve($request->validated());
 
-        return $this->success($this->repository->approve($request->validated()));
+        if ($good !== null) {
+            return response()->json(['result' => "not enough goods", 'errors' => $good], 400);
+        }
+
+        return $this->success($good);
     }
     public function unApprove(IdRequest $request)
     {
