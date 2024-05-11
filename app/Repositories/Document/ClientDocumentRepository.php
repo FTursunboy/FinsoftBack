@@ -270,7 +270,10 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 $document->goodAccountents()->delete();
                 $document->counterpartySettlements()->delete();
                 $document->balances()->delete();
-                $document->update(['deleted_at' => Carbon::now()]);
+                $document->update([
+                    'deleted_at' => Carbon::now(),
+                    'active' => 0
+                ]);
             }
 
         });
