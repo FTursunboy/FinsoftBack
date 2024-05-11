@@ -21,7 +21,18 @@ class FilterRequest extends FormRequest
              organizationBill.name,senderCashRegister.name,employee.name,cashStore.name,storage.name,currency.name' . implode(',', $fillableFields),
             'sort' => 'in:asc,desc',
             'filterData' => 'nullable|array',
-            'operation_type_id' => 'nullable|integer'
+            'operation_type_id' => 'nullable|integer',
+            'cashRegister' => 'nullable|integer',
+            'senderCashRegister' => 'nullable|integer',
+            'organization' => 'nullable|integer',
+            'currency' => 'nullable|integer',
+            'organizationBill' => 'nullable|integer',
+            'balanceArticle' => 'nullable|integer',
+            'author' => 'nullable|integer',
+            'month' => 'nullable|integer',
+            'counterpartyAgreement' => 'nullable|integer',
+            'counterparty' => 'nullable|integer',
+            'responsiblePerson' => 'nullable|integer'
         ];
     }
 

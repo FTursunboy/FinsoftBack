@@ -124,6 +124,18 @@ class CashStore extends DocumentModel
             'author_id' =>  $data['author_id'] ?? null,
             'date' => $data['date'] ?? null,
             'operation_type_id' => $data['operation_type_id'] ?? null,
+            'author' => $data['author'] ?? null,
+            'month' => $data['month'] ?? null,
+            'responsiblePerson' => $data['responsiblePerson'] ?? null,
+            'employee' => $data['employee'] ?? null,
+            'counterpartyAgreement' => $data['counterpartyAgreement'] ?? null,
+            'counterparty' => $data['counterparty'] ?? null,
+            'balanceArticle' => $data['balanceArticle'] ?? null,
+            'organizationBill' => $data['organizationBill'] ?? null,
+            'currency' => $data['currency'] ?? null,
+            'organization' => $data['organization'] ?? null,
+            'senderCashRegister' => $data['senderCashRegister'] ?? null,
+            'cashRegister' => $data['cashRegister'] ?? null,
         ];
 
         if (isset($data['filterData'])) {
