@@ -51,13 +51,8 @@ class ClientDocumentController extends Controller
 
     public function approve(IdRequest $request)
     {
-        $good = $this->repository->approve($request->validated());
 
-        if ($good !== null) {
-            return $this->error($good, trans('errors.not enough goods'));
-        }
-
-        return $this->success($good);
+        return $this->success($this->repository->approve($request->validated()));
     }
     public function unApprove(IdRequest $request)
     {
