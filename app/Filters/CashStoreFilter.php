@@ -31,15 +31,38 @@ class CashStoreFilter extends ModelFilter
     {
         return $this->where('sender_storage_id', $id);
     }
+    public function month(int $id) :CashStoreFilter
+    {
+        return $this->where('month_id', $id);
+    }
+
+    public function cashRegister(int $id) :CashStoreFilter
+    {
+        return $this->where('cashRegister_id', $id);
+    }
+
+    public function organization(int $id) :CashStoreFilter
+    {
+        return $this->where('organization_id', $id);
+    }
 
     public function recipientStorage(int $id) :CashStoreFilter
     {
         return $this->where('recipient_storage_id', $id);
     }
 
-    public function organization(int $id) :CashStoreFilter
+    public function responsiblePerson(int $id) :CashStoreFilter
     {
-        return $this->where('organization_id', $id);
+        return $this->where('responsiblePerson_id', $id);
+    }
+    public function employee(int $id) :CashStoreFilter
+    {
+        return $this->where('employee_id', $id);
+    }
+
+    public function balanceArticle(int $id) :CashStoreFilter
+    {
+        return $this->where('balance_article_id', $id);
     }
 
     public function author(int $id) :CashStoreFilter
