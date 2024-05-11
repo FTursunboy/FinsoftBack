@@ -41,6 +41,7 @@ class HandleDocumentApproveCreated
             'date' => $this->document->date,
             'model_id' => $this->document->id,
             'sum' => $sum,
+            'sale_sum' => $sum,
             'active' => true
         ]);
     }
