@@ -25,10 +25,11 @@ class HandleDocumentApproveCreated
 
     private function counterpartySettlement(): void
     {
-        $sum = $this->document->sum ?? 0;
+        $sum = $this->document->sale_sum ?? 0;
 
         if ($this->document->currency_id !== $this->getCurrency()) {
-             $sum = $this->document->sum * $this->getExcangeRate();
+//             $sum = $this->document->sale_sum * $this->getExcangeRate();
+            $sum = $this->document->sale_sum;
         }
 
         CounterpartySettlement::create([
@@ -51,7 +52,8 @@ class HandleDocumentApproveCreated
         $insertData = [];
 
         foreach ($goods as $good) {
-            $sum = $good->amount * $good->price * $this->getExcangeRate();
+//            $sum = $good->amount * $good->price * $this->getExcangeRate();
+            $sum = $good->amount * $good->price;
 
             $insertData[] = [
                 'good_id' => $good->good_id,
@@ -75,7 +77,8 @@ class HandleDocumentApproveCreated
         $sum = $this->document->sum ?? 0;
 
         if ($this->document->currency_id !== $this->getCurrency()) {
-            $sum = $this->document->sum * $this->getExcangeRate();
+//            $sum = $this->document->sum * $this->getExcangeRate();
+            $sum = $this->document->sum;
         }
 
         Balance::create([
