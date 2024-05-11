@@ -25,4 +25,6 @@ interface ClientDocumentRepositoryInterface
     public function unApprove(array $data);
 
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO);
+
+    public function massDelete(array $ids);
 }
