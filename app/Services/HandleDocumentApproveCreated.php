@@ -29,7 +29,7 @@ class HandleDocumentApproveCreated
         $sum = $this->document->sale_sum ?? 0;
 
         if ($this->document->currency_id !== $this->getDefaultCurrency()) {
-            $sale_sum = $this->document->sale_sum * $this->getExcangeRate();
+  //          $sale_sum = $this->document->sale_sum * $this->getExcangeRate();
             $sum = $this->document->sale_sum;
         }
 
@@ -78,7 +78,7 @@ class HandleDocumentApproveCreated
         $sum = $this->document->sale_sum ?? 0;
 
         if ($this->document->currency_id !== $this->getCurrency()) {
-           $sale_sum = $this->document->sum * $this->getExcangeRate();
+     //      $sale_sum = $this->document->sum * $this->getExcangeRate();
             $sum = $this->document->sale_sum;
         }
 
