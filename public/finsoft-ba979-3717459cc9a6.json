@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "finsoft-ba979",
+  "private_key_id": "3717459cc9a62e325b65467d4a143366757fbdf9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\сcYKVNl+15Gs\nv2h5ACjyz2ClUpKS8crC4eWNIHyqKrQ+/zSxFAnPnbK8gA+g1iB9iCP/yTtQ+R9A\n7E8Yo1R3vr8qV+UBb3k11XPo4C69F2Q61JedSXqaOt9aP9F7FMWmBti4vwb//MJK\nNkrpzBLuXwKBgQDQdmzbOvIuiuM87YiFC884RKyAUyUy+Subz6lWHaosGEtlUic2\nwOfz3h727Ki+WcWxtmCZdvNzvjGsYKzzzfjVhmKjJjxMrzQtfOipSGGedy0hPlKF\nUKfg2EykGxVlhCIIsV+9hrAxWq0R/dDjJ176IBicW1BP0XHZwiyokYThWQKBgBct\njzjR4Dmb+KrH/Jj59sFvNQJLhyGnxXSionrWl1G/2HIwpg0hW5LZ2LKxf7bPSymy\nQ6lO/YgE3ObiobOUygu0zOLljY41HQU8ePNpceQOi95Cuk+g/8+FcpVMXbJ5M4X9\nm78ufLI4FAFXxW8XttGalFp9mrpW8WsThBukyq9FAoGBAJO92my8OhQ4Ija0vX9X\nuGXR/RBWU8UWUHI3vdFuT7YKMYLoDkv8rBduxe3fiX6IEmMtLKAojn30LmJ4+taI\nSBnO0dV/GKFnShv6POk5xthitetX3EeizVkpU1YO14B+Tu04pKY4Yy7nwC56smcz\ngWDcRBKr8eSgjn9Xapo7MEkk\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-67wxj@finsoft-ba979.iam.gserviceaccount.com",
+  "client_id": "116838089796884161176",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-67wxj%40finsoft-ba979.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
