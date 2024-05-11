@@ -179,8 +179,11 @@ class OrderProviderDocumentRepository implements OrderProviderDocumentRepository
             ->when($data['counterparty_agreement_id'], function ($query) use ($data) {
                 return $query->where('counterparty_agreement_id', $data['counterparty_agreement_id']);
             })
-            ->when($data['date'], function ($query) use ($data) {
-                return $query->where('date', $data['date']);
+            ->when($data['startDate'], function ($query) use ($data) {
+                return $query->where('date', '>=', $data['startDate']);
+            })
+            ->when($data['endDate'], function ($query) use ($data) {
+                return $query->where('date', '<=', $data['endDate']);
             })
             ->when($data['author_id'], function ($query) use ($data) {
                 return $query->where('author_id', $data['author_id']);
