@@ -63,17 +63,27 @@ class MovementDocument extends DocumentModel implements Documentable
 
         public static function filterData(array $data): array
         {
-            return [
+            $filteredData = [
                 'search' => $data['search'] ?? '',
                 'sort' => $data['orderBy'] ?? null,
                 'direction' => $data['sort'] ?? 'asc',
                 'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
-                'recipientStorage_id' => $data['filterData']['recipientStorage_id'] ?? null,
-                'senderStorage_id' => $data['filterData']['senderStorage_id'] ?? null,
-                'organization_id' =>  $data['filterData']['organization_id'] ?? null,
-                'author_id' =>  $data['filterData']['author_id'] ?? null,
-                'date' => $data['filterData']['date'] ?? null,
+                'recipientStorage_id' => $data['recipientStorage_id'] ?? null,
+                'senderStorage_id' => $data['senderStorage_id'] ?? null,
+                'organization_id' =>  $data['organization_id'] ?? null,
+                'author_id' =>  $data['author_id'] ?? null,
+                'date' => $data['date'] ?? null,
             ];
+
+            if (isset($data['filterData'])) {
+                $filteredData['recipientStorage_id'] = $data['filterData']['recipientStorage_id'] ?? $filteredData['recipientStorage_id'];
+                $filteredData['organization_id'] =  $data['filterData']['organization_id'] ?? $filteredData['organization_id'];
+                $filteredData['senderStorage_id'] = $data['filterData']['senderStorage_id'] ?? $filteredData['senderStorage_id'];
+                $filteredData['author_id'] =  $data['filterData']['author_id'] ?? $filteredData['author_id'];
+                $filteredData['date'] = $data['filterData']['date'] ?? $filteredData['date'];
+            }
+
+            return $filteredData;
         }
 
     public function documentGoodsWithCount() :HasMany

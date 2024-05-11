@@ -21,7 +21,11 @@ class FilterRequest extends FormRequest
             'orderBy' => 'nullable|in:id,deleted_at,senderStorage.name,recipientStorage.name,organization.name,author.name' . implode(',', $fillableFields),
             'sort' => 'in:asc,desc',
             'filterData' => 'nullable|array',
-            'organization_id' => 'nullable|integer'
+            'organization_id' => 'nullable|integer',
+            'author_id' => 'nullable|integer',
+            'recipientStorage_id' => 'nullable|integer',
+            'senderStorage_id' => 'nullable|integer',
+            'date' => 'nullable',
         ];
     }
 
