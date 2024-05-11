@@ -34,7 +34,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
     {
         $filteredParams = $this->model::filter($data);
 
-        $query = $this->model::query()->where('status_id', Status::PROVIDER_RETURN);
+        $query = $this->model::query()->where('status_id', Status::CLIENT_PURCHASE);
 
         $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoodsWithCount', 'totalGoodsSum']);
 
