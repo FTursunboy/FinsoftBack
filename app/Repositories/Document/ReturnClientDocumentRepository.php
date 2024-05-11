@@ -12,6 +12,7 @@ use App\Models\GoodDocument;
 use App\Models\Status;
 use App\Repositories\Contracts\Document\Documentable;
 use App\Repositories\Contracts\Document\ReturnClientDocumentRepositoryInterface;
+use App\Repositories\Contracts\SoftDeleteInterface;
 use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
@@ -190,41 +191,17 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
                 ->orWhereHas('counterparty', function ($query) use ($searchTerm) {
                     return $query->where('counterparties.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 })
+                ->orWhereHas('currency', function ($query) use ($searchTerm) {
+                    return $query->where('currencies.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
                 ->orWhereHas('organization', function ($query) use ($searchTerm) {
                     return $query->where('organizations.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('author', function ($query) use ($searchTerm) {
+                    return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 })
                 ->orWhereHas('storage', function ($query) use ($searchTerm) {
                     return $query->where('storages.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-                ->orWhereHas('author', function ($query) use ($searchTerm) {
-                    return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-                ->orWhereHas('currency', function ($query) use ($searchTerm) {
-                    return $query->where('currencies.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                });
-        });
-    }
-
-    public function orderSearch($query, array $data)
-    {
-        $searchTerm = explode(' ', $data['search']);
-
-        return $query->where(function ($query) use ($searchTerm) {
-            $query->where('doc_number', 'like', '%' . implode('%', $searchTerm) . '%')
-                ->orWhereHas('counterparty', function ($query) use ($searchTerm) {
-                    return $query->where('counterparties.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-                ->orWhereHas('organization', function ($query) use ($searchTerm) {
-                    return $query->where('organizations.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-//                ->orWhereHas('order_status', function ($query) use ($searchTerm) {
-//                    return $query->where('order_statuses.name', 'like', '%' . implode('%', $searchTerm) . '%');
-//                })
-                ->orWhereHas('author', function ($query) use ($searchTerm) {
-                    return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-                ->orWhereHas('currency', function ($query) use ($searchTerm) {
-                    return $query->where('currencies.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 });
         });
     }
@@ -256,5 +233,6 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
                 return $query->where('author_id', $data['author_id']);
             });
     }
+
 
 }

@@ -39,9 +39,9 @@ class ClientDocumentController extends Controller
         return $this->created(DocumentResource::make($this->repository->store(DocumentDTO::fromRequest($request))));
     }
 
-    public function massDelete(IdRequest $request, MassOperationInterface $delete)
+    public function massDelete(IdRequest $request)
     {
-        return $this->success($delete->massDelete(new Document(), $request->validated()));
+        return $this->success($this->repository->massDelete($request->validated()));
     }
 
     public function massRestore(IdRequest $request, MassOperationInterface $restore)
