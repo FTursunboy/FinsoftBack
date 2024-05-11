@@ -12,22 +12,22 @@ trait DocNumberTrait
     {
         DB::beginTransaction();
         try {
+
             $lastRecord = $this->model::query()
                 ->orderBy('doc_number', 'desc')
                 ->lockForUpdate()
                 ->first();
+
 
             if (!$lastRecord) {
                 $lastNumber = 1;
             } else {
                 $lastNumber = (int)$lastRecord->doc_number + 1;
             }
-
-            $newNumber = str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
-
             DB::commit();
 
-            return $newNumber;
+
+            return $lastNumber;
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
