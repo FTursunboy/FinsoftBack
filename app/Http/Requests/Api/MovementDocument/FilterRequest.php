@@ -23,8 +23,8 @@ class FilterRequest extends FormRequest
             'filterData' => 'nullable|array',
             'organization_id' => 'nullable|integer',
             'author_id' => 'nullable|integer',
-            'recipientStorage_id' => 'nullable|integer',
-            'senderStorage_id' => 'nullable|integer',
+            'recipient_storage_id' => 'nullable|integer',
+            'sender_storage_id' => 'nullable|integer',
             'startDate' => 'nullable',
             'endDate' => 'nullable',
         ];
