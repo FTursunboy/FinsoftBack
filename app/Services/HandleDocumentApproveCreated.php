@@ -27,11 +27,11 @@ class HandleDocumentApproveCreated
     private function counterpartySettlement(): void
     {
         $sum = $this->document->sale_sum ?? 0;
-
-        if ($this->document->currency_id !== $this->getDefaultCurrency()) {
-  //          $sale_sum = $this->document->sale_sum * $this->getExcangeRate();
-            $sum = $this->document->sale_sum;
-        }
+//
+//        if ($this->document->currency_id !== $this->getDefaultCurrency()) {
+//  //          $sale_sum = $this->document->sale_sum * $this->getExcangeRate();
+//            $sum = $this->document->sale_sum;
+//        }
 
         CounterpartySettlement::create([
             'counterparty_id' => $this->document->counterparty_id,
