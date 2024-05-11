@@ -158,7 +158,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
     public function approve(array $data)
     {
-        DB::transaction(function () use ($data) {
+       return DB::transaction(function () use ($data) {
             foreach ($data['ids'] as $id) {
                 $document = Document::find($id);
 
@@ -177,8 +177,10 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                             'amount' => $goods['amount']
                         ];
                     }
+
                     return $response;
                 }
+
 
                 if ($document->active) {
                     $this->deleteDocumentData($document);
