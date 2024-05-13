@@ -38,7 +38,7 @@ class AnotherCashRegisterRepository implements AnotherCashRegisterRepositoryInte
             'senderCashRegister_id' => $dto->sender_cash_register_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type_id' => $dto->operation_type_id,
+            'operationType_id' => $dto->operation_type_id,
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);

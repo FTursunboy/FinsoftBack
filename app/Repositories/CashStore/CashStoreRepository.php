@@ -19,7 +19,7 @@ class CashStoreRepository implements CashStoreRepositoryInterface
     {
         $filteredParams = $this->model::filterData($data);
 
-        $query = $this->model::where('type', $type);
+        $query = $this->model::where('cash_stores.type', $type);
 
         $query = $query->filter($filteredParams);
 
