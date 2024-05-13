@@ -23,6 +23,10 @@ class OrganizationRepository implements OrganizationRepositoryInterface
 
         $query = $this->search($filteredParams);
 
+        if ($filteredParams['deleted']) {
+            $query->withTrashed();
+        }
+
         $query = $this->filter($query, $filteredParams);
 
         $query = $this->sort($filteredParams, $query, ['director', 'chiefAccountant']);

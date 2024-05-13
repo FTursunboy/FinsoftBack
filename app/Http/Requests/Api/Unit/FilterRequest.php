@@ -23,6 +23,7 @@ class FilterRequest extends FormRequest
             'itemsPerPage' => 'integer|nullable',
             'orderBy' => 'nullable|in:id,deleted_at,currency.name,' . implode(',', $fillableFields),
             'sort' => 'in:asc,desc',
+            'deleted' => 'nullable|bool',
             'filterData' => 'nullable|array',
         ];
     }

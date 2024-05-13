@@ -45,17 +45,4 @@ class DocumentFactory extends Factory
         ];
     }
 
-    private function getLastDocumentNumber() :string
-    {
-        $lastRecord = Document::query()->orderBy('doc_number', 'desc')->first();
-
-        if (! $lastRecord) {
-            $lastNumber = 1;
-        } else {
-            $lastNumber = (int) $lastRecord->doc_number + 1;
-        }
-
-        return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
-    }
-
 }

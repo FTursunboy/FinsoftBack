@@ -14,8 +14,6 @@ use App\Models\GoodDocument;
 use App\Models\Status;
 use App\Repositories\Contracts\Document\ClientDocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\Documentable;
-use App\Repositories\Contracts\Document\ReturnDocumentRepositoryInterface;
-use App\Repositories\Contracts\SoftDeleteInterface;
 use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
@@ -258,7 +256,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
         // TODO: Implement deleteDocumentGoods() method.
     }
 
-<<<<<<< HEAD
+
     private function calculateSum(Document $document)
     {
         $goods = $document->documentGoods;
@@ -296,7 +294,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
         $document->save();
 
-=======
+    }
     public function massDelete(array $ids)
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
@@ -317,6 +315,6 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
         });
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
->>>>>>> cd33a02ac7600f7d016130e0009050582f13091b
+
     }
 }
