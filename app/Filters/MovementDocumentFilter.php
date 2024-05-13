@@ -41,6 +41,8 @@ class MovementDocumentFilter extends ModelFilter
         return $this->where('recipient_storage_id', $id);
     }
 
+
+
     public function organization(int $id) :MovementDocumentFilter
     {
         return $this->where('organization_id', $id);
