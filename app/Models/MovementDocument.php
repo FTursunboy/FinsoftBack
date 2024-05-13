@@ -35,12 +35,12 @@ class MovementDocument extends DocumentModel implements Documentable
         return $this->belongsTo(User::class, 'author_id');
     }
 
-    public function senderStorage(): BelongsTo
+    public function sender_storage(): BelongsTo
     {
         return $this->belongsTo(Storage::class, 'sender_storage_id');
     }
 
-    public function recipientStorage(): BelongsTo
+    public function recipient_storage(): BelongsTo
     {
         return $this->belongsTo(Storage::class, 'recipient_storage_id');
     }
