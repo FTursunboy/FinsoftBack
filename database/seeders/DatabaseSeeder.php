@@ -39,10 +39,25 @@ class DatabaseSeeder extends Seeder
             'default' => true
         ]);
 
+        Currency::create([
+            'name' => 'Доллар',
+            'symbol_code' => 'USD',
+            'digital_code' => 213,
+            'default' => true
+        ]);
+
+        Currency::create([
+            'name' => 'Рубль',
+            'symbol_code' => 'RUS',
+            'digital_code' => 111,
+            'default' => true
+        ]);
+
+
         ExchangeRate::create([
             'date' => Carbon::now(),
-            'currency_id' => 1,
-            'value' => 100
+            'currency_id' => 2,
+            'value' => 11,2
         ]);
 
         Role::create([
