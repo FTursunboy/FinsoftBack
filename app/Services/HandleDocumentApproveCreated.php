@@ -77,7 +77,7 @@ class HandleDocumentApproveCreated
 
     private function balance(): void
     {
-        $sum = $this->document->sale_sum ?? 0;
+        $sale_sum = $this->document->sale_sum ?? 0;
 
         if ($this->document->currency_id !== $this->getDefaultCurrency()) {
           $sale_sum = $this->document->sum * $this->getExcangeRate();
