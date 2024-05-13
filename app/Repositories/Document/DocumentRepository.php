@@ -5,6 +5,8 @@ namespace App\Repositories\Document;
 use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
+use App\DTO\Document\OrderDocumentDTO;
+use App\DTO\Document\OrderDocumentUpdateDTO;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
 use App\Models\Document;
@@ -12,6 +14,7 @@ use App\Models\Good;
 use App\Models\GoodAccounting;
 use App\Models\GoodDocument;
 use App\Models\OrderDocument;
+use App\Models\OrderDocumentGoods;
 use App\Models\Status;
 use App\Repositories\Contracts\Document\Documentable;
 use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
@@ -63,7 +66,6 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'currency_id' => $dto->currency_id
             ]);
 
-<<<<<<< HEAD
 
             GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
@@ -72,13 +74,7 @@ class DocumentRepository implements DocumentRepositoryInterface
             return $document;
 
         });
-=======
-            if (!is_null($dto->goods))
-                GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
-            return $document;
-          });
->>>>>>> cd33a02ac7600f7d016130e0009050582f13091b
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
     }
@@ -105,7 +101,7 @@ class DocumentRepository implements DocumentRepositoryInterface
         });
     }
 
-<<<<<<< HEAD
+
     public function order(OrderDocumentDTO $DTO, int $type)
     {
         $document = DB::transaction(function () use ($DTO, $type) {
@@ -123,9 +119,8 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'currency_id' => $DTO->currency_id,
                 'order_type_id' => $type,
             ]);
-
-            if (!is_null($DTO->goods))
-                OrderDocumentGoods::insert($this->orderGoods($document, $DTO->goods));
+ //dsa
+            OrderDocumentGoods::insert($this->orderGoods($document, $DTO->goods));
 
             return $document;
         });
@@ -159,8 +154,6 @@ class DocumentRepository implements DocumentRepositoryInterface
         return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
     }
 
-=======
->>>>>>> cd33a02ac7600f7d016130e0009050582f13091b
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
     {
         GoodDocument::whereIn('id', $DTO->ids)->delete();
@@ -270,10 +263,7 @@ class DocumentRepository implements DocumentRepositoryInterface
         $document->balances()->delete();
     }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> cd33a02ac7600f7d016130e0009050582f13091b
     public function changeHistory(Documentable $document)
     {
         return $document->load(['history.changes', 'history.user']);
@@ -454,9 +444,6 @@ class DocumentRepository implements DocumentRepositoryInterface
         $document->save();
 
     }
-
-
-
 
 
 }
