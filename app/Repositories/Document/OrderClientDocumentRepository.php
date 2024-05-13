@@ -65,14 +65,13 @@ class OrderClientDocumentRepository implements OrderClientDocumentRepositoryInte
                 'order_type_id' => $type,
             ]);
 
-            if (!is_null($DTO->goods))
-                OrderDocumentGoods::insert($this->orderGoods($document, $DTO->goods));
+            OrderDocumentGoods::insert($this->orderGoods($document, $DTO->goods));
 
             ManagerNotifyJob::dispatch($document);
 
             return $document;
-           });
-        return  $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
+        });
+        return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
 
     }
 
@@ -107,8 +106,7 @@ class OrderClientDocumentRepository implements OrderClientDocumentRepositoryInte
         $document->update(
             ['active' => true]
         );
-        if ($document->status_id === Status::PROVIDER_PURCHASE || $document->status_id === Status::CLIENT_PURCHASE)
-        {
+        if ($document->status_id === Status::PROVIDER_PURCHASE || $document->status_id === Status::CLIENT_PURCHASE) {
             DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
         }
     }

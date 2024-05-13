@@ -29,7 +29,7 @@ class HandleDocumentApproveCreated
         $sum = $this->document->sale_sum ?? 0;
 
         if ($this->document->currency_id !== $this->getDefaultCurrency()) {
-           $sale_sum = $this->document->sale_sum * $this->getExcangeRate();
+            $sale_sum = $this->document->sale_sum * $this->getExcangeRate();
             $sum = $this->document->sale_sum;
         }
 
@@ -80,8 +80,7 @@ class HandleDocumentApproveCreated
         $sale_sum = $this->document->sale_sum ?? 0;
 
         if ($this->document->currency_id !== $this->getDefaultCurrency()) {
-          $sale_sum = $this->document->sum * $this->getExcangeRate();
-          //  $sum = $this->document->sale_sum;
+            $sale_sum = $this->document->sale_sum * $this->getExcangeRate();
         }
 
         Balance::create([
@@ -114,12 +113,5 @@ class HandleDocumentApproveCreated
             ->value;
     }
 
-    public function getDocumentRate(Document $document)
-    {
-        return ExchangeRate::query()
-            ->where('currency_id', $document->currency_id)
-            ->orderBy('date', 'desc')
-            ->first()
-            ->value;
-    }
+
 }

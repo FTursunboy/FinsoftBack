@@ -56,14 +56,13 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 'comment' => $dto->comment,
                 'saleInteger' => $dto->saleInteger,
                 'salePercent' => $dto->salePercent,
-                'currency_id' => $dto->currency_id,
-                'sale_sum' => $dto->sale_sum,
-                'sum' => $dto->sum,
+                'currency_id' => $dto->currency_id
             ]);
 
 
             GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
+            $this->calculateSum($document);
             return $document;
 
         });
@@ -260,5 +259,44 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
     {
         // TODO: Implement deleteDocumentGoods() method.
+    }
+
+    private function calculateSum(Document $document)
+    {
+        $goods = $document->documentGoods;
+        $sum = 0;
+        $saleSum = 0;
+
+        foreach ($goods as $good) {
+            $basePrice = $good->price * $good->amount;
+            $sum += $basePrice;
+
+            $discountAmount = 0;
+            if (isset($good->auto_sale_percent)) {
+                $discountAmount += $basePrice * ($good->auto_sale_percent / 100);
+            }
+            if (isset($good->auto_sale_sum)) {
+                $discountAmount += $good->auto_sale_sum;
+            }
+
+            $priceAfterGoodDiscount = $basePrice - $discountAmount;
+            $saleSum += $priceAfterGoodDiscount;
+        }
+
+        $documentDiscount = 0;
+        if (isset($document->salePercent)) {
+            $documentDiscount += $saleSum * ($document->salePercent / 100);
+        }
+        if (isset($document->saleInteger)) {
+            $documentDiscount += $document->saleInteger;
+        }
+
+        $saleSum -= $documentDiscount;
+
+        $document->sum = $sum;
+        $document->sale_sum = $saleSum;
+
+        $document->save();
+
     }
 }

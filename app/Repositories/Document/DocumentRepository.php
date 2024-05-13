@@ -78,18 +78,17 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'comment' => $dto->comment,
                 'saleInteger' => $dto->saleInteger,
                 'salePercent' => $dto->salePercent,
-                'currency_id' => $dto->currency_id,
-                'sale_sum' => $dto->sale_sum,
-                'sum' => $dto->sum,
+                'currency_id' => $dto->currency_id
             ]);
 
 
-            if (!is_null($dto->goods))
-                GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
+            GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
+
+            $this->calculateSum($document);
 
             return $document;
 
-          });
+        });
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
 
@@ -140,8 +139,8 @@ class DocumentRepository implements DocumentRepositoryInterface
                 OrderDocumentGoods::insert($this->orderGoods($document, $DTO->goods));
 
             return $document;
-           });
-        return  $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
+        });
+        return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
 
     }
 
@@ -279,10 +278,6 @@ class DocumentRepository implements DocumentRepositoryInterface
         $document->counterpartySettlements()->delete();
         $document->balances()->delete();
     }
-
-
-
-
 
 
     public function changeHistory(Documentable $document)
@@ -424,8 +419,6 @@ class DocumentRepository implements DocumentRepositoryInterface
     }
 
 
-
-
     public function approveClient(array $data)
     {
         foreach ($data['ids'] as $id) {
@@ -504,11 +497,53 @@ class DocumentRepository implements DocumentRepositoryInterface
         }
 
 
-
         if (!empty($insufficientGoods)) {
             return $insufficientGoods;
         }
     }
+
+
+    private function calculateSum(Document $document)
+    {
+        $goods = $document->documentGoods;
+        $sum = 0;
+        $saleSum = 0;
+
+        foreach ($goods as $good) {
+            $basePrice = $good->price * $good->amount;
+            $sum += $basePrice;
+
+            $discountAmount = 0;
+            if (isset($good->auto_sale_percent)) {
+                $discountAmount += $basePrice * ($good->auto_sale_percent / 100);
+            }
+            if (isset($good->auto_sale_sum)) {
+                $discountAmount += $good->auto_sale_sum;
+            }
+
+            $priceAfterGoodDiscount = $basePrice - $discountAmount;
+            $saleSum += $priceAfterGoodDiscount;
+        }
+
+        $documentDiscount = 0;
+        if (isset($document->salePercent)) {
+            $documentDiscount += $saleSum * ($document->salePercent / 100);
+        }
+        if (isset($document->saleInteger)) {
+            $documentDiscount += $document->saleInteger;
+        }
+
+        $saleSum -= $documentDiscount;
+
+        $document->sum = $sum;
+        $document->sale_sum = $saleSum;
+
+        $document->save();
+
+    }
+
+
+
 
 
 }

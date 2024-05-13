@@ -67,12 +67,13 @@ class ReturnProviderDocumentRepository implements ReturnProviderDocumentReposito
                 'sum' => $dto->sum,
             ]);
 
-            if (!is_null($dto->goods))
-                GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
+            GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
+
+            $this->calculateSum($document);
 
             return $document;
 
-          });
+        });
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
 
@@ -182,8 +183,7 @@ class ReturnProviderDocumentRepository implements ReturnProviderDocumentReposito
         $document->update(
             ['active' => true]
         );
-        if ($document->status_id === Status::PROVIDER_PURCHASE || $document->status_id === Status::CLIENT_PURCHASE)
-        {
+        if ($document->status_id === Status::PROVIDER_PURCHASE || $document->status_id === Status::CLIENT_PURCHASE) {
             DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
         }
 
@@ -265,6 +265,45 @@ class ReturnProviderDocumentRepository implements ReturnProviderDocumentReposito
             ->when($data['author_id'], function ($query) use ($data) {
                 return $query->where('author_id', $data['author_id']);
             });
+    }
+
+    private function calculateSum(Document $document)
+    {
+        $goods = $document->documentGoods;
+        $sum = 0;
+        $saleSum = 0;
+
+        foreach ($goods as $good) {
+            $basePrice = $good->price * $good->amount;
+            $sum += $basePrice;
+
+            $discountAmount = 0;
+            if (isset($good->auto_sale_percent)) {
+                $discountAmount += $basePrice * ($good->auto_sale_percent / 100);
+            }
+            if (isset($good->auto_sale_sum)) {
+                $discountAmount += $good->auto_sale_sum;
+            }
+
+            $priceAfterGoodDiscount = $basePrice - $discountAmount;
+            $saleSum += $priceAfterGoodDiscount;
+        }
+
+        $documentDiscount = 0;
+        if (isset($document->salePercent)) {
+            $documentDiscount += $saleSum * ($document->salePercent / 100);
+        }
+        if (isset($document->saleInteger)) {
+            $documentDiscount += $document->saleInteger;
+        }
+
+        $saleSum -= $documentDiscount;
+
+        $document->sum = $sum;
+        $document->sale_sum = $saleSum;
+
+        $document->save();
+
     }
 
 }
