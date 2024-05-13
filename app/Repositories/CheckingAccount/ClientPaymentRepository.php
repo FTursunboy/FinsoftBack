@@ -36,7 +36,7 @@ class ClientPaymentRepository implements CashStoreRepositoryInterface
             'counterparty_agreement_id' => $dto->counterparty_agreement_id,
             'basis' => $dto->basis,
             'comment' => $dto->comment,
-            'operation_type_id' => $dto->operation_type_id,
+            'operationType_id' => $dto->operation_type_id,
             'type' => $dto->type,
             'author_id' => Auth::id()
         ]);
@@ -54,7 +54,7 @@ class ClientPaymentRepository implements CashStoreRepositoryInterface
             'basis' => $dto->basis,
             'comment' => $dto->comment,
             'type' => $dto->type,
-            'operation_type_id' => $dto->operation_type_id,
+            'operationType_id' => $dto->operation_type_id,
         ]);
     }
 

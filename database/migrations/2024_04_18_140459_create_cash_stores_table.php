@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('cash_stores', function (Blueprint $table) {
             $table->uuid('id');
-            $table->string('doc_number');
+            $table->unsignedInteger('doc_number');
             $table->string('date');
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->unsignedBigInteger('cashRegister_id')->nullable();
@@ -24,7 +24,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('senderCashRegister_id')->nullable();
             $table->unsignedBigInteger('employee_id')->nullable();
             $table->unsignedBigInteger('balance_article_id')->nullable();
-            $table->unsignedBigInteger('operation_type_id');
+            $table->unsignedBigInteger('operationType_id');
             $table->string('type');
             $table->softDeletes();
             $table->timestamps();

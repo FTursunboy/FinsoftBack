@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('report_cards', function (Blueprint $table) {
             $table->id();
-            $table->string('doc_number');
+            $table->unsignedBigInteger('doc_number');
             $table->date('date');
             $table->unsignedBigInteger('organization_id');
             $table->text('comment')->nullable();

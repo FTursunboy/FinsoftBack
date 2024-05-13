@@ -155,10 +155,9 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
     }
 
 
-
     public function approve(array $data)
     {
-       return DB::transaction(function () use ($data) {
+        return DB::transaction(function () use ($data) {
             foreach ($data['ids'] as $id) {
                 $document = Document::find($id);
 
@@ -258,7 +257,6 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
         // TODO: Implement deleteDocumentGoods() method.
     }
 
-<<<<<<< HEAD
     private function calculateSum(Document $document)
     {
         $goods = $document->documentGoods;
@@ -295,8 +293,8 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
         $document->sale_sum = $saleSum;
 
         $document->save();
+    }
 
-=======
     public function massDelete(array $ids)
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
@@ -317,6 +315,5 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
         });
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
->>>>>>> cd33a02ac7600f7d016130e0009050582f13091b
     }
 }

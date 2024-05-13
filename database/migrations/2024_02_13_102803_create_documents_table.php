@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('doc_number')->unique();
+            $table->unsignedBigInteger('doc_number')->unique();
             $table->timestamp('date');
             $table->foreignId('counterparty_id')->constrained();
             $table->foreignId('counterparty_agreement_id')->constrained();
