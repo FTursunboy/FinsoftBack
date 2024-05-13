@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
         ExchangeRate::create([
             'date' => Carbon::now(),
             'currency_id' => 2,
-            'value' => 11,2
+            'value' => 11,
         ]);
 
         Role::create([
