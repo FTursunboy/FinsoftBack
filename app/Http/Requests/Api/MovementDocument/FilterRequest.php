@@ -18,7 +18,7 @@ class FilterRequest extends FormRequest
         return [
             'search' => 'string|nullable|max:50',
             'itemsPerPage' => 'integer|nullable',
-            'orderBy' => 'nullable|in:id,deleted_at,senderStorage.name,recipientStorage.name,organization.name,author.name' . implode(',', $fillableFields),
+            'orderBy' => 'nullable|in:id,deleted_at,sender_storage.name,recipient_storage.name,organization.name,author.name' . implode(',', $fillableFields),
             'sort' => 'in:asc,desc',
             'filterData' => 'nullable|array',
             'organization_id' => 'nullable|integer',
@@ -33,7 +33,7 @@ class FilterRequest extends FormRequest
     private function getFillableWithRelationships($model): array
     {
         $fillableFields = $this->getFillable($model);
-        $relationships = ['senderStorage', 'recipientStorage', 'organization', 'author'];
+        $relationships = ['sender_storage', 'recipient_storage', 'organization', 'author'];
 
         $relationshipFields = [];
         foreach ($relationships as $relation) {
