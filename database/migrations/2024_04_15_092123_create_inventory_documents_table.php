@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('inventory_documents', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('doc_number')->unique();
+            $table->unsignedBigInteger('doc_number')->unique();
             $table->timestamp('date');
             $table->foreignId('organization_id')->constrained();
             $table->foreignId('storage_id')->constrained();
