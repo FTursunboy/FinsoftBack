@@ -20,7 +20,7 @@ class ExchangeRateFactory extends Factory
     {
         return [
             'date' => Carbon::now(),
-            'currency_id' => Currency::factory(),
+            'currency_id' => Currency::inRandomOrder()->first()->id,
             'value' => rand(1000, 2000)
         ];
     }

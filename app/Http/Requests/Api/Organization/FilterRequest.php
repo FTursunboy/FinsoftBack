@@ -15,6 +15,7 @@ class FilterRequest extends FormRequest
                 'orderBy' => 'nullable|in:id,name,address,description,INN,director_id,chief_accountant_id',
                 'sort' => 'in:asc,desc',
                 'filterData' => 'nullable|array',
+                'deleted' => 'nullable|boolean'
             ];
     }
 

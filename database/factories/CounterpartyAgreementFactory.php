@@ -22,8 +22,8 @@ class CounterpartyAgreementFactory extends Factory
             'organization_id' => Organization::factory(),
             'counterparty_id' => Counterparty::factory(),
             'contact_person' => $this->faker->name(),
-            'currency_id' => Currency::factory(),
-            'payment_id' => Currency::factory(),
+            'currency_id' => Currency::inRandomOrder()->first()->id,
+            'payment_id' => Currency::inRandomOrder()->first()->id,
             'price_type_id' => PriceType::factory(),
             'comment' => $this->faker->text()
         ];

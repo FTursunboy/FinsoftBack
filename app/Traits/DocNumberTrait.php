@@ -18,7 +18,6 @@ trait DocNumberTrait
                 ->lockForUpdate()
                 ->first();
 
-
             if (!$lastRecord) {
                 $lastNumber = 1;
             } else {
