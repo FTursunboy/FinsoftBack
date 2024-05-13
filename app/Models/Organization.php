@@ -14,7 +14,6 @@ class Organization extends Model implements \App\Repositories\Contracts\SoftDele
 
     protected $fillable = ['name', 'address', 'description', 'INN', 'director_id', 'chief_accountant_id'];
 
-    public static function bootSoftDeletes() { }
 
     public function director(): BelongsTo
     {
