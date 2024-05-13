@@ -72,7 +72,7 @@ class CashStoreFilter extends ModelFilter
 
     public function operationType(int $id) :CashStoreFilter
     {
-        return $this->where('operation_type_id', $id);
+        return $this->where('operationType_id', $id);
     }
 
     public function search(string $search) :CashStoreFilter
