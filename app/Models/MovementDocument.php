@@ -29,8 +29,7 @@ class MovementDocument extends DocumentModel implements Documentable
     ];
 
 
-
-    public function author() :BelongsTo
+    public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
     }
@@ -60,35 +59,34 @@ class MovementDocument extends DocumentModel implements Documentable
         return $this->provideFilter(MovementDocumentFilter::class);
     }
 
+    public static function filterData(array $data): array
+    {
+        $filteredData = [
+            'search' => $data['search'] ?? '',
+            'sort' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'recipient_storage_id' => $data['recipient_storage_id'] ?? null,
+            'sender_storage_id' => $data['sender_storage_id'] ?? null,
+            'organization_id' => $data['organization_id'] ?? null,
+            'author_id' => $data['author_id'] ?? null,
+            'startDate' => $data['startDate'] ?? null,
+            'endDate' => $data['endDate'] ?? null,
+        ];
 
-        public static function filterData(array $data): array
-        {
-            $filteredData = [
-                'search' => $data['search'] ?? '',
-                'sort' => $data['orderBy'] ?? null,
-                'direction' => $data['sort'] ?? 'asc',
-                'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
-                'recipient_storage_id' => $data['recipient_storage_id'] ?? null,
-                'sender_storage_id' => $data['sender_storage_id'] ?? null,
-                'organization_id' =>  $data['organization_id'] ?? null,
-                'author_id' =>  $data['author_id'] ?? null,
-                'startDate' => $data['startDate'] ?? null,
-                'endDate' => $data['endDate'] ?? null,
-            ];
-
-            if (isset($data['filterData'])) {
-                $filteredData['recipient_storage_id'] = $data['filterData']['recipient_storage_id'] ?? $filteredData['recipient_storage_id'];
-                $filteredData['organization_id'] =  $data['filterData']['organization_id'] ?? $filteredData['organization_id'];
-                $filteredData['sender_storage_id'] = $data['filterData']['sender_storage_id'] ?? $filteredData['sender_storage_id'];
-                $filteredData['author_id'] =  $data['filterData']['author_id'] ?? $filteredData['author_id'];
-                $filteredData['startDate'] = $data['filterData']['startDate'] ?? $filteredData['startDate'];
-                $filteredData['endDate'] = $data['filterData']['endDate'] ?? $filteredData['endDate'];
-            }
-
-            return $filteredData;
+        if (isset($data['filterData'])) {
+            $filteredData['recipient_storage_id'] = $data['filterData']['recipient_storage_id'] ?? $filteredData['recipient_storage_id'];
+            $filteredData['organization_id'] = $data['filterData']['organization_id'] ?? $filteredData['organization_id'];
+            $filteredData['sender_storage_id'] = $data['filterData']['sender_storage_id'] ?? $filteredData['sender_storage_id'];
+            $filteredData['author_id'] = $data['filterData']['author_id'] ?? $filteredData['author_id'];
+            $filteredData['startDate'] = $data['filterData']['startDate'] ?? $filteredData['startDate'];
+            $filteredData['endDate'] = $data['filterData']['endDate'] ?? $filteredData['endDate'];
         }
 
-    public function documentGoodsWithCount() :HasMany
+        return $filteredData;
+    }
+
+    public function documentGoodsWithCount(): HasMany
     {
         return $this->hasMany(GoodDocument::class, 'document_id')
             ->selectRaw('document_id, COUNT(*) as total_count')
