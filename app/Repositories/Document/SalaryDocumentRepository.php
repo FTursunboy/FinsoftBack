@@ -106,15 +106,6 @@ class SalaryDocumentRepository implements SalaryDocumentRepositoryInterface
         }
     }
 
-
-
-
-
-
-
-
-
-
     public function search($query, array $data)
     {
         $searchTerm = explode(' ', $data['search']);

@@ -60,16 +60,25 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'comment' => $dto->comment,
                 'saleInteger' => $dto->saleInteger,
                 'salePercent' => $dto->salePercent,
-                'currency_id' => $dto->currency_id,
-                'sale_sum' => $dto->sale_sum,
-                'sum' => $dto->sum,
+                'currency_id' => $dto->currency_id
             ]);
 
+<<<<<<< HEAD
+
+            GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
+
+            $this->calculateSum($document);
+
+            return $document;
+
+        });
+=======
             if (!is_null($dto->goods))
                 GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
             return $document;
           });
+>>>>>>> cd33a02ac7600f7d016130e0009050582f13091b
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
     }
@@ -96,6 +105,62 @@ class DocumentRepository implements DocumentRepositoryInterface
         });
     }
 
+<<<<<<< HEAD
+    public function order(OrderDocumentDTO $DTO, int $type)
+    {
+        $document = DB::transaction(function () use ($DTO, $type) {
+            $document = OrderDocument::create([
+                'doc_number' => $this->orderUniqueNumber(),
+                'date' => Carbon::parse($DTO->date),
+                'counterparty_id' => $DTO->counterparty_id,
+                'counterparty_agreement_id' => $DTO->counterparty_agreement_id,
+                'organization_id' => $DTO->organization_id,
+                'order_status_id' => $DTO->order_status_id,
+                'author_id' => Auth::id(),
+                'comment' => $DTO->comment,
+                'summa' => $DTO->summa,
+                'shipping_date' => $DTO->shipping_date,
+                'currency_id' => $DTO->currency_id,
+                'order_type_id' => $type,
+            ]);
+
+            if (!is_null($DTO->goods))
+                OrderDocumentGoods::insert($this->orderGoods($document, $DTO->goods));
+
+            return $document;
+        });
+        return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
+
+    }
+
+    public function updateOrder(OrderDocument $document, OrderDocumentUpdateDTO $DTO): OrderDocument
+    {
+        $document = DB::transaction(function () use ($DTO, $document) {
+            $document->update([
+                'doc_number' => $document->doc_number,
+                'date' => Carbon::parse($DTO->date),
+                'counterparty_id' => $DTO->counterparty_id,
+                'counterparty_agreement_id' => $DTO->counterparty_agreement_id,
+                'organization_id' => $DTO->organization_id,
+                'order_status_id' => $DTO->order_status_id,
+                'author_id' => Auth::id(),
+                'comment' => $DTO->comment,
+                'summa' => $DTO->summa,
+                'shipping_date' => $DTO->shipping_date,
+                'currency_id' => $DTO->currency_id
+
+            ]);
+
+            if (!is_null($DTO->goods))
+                $this->updateOrderGoods($document, $DTO->goods);
+
+            return $document;
+        });
+        return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
+    }
+
+=======
+>>>>>>> cd33a02ac7600f7d016130e0009050582f13091b
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
     {
         GoodDocument::whereIn('id', $DTO->ids)->delete();
@@ -205,6 +270,10 @@ class DocumentRepository implements DocumentRepositoryInterface
         $document->balances()->delete();
     }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> cd33a02ac7600f7d016130e0009050582f13091b
     public function changeHistory(Documentable $document)
     {
         return $document->load(['history.changes', 'history.user']);
@@ -261,8 +330,6 @@ class DocumentRepository implements DocumentRepositoryInterface
                 return $query->where('author_id', $data['author_id']);
             });
     }
-
-
 
 
     public function approveClient(array $data)
@@ -343,11 +410,53 @@ class DocumentRepository implements DocumentRepositoryInterface
         }
 
 
-
         if (!empty($insufficientGoods)) {
             return $insufficientGoods;
         }
     }
+
+
+    private function calculateSum(Document $document)
+    {
+        $goods = $document->documentGoods;
+        $sum = 0;
+        $saleSum = 0;
+
+        foreach ($goods as $good) {
+            $basePrice = $good->price * $good->amount;
+            $sum += $basePrice;
+
+            $discountAmount = 0;
+            if (isset($good->auto_sale_percent)) {
+                $discountAmount += $basePrice * ($good->auto_sale_percent / 100);
+            }
+            if (isset($good->auto_sale_sum)) {
+                $discountAmount += $good->auto_sale_sum;
+            }
+
+            $priceAfterGoodDiscount = $basePrice - $discountAmount;
+            $saleSum += $priceAfterGoodDiscount;
+        }
+
+        $documentDiscount = 0;
+        if (isset($document->salePercent)) {
+            $documentDiscount += $saleSum * ($document->salePercent / 100);
+        }
+        if (isset($document->saleInteger)) {
+            $documentDiscount += $document->saleInteger;
+        }
+
+        $saleSum -= $documentDiscount;
+
+        $document->sum = $sum;
+        $document->sale_sum = $saleSum;
+
+        $document->save();
+
+    }
+
+
+
 
 
 }

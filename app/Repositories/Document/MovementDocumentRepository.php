@@ -42,8 +42,7 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
                 'recipient_storage_id' => $dto->recipient_storage_id
             ]);
 
-            if (!is_null($dto->goods))
-                GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
+            GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
             return $document->load(['organization', 'author', 'senderStorage', 'recipientStorage']);
         });
@@ -60,8 +59,8 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
                 'recipient_storage_id' => $dto->recipient_storage_id
             ]);
 
-                if ($dto->goods != null)
-                    $this->updateGoodDocuments($dto->goods, $document);
+            if ($dto->goods != null)
+                $this->updateGoodDocuments($dto->goods, $document);
 
             return $document->load(['senderStorage', 'recipientStorage', 'author', 'organization', 'goods', 'goods.good']);
 
@@ -127,7 +126,7 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
     public function documentAuthor()
     {
-         return null;
+        return null;
     }
 
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
