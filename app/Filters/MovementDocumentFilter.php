@@ -31,7 +31,7 @@ class MovementDocumentFilter extends ModelFilter
         return $this->whereDate('date', '<=', $endDate);
     }
 
-    public function senderStorage(int $id) :MovementDocumentFilter
+    public function sender_storage(int $id) :MovementDocumentFilter
     {
         return $this->where('sender_storage_id', $id);
     }
@@ -60,10 +60,10 @@ class MovementDocumentFilter extends ModelFilter
                 ->orWhereHas('organization', function ($query) use ($searchTerm) {
                     return $query->where('organizations.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 })
-                ->orWhereHas('senderStorage', function ($query) use ($searchTerm) {
+                ->orWhereHas('sender_storage', function ($query) use ($searchTerm) {
                     return $query->where('storages.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 })
-                ->orWhereHas('recipientStorage', function ($query) use ($searchTerm) {
+                ->orWhereHas('recipient_storage', function ($query) use ($searchTerm) {
                     return $query->where('storages.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 })
                 ->orWhereHas('author', function ($query) use ($searchTerm) {
@@ -75,7 +75,7 @@ class MovementDocumentFilter extends ModelFilter
 
     public function sort() :MovementDocumentFilter
     {
-        $relations = ['senderStorage', 'recipientStorage', 'author', 'organization', 'goods'];
+        $relations = ['sender_storage', 'recipient_storage', 'author', 'organization', 'goods'];
 
         return $this->traitSort($this->input(), $this, $relations);
     }

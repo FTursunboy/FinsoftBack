@@ -26,7 +26,7 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
         $query = $this->model::filter($filteredParams);
 
-        return $query->with(['senderStorage', 'recipientStorage', 'author', 'organization', 'goods', 'goods.good', 'documentGoodsWithCount'])->paginate($filteredParams['itemsPerPage']);
+        return $query->with(['sender_storage', 'recipient_storage', 'author', 'organization', 'goods', 'goods.good', 'documentGoodsWithCount'])->paginate($filteredParams['itemsPerPage']);
     }
 
     public function store(MovementDocumentDTO $dto): MovementDocument
@@ -44,7 +44,7 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
             GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
-            return $document->load(['organization', 'author', 'senderStorage', 'recipientStorage']);
+            return $document->load(['organization', 'author', 'sender_storage', 'recipient_storage']);
         });
     }
 
@@ -62,7 +62,7 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
             if ($dto->goods != null)
                 $this->updateGoodDocuments($dto->goods, $document);
 
-            return $document->load(['senderStorage', 'recipientStorage', 'author', 'organization', 'goods', 'goods.good']);
+            return $document->load(['sender_storage', 'recipient_storage', 'author', 'organization', 'goods', 'goods.good']);
 
         });
     }
