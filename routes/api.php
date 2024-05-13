@@ -334,6 +334,10 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::patch('/{salaryDocument}', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'update']);
     });
 
+    Route::group(['prefix' => 'document-report'], function () {
+        Route::get('/balance/{document}', [\App\Http\Controllers\Api\ReportDocumentController::class, 'getBalance']);
+    });
+
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
 
     require_once 'cashStore.php';

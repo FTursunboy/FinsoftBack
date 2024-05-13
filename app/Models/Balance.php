@@ -20,18 +20,18 @@ class Balance extends Model
         'date'
     ];
 
-    protected function creditArticle(): BelongsTo
+    public function creditArticle(): BelongsTo
     {
         return $this->belongsTo(BalanceArticle::class, 'debit_article');
     }
 
-    protected function debitArticle(): BelongsTo
+    public function debitArticle(): BelongsTo
     {
         return $this->belongsTo(BalanceArticle::class, 'credit_article');
     }
 
-    protected function organization(): BelongsTo
+    public function organization(): BelongsTo
     {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(Organization::class, 'organization_id');
     }
 }
