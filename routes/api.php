@@ -336,6 +336,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::group(['prefix' => 'document-report'], function () {
         Route::get('/balance/{document}', [\App\Http\Controllers\Api\ReportDocumentController::class, 'getBalance']);
+        Route::get('/counterparty-settlements/{document}', [\App\Http\Controllers\Api\ReportDocumentController::class, 'getCounterpartySettlements']);
+        Route::get('/good-accountings/{document}', [\App\Http\Controllers\Api\ReportDocumentController::class, 'getGoodAccountings']);
     });
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);

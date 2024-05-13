@@ -19,18 +19,28 @@ class GoodAccounting extends Model
         'date'
     ];
 
-    protected function storage(): BelongsTo
+    public function storage(): BelongsTo
     {
         return $this->belongsTo(Storage::class);
     }
 
-    protected function good(): BelongsTo
+    public function good(): BelongsTo
     {
         return $this->belongsTo(Good::class);
     }
 
-    protected function organization(): BelongsTo
+    public function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class);
+    }
+
+    public static function filterData(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'sort' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+        ];
     }
 }

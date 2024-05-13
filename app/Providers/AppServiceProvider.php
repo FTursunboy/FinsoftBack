@@ -80,6 +80,7 @@ use App\Repositories\Contracts\PermissionRepositoryInterface;
 use App\Repositories\Contracts\PositionRepositoryInterface;
 use App\Repositories\Contracts\PriceTypeRepository;
 use App\Repositories\Contracts\ReportCardRepositoryInterface;
+use App\Repositories\Contracts\ReportDocumentRepositoryInterface;
 use App\Repositories\Contracts\SalaryDocumentRepositoryInterface;
 use App\Repositories\Contracts\ScheduleRepositoryInterface;
 use App\Repositories\Contracts\StorageEmployeeRepositoryInterface;
@@ -115,6 +116,7 @@ use App\Repositories\OrganizationRepository;
 use App\Repositories\PermissionRepository;
 use App\Repositories\PositionRepository;
 use App\Repositories\ReportCardRepository;
+use App\Repositories\ReportDocumentRepository;
 use App\Repositories\ScheduleRepository;
 use App\Repositories\StorageEmployeeRepository;
 use App\Repositories\StorageRepository;
@@ -191,6 +193,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(OrderClientDocumentRepositoryInterface::class, OrderClientDocumentRepository::class);
         $this->app->singleton(SalaryPaymentRepositoryInterface::class, SalaryPaymentRepository::class);
         $this->app->singleton(ClientDocumentRepositoryInterface::class, ClientDocumentRepository::class);
+        $this->app->singleton(ReportDocumentRepositoryInterface::class, ReportDocumentRepository::class);
     }
 
     /**

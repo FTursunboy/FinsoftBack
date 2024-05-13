@@ -34,4 +34,14 @@ class Balance extends Model
     {
         return $this->belongsTo(Organization::class, 'organization_id');
     }
+
+    public static function filterData(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'sort' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+        ];
+    }
 }

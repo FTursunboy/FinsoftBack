@@ -22,18 +22,28 @@ class CounterpartySettlement extends Model
         'organization_id'
     ];
 
-    protected function counterparty(): BelongsTo
+    public function counterparty(): BelongsTo
     {
-        return $this->belongsTo(Counterparty::class);
+        return $this->belongsTo(Counterparty::class, 'counterparty_id');
     }
 
-    protected function counterpartyAgreement(): BelongsTo
+    public function counterpartyAgreement(): BelongsTo
     {
-        return $this->belongsTo(CounterpartyAgreement::class);
+        return $this->belongsTo(CounterpartyAgreement::class, 'counterparty_agreement_id');
     }
 
-    protected function organization(): BelongsTo
+    public function organization(): BelongsTo
     {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(Organization::class, 'organization_id');
+    }
+
+    public static function filterData(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'sort' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+        ];
     }
 }
