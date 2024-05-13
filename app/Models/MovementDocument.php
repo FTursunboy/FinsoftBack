@@ -63,17 +63,29 @@ class MovementDocument extends DocumentModel implements Documentable
 
         public static function filterData(array $data): array
         {
-            return [
+            $filteredData = [
                 'search' => $data['search'] ?? '',
                 'sort' => $data['orderBy'] ?? null,
                 'direction' => $data['sort'] ?? 'asc',
                 'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
-                'recipientStorage_id' => $data['filterData']['recipientStorage_id'] ?? null,
-                'senderStorage_id' => $data['filterData']['senderStorage_id'] ?? null,
-                'organization_id' =>  $data['filterData']['organization_id'] ?? null,
-                'author_id' =>  $data['filterData']['author_id'] ?? null,
-                'date' => $data['filterData']['date'] ?? null,
+                'recipient_storage_id' => $data['recipient_storage_id'] ?? null,
+                'sender_storage_id' => $data['sender_storage_id'] ?? null,
+                'organization_id' =>  $data['organization_id'] ?? null,
+                'author_id' =>  $data['author_id'] ?? null,
+                'startDate' => $data['startDate'] ?? null,
+                'endDate' => $data['endDate'] ?? null,
             ];
+
+            if (isset($data['filterData'])) {
+                $filteredData['recipient_storage_id'] = $data['filterData']['recipient_storage_id'] ?? $filteredData['recipient_storage_id'];
+                $filteredData['organization_id'] =  $data['filterData']['organization_id'] ?? $filteredData['organization_id'];
+                $filteredData['sender_storage_id'] = $data['filterData']['sender_storage_id'] ?? $filteredData['sender_storage_id'];
+                $filteredData['author_id'] =  $data['filterData']['author_id'] ?? $filteredData['author_id'];
+                $filteredData['startDate'] = $data['filterData']['startDate'] ?? $filteredData['startDate'];
+                $filteredData['endDate'] = $data['filterData']['endDate'] ?? $filteredData['endDate'];
+            }
+
+            return $filteredData;
         }
 
     public function documentGoodsWithCount() :HasMany

@@ -12,6 +12,7 @@ use App\Models\GoodDocument;
 use App\Models\Status;
 use App\Repositories\Contracts\Document\Documentable;
 use App\Repositories\Contracts\Document\ReturnClientDocumentRepositoryInterface;
+use App\Repositories\Contracts\SoftDeleteInterface;
 use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
@@ -189,41 +190,17 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
                 ->orWhereHas('counterparty', function ($query) use ($searchTerm) {
                     return $query->where('counterparties.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 })
+                ->orWhereHas('currency', function ($query) use ($searchTerm) {
+                    return $query->where('currencies.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
                 ->orWhereHas('organization', function ($query) use ($searchTerm) {
                     return $query->where('organizations.name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('author', function ($query) use ($searchTerm) {
+                    return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 })
                 ->orWhereHas('storage', function ($query) use ($searchTerm) {
                     return $query->where('storages.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-                ->orWhereHas('author', function ($query) use ($searchTerm) {
-                    return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-                ->orWhereHas('currency', function ($query) use ($searchTerm) {
-                    return $query->where('currencies.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                });
-        });
-    }
-
-    public function orderSearch($query, array $data)
-    {
-        $searchTerm = explode(' ', $data['search']);
-
-        return $query->where(function ($query) use ($searchTerm) {
-            $query->where('doc_number', 'like', '%' . implode('%', $searchTerm) . '%')
-                ->orWhereHas('counterparty', function ($query) use ($searchTerm) {
-                    return $query->where('counterparties.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-                ->orWhereHas('organization', function ($query) use ($searchTerm) {
-                    return $query->where('organizations.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-//                ->orWhereHas('order_status', function ($query) use ($searchTerm) {
-//                    return $query->where('order_statuses.name', 'like', '%' . implode('%', $searchTerm) . '%');
-//                })
-                ->orWhereHas('author', function ($query) use ($searchTerm) {
-                    return $query->where('users.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-                ->orWhereHas('currency', function ($query) use ($searchTerm) {
-                    return $query->where('currencies.name', 'like', '%' . implode('%', $searchTerm) . '%');
                 });
         });
     }
@@ -245,9 +222,11 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
             ->when($data['storage_id'], function ($query) use ($data) {
                 return $query->where('storage_id', $data['storage_id']);
             })
-            ->when($data['date'], function ($query) use ($data) {
-                $date = Carbon::createFromFormat('Y-m-d', $data['date'])->format('Y-m-d');
-                return $query->where('date', $date);
+            ->when($data['startDate'], function ($query) use ($data) {
+                return $query->where('date', '>=', $data['startDate']);
+            })
+            ->when($data['endDate'], function ($query) use ($data) {
+                return $query->where('date', '<=', $data['endDate']);
             })
             ->when($data['author_id'], function ($query) use ($data) {
                 return $query->where('author_id', $data['author_id']);
@@ -291,5 +270,6 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
         $document->save();
 
     }
+
 
 }

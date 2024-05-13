@@ -15,6 +15,7 @@ use App\Models\Status;
 use App\Repositories\Contracts\Document\ClientDocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\Documentable;
 use App\Repositories\Contracts\Document\ReturnDocumentRepositoryInterface;
+use App\Repositories\Contracts\SoftDeleteInterface;
 use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
@@ -52,8 +53,8 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 'organization_id' => $dto->organization_id,
                 'storage_id' => $dto->storage_id,
                 'author_id' => Auth::id(),
-                'status_id' => Status::CLIENT_PURCHASE,
                 'comment' => $dto->comment,
+                'status_id' => Status::CLIENT_PURCHASE,
                 'saleInteger' => $dto->saleInteger,
                 'salePercent' => $dto->salePercent,
                 'currency_id' => $dto->currency_id
@@ -83,8 +84,8 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 'organization_id' => $dto->organization_id,
                 'storage_id' => $dto->storage_id,
                 'comment' => $dto->comment,
-                'saleInteger' => $dto->saleInteger,
                 'salePercent' => $dto->salePercent,
+                'saleInteger' => $dto->saleInteger,
                 'currency_id' => $dto->currency_id
             ]);
 
@@ -120,8 +121,8 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                         'good_id' => $good['good_id'],
                         'amount' => $good['amount'],
                         'price' => $good['price'],
-                        'document_id' => $document->id,
                         'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
+                        'document_id' => $document->id,
                         'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
                         'updated_at' => Carbon::now()
                     ]
@@ -161,14 +162,12 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
             foreach ($data['ids'] as $id) {
                 $document = Document::find($id);
 
-
                 $result = $this->checkInventory($document);
 
                 $response = [];
 
                 if ($result !== null) {
                     foreach ($result as $goods) {
-
                         $good = Good::find($goods['good_id'])->name;
 
                         $response[] = [
@@ -237,8 +236,6 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
             }
         }
 
-
-
         if (!empty($insufficientGoods)) {
             return $insufficientGoods;
         }
@@ -261,6 +258,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
         // TODO: Implement deleteDocumentGoods() method.
     }
 
+<<<<<<< HEAD
     private function calculateSum(Document $document)
     {
         $goods = $document->documentGoods;
@@ -298,5 +296,27 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
         $document->save();
 
+=======
+    public function massDelete(array $ids)
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
+        DB::transaction(function () use ($ids) {
+
+            foreach ($ids as $id) {
+                $document = $this->model::where('id', $id)->first();
+                $document->goodAccountents()->delete();
+                $document->counterpartySettlements()->delete();
+                $document->balances()->delete();
+                $document->update([
+                    'deleted_at' => Carbon::now(),
+                    'active' => 0
+                ]);
+            }
+
+        });
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+>>>>>>> cd33a02ac7600f7d016130e0009050582f13091b
     }
 }

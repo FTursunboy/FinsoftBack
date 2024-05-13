@@ -19,7 +19,7 @@ use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
-class InventoryDocumentController extends Controller
+class  InventoryDocumentController extends Controller
 {
     use ApiResponse;
 

@@ -257,6 +257,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('/order', [OrderClientDocumentController::class, 'store']);
             Route::get('/order/statuses', [OrderClientDocumentController::class, 'statuses']);
             Route::get('order/show/{orderDocument}', [OrderClientDocumentController::class, 'show']);
+
+            Route::post('delete', [ClientDocumentController::class, 'massDelete']);
         });
 
         Route::group(['prefix' => 'return'], function () {
@@ -297,7 +299,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::patch('unApprove/{document}', [DocumentController::class, 'unApprove']);
 
         Route::post('delete-document-goods', [DocumentController::class, 'deleteDocumentGoods']);
-        Route::post('delete', [ClientDocumentController::class, 'massDelete']);
         Route::post('restore', [ClientDocumentController::class, 'massRestore']);
     });
 
