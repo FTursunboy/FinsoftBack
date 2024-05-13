@@ -37,7 +37,7 @@ class FactorySeeder extends Seeder
         Employee::factory(5)->create();
         CounterpartyAgreement::factory(5)->create();
         Counterparty::factory(5)->create();
-        Currency::factory(5)->create();
+    //    Currency::factory(5)->create();
 
         Good::factory(5)->create();
         Organization::factory(5)->create();

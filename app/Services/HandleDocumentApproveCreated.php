@@ -27,11 +27,11 @@ class HandleDocumentApproveCreated
     private function counterpartySettlement(): void
     {
         $sum = $this->document->sale_sum ?? 0;
-//
-//        if ($this->document->currency_id !== $this->getDefaultCurrency()) {
-//  //          $sale_sum = $this->document->sale_sum * $this->getExcangeRate();
-//            $sum = $this->document->sale_sum;
-//        }
+
+        if ($this->document->currency_id !== $this->getDefaultCurrency()) {
+           $sale_sum = $this->document->sale_sum * $this->getExcangeRate();
+            $sum = $this->document->sale_sum;
+        }
 
         CounterpartySettlement::create([
             'counterparty_id' => $this->document->counterparty_id,
@@ -41,7 +41,7 @@ class HandleDocumentApproveCreated
             'date' => $this->document->date,
             'model_id' => $this->document->id,
             'sum' => $sum,
-            'sale_sum' => $sum,
+            'sale_sum' => $sale_sum,
             'active' => true
         ]);
     }
@@ -53,8 +53,10 @@ class HandleDocumentApproveCreated
         $insertData = [];
 
         foreach ($goods as $good) {
-//            $sum = $good->amount * $good->price * $this->getExcangeRate();
             $sum = $good->amount * $good->price;
+            if ($this->document->currency_id !== $this->getDefaultCurrency()) {
+                $sum = $good->amount * $good->price * $this->getExcangeRate();
+            }
 
             $insertData[] = [
                 'good_id' => $good->good_id,
@@ -77,16 +79,16 @@ class HandleDocumentApproveCreated
     {
         $sum = $this->document->sale_sum ?? 0;
 
-        if ($this->document->currency_id !== $this->getCurrency()) {
-     //      $sale_sum = $this->document->sum * $this->getExcangeRate();
-            $sum = $this->document->sale_sum;
+        if ($this->document->currency_id !== $this->getDefaultCurrency()) {
+          $sale_sum = $this->document->sum * $this->getExcangeRate();
+          //  $sum = $this->document->sale_sum;
         }
 
         Balance::create([
             'credit_article' => BalanceArticle::find(1)->id,
             'debit_article' => BalanceArticle::find(1)->id,
             'organization_id' => $this->document->organization_id,
-            'sum' => $sum,
+            'sum' => $sale_sum,
             'model_id' => $this->document->id,
             'active' => true,
             'date' => $this->document->date,
@@ -97,6 +99,7 @@ class HandleDocumentApproveCreated
     {
         return Currency::where('id', $this->document->currency_id)->first()->id;
     }
+
     public function getDefaultCurrency()
     {
         return Currency::where('default', true)->first()->id;
