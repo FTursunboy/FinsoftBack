@@ -41,7 +41,7 @@ class DocumentFactory extends Factory
             'author_id' => User::factory(),
             'status_id' => $this->faker->randomElement([Status::CLIENT_RETURN, Status::CLIENT_PURCHASE, Status::PROVIDER_RETURN, Status::PROVIDER_PURCHASE]),
             'doc_number' => time() . rand(1, 1000000),
-            'currency_id' => Currency::factory()
+            'currency_id' => Currency::inRandomOrder()->first()->id
         ];
     }
 

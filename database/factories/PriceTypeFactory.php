@@ -14,7 +14,7 @@ class PriceTypeFactory extends Factory
     {
         return [
             'name' => fake()->name,
-            'currency_id' => Currency::factory(),
+            'currency_id' => Currency::inRandomOrder()->first()->id,
             'description' => fake()->text
         ];
     }

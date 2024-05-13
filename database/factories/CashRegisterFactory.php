@@ -21,7 +21,7 @@ class CashRegisterFactory extends Factory
     {
         return [
             'name' => fake()->name,
-            'currency_id' => Currency::factory(),
+            'currency_id' => Currency::inRandomOrder()->first()->id,
             'organization_id' => Organization::factory(),
             'responsible_person_id' => Employee::factory()
         ];

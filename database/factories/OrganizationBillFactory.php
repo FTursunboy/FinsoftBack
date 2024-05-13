@@ -21,7 +21,7 @@ class OrganizationBillFactory extends Factory
     {
         return [
             'name' => fake()->name,
-            'currency_id' => Currency::factory(),
+            'currency_id' => Currency::inRandomOrder()->first()->id,
             'organization_id' => Organization::factory(),
             'bill_number' => time(),
             'date' => Carbon::now(),
