@@ -40,8 +40,8 @@ class HandleDocumentApproveCreated
             'movement_type' => $this->type,
             'date' => $this->document->date,
             'model_id' => $this->document->id,
-            'sum' => $sum,
-            'sale_sum' => $sale_sum,
+            'sum' => $sum ?? 0,
+            'sale_sum' => $sale_sum ?? 0,
             'active' => true
         ]);
     }
@@ -60,7 +60,7 @@ class HandleDocumentApproveCreated
 
             $insertData[] = [
                 'good_id' => $good->good_id,
-                'sum' => $sum,
+                'sum' => $sum ?? 0,
                 'model_id' => $good->document_id,
                 'created_at' => now(),
                 'storage_id' => $this->document->storage_id,
@@ -87,7 +87,7 @@ class HandleDocumentApproveCreated
             'credit_article' => BalanceArticle::find(1)->id,
             'debit_article' => BalanceArticle::find(1)->id,
             'organization_id' => $this->document->organization_id,
-            'sum' => $sale_sum,
+            'sum' => $sale_sum ?? 0,
             'model_id' => $this->document->id,
             'active' => true,
             'date' => $this->document->date,
