@@ -153,10 +153,9 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
     }
 
 
-
     public function approve(array $data)
     {
-       return DB::transaction(function () use ($data) {
+        return DB::transaction(function () use ($data) {
             foreach ($data['ids'] as $id) {
                 $document = Document::find($id);
 
@@ -293,8 +292,9 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
         $document->sale_sum = $saleSum;
 
         $document->save();
-
     }
+
+
     public function massDelete(array $ids)
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');

@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('firings', function (Blueprint $table) {
             $table->id();
-            $table->string('doc_number');
+            $table->unsignedBigInteger('doc_number');
             $table->string('date');
             $table->unsignedBigInteger('organization_id');
             $table->unsignedBigInteger('employee_id');

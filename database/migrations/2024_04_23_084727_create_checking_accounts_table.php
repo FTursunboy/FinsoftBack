@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('checking_accounts', function (Blueprint $table) {
             $table->uuid('id');
-            $table->string('doc_number');
+            $table->unsignedBigInteger('doc_number');
             $table->string('date');
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->string('sum')->nullable();

@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('employee_movements', function (Blueprint $table) {
             $table->id();
-            $table->string('doc_number');
+            $table->unsignedBigInteger('doc_number');
             $table->string('date');
             $table->unsignedBigInteger('employee_id');
             $table->unsignedBigInteger('organization_id');
