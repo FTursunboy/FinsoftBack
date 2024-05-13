@@ -38,8 +38,7 @@ class Organization extends Model implements \App\Repositories\Contracts\SoftDele
             'description' => $data['filterData']['description'] ?? null,
             'INN' => $data['filterData']['INN'] ?? null,
             'director_id' => $data['filterData']['director_id'] ?? null,
-            'chief_accountant_id' => $data['filterData']['chief_accountant_id'] ?? null,
-            'deleted' => $data['deleted']
+            'chief_accountant_id' => $data['filterData']['chief_accountant_id'] ?? null
         ];
     }
 }
