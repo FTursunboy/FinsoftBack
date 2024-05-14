@@ -27,7 +27,7 @@ class CashStoreController extends Controller
 
     public function show(CashStore $cashStore)
     {
-       return $this->success(CashStoreResource::make($cashStore->load('organization', 'cashRegister', 'counterparty', 'counterpartyAgreement', 'author', 'currency', 'senderCashRegister', 'organizationBill', 'employee', 'balanceArticle')));
+       return $this->success(CashStoreResource::make($cashStore->load('organization', 'cashRegister', 'counterparty', 'counterpartyAgreement', 'author', 'currency', 'senderCashRegister', 'organizationBill', 'employee', 'balanceArticle', 'month', 'operationType')));
     }
 
     public function destroy(CashStore $cashStore)
