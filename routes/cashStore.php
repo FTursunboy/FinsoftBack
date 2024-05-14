@@ -90,5 +90,4 @@ use Illuminate\Support\Facades\Route;
             Route::post('/', [SalaryPaymentController::class, 'store']);
             Route::patch('/{cashStore}', [SalaryPaymentController::class, 'update']);
         });
-
     });
