@@ -51,9 +51,7 @@ class DocumentRepository implements DocumentRepositoryInterface
     public function store(DocumentDTO $dto, int $status): Document
     {
         try {
-            $document = DB::transaction(function () use ($status, $dto) {
-
-                $document = Document::create([
+               $document = Document::create([
                     'doc_number' => $this->uniqueNumber(),
                     'date' => $dto->date,
                     'counterparty_id' => $dto->counterparty_id,
@@ -73,14 +71,11 @@ class DocumentRepository implements DocumentRepositoryInterface
 
                 $this->calculateSum($document);
 
-                return $document;
 
-            });
         }
         catch (\Exception $exception) {
             Log::error($exception);
         }
-
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
     }
