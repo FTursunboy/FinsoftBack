@@ -25,6 +25,7 @@ use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DocumentRepository implements DocumentRepositoryInterface
 {
@@ -49,31 +50,36 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function store(DocumentDTO $dto, int $status): Document
     {
-        $document = DB::transaction(function () use ($status, $dto) {
+        try {
+            $document = DB::transaction(function () use ($status, $dto) {
 
-            $document = Document::create([
-                'doc_number' => $this->uniqueNumber(),
-                'date' => $dto->date,
-                'counterparty_id' => $dto->counterparty_id,
-                'counterparty_agreement_id' => $dto->counterparty_agreement_id,
-                'storage_id' => $dto->storage_id,
-                'organization_id' => $dto->organization_id,
-                'author_id' => Auth::id(),
-                'status_id' => $status,
-                'comment' => $dto->comment,
-                'saleInteger' => $dto->saleInteger,
-                'salePercent' => $dto->salePercent,
-                'currency_id' => $dto->currency_id
-            ]);
+                $document = Document::create([
+                    'doc_number' => $this->uniqueNumber(),
+                    'date' => $dto->date,
+                    'counterparty_id' => $dto->counterparty_id,
+                    'counterparty_agreement_id' => $dto->counterparty_agreement_id,
+                    'storage_id' => $dto->storage_id,
+                    'organization_id' => $dto->organization_id,
+                    'author_id' => Auth::id(),
+                    'status_id' => $status,
+                    'comment' => $dto->comment,
+                    'saleInteger' => $dto->saleInteger,
+                    'salePercent' => $dto->salePercent,
+                    'currency_id' => $dto->currency_id
+                ]);
 
 
-            GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
+                GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
-            $this->calculateSum($document);
+                $this->calculateSum($document);
 
-            return $document;
+                return $document;
 
-        });
+            });
+        }
+        catch (\Exception $exception) {
+            Log::driver('stack')->error($exception);
+        }
 
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
