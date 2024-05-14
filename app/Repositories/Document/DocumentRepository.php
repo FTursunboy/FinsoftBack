@@ -78,7 +78,7 @@ class DocumentRepository implements DocumentRepositoryInterface
             });
         }
         catch (\Exception $exception) {
-            Log::driver('stack')->error($exception);
+            Log::error($exception);
         }
 
 
