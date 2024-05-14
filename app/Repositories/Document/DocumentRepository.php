@@ -106,7 +106,7 @@ class DocumentRepository implements DocumentRepositoryInterface
     {
         $document = DB::transaction(function () use ($DTO, $type) {
             $document = OrderDocument::create([
-                'doc_number' => $this->orderUniqueNumber(),
+                'doc_number' => $this->uniqueNumber(),
                 'date' => Carbon::parse($DTO->date),
                 'counterparty_id' => $DTO->counterparty_id,
                 'counterparty_agreement_id' => $DTO->counterparty_agreement_id,
@@ -159,18 +159,7 @@ class DocumentRepository implements DocumentRepositoryInterface
         GoodDocument::whereIn('id', $DTO->ids)->delete();
     }
 
-    public function orderUniqueNumber(): string
-    {
-        $lastRecord = OrderDocument::query()->orderBy('doc_number', 'desc')->first();
 
-        if (!$lastRecord) {
-            $lastNumber = 1;
-        } else {
-            $lastNumber = (int)$lastRecord->doc_number + 1;
-        }
-
-        return str_pad($lastNumber, 7, '0', STR_PAD_LEFT);
-    }
 
     private function insertGoodDocuments(array $goods, Document $document): array
     {
