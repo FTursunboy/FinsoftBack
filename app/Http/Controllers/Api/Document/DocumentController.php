@@ -41,14 +41,14 @@ class DocumentController extends Controller
         return $this->success(DocumentHistoryResource::make($this->repository->changeHistory($document)));
     }
 
-    public function approve(Document $document)
+    public function approve(IdRequest $request)
     {
-        return $this->success($this->repository->approve($document));
+        return $this->success($this->repository->approve($request->validated()));
     }
 
-    public function unApprove(Document $document)
+    public function unApprove(IdRequest $request)
     {
-        return $this->success($this->repository->unApprove($document));
+        return $this->success($this->repository->unApprove($request->validated()));
     }
 
     public function massDelete(IdRequest $request, MassOperationInterface $delete)
