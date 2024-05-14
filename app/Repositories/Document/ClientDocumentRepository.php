@@ -21,6 +21,7 @@ use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 {
@@ -41,30 +42,35 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
     public function store(DocumentDTO $dto): Document
     {
-        $document = DB::transaction(function () use ($dto) {
+        try {
+            $document = DB::transaction(function () use ($dto) {
 
-            $document = Document::create([
-                'doc_number' => $this->uniqueNumber(),
-                'date' => $dto->date,
-                'counterparty_id' => $dto->counterparty_id,
-                'counterparty_agreement_id' => $dto->counterparty_agreement_id,
-                'organization_id' => $dto->organization_id,
-                'storage_id' => $dto->storage_id,
-                'author_id' => Auth::id(),
-                'comment' => $dto->comment,
-                'status_id' => Status::CLIENT_PURCHASE,
-                'saleInteger' => $dto->saleInteger,
-                'salePercent' => $dto->salePercent,
-                'currency_id' => $dto->currency_id
-            ]);
+                $document = Document::create([
+                    'doc_number' => $this->uniqueNumber(),
+                    'date' => $dto->date,
+                    'counterparty_id' => $dto->counterparty_id,
+                    'counterparty_agreement_id' => $dto->counterparty_agreement_id,
+                    'organization_id' => $dto->organization_id,
+                    'storage_id' => $dto->storage_id,
+                    'author_id' => Auth::id(),
+                    'comment' => $dto->comment,
+                    'status_id' => Status::CLIENT_PURCHASE,
+                    'saleInteger' => $dto->saleInteger,
+                    'salePercent' => $dto->salePercent,
+                    'currency_id' => $dto->currency_id
+                ]);
 
 
-            GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
+                GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
-            $this->calculateSum($document);
-            return $document;
+                $this->calculateSum($document);
+                return $document;
 
-        });
+            });
+        }
+        catch (\Exception $e) {
+            Log::driver('telegram')->error($e);
+        }
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
 
