@@ -12,14 +12,11 @@ class DocumentObserver
 
     public function created(Document $model): void
     {
-
         $this->create($model, Auth::id());
     }
 
-
     public function updated(Document $model): void
     {
-
        $this->update($model, Auth::id());
     }
 
@@ -27,7 +24,6 @@ class DocumentObserver
     {
        $this->delete($model, Auth::id());
     }
-
 
     public function restored(Document $model): void
     {
