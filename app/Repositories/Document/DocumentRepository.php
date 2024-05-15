@@ -18,6 +18,7 @@ use App\Models\OrderDocumentGoods;
 use App\Models\Status;
 use App\Repositories\Contracts\Document\Documentable;
 use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
+use App\Traits\CalculateSum;
 use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
@@ -29,7 +30,7 @@ use Illuminate\Support\Facades\Log;
 
 class DocumentRepository implements DocumentRepositoryInterface
 {
-    use FilterTrait, Sort, DocNumberTrait;
+    use FilterTrait, Sort, DocNumberTrait, CalculateSum;
 
     public $model = Document::class;
 
@@ -50,39 +51,36 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function store(DocumentDTO $dto, int $status): Document
     {
-        try {
-               $document = Document::create([
-                    'doc_number' => $this->uniqueNumber(),
-                    'date' => $dto->date,
-                    'counterparty_id' => $dto->counterparty_id,
-                    'counterparty_agreement_id' => $dto->counterparty_agreement_id,
-                    'storage_id' => $dto->storage_id,
-                    'organization_id' => $dto->organization_id,
-                    'author_id' => Auth::id(),
-                    'status_id' => $status,
-                    'comment' => $dto->comment,
-                    'saleInteger' => $dto->saleInteger,
-                    'salePercent' => $dto->salePercent,
-                    'currency_id' => $dto->currency_id
-                ]);
+        $document = DB::transaction(function () use ($dto, $status) {
+            $document = Document::create([
+                'doc_number' => $this->uniqueNumber(),
+                'date' => $dto->date,
+                'counterparty_id' => $dto->counterparty_id,
+                'counterparty_agreement_id' => $dto->counterparty_agreement_id,
+                'storage_id' => $dto->storage_id,
+                'organization_id' => $dto->organization_id,
+                'author_id' => Auth::id(),
+                'status_id' => $status,
+                'comment' => $dto->comment,
+                'saleInteger' => $dto->saleInteger,
+                'salePercent' => $dto->salePercent,
+                'currency_id' => $dto->currency_id
+            ]);
 
+            GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
-                GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
+            $this->calculateSum($document, true);
 
-                $this->calculateSum($document);
+            return $document;
+        });
 
-
-        }
-        catch (\Exception $exception) {
-            Log::error($exception);
-        }
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
     }
 
     public function update(Document $document, DocumentUpdateDTO $dto)
     {
-        return DB::transaction(function () use ($dto, $document) {
+        DB::transaction(function () use ($dto, $document) {
             $document->update([
                 'doc_number' => $document->doc_number,
                 'date' => $dto->date,
@@ -121,7 +119,7 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'currency_id' => $DTO->currency_id,
                 'order_type_id' => $type,
             ]);
- //dsa
+            //dsa
             OrderDocumentGoods::insert($this->orderGoods($document, $DTO->goods));
 
             return $document;
@@ -160,7 +158,6 @@ class DocumentRepository implements DocumentRepositoryInterface
     {
         GoodDocument::whereIn('id', $DTO->ids)->delete();
     }
-
 
 
     private function insertGoodDocuments(array $goods, Document $document): array
@@ -396,45 +393,6 @@ class DocumentRepository implements DocumentRepositoryInterface
         }
     }
 
-
-    private function calculateSum(Document $document)
-    {
-        $goods = $document->documentGoods;
-        $sum = 0;
-        $saleSum = 0;
-
-        foreach ($goods as $good) {
-            $basePrice = $good->price * $good->amount;
-            $sum += $basePrice;
-
-            $discountAmount = 0;
-            if (isset($good->auto_sale_percent)) {
-                $discountAmount += $basePrice * ($good->auto_sale_percent / 100);
-            }
-            if (isset($good->auto_sale_sum)) {
-                $discountAmount += $good->auto_sale_sum;
-            }
-
-            $priceAfterGoodDiscount = $basePrice - $discountAmount;
-            $saleSum += $priceAfterGoodDiscount;
-        }
-
-        $documentDiscount = 0;
-        if (isset($document->salePercent)) {
-            $documentDiscount += $saleSum * ($document->salePercent / 100);
-        }
-        if (isset($document->saleInteger)) {
-            $documentDiscount += $document->saleInteger;
-        }
-
-        $saleSum -= $documentDiscount;
-
-        $document->sum = $sum;
-        $document->sale_sum = $saleSum;
-
-        $document->saveQuietly();
-
-    }
 
 
 }
