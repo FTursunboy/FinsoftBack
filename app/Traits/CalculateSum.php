@@ -40,8 +40,12 @@ trait CalculateSum
 
         $saleSum -= $documentDiscount;
 
-        $document->sum = $sum;
-        $document->sale_sum = $saleSum;
+        dump($document->sum, $document->sale_sum);
+        dump($sum, $saleSum);
+        if ($document->sum == $sum || $document->sale_sum == $saleSum) {
+            $document->sum = $sum;
+            $document->sale_sum = $saleSum;
+        }
 
         if ($isCreate) {
             $document->saveQuietly();
