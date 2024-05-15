@@ -46,7 +46,7 @@ trait TrackHistoryTrait
                 'user_id' => $user_id,
                 'document_id' => $model->id,
             ]);
-            $this->track($model, $documentHistory);
+          //  $this->track($model, $documentHistory);
         }
     }
 

@@ -40,14 +40,16 @@ trait CalculateSum
 
         $saleSum -= $documentDiscount;
 
-        $document->sum = (float) $sum;
-        $document->sale_sum = (float) $saleSum;
+        $document->sum = $sum;
+        $document->sale_sum = $saleSum;
 
         if ($isCreate) {
             $document->saveQuietly();
 
             return true;
         }
+
+
         $document->save();
 
     }
