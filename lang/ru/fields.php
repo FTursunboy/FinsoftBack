@@ -11,4 +11,6 @@
         'counterparty' => 'Контрагент',
         'counterparty_agreement' => 'Договор контрагента',
         'organization' => 'Организация',
+        'sum' => 'Сумма',
+        'sale_sum' => 'Сумма со скидкой'
     ];
