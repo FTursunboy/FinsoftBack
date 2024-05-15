@@ -40,9 +40,7 @@ trait CalculateSum
 
         $saleSum -= $documentDiscount;
 
-        dump($document->sum, $document->sale_sum);
-        dump($sum, $saleSum);
-        dump($document->sum == $sum && $document->sale_sum == $saleSum);
+
         if ($document->sum == $sum && $document->sale_sum == $saleSum) {
             $document->sum = $sum;
             $document->sale_sum = $saleSum;
