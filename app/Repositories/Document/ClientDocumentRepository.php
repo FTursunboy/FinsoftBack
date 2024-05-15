@@ -14,6 +14,7 @@ use App\Models\GoodDocument;
 use App\Models\Status;
 use App\Repositories\Contracts\Document\ClientDocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\Documentable;
+use App\Traits\CalculateSum;
 use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
@@ -25,7 +26,7 @@ use Illuminate\Support\Facades\Log;
 
 class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 {
-    use FilterTrait, Sort, DocNumberTrait;
+    use FilterTrait, Sort, DocNumberTrait, CalculateSum;
 
     public $model = Document::class;
 
@@ -63,7 +64,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
                 GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
-                $this->calculateSum($document);
+                $this->calculateSum($document, true);
                 return $document;
 
             });
@@ -264,44 +265,6 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
         // TODO: Implement deleteDocumentGoods() method.
     }
 
-
-    private function calculateSum(Document $document)
-    {
-        $goods = $document->documentGoods;
-        $sum = 0;
-        $saleSum = 0;
-
-        foreach ($goods as $good) {
-            $basePrice = $good->price * $good->amount;
-            $sum += $basePrice;
-
-            $discountAmount = 0;
-            if (isset($good->auto_sale_percent)) {
-                $discountAmount += $basePrice * ($good->auto_sale_percent / 100);
-            }
-            if (isset($good->auto_sale_sum)) {
-                $discountAmount += $good->auto_sale_sum;
-            }
-
-            $priceAfterGoodDiscount = $basePrice - $discountAmount;
-            $saleSum += $priceAfterGoodDiscount;
-        }
-
-        $documentDiscount = 0;
-        if (isset($document->salePercent)) {
-            $documentDiscount += $saleSum * ($document->salePercent / 100);
-        }
-        if (isset($document->saleInteger)) {
-            $documentDiscount += $document->saleInteger;
-        }
-
-        $saleSum -= $documentDiscount;
-
-        $document->sum = $sum;
-        $document->sale_sum = $saleSum;
-
-        $document->saveQuietly();
-    }
 
 
     public function massDelete(array $ids)
