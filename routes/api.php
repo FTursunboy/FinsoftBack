@@ -262,8 +262,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         });
 
         Route::group(['prefix' => 'return'], function () {
-            Route::post('approve/{document}', [ReturnDocumentController::class, 'approve']);
-            Route::post('unApprove/{document}', [ReturnDocumentController::class, 'approve']);
+            Route::post('approve', [ReturnDocumentController::class, 'approve']);
+            Route::post('unApprove', [ReturnDocumentController::class, 'approve']);
         });
 
         Route::group(['prefix' => 'client'], function () {
