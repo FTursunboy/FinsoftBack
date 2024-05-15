@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Filters\GoodAccountingFilter;
+use App\Filters\MovementDocumentFilter;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,6 +35,11 @@ class GoodAccounting extends Model
     public function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class);
+    }
+
+    public function modelFilter()
+    {
+        return $this->provideFilter(GoodAccountingFilter::class);
     }
 
     public static function filterData(array $data): array

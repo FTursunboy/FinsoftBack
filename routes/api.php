@@ -158,6 +158,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::post('/massRestore', [GoodController::class, 'massRestore']);
     });
 
+
     Route::group(['prefix' => 'cpAgreement'], function () {
         Route::get('/getAgreementByCounterpartyId/{counterparty}', [CounterpartyAgreementController::class, 'getAgreementByCounterpartyId']);
         Route::post('/massDelete', [CounterpartyAgreementController::class, 'massDelete']);

@@ -21,5 +21,13 @@ class GoodReportRepository implements GoodReportRepositoryInterface
     public function index(array $data)
     {
         $good = $this->model::filter();
+
+
+        \DB::table('good_accountings as ga')
+            ->join('goods as g', 'g.id', 'ga.good_id')
+            ->join('groups as gr', 'gr.id', 'g.group_id')
+            ->select('g.id', 'g.group_id', 'ga.amount', 'ga.amount', 'g');
+
+
     }
 }
