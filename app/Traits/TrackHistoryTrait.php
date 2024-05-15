@@ -108,7 +108,7 @@ trait TrackHistoryTrait
     {
         $value = $this->getUpdated($document)
             ->mapWithKeys(function ($value, $field) use ($document) {
-                $translatedField = trans("fields.$field");
+                $translatedField = trans("fields.date");
 
                 return [$translatedField => $this->getHistoryDetails($document, $value, $field)];
             });
