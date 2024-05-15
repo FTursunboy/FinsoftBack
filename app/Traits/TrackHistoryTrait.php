@@ -110,7 +110,7 @@ trait TrackHistoryTrait
             ->mapWithKeys(function ($value, $field) use ($document) {
                 $translatedField = trans("fields.$field");
 
-                return [$translatedField => 'DAS'];
+                return [$translatedField => $this->getHistoryDetails($document, $value, $field)];
             });
 
         ChangeHistory::create([
@@ -121,11 +121,9 @@ trait TrackHistoryTrait
 
     private function getUpdated($model)
     {
-        return collect($model->getDirty())->filter(function ($value, $key) {
-            return !in_array($key, ['created_at', 'updated_at']);
-        })->mapWithKeys(function ($value, $key) {
-            return [str_replace('_id', '', $key) => $value];
-        });
+
+            return ['fasdff' => 'fdas'];
+
     }
 
 }
