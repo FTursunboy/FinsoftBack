@@ -106,7 +106,12 @@ trait TrackHistoryTrait
 
     private function track(DocumentModel $document, DocumentHistory $history): void
     {
-        $value = "dfs";
+        $value = $this->getUpdated($document)
+            ->mapWithKeys(function ($value, $field) use ($document) {
+                $translatedField = "dfd";
+
+                return [$translatedField => $this->getHistoryDetails($document, $value, $field)];
+            });
 
         ChangeHistory::create([
             'document_history_id' => $history->id,
