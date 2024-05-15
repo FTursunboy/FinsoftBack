@@ -11,8 +11,8 @@ trait CalculateSum
     private function calculateSum(Document $document, bool $isCreate = false)
     {
         $goods = $document->documentGoods;
-        $sum = 0;
-        $saleSum = 0;
+        $sum = 0.0;
+        $saleSum = 0.0;
 
         foreach ($goods as $good) {
             $basePrice = $good->price * $good->amount;
@@ -40,8 +40,8 @@ trait CalculateSum
 
         $saleSum -= $documentDiscount;
 
-        $document->sum = $sum;
-        $document->sale_sum = $saleSum;
+        $document->sum = (float) $sum;
+        $document->sale_sum = (float) $saleSum;
 
         if ($isCreate) {
             $document->saveQuietly();

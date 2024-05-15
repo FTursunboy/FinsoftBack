@@ -67,7 +67,6 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'currency_id' => $dto->currency_id
             ]);
 
-
             GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
             $this->calculateSum($document, true);
