@@ -50,39 +50,35 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function store(DocumentDTO $dto, int $status): Document
     {
-        try {
-               $document = Document::create([
-                    'doc_number' => $this->uniqueNumber(),
-                    'date' => $dto->date,
-                    'counterparty_id' => $dto->counterparty_id,
-                    'counterparty_agreement_id' => $dto->counterparty_agreement_id,
-                    'storage_id' => $dto->storage_id,
-                    'organization_id' => $dto->organization_id,
-                    'author_id' => Auth::id(),
-                    'status_id' => $status,
-                    'comment' => $dto->comment,
-                    'saleInteger' => $dto->saleInteger,
-                    'salePercent' => $dto->salePercent,
-                    'currency_id' => $dto->currency_id
-                ]);
+        $document = DB::transaction(function () use ($dto, $status) {
+            $document = Document::create([
+                'doc_number' => $this->uniqueNumber(),
+                'date' => $dto->date,
+                'counterparty_id' => $dto->counterparty_id,
+                'counterparty_agreement_id' => $dto->counterparty_agreement_id,
+                'storage_id' => $dto->storage_id,
+                'organization_id' => $dto->organization_id,
+                'author_id' => Auth::id(),
+                'status_id' => $status,
+                'comment' => $dto->comment,
+                'saleInteger' => $dto->saleInteger,
+                'salePercent' => $dto->salePercent,
+                'currency_id' => $dto->currency_id
+            ]);
 
 
-                GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
+            GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
-                $this->calculateSum($document);
+            $this->calculateSum($document);
+        });
 
-
-        }
-        catch (\Exception $exception) {
-            Log::error($exception);
-        }
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
     }
 
     public function update(Document $document, DocumentUpdateDTO $dto)
     {
-        return DB::transaction(function () use ($dto, $document) {
+        DB::transaction(function () use ($dto, $document) {
             $document->update([
                 'doc_number' => $document->doc_number,
                 'date' => $dto->date,
