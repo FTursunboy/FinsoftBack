@@ -46,7 +46,7 @@ trait TrackHistoryTrait
                 'user_id' => $user_id,
                 'document_id' => $model->id,
             ]);
-          //  $this->track($model, $documentHistory);
+            $this->track($model, $documentHistory);
         }
     }
 
@@ -110,7 +110,7 @@ trait TrackHistoryTrait
             ->mapWithKeys(function ($value, $field) use ($document) {
                 $translatedField = trans("fields.$field");
 
-                return [$translatedField => $this->getHistoryDetails($document, $value, $field)];
+                return [$translatedField => 'DAS'];
             });
 
         ChangeHistory::create([
