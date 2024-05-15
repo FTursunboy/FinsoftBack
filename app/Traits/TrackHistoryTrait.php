@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
 
 trait TrackHistoryTrait
 {
-    public function create(DocumentModel $model, int $user_id): void
+    public function create(Document $model, int $user_id): void
     {
         DocumentHistory::create([
             'status' => 'Создан',
