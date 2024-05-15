@@ -106,12 +106,7 @@ trait TrackHistoryTrait
 
     private function track(DocumentModel $document, DocumentHistory $history): void
     {
-        $value = $this->getUpdated($document)
-            ->mapWithKeys(function ($value, $field) use ($document) {
-                $translatedField = trans("fields.$field");
-
-                return [$translatedField => $this->getHistoryDetails($document, $value, $field)];
-            });
+        $value = "dfs";
 
         ChangeHistory::create([
             'document_history_id' => $history->id,
@@ -121,11 +116,11 @@ trait TrackHistoryTrait
 
     private function getUpdated($model)
     {
-        return collect([
-            'user' => 10,
-            'status' => 'active'
-        ]);
-
+        return collect($model->getDirty())->filter(function ($value, $key) {
+            return !in_array($key, ['created_at', 'updated_at']);
+        })->mapWithKeys(function ($value, $key) {
+            return [str_replace('_id', '', $key) => $value];
+        });
     }
 
 }
