@@ -300,7 +300,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
         $document->sum = $sum;
         $document->sale_sum = $saleSum;
 
-        $document->save();
+        $document->saveQuietly();
     }
 
 

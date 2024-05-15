@@ -432,7 +432,7 @@ class DocumentRepository implements DocumentRepositoryInterface
         $document->sum = $sum;
         $document->sale_sum = $saleSum;
 
-        $document->save();
+        $document->saveQuietly();
 
     }
 
