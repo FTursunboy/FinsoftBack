@@ -96,6 +96,9 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
             if (!is_null($dto->goods)) {
                 $this->updateGoodDocuments($dto->goods, $document);
             }
+
+            $this->calculateSum($document);
+
         });
     }
 
