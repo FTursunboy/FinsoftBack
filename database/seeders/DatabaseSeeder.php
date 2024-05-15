@@ -128,6 +128,15 @@ class DatabaseSeeder extends Seeder
         ])->assignRole('admin')
             ->syncPermissions($this->permissionList());
 
+        \App\Models\User::factory()->create([
+            'name' => 'Suhrob',
+            'email' => 'gafurows@gmail.com',
+            'login' => 'sero',
+            'password' => Hash::make('password'),
+            'group_id' => 1
+        ])->assignRole('admin')
+            ->syncPermissions($this->permissionList());
+
         $this->call([
             RoleSeeder::class,
             StatusSeeder::class
