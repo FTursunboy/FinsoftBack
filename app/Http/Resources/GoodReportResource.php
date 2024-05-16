@@ -21,7 +21,7 @@ class GoodReportResource extends JsonResource
             'outcome' => (int)$this->outcome,
             'remainder' => (int)$this->remainder,
             'total' => (int)$this->total,
-            'group_id' => $this->group_id
+            'group' => $this->group
         ];
     }
 }
