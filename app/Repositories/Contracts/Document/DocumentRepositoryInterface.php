@@ -7,6 +7,7 @@ use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
 use App\DTO\Document\OrderDocumentUpdateDTO;
 use App\Models\Document;
+use App\Models\DocumentModel;
 use App\Models\OrderDocument;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -25,4 +26,6 @@ interface DocumentRepositoryInterface
     public function unApprove(array $data);
 
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO);
+
+    public function copy(Documentable $document);
 }

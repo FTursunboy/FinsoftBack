@@ -13,6 +13,7 @@ use App\Http\Requests\IdRequest;
 use App\Http\Resources\Document\OrderDocumentResource;
 use App\Http\Resources\DocumentHistoryResource;
 use App\Models\Document;
+use App\Models\DocumentModel;
 use App\Models\OrderDocument;
 use App\Repositories\Contracts\Document\Documentable;
 use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
@@ -64,6 +65,11 @@ class DocumentController extends Controller
     public function deleteDocumentGoods(DeleteDocumentGoodRequest $request)
     {
         return $this->deleted($this->repository->deleteDocumentGoods(DeleteDocumentGoodsDTO::fromRequest($request)));
+    }
+
+    public function copy(Documentable $document)
+    {
+        return $this->success();
     }
 
 }
