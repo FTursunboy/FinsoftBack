@@ -26,7 +26,7 @@ class FilterRequest extends FormRequest
                 'orderBy' => 'nullable|in:id,deleted_at,currency.name,' . implode(',', $fillableFields),
                 'sort' => 'in:asc,desc',
                 'filterData' => 'nullable|array',
-            ];
+       ];
     }
 
     public function authorize(): bool

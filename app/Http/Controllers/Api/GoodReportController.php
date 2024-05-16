@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\DTO\CategoryDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Category\CategoryRequest;
-use App\Http\Requests\Api\IndexRequest;
-use App\Http\Requests\IdRequest;
-use App\Http\Resources\CategoryResource;
-use App\Models\Category;
-use App\Models\Currency;
+use App\Http\Requests\Api\Report\FilterRequest;
+use App\Http\Resources\GoodAccountingResource;
+use App\Http\Resources\GoodReportResource;
 use App\Repositories\Contracts\GoodReportRepositoryInterface;
-use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
-use Illuminate\Http\JsonResponse;
 
 class GoodReportController extends Controller
 {
@@ -23,9 +17,9 @@ class GoodReportController extends Controller
     {
     }
 
-    public function index(IndexRequest $request)
+    public function index(FilterRequest $request)
     {
-        return $this->paginate(CategoryResource::collection($this->repository->index($request->validated())));
+        return $this->paginate(GoodReportResource::collection($this->repository->index($request->validated())));
     }
 
 }

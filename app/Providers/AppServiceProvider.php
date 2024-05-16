@@ -69,6 +69,7 @@ use App\Repositories\Contracts\EmployeeRepositoryInterface;
 use App\Repositories\Contracts\ExchangeRateInterface;
 use App\Repositories\Contracts\FiringRepositoryInterface;
 use App\Repositories\Contracts\GoodGroupRepositoryInterface;
+use App\Repositories\Contracts\GoodReportRepositoryInterface;
 use App\Repositories\Contracts\GoodRepositoryInterface;
 use App\Repositories\Contracts\GroupRepositoryInterface;
 use App\Repositories\Contracts\HiringRepositoryInterface;
@@ -106,6 +107,7 @@ use App\Repositories\EmployeeRepository;
 use App\Repositories\ExchangeRateRepository;
 use App\Repositories\FiringRepository;
 use App\Repositories\GoodGroupRepository;
+use App\Repositories\GoodReportRepository;
 use App\Repositories\GoodRepository;
 use App\Repositories\GroupRepository;
 use App\Repositories\HiringRepository;
@@ -194,6 +196,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(SalaryPaymentRepositoryInterface::class, SalaryPaymentRepository::class);
         $this->app->singleton(ClientDocumentRepositoryInterface::class, ClientDocumentRepository::class);
         $this->app->singleton(ReportDocumentRepositoryInterface::class, ReportDocumentRepository::class);
+        $this->app->singleton(GoodReportRepositoryInterface::class, GoodReportRepository::class);
     }
 
     /**
