@@ -399,7 +399,7 @@ class DocumentRepository implements DocumentRepositoryInterface
     {
         $goods = $document->documentGoods->toArray();
 
-        DB::transaction(function () use ($document, $goods) {
+        $document = DB::transaction(function () use ($document, $goods) {
             $document = Document::create([
                 'doc_number' => $this->uniqueNumber(),
                 'date' => $document->date,
@@ -422,5 +422,6 @@ class DocumentRepository implements DocumentRepositoryInterface
             return $document;
         });
 
+        return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
     }
 }
