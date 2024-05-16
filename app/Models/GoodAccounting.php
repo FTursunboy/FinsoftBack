@@ -55,9 +55,9 @@ class GoodAccounting extends Model
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'good_id' => $data['filterData']['good_id'] ?? null,
-            'start_date' => $data['start_date'] ?? null,
-            'end_date' => $data['end_date'] ?? null,
-            'date' => $data['date'] ?? null
+            'start_date' =>  $data['filterData']['start_date'] ?? null,
+            'end_date' =>  $data['filterData']['end_date'] ?? null,
+            'date' =>  $data['filterData']['date'] ?? null
         ];
     }
 }
