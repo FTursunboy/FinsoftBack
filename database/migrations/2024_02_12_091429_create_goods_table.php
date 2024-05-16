@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->foreignId('unit_id')->constrained();
             $table->string('barcode')->unique();
             $table->foreignId('storage_id')->constrained();
+            $table->integer('small_remainder')->default(0);
+            $table->unsignedInteger('amount')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

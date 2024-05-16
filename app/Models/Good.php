@@ -13,7 +13,7 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
 {
     use SoftDeletes, HasFactory;
 
-    protected $fillable = ['name', 'vendor_code', 'description', 'category_id', 'unit_id', 'barcode', 'storage_id', 'good_group_id'];
+    protected $fillable = ['name', 'vendor_code', 'description', 'category_id', 'unit_id', 'barcode', 'storage_id', 'good_group_id', 'small_remainder', 'amount'];
 
     public static function bootSoftDeletes()
     {

@@ -45,7 +45,8 @@ class GoodRepository implements GoodRepositoryInterface
                 'description' => $DTO->description,
                 'unit_id' => $DTO->unit_id,
                 'storage_id' => $DTO->storage_id,
-                'good_group_id' => $DTO->good_group_id
+                'good_group_id' => $DTO->good_group_id,
+                'small_remainder' => $DTO->small_remainder
             ]);
 
             if ($DTO->add_images || $DTO->main_image) GoodImages::insert($this->goodImages($good, $DTO->add_images));
@@ -63,6 +64,7 @@ class GoodRepository implements GoodRepositoryInterface
                 'description' => $DTO->description,
                 'unit_id' => $DTO->unit_id,
                 'storage_id' => $DTO->storage_id,
+                'small_remainder' => $DTO->small_remainder
             ]);
 
             if ($DTO->image_ids) {

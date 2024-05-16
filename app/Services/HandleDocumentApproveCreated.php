@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\MovementTypes;
+use App\Events\SmallRemainderEvent;
 use App\Models\Balance;
 use App\Models\BalanceArticle;
 use App\Models\CounterpartySettlement;
@@ -10,6 +11,7 @@ use App\Models\Currency;
 use App\Models\Document;
 use App\Models\DocumentModel;
 use App\Models\ExchangeRate;
+use App\Models\Good;
 use App\Models\GoodAccounting;
 
 
@@ -55,6 +57,7 @@ class HandleDocumentApproveCreated
 
         foreach ($goods as $good) {
             $sum = $good->amount * $good->price;
+
             if ($this->document->currency_id !== $this->getDefaultCurrency()) {
                 $sum = $good->amount * $good->price * $this->getExcangeRate();
             }
@@ -71,9 +74,18 @@ class HandleDocumentApproveCreated
                 'active' => true,
                 'date' => $this->document->date
             ];
+
+            if ($this->type->value == MovementTypes::Income->value) {
+                Good::where('id', $good->good_id)->increment('amount', $good->amount);
+            } else {
+                Good::where('id',$good->good_id)->decrement('amount', $good->amount);
+            }
+
+            SmallRemainderEvent::dispatch($good->good_id);
         }
 
         GoodAccounting::insert($insertData);
+
     }
 
     private function balance(): void

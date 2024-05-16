@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\DocumentApprovedEvent;
+use App\Events\SmallRemainderEvent;
 use App\Listeners\DocumentListener;
+use App\Listeners\SmallRemainderListener;
 use App\Models\CashStore;
 use App\Models\CheckingAccount;
 use App\Models\Document;
@@ -32,6 +34,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         DocumentApprovedEvent::class => [
             DocumentListener::class
+        ],
+        SmallRemainderEvent::class => [
+            SmallRemainderListener::class
         ]
     ];
 
