@@ -47,7 +47,7 @@ class ReportDocumentRepository implements ReportDocumentRepositoryInterface
     {
         $filterParams = GoodAccounting::filterData($data);
 
-        $query = GoodAccounting::where('model_id', $document->id);
+        $query = GoodAccounting::where('model_id', $document->id)->increment();
 
         $query = $this->sort($filterParams, $query, ['storage', 'good', 'organization']);
 

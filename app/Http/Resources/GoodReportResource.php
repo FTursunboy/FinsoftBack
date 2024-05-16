@@ -16,12 +16,13 @@ class GoodReportResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'good' => $this->good,
+            'start_reminder' => (int)$this->start_remainder,
+            'remainder' => (int)$this->remainder,
             'income' => (int)$this->income,
             'outcome' => (int)$this->outcome,
-            'remainder' => (int)$this->remainder,
             'total' => (int)$this->total,
-            'group' => $this->group
+            'group' => $this->group,
+            'good' => $this->good,
         ];
     }
 }
