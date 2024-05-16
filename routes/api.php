@@ -235,6 +235,10 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::post('/settings', [SettingsController::class, 'store']);
 
     Route::group(['prefix' => 'document'], function () {
+
+        Route::post('copy/{document}', [DocumentController::class, 'copy']);
+
+
         Route::group(['prefix' => '/provider'], function () {
             Route::get('/purchaseList', [ProviderDocumentController::class, 'index']);
             Route::post('/purchase', [ProviderDocumentController::class, 'purchase']);
@@ -340,6 +344,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/counterparty-settlements/{document}', [\App\Http\Controllers\Api\ReportDocumentController::class, 'getCounterpartySettlements']);
         Route::get('/good-accountings/{document}', [\App\Http\Controllers\Api\ReportDocumentController::class, 'getGoodAccountings']);
     });
+
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
 

@@ -10,6 +10,7 @@ use App\DTO\Document\OrderDocumentUpdateDTO;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
 use App\Models\Document;
+use App\Models\DocumentModel;
 use App\Models\Good;
 use App\Models\GoodAccounting;
 use App\Models\GoodDocument;
@@ -394,5 +395,8 @@ class DocumentRepository implements DocumentRepositoryInterface
     }
 
 
+    public function copy(Documentable $document)
+    {
 
+    }
 }
