@@ -33,7 +33,8 @@ class GoodUpdateRequest extends FormRequest
             'good_group_id' => ['required', 'exists:good_groups,id'],
             'main_image' => ['nullable', 'file'],
             'add_images' => ['nullable', 'array'],
-            'image_ids' => ['nullable', 'array']
+            'image_ids' => ['nullable', 'array'],
+            'small_remainder' => ['nullable', 'integer'],
         ];
     }
 

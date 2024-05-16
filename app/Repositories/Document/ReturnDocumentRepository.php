@@ -146,7 +146,6 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
         foreach ($data['ids'] as $id) {
             $document = Document::find($id);
 
-
             $result = $this->checkInventory($document);
 
             $response = [];
@@ -239,12 +238,18 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
         GoodAccounting::where('movement_type');
     }
 
-    public function unApprove(Document $document)
+    public function unApprove(array $data)
     {
-        $this->deleteDocumentData($document);
-        $document->update(
-            ['active' => false]
-        );
+        foreach ($data['ids'] as $id) {
+            $document = Document::find($id);
+
+            $this->deleteDocumentData($document);
+
+            $document->update(
+                ['active' => false]
+            );
+        }
+
     }
 
     public function changeHistory(Documentable $document)
