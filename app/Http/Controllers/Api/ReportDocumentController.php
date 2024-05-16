@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ReportDocumentRequest;
 use App\Http\Resources\BalanceResource;
 use App\Http\Resources\CounterpartySettlementResource;
+use App\Http\Resources\GoodAccountingResource;
 use App\Repositories\Contracts\Document\Documentable;
 use App\Repositories\Contracts\ReportDocumentRepositoryInterface;
 use App\Traits\ApiResponse;
@@ -28,6 +29,6 @@ class ReportDocumentController extends Controller
 
     public function getGoodAccountings(Documentable $document, ReportDocumentRequest $request)
     {
-        return $this->paginate(CounterpartySettlementResource::collection($this->repository->getGoodAccountings($document, $request->validated())));
+        return $this->paginate(GoodAccountingResource::collection($this->repository->getGoodAccountings($document, $request->validated())));
     }
 }
