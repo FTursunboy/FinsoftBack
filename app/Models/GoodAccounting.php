@@ -32,6 +32,11 @@ class GoodAccounting extends Model
         return $this->belongsTo(Good::class);
     }
 
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(Group::class);
+    }
+
     public function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class);
