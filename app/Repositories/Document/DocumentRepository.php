@@ -395,8 +395,32 @@ class DocumentRepository implements DocumentRepositoryInterface
     }
 
 
-    public function copy(Documentable $document)
+    public function copy(Document $document)
     {
+        $goods = $document->documentGoods->toArray();
+
+        DB::transaction(function () use ($document, $goods) {
+            $document = Document::create([
+                'doc_number' => $this->uniqueNumber(),
+                'date' => $document->date,
+                'counterparty_id' => $document->counterparty_id,
+                'counterparty_agreement_id' => $document->counterparty_agreement_id,
+                'storage_id' => $document->storage_id,
+                'organization_id' => $document->organization_id,
+                'author_id' => Auth::id(),
+                'status_id' => $document->status_id,
+                'comment' => $document->comment,
+                'saleInteger' => $document->saleInteger,
+                'salePercent' => $document->salePercent,
+                'currency_id' => $document->currency_id,
+                'sale_sum' => $document->sale_sum,
+                'sum' => $document->sum
+            ]);
+
+            GoodDocument::insert($this->insertGoodDocuments($goods, $document));
+
+            return $document;
+        });
 
     }
 }

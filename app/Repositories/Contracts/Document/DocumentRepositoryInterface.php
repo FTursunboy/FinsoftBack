@@ -27,5 +27,5 @@ interface DocumentRepositoryInterface
 
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO);
 
-    public function copy(Documentable $document);
+    public function copy(Document $document);
 }

@@ -67,9 +67,9 @@ class DocumentController extends Controller
         return $this->deleted($this->repository->deleteDocumentGoods(DeleteDocumentGoodsDTO::fromRequest($request)));
     }
 
-    public function copy(Documentable $document)
+    public function copy(Document $document)
     {
-        return $this->success();
+        return $this->success($this->repository->copy($document));
     }
 
 }
