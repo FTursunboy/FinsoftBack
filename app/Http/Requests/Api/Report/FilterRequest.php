@@ -16,6 +16,7 @@ class FilterRequest extends FormRequest
                 'sort' => 'in:asc,desc',
                 'start_date' => 'nullable',
                 'end_date' => 'nullable',
+                'date' => 'nullable',
                 'filterData' => 'nullable|array',
             ];
     }

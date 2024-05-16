@@ -55,6 +55,8 @@ class GoodReportRepository implements GoodReportRepositoryInterface
             $date = Carbon::parse($filterData['date']);
             $reports->addSelect(DB::raw('(SUM(CASE WHEN movement_type = "приход" AND date <= ? THEN amount ELSE 0 END) - SUM(CASE WHEN movement_type = "расход" AND date <= ? THEN amount ELSE 0 END)) as end_remainder'));
             $reports->addBinding([$date, $date], 'select');
+            $reports->addSelect(DB::raw('(SUM(CASE WHEN movement_type = "приход" AND date <= ? THEN amount ELSE 0 END) - SUM(CASE WHEN movement_type = "расход" AND date <= ? THEN amount ELSE 0 END)) as start_remainder'));
+            $reports->addBinding([$date, $date], 'select');
         }
 
         return $reports->paginate($filterData['itemsPerPage']);
