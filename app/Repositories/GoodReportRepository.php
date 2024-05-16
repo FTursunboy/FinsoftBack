@@ -31,7 +31,6 @@ class GoodReportRepository implements GoodReportRepositoryInterface
             'good_groups.id as group_id',
             DB::raw('SUM(CASE WHEN movement_type = "приход" THEN amount ELSE 0 END) as income'),
             DB::raw('SUM(CASE WHEN movement_type = "расход" THEN amount ELSE 0 END) as outcome'),
-            DB::raw('SUM(amount) as total'),
             DB::raw('SUM(CASE WHEN movement_type = "приход" THEN amount ELSE 0 END) - SUM(CASE WHEN movement_type = "расход" THEN amount ELSE 0 END) as remainder'),
         ])
             ->join('goods', 'good_accountings.good_id', '=', 'goods.id')
@@ -42,17 +41,23 @@ class GoodReportRepository implements GoodReportRepositoryInterface
 
         if(isset($filterData['start_date'])) {
             $date = Carbon::parse($filterData['start_date']);
-
-            $reports->addSelect(DB::raw('SUM(CASE WHEN movement_type = "приход" THEN amount ELSE 0 END) - SUM(CASE WHEN movement_type = "расход" THEN amount ELSE 0 END) as start_remainder'));
-            $reports->where('date', '<=', $date);
-
+            $reports->addSelect(DB::raw('(SUM(CASE WHEN movement_type = "приход" AND date <= ? THEN amount ELSE 0 END) - SUM(CASE WHEN movement_type = "расход" AND date <= ? THEN amount ELSE 0 END)) as start_remainder'));
+            $reports->addBinding([$date, $date], 'select');
+        }
+        if(isset($filterData['end_date'])) {
+            $date = Carbon::parse($filterData['end_date']);
+            $reports->addSelect(DB::raw('(SUM(CASE WHEN movement_type = "приход" AND date <= ? THEN amount ELSE 0 END) - SUM(CASE WHEN movement_type = "расход" AND date <= ? THEN amount ELSE 0 END)) as end_remainder'));
+            $reports->addBinding([$date, $date], 'select');
         }
 
+        if (isset($filterData['date']))
+        {
+            $date = Carbon::parse($filterData['date']);
+            $reports->addSelect(DB::raw('(SUM(CASE WHEN movement_type = "приход" AND date <= ? THEN amount ELSE 0 END) - SUM(CASE WHEN movement_type = "расход" AND date <= ? THEN amount ELSE 0 END)) as end_remainder'));
+            $reports->addBinding([$date, $date], 'select');
+        }
 
-        $reports = $reports->paginate($filterData['itemsPerPage']);
+        return $reports->paginate($filterData['itemsPerPage']);
 
-
-
-        return $reports;
     }
 }

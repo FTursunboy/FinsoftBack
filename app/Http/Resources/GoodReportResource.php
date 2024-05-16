@@ -17,10 +17,10 @@ class GoodReportResource extends JsonResource
     {
         return [
             'start_reminder' => (int)$this->start_remainder,
+            'end_reminder' => (int)$this->end_remainder,
             'remainder' => (int)$this->remainder,
             'income' => (int)$this->income,
             'outcome' => (int)$this->outcome,
-            'total' => (int)$this->total,
             'group' => $this->group,
             'good' => $this->good,
         ];

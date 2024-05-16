@@ -15,6 +15,7 @@ class FilterRequest extends FormRequest
                 'orderBy' => 'nullable|in:id,good_id,begin,income,outcome,all,remainder',
                 'sort' => 'in:asc,desc',
                 'start_date' => 'nullable',
+                'end_date' => 'nullable',
                 'filterData' => 'nullable|array',
             ];
     }
