@@ -174,7 +174,7 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
                 ['active' => true]
             );
 
-            DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome);
+            DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
         }
     }
 
