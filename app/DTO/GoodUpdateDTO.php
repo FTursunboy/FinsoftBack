@@ -7,8 +7,8 @@ use Illuminate\Http\UploadedFile;
 
 class GoodUpdateDTO
 {
-    public function __construct(public string $name, public string $vendor_code, public ?string $description,
-                    public int $unit_id, public int $storage_id,  public ?int $good_group_id, public ?UploadedFile $main_image, public ?array $add_images, public ?array $image_ids)
+    public function __construct(public string $name, public string $vendor_code, public ?string $description, public int $unit_id,
+                    public int $storage_id,  public ?int $good_group_id, public ?UploadedFile $main_image, public ?array $add_images, public ?array $image_ids, public ?int $small_remainder)
     {
     }
 
@@ -24,6 +24,7 @@ class GoodUpdateDTO
             $request->file('main_image'),
             $request->allFiles('add_images'),
             $request->get('image_ids'),
+            $request->get('small_remainder'),
         );
     }
 }

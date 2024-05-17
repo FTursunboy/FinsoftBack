@@ -102,59 +102,6 @@ class DocumentRepository implements DocumentRepositoryInterface
         });
     }
 
-
-    public function order(OrderDocumentDTO $DTO, int $type)
-    {
-        $document = DB::transaction(function () use ($DTO, $type) {
-            $document = OrderDocument::create([
-                'doc_number' => $this->uniqueNumber(),
-                'date' => Carbon::parse($DTO->date),
-                'counterparty_id' => $DTO->counterparty_id,
-                'counterparty_agreement_id' => $DTO->counterparty_agreement_id,
-                'organization_id' => $DTO->organization_id,
-                'order_status_id' => $DTO->order_status_id,
-                'author_id' => Auth::id(),
-                'comment' => $DTO->comment,
-                'summa' => $DTO->summa,
-                'shipping_date' => $DTO->shipping_date,
-                'currency_id' => $DTO->currency_id,
-                'order_type_id' => $type,
-            ]);
-            //dsa
-            OrderDocumentGoods::insert($this->orderGoods($document, $DTO->goods));
-
-            return $document;
-        });
-        return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
-
-    }
-
-    public function updateOrder(OrderDocument $document, OrderDocumentUpdateDTO $DTO): OrderDocument
-    {
-        $document = DB::transaction(function () use ($DTO, $document) {
-            $document->update([
-                'doc_number' => $document->doc_number,
-                'date' => Carbon::parse($DTO->date),
-                'counterparty_id' => $DTO->counterparty_id,
-                'counterparty_agreement_id' => $DTO->counterparty_agreement_id,
-                'organization_id' => $DTO->organization_id,
-                'order_status_id' => $DTO->order_status_id,
-                'author_id' => Auth::id(),
-                'comment' => $DTO->comment,
-                'summa' => $DTO->summa,
-                'shipping_date' => $DTO->shipping_date,
-                'currency_id' => $DTO->currency_id
-
-            ]);
-
-            if (!is_null($DTO->goods))
-                $this->updateOrderGoods($document, $DTO->goods);
-
-            return $document;
-        });
-        return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
-    }
-
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
     {
         GoodDocument::whereIn('id', $DTO->ids)->delete();
