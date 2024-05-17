@@ -10,6 +10,7 @@ use App\Http\Requests\Api\Document\DeleteDocumentGoodRequest;
 use App\Http\Requests\Api\Document\DocumentUpdateRequest;
 use App\Http\Requests\Api\OrderDocument\OrderDocumentUpdateRequest;
 use App\Http\Requests\IdRequest;
+use App\Http\Resources\Document\DocumentResource;
 use App\Http\Resources\Document\OrderDocumentResource;
 use App\Http\Resources\DocumentHistoryResource;
 use App\Models\Document;
@@ -69,7 +70,7 @@ class DocumentController extends Controller
 
     public function copy(Document $document)
     {
-        return $this->success($this->repository->copy($document));
+        return $this->success(DocumentResource::make($this->repository->copy($document)));
     }
 
 }

@@ -18,7 +18,6 @@ return new class extends Migration {
             $table->string('model_id');
             $table->timestamp('date');
             $table->boolean('active');
-            $table->softDeletes();
             $table->timestamps();
         });
     }

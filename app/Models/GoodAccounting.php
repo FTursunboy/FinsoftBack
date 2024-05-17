@@ -7,11 +7,9 @@ use App\Filters\MovementDocumentFilter;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 class GoodAccounting extends Model
 {
-    use SoftDeletes, Filterable;
+    use Filterable;
 
     protected $fillable = [
         'movement_type',
@@ -54,7 +52,10 @@ class GoodAccounting extends Model
             'sort' => $data['orderBy'] ?? null,
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
-            'good_id' => $data['filterData']['good_id'] ?? null
-            ];
+            'good_id' => $data['filterData']['good_id'] ?? null,
+            'start_date' =>  $data['filterData']['start_date'] ?? null,
+            'end_date' =>  $data['filterData']['end_date'] ?? null,
+            'date' =>  $data['filterData']['date'] ?? null
+        ];
     }
 }

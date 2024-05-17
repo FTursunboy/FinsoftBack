@@ -11,6 +11,8 @@ use App\Repositories\Contracts\GoodReportRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use function PHPUnit\Framework\isFalse;
@@ -21,23 +23,43 @@ class GoodReportRepository implements GoodReportRepositoryInterface
 
     public function index(array $data)
     {
+
         $filterData = $this->model::filterData($data);
-        $good = $this->model::filter();
 
         $reports = GoodAccounting::select([
             'goods.id as good_id',
             'good_groups.id as group_id',
             DB::raw('SUM(CASE WHEN movement_type = "приход" THEN amount ELSE 0 END) as income'),
             DB::raw('SUM(CASE WHEN movement_type = "расход" THEN amount ELSE 0 END) as outcome'),
-            DB::raw('SUM(amount) as total'),
-            DB::raw('SUM(CASE WHEN movement_type = "приход" THEN amount ELSE 0 END) - SUM(CASE WHEN movement_type = "расход" THEN amount ELSE 0 END) as remainder')
-       ])
+            DB::raw('SUM(CASE WHEN movement_type = "приход" THEN amount ELSE 0 END) - SUM(CASE WHEN movement_type = "расход" THEN amount ELSE 0 END) as remainder'),
+        ])
             ->join('goods', 'good_accountings.good_id', '=', 'goods.id')
-           ->join('good_groups', 'good_groups.id', 'goods.good_group_id')
-            ->groupBy('good_id')
-            ->paginate($filterData['itemsPerPage']);
+            ->join('good_groups', 'good_groups.id', 'goods.good_group_id')
+            ->whereNull('good_accountings.deleted_at')
+            ->groupBy('good_id');
 
-        return $reports;
+
+        if(isset($filterData['start_date'])) {
+            $date = Carbon::parse($filterData['start_date']);
+            $reports->addSelect(DB::raw('(SUM(CASE WHEN movement_type = "приход" AND date <= ? THEN amount ELSE 0 END) - SUM(CASE WHEN movement_type = "расход" AND date <= ? THEN amount ELSE 0 END)) as start_remainder'));
+            $reports->addBinding([$date, $date], 'select');
+        }
+        if(isset($filterData['end_date'])) {
+            $date = Carbon::parse($filterData['end_date']);
+            $reports->addSelect(DB::raw('(SUM(CASE WHEN movement_type = "приход" AND date <= ? THEN amount ELSE 0 END) - SUM(CASE WHEN movement_type = "расход" AND date <= ? THEN amount ELSE 0 END)) as end_remainder'));
+            $reports->addBinding([$date, $date], 'select');
+        }
+
+        if (isset($filterData['date']))
+        {
+            $date = Carbon::parse($filterData['date']);
+            $reports->addSelect(DB::raw('(SUM(CASE WHEN movement_type = "приход" AND date <= ? THEN amount ELSE 0 END) - SUM(CASE WHEN movement_type = "расход" AND date <= ? THEN amount ELSE 0 END)) as end_remainder'));
+            $reports->addBinding([$date, $date], 'select');
+            $reports->addSelect(DB::raw('(SUM(CASE WHEN movement_type = "приход" AND date <= ? THEN amount ELSE 0 END) - SUM(CASE WHEN movement_type = "расход" AND date <= ? THEN amount ELSE 0 END)) as start_remainder'));
+            $reports->addBinding([$date, $date], 'select');
+        }
+
+        return $reports->paginate($filterData['itemsPerPage']);
 
     }
 }

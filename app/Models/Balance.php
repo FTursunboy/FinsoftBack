@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Balance extends Model
 {
-    use SoftDeletes;
 
     protected $fillable = [
         'sum',
