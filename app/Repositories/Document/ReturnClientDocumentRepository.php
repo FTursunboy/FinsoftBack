@@ -85,8 +85,8 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
                 'storage_id' => $dto->storage_id,
                 'comment' => $dto->comment,
                 'saleInteger' => $dto->saleInteger,
+                'currency_id' => $dto->currency_id,
                 'salePercent' => $dto->salePercent,
-                'currency_id' => $dto->currency_id
             ]);
 
             if (!is_null($dto->goods)) {
@@ -124,9 +124,9 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
                     ['id' => $good['id']],
                     [
                         'good_id' => $good['good_id'],
+                        'document_id' => $document->id,
                         'amount' => $good['amount'],
                         'price' => $good['price'],
-                        'document_id' => $document->id,
                         'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
                         'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
                         'updated_at' => Carbon::now()
@@ -213,11 +213,11 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
             ->when($data['counterparty_id'], function ($query) use ($data) {
                 return $query->where('counterparty_id', $data['counterparty_id']);
             })
-            ->when($data['organization_id'], function ($query) use ($data) {
-                return $query->where('organization_id', $data['organization_id']);
-            })
             ->when($data['counterparty_agreement_id'], function ($query) use ($data) {
                 return $query->where('counterparty_agreement_id', $data['counterparty_agreement_id']);
+            })
+            ->when($data['organization_id'], function ($query) use ($data) {
+                return $query->where('organization_id', $data['organization_id']);
             })
             ->when($data['storage_id'], function ($query) use ($data) {
                 return $query->where('storage_id', $data['storage_id']);
@@ -230,8 +230,12 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
             })
             ->when($data['author_id'], function ($query) use ($data) {
                 return $query->where('author_id', $data['author_id']);
+            })
+            ->when(isset($data['active']), function ($query) use ($data) {
+                return $query->where('active', $data['active']);
             });
     }
+
     private function calculateSum(Document $document)
     {
         $goods = $document->documentGoods;

@@ -84,6 +84,7 @@ class Document extends DocumentModel implements SoftDeleteInterface
             'author_id' => $data['author_id'] ?? null,
             'startDate' => $data['startDate'] ?? null,
             'endDate' => $data['endDate'] ?? null,
+            'active' => $data['active'] ?? null,
         ];
 
         if (isset($data['filterData'])) {
@@ -95,6 +96,7 @@ class Document extends DocumentModel implements SoftDeleteInterface
             $filteredData['counterparty_agreement_id'] = $data['filterData']['counterparty_agreement_id'] ?? $filteredData['counterparty_agreement_id'];
             $filteredData['startDate'] = $data['filterData']['startDate'] ?? $filteredData['startDate'];
             $filteredData['endDate'] = $data['filterData']['endDate'] ?? $filteredData['endDate'];
+            $filteredData['active'] = $data['filterData']['active'] ?? $filteredData['active'];
         }
 
 

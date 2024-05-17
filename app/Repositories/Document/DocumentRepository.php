@@ -243,6 +243,9 @@ class DocumentRepository implements DocumentRepositoryInterface
             ->when($data['counterparty_agreement_id'], function ($query) use ($data) {
                 return $query->where('counterparty_agreement_id', $data['counterparty_agreement_id']);
             })
+            ->when($data['active'], function ($query) use ($data) {
+                return $query->where('active', $data['active']);
+            })
             ->when($data['storage_id'], function ($query) use ($data) {
                 return $query->where('storage_id', $data['storage_id']);
             })
