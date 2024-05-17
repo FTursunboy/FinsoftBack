@@ -63,6 +63,8 @@ class InventoryDocument extends DocumentModel implements \App\Repositories\Contr
             'author_id' =>  $data['filterData']['author_id'] ?? null,
             'startDate' => $data['filterData']['startDate'] ?? null,
             'endDate' => $data['filterData']['endDate'] ?? null,
+            'active' => $data['filterData']['active'] ?? null,
+            'deleted' => $data['filterData']['deleted'] ?? null,
         ];
     }
 }

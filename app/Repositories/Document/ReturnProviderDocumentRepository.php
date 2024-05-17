@@ -87,8 +87,8 @@ class ReturnProviderDocumentRepository implements ReturnProviderDocumentReposito
                 'date' => $dto->date,
                 'counterparty_id' => $dto->counterparty_id,
                 'counterparty_agreement_id' => $dto->counterparty_agreement_id,
-                'organization_id' => $dto->organization_id,
                 'storage_id' => $dto->storage_id,
+                'organization_id' => $dto->organization_id,
                 'comment' => $dto->comment,
                 'saleInteger' => $dto->saleInteger,
                 'salePercent' => $dto->salePercent,
@@ -143,8 +143,8 @@ class ReturnProviderDocumentRepository implements ReturnProviderDocumentReposito
                     ['id' => $good['id']],
                     [
                         'good_id' => $good['good_id'],
-                        'amount' => $good['amount'],
                         'price' => $good['price'],
+                        'amount' => $good['amount'],
                         'document_id' => $document->id,
                         'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
                         'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
@@ -269,7 +269,10 @@ class ReturnProviderDocumentRepository implements ReturnProviderDocumentReposito
             })
             ->when(isset($data['active']), function ($query) use ($data) {
                 return $query->where('active', $data['active']);
-            });
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
+            });;
     }
 
     private function calculateSum(Document $document)
