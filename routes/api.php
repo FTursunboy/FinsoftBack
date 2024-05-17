@@ -262,6 +262,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('/order', [OrderClientDocumentController::class, 'store']);
             Route::get('/order/statuses', [OrderClientDocumentController::class, 'statuses']);
             Route::get('order/show/{orderDocument}', [OrderClientDocumentController::class, 'show']);
+            Route::patch('/update-order/{orderDocument}', [OrderClientDocumentController::class, 'updateOrder']);
 
             Route::post('delete', [ClientDocumentController::class, 'massDelete']);
         });
@@ -294,7 +295,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::post('movement/delete-document-goods', [MovementDocumentController::class, 'deleteDocumentGoods']);
 
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
-        Route::patch('/update-order/{orderDocument}', [DocumentController::class, 'updateOrder']);
         Route::get('/show/{document}', [ProviderDocumentController::class, 'show']);
         Route::get('/document-author', [UserController::class, 'documentAuthors']);
 

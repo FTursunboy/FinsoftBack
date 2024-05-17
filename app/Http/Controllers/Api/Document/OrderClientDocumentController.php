@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api\Document;
 
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\OrderDocumentDTO;
+use App\DTO\Document\OrderDocumentUpdateDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Document\DocumentRequest;
 use App\Http\Requests\Api\Document\FilterRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
+use App\Http\Requests\Api\OrderDocument\OrderDocumentUpdateRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\Document\DocumentResource;
 use App\Http\Resources\Document\OrderDocumentResource;
@@ -44,6 +46,11 @@ class OrderClientDocumentController extends Controller
     public function show(OrderDocument $orderDocument)
     {
         return $this->success(OrderDocumentResource::make($orderDocument->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods', 'orderStatus')));
+    }
+
+    public function updateOrder(OrderDocument $orderDocument, OrderDocumentUpdateRequest $request): JsonResponse
+    {
+        return $this->success(OrderDocumentResource::make($this->repository->updateOrder($orderDocument, OrderDocumentUpdateDTO::fromRequest($request))));
     }
 
     public function statuses()
