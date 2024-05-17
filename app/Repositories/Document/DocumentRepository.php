@@ -226,6 +226,9 @@ class DocumentRepository implements DocumentRepositoryInterface
             $document = Document::find($id);
 
             if($document->active) {
+                $document->update(
+                    ['active' => false]
+                );
                 $this->deleteDocumentData($document);
             }
 

@@ -37,7 +37,6 @@ class ReportDocumentRepository implements ReportDocumentRepositoryInterface
 
         $query = CounterpartySettlement::where('model_id', $document->id);
 
-
         return $query->paginate($filterParams['itemsPerPage']);
     }
 
@@ -47,6 +46,6 @@ class ReportDocumentRepository implements ReportDocumentRepositoryInterface
 
         $query = GoodAccounting::where('model_id', $document->id);
 
-         return $query->paginate($filterParams['itemsPerPage']);
+        return $query->paginate($filterParams['itemsPerPage']);
     }
 }
