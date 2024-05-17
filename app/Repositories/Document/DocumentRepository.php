@@ -225,9 +225,14 @@ class DocumentRepository implements DocumentRepositoryInterface
         foreach ($data['ids'] as $id) {
             $document = Document::find($id);
 
+            if($document->active) {
+                $this->deleteDocumentData($document);
+            }
+
             $document->update(
                 ['active' => true]
             );
+
             DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
         }
 
