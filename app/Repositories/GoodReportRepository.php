@@ -34,7 +34,6 @@ class GoodReportRepository implements GoodReportRepositoryInterface
         ])
             ->join('goods', 'good_accountings.good_id', '=', 'goods.id')
             ->join('good_groups', 'good_groups.id', 'goods.good_group_id')
-            ->whereNull('good_accountings.deleted_at')
             ->groupBy('goods.id');
 
         if (isset($filterData['start_date'])) {
