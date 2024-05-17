@@ -7,11 +7,9 @@ use App\Filters\MovementDocumentFilter;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 class GoodAccounting extends Model
 {
-    use SoftDeletes, Filterable;
+    use Filterable;
 
     protected $fillable = [
         'movement_type',
