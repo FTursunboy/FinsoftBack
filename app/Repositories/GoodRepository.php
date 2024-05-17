@@ -119,17 +119,16 @@ class GoodRepository implements GoodRepositoryInterface
 
     public function getData(array $data)
     {
+        if ($data['good_organization_id'] == null || $data['good_storage_id'] == null) {
+            return $this->model::query();
+        }
+
         $income = MovementTypes::Income->value;
         $outcome = MovementTypes::Outcome->value;
         $storageId = $data['good_storage_id'];
         $organizationId = $data['good_organization_id'];
 
         $query = $this->model::leftJoin('good_accountings', 'good_accountings.good_id', '=', 'goods.id');
-
-        $query->where([
-            ['good_accountings.storage_id', $storageId],
-            ['good_accountings.organization_id', $organizationId]
-        ]);
 
         $query = $query->select(
             'goods.id', 'goods.name', 'goods.vendor_code', 'goods.description', 'goods.unit_id', 'goods.barcode', 'goods.storage_id',
@@ -139,6 +138,7 @@ class GoodRepository implements GoodRepositoryInterface
             SUM(CASE WHEN good_accountings.movement_type = '$outcome' and good_accountings.storage_id = $storageId
             and good_accountings.organization_id = $organizationId THEN good_accountings.amount ELSE 0 END) as amount")
         );
+
         return $query->groupBy('goods.id', 'goods.name', 'goods.vendor_code', 'goods.description', 'goods.unit_id', 'goods.barcode', 'goods.storage_id',
             'goods.good_group_id', 'goods.deleted_at', 'goods.created_at', 'goods.updated_at');
     }

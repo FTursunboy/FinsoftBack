@@ -266,6 +266,9 @@ class ReturnProviderDocumentRepository implements ReturnProviderDocumentReposito
             })
             ->when($data['author_id'], function ($query) use ($data) {
                 return $query->where('author_id', $data['author_id']);
+            })
+            ->when(isset($data['active']), function ($query) use ($data) {
+                return $query->where('active', $data['active']);
             });
     }
 
