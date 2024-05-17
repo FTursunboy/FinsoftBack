@@ -12,6 +12,11 @@ class GoodGroup extends Model implements \App\Repositories\Contracts\SoftDeleteI
 
     protected $fillable = ['name', 'is_good', 'is_service', 'deleted_at'];
 
+    protected $casts = [
+        'is_good' => 'bool',
+        'is_service' => 'bool'
+    ];
+
     public function goods()
     {
         return $this->hasMany(Good::class);
