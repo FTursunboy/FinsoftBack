@@ -169,13 +169,16 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
 
             if ($document->active) {
                 $this->deleteDocumentData($document);
+                $document->update(
+                    ['active' => false]
+                );
             }
 
             $document->update(
                 ['active' => true]
             );
 
-            DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome);
+            DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
         }
     }
 

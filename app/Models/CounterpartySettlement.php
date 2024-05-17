@@ -33,7 +33,7 @@ class CounterpartySettlement extends Model
 
     public function organization(): BelongsTo
     {
-        return $this->belongsTo(Organization::class, 'organization_id');
+        return $this->belongsTo(Organization::class, 'organization_id')->withTrashed();
     }
 
     public static function filterData(array $data): array

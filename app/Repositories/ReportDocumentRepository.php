@@ -25,9 +25,8 @@ class ReportDocumentRepository implements ReportDocumentRepositoryInterface
     {
         $filterParams = Balance::filterData($data);
 
-        $query = Balance::where('model_id', $document->id);
+        $query = Balance::where('model_id', $document->id)->with(['creditArticle', 'debitArticle']);
 
-        $query = $this->sort($filterParams, $query, ['creditArticle', 'debitArticle', 'organization']);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
@@ -36,9 +35,7 @@ class ReportDocumentRepository implements ReportDocumentRepositoryInterface
     {
         $filterParams = CounterpartySettlement::filterData($data);
 
-        $query = CounterpartySettlement::where('model_id', $document->id);
-
-        $query = $this->sort($filterParams, $query, ['counterparty', 'counterpartyAgreement', 'organization']);
+        $query = CounterpartySettlement::where('model_id', $document->id)->with(['organization', 'counterparty', 'counterpartyAgreement']);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
@@ -48,8 +45,6 @@ class ReportDocumentRepository implements ReportDocumentRepositoryInterface
         $filterParams = GoodAccounting::filterData($data);
 
         $query = GoodAccounting::where('model_id', $document->id);
-
-        $query = $this->sort($filterParams, $query, ['storage', 'good', 'organization']);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }

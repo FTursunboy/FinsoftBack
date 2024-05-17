@@ -32,7 +32,7 @@ class GoodAccounting extends Model
 
     public function group(): BelongsTo
     {
-        return $this->belongsTo(Group::class);
+        return $this->belongsTo(GoodGroup::class, 'group_id');
     }
 
     public function organization(): BelongsTo
