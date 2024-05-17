@@ -46,6 +46,11 @@ class MovementDocumentFilter extends ModelFilter
         return $this->where('organization_id', $id);
     }
 
+    public function active($value) :MovementDocumentFilter
+    {
+        return $this->where('active', $value);
+    }
+
     public function author(int $id) :MovementDocumentFilter
     {
         return $this->where('author_id', $id);
@@ -71,7 +76,6 @@ class MovementDocumentFilter extends ModelFilter
                 });
         });
     }
-
 
     public function sort() :MovementDocumentFilter
     {

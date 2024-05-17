@@ -233,6 +233,9 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
             })
             ->when(isset($data['active']), function ($query) use ($data) {
                 return $query->where('active', $data['active']);
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
             });
     }
 

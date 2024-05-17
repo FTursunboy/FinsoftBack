@@ -31,22 +31,27 @@ class InventoryDocumentFilter extends ModelFilter
 
     public function organization($value) : InventoryDocumentFilter
     {
-        return $this->whereDate('organization_id', $value);
+        return $this->where('organization_id', $value);
     }
 
     public function storage($value) : InventoryDocumentFilter
     {
-        return $this->whereDate('storage_id', $value);
+        return $this->where('storage_id', $value);
     }
 
     public function author($value) : InventoryDocumentFilter
     {
-        return $this->whereDate('author_id', $value);
+        return $this->where('author_id', $value);
     }
 
     public function responsiblePerson($value) : InventoryDocumentFilter
     {
-        return $this->whereDate('responsible_person_id', $value);
+        return $this->where('responsible_person_id', $value);
+    }
+
+    public function active($value) : InventoryDocumentFilter
+    {
+        return $this->where('active', $value);
     }
 
     public function search(string $search) : InventoryDocumentFilter

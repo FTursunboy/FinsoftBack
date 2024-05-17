@@ -76,6 +76,7 @@ class OrderDocument extends Model
             'endDate' => $data['endDate'] ?? null,
             'author_id' => $data['author_id'] ?? null,
             'active' => $data['active'] ?? null,
+            'deleted' => $data['deleted'] ?? null,
         ];
 
         if (isset($data['filterData'])) {
@@ -88,6 +89,7 @@ class OrderDocument extends Model
             $filteredData['endDate'] = $data['filterData']['endDate'] ?? $filteredData['endDate'];
             $filteredData['author_id'] = $data['filterData']['author_id'] ?? $filteredData['author_id'];
             $filteredData['active'] = $data['filterData']['active'] ?? $filteredData['active'];
+            $filteredData['deleted'] = $data['filterData']['deleted'] ?? $filteredData['deleted'];
         }
 
         return $filteredData;
