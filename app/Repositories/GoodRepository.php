@@ -134,7 +134,7 @@ class GoodRepository implements GoodRepositoryInterface
             DB::raw("SUM(CASE WHEN good_accountings.movement_type = '$income'
             and good_accountings.storage_id = $storageId and good_accountings.organization_id = $organizationId THEN good_accountings.amount ELSE 0 END) -
             SUM(CASE WHEN good_accountings.movement_type = '$outcome' and good_accountings.storage_id = $storageId
-            and good_accountings.organization_id = $organizationId THEN good_accountings.amount ELSE 0 END) as amount")
+            and good_accountings.organization_id = $organizationId THEN good_accountings.amount ELSE 0 END) as good_amount")
         );
         return $query->groupBy('goods.id', 'goods.name', 'goods.vendor_code', 'goods.description', 'goods.unit_id',
             'goods.barcode', 'goods.storage_id', 'goods.good_group_id', 'goods.deleted_at', 'goods.created_at', 'goods.updated_at');
