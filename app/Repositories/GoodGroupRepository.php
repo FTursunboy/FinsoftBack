@@ -41,8 +41,8 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
     {
         $good = GoodGroup::create([
             'name' => $DTO->name,
-            'is_good' => $DTO->is_good,
-            'is_service' => $DTO->is_service,
+            'is_good' => $DTO->is_good ?? false,
+            'is_service' => $DTO->is_service ?? false,
         ]);
 
         return $good;
