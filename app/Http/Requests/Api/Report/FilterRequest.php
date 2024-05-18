@@ -17,6 +17,7 @@ class FilterRequest extends FormRequest
                 'start_date' => 'nullable',
                 'end_date' => 'nullable',
                 'date' => 'nullable',
+                'group_id' => 'nullable|integer',
                 'filterData' => 'nullable|array',
             ];
     }

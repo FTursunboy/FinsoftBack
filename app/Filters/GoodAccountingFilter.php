@@ -13,11 +13,11 @@ use Illuminate\Support\Str;
 class GoodAccountingFilter extends ModelFilter
 {
     /**
-    * Related Models that have ModelFilters as well as the method on the ModelFilter
-    * As [relationMethod => [input_key1, input_key2]].
-    *
-    * @var array
-    */
+     * Related Models that have ModelFilters as well as the method on the ModelFilter
+     * As [relationMethod => [input_key1, input_key2]].
+     *
+     * @var array
+     */
 
     use Sort {
         sort as traitSort;
@@ -25,28 +25,55 @@ class GoodAccountingFilter extends ModelFilter
 
     protected $model = GoodAccounting::class;
 
-    public function start($value) :GoodAccountingFilter
+    public function organization($value): GoodAccountingFilter
+    {
+        return $this->where('organization_id', $value);
+    }
+
+    public function counterpartyAgreement($value): GoodAccountingFilter
+    {
+        return $this->related('document', function ($query) use ($value) {
+            return $query->where('counterparty_agreement_id', $value);
+        });
+    }
+
+    public function good($value)
+    {
+        return $this->where('good_id', $value);
+    }
+
+    public function group($value)
+    {
+        return $this->related('good', function ($query) use ($value) {
+            return $query->where('good_group_id', $value);
+        });
+    }
+
+    public function startDate($value): GoodAccountingFilter
     {
         $date = Carbon::parse($value);
+
         $this->addSelect(DB::raw('(
             SUM(CASE WHEN good_accountings.movement_type = "приход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END) -
             SUM(CASE WHEN good_accountings.movement_type = "расход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END)
         ) as start_remainder'));
         $this->addBinding([$date, $date], 'select');
+
+        return $this;
     }
 
-    public function end($value) :GoodAccountingFilter
+    public function end($value): GoodAccountingFilter
     {
+
         $date = Carbon::parse($value);
         $this->addSelect(DB::raw('(
             SUM(CASE WHEN good_accountings.movement_type = "приход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END) -
             SUM(CASE WHEN good_accountings.movement_type = "расход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END)
         ) as end_remainder'));
         $this->addBinding([$date, $date], 'select');
-
     }
 
-    public function date($value) :GoodAccountingFilter
+    public function date($value): GoodAccountingFilter
     {
         $date = Carbon::parse($value);
         $this->addSelect(DB::raw('(

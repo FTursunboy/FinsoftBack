@@ -28,5 +28,5 @@ use Illuminate\Support\Facades\Route;
 
     Route::group(['prefix' => 'report'], function () {
         Route::get('goodAccounting', [GoodReportController::class, 'index']);
-
+        Route::get('goodExcel', [GoodReportController::class, 'export']);
     });
