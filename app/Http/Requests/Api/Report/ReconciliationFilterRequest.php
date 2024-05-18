@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\Report;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FilterRequest extends FormRequest
+class ReconciliationFilterRequest extends FormRequest
 {
     public function rules(): array
     {
@@ -13,8 +13,8 @@ class FilterRequest extends FormRequest
                 'itemsPerPage' => 'integer|nullable',
                 'orderBy' => 'nullable|in:id,good_id,begin,income,outcome,all,remainder',
                 'sort' => 'in:asc,desc',
-                'start_date' => 'nullable',
-                'end_date' => 'nullable',
+                'from' => 'required',
+                'to' => 'required',
                 'date' => 'nullable',
                 'filterData' => 'nullable|array',
             ];
