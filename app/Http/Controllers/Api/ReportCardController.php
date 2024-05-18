@@ -66,7 +66,6 @@ class ReportCardController extends Controller
         return  $this->success($this->repository->getEmployees($request->validated()));
     }
 
-    //fsd
 
     public function getEmployeesSalary(EmployeeSalaryRequest $request)
     {
