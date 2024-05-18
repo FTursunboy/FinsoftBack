@@ -30,7 +30,7 @@ class ReturnClientDocumentController extends Controller
 
     public function __construct(public ReturnClientDocumentRepositoryInterface $repository) { }
 
-    public function index(IndexRequest $indexRequest): JsonResponse
+    public function index(FilterRequest $indexRequest): JsonResponse
     {
         return $this->paginate(DocumentResource::collection($this->repository->index(Status::CLIENT_RETURN, $indexRequest->validated())));
     }

@@ -242,8 +242,8 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
     private function calculateSum(Document $document)
     {
         $goods = $document->documentGoods;
-        $sum = 0;
         $saleSum = 0;
+        $sum = 0;
 
         foreach ($goods as $good) {
             $basePrice = $good->price * $good->amount;
