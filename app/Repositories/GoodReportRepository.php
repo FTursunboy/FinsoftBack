@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\DTO\BarcodeDTO;
 use App\Models\Barcode;
+use App\Models\Document;
 use App\Models\Good;
 use App\Models\GoodAccounting;
 use App\Repositories\Contracts\BarcodeRepositoryInterface;
@@ -12,6 +13,7 @@ use App\Traits\FilterTrait;
 use App\Traits\Sort;
 
 use Carbon\Carbon;
+use Google\Service\Gmail\History;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -36,39 +38,8 @@ class GoodReportRepository implements GoodReportRepositoryInterface
             ->join('good_groups', 'good_groups.id', 'goods.good_group_id')
             ->groupBy('goods.id');
 
-        if (isset($filterData['start_date'])) {
-            $date = Carbon::parse($filterData['start_date']);
-            $reports->addSelect(DB::raw('(
-            SUM(CASE WHEN good_accountings.movement_type = "приход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END) -
-            SUM(CASE WHEN good_accountings.movement_type = "расход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END)
-        ) as start_remainder'));
-            $reports->addBinding([$date, $date], 'select');
-        }
-
-        if (isset($filterData['end_date'])) {
-            $date = Carbon::parse($filterData['end_date']);
-            $reports->addSelect(DB::raw('(
-            SUM(CASE WHEN good_accountings.movement_type = "приход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END) -
-            SUM(CASE WHEN good_accountings.movement_type = "расход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END)
-        ) as end_remainder'));
-            $reports->addBinding([$date, $date], 'select');
-        }
-
-        if (isset($filterData['date'])) {
-            $date = Carbon::parse($filterData['date']);
-            $reports->addSelect(DB::raw('(
-            SUM(CASE WHEN good_accountings.movement_type = "приход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END) -
-            SUM(CASE WHEN good_accountings.movement_type = "расход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END)
-        ) as end_remainder'));
-            $reports->addBinding([$date, $date], 'select');
-            $reports->addSelect(DB::raw('(
-            SUM(CASE WHEN good_accountings.movement_type = "приход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END) -
-            SUM(CASE WHEN good_accountings.movement_type = "расход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END)
-        ) as start_remainder'));
-            $reports->addBinding([$date, $date], 'select');
-        }
-
         return $reports->paginate($filterData['itemsPerPage']);
     }
+
 
 }

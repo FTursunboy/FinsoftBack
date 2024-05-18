@@ -45,6 +45,7 @@ class ProviderDocumentController extends Controller
     {
         return $this->success($this->repository->approve($request->validated()));
     }
+
     public function unApprove(IdRequest $request)
     {
         return $this->success($this->repository->unApprove($request->validated()));

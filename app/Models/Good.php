@@ -20,6 +20,16 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
 
     }
 
+    public function documents(): HasMany
+    {
+        return $this->hasMany(Document::class);
+    }
+
+    public function accountents(): HasMany
+    {
+        return $this->hasMany(GoodAccounting::class, 'good_id');
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
@@ -69,6 +79,7 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
             'good_group_id' => $data['good_group_id'] ?? null,
             'good_storage_id' => $data['good_storage_id'] ?? null,
             'good_organization_id' => $data['good_organization_id'] ?? null,
+            'for_sale' => $data['for_sale'] ?? null,
         ];
 
         if (isset($data['filterData'])) {

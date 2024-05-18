@@ -238,7 +238,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
         Route::post('copy/{document}', [DocumentController::class, 'copy']);
 
-
         Route::group(['prefix' => '/provider'], function () {
             Route::get('/purchaseList', [ProviderDocumentController::class, 'index']);
             Route::post('/purchase', [ProviderDocumentController::class, 'purchase']);
@@ -265,6 +264,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::patch('/update-order/{orderDocument}', [OrderClientDocumentController::class, 'updateOrder']);
 
             Route::post('delete', [ClientDocumentController::class, 'massDelete']);
+            Route::post('restore', [ClientDocumentController::class, 'massRestore']);
         });
 
         Route::group(['prefix' => 'return'], function () {
@@ -281,7 +281,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('approve', [ProviderDocumentController::class, 'approve']);
             Route::post('unApprove', [ProviderDocumentController::class, 'unApprove']);
         });
-
 
         Route::group(['prefix' => '/inventory'], function () {
             Route::get('/', [InventoryDocumentController::class, 'index']);
