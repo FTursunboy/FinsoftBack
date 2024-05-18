@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CounterpartySettlement extends Model
@@ -36,6 +37,11 @@ class CounterpartySettlement extends Model
         return $this->belongsTo(Organization::class, 'organization_id')->withTrashed();
     }
 
+    public function goodAccounting(): HasMany
+    {
+        return $this->hasMany(GoodAccounting::class, 'model_id', 'model_id');
+    }
+
     public static function filterData(array $data): array
     {
         return [
@@ -43,6 +49,8 @@ class CounterpartySettlement extends Model
             'sort' => $data['orderBy'] ?? null,
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'from' => $data['from'] ?? null,
+            'to' => $data['to'] ?? null,
         ];
     }
 }
