@@ -19,19 +19,18 @@ class ReconciliationReportRepository implements ReconciliationReportRepositoryIn
     {
         $query = CounterpartySettlement::query()->where('counterparty_id', $counterparty->id);
 
-        $query = $this->debtAtBegin($query, $data['from']);
-dd($query->toRawSql());
+        $query = $this->getData($query, $data['from']);
+dd($query->get());
         return $query->paginate($data['itemsPerPage']);
     }
 
-    public function debtAtBegin($query, string $from)
+    public function getData($query, string $from)
     {
         $outcome = MovementTypes::Outcome->value;
         $income = MovementTypes::Income->value;
 
-        return $query->whereDate('date', '<', $from)
-            ->select('counterparty_settlements.counterparty_id',
-                DB::raw("SUM(CASE WHEN movement_type = '$income' THEN sum ELSE 0 END) -
+        return $query->select('counterparty_settlements.counterparty_id',
+                DB::raw("SUM(CASE WHEN movement_type = '$income' and date < '$from' THEN sum ELSE 0 END) -
                     SUM(CASE WHEN movement_type = '$outcome' THEN sum ELSE 0 END) as debt"))
             ->groupBy('counterparty_settlements.counterparty_id');
     }
