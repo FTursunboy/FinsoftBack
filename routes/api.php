@@ -282,7 +282,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('unApprove', [ProviderDocumentController::class, 'unApprove']);
         });
 
-
         Route::group(['prefix' => '/inventory'], function () {
             Route::get('/', [InventoryDocumentController::class, 'index']);
             Route::post('/', [InventoryDocumentController::class, 'store']);
