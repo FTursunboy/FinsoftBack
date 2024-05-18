@@ -45,15 +45,21 @@ class GoodAccounting extends Model
         return $this->provideFilter(GoodAccountingFilter::class);
     }
 
+    public function document(): BelongsTo
+    {
+        return $this->belongsTo(Document::class, 'document_id');
+    }
+
     public static function filterData(array $data): array
     {
         return [
             'search' => $data['search'] ?? '',
             'sort' => $data['orderBy'] ?? null,
             'direction' => $data['sort'] ?? 'asc',
+            'group_id' => $data['group_id'] ?? null,
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'good_id' => $data['filterData']['good_id'] ?? null,
-            'start_date' =>  $data['filterData']['start_date'] ?? null,
+            'startDate_id' =>  $data['start_date'] ?? null,
             'end_date' =>  $data['filterData']['end_date'] ?? null,
             'date' =>  $data['filterData']['date'] ?? null
         ];

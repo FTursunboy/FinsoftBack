@@ -114,7 +114,7 @@ class HandleDocumentApproveCreated
 
     public function getDefaultCurrency()
     {
-        return Currency::where('default', true)->first()->id;
+        return Currency::default()->first()->id;
     }
 
     public function getExcangeRate()
