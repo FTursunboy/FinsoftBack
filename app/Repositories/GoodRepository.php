@@ -25,7 +25,7 @@ class GoodRepository implements GoodRepositoryInterface
     {
         $filterParams = $this->model::filter($data);
 
-        $query = $this->getData($filterParams);
+        $query = $filterParams['for_sale'] ? $this->getForSaleGoods($filterParams) :$this->getData($filterParams);
 
         $query = $this->search($query, $filterParams['search']);
 
@@ -123,14 +123,41 @@ class GoodRepository implements GoodRepositoryInterface
             return $this->model::query();
         }
 
-        $income = MovementTypes::Income->value;
-        $outcome = MovementTypes::Outcome->value;
         $storageId = $data['good_storage_id'];
         $organizationId = $data['good_organization_id'];
 
         $query = $this->model::leftJoin('good_accountings', 'good_accountings.good_id', '=', 'goods.id');
 
-        $query = $query->select(
+        $query = $this->getSelect($query, $storageId, $organizationId);
+
+        return $query->groupBy('goods.id', 'goods.name', 'goods.vendor_code', 'goods.description', 'goods.unit_id', 'goods.barcode', 'goods.storage_id',
+            'goods.good_group_id', 'goods.deleted_at', 'goods.created_at', 'goods.updated_at');
+    }
+
+    public function getForSaleGoods(array $data)
+    {
+        $organizationId = $data['good_organization_id'];
+        $storageId = $data['good_storage_id'];
+
+        $query = $this->model::join('good_accountings', 'good_accountings.good_id', '=', 'goods.id');
+
+        $query = $query->where([
+            ['good_accountings.storage_id', $storageId],
+            ['good_accountings.organization_id', $storageId]
+        ]);
+
+        $query = $this->getSelect($query, $storageId, $organizationId);
+
+        return $query->groupBy('goods.id', 'goods.name', 'goods.vendor_code', 'goods.description', 'goods.unit_id', 'goods.barcode', 'goods.storage_id',
+            'goods.good_group_id', 'goods.deleted_at', 'goods.created_at', 'goods.updated_at');
+    }
+
+    private function getSelect($query, int $storageId, int $organizationId)
+    {
+        $outcome = MovementTypes::Outcome->value;
+        $income = MovementTypes::Income->value;
+
+        return $query->select(
             'goods.id', 'goods.name', 'goods.vendor_code', 'goods.description', 'goods.unit_id', 'goods.barcode', 'goods.storage_id',
             'goods.good_group_id', 'goods.deleted_at', 'goods.created_at', 'goods.updated_at',
             DB::raw("SUM(CASE WHEN good_accountings.movement_type = '$income'
@@ -138,9 +165,6 @@ class GoodRepository implements GoodRepositoryInterface
             SUM(CASE WHEN good_accountings.movement_type = '$outcome' and good_accountings.storage_id = $storageId
             and good_accountings.organization_id = $organizationId THEN good_accountings.amount ELSE 0 END) as good_amount")
         );
-
-        return $query->groupBy('goods.id', 'goods.name', 'goods.vendor_code', 'goods.description', 'goods.unit_id', 'goods.barcode', 'goods.storage_id',
-            'goods.good_group_id', 'goods.deleted_at', 'goods.created_at', 'goods.updated_at');
     }
 
     public function search($query, string $search)
