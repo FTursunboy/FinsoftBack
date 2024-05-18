@@ -7,8 +7,9 @@ use App\Models\GoodAccounting;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class GoodAccountingExport implements FromCollection
+class GoodAccountingExport implements FromCollection, WithHeadings
 {
     public function __construct(public Collection $collection)
     {
@@ -23,4 +24,13 @@ class GoodAccountingExport implements FromCollection
     }
 
 
+    public function headings(): array
+    {
+        return [
+            'Товар',         // или 'Товар ID
+            'Приход',          // или 'Приход'
+            'Расход',         // или 'Расход'
+            'Остаток на конец',       // или 'Остаток'
+        ];
+    }
 }
