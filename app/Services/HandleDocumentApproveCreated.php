@@ -98,7 +98,7 @@ class HandleDocumentApproveCreated
 
         Balance::create([
             'credit_article' => BalanceArticle::find(1)->id,
-            'debit_article' => BalanceArticle::find(1)->id,
+            'debit_article' => BalanceArticle::find(2)->id,
             'organization_id' => $this->document->organization_id,
             'sum' => $sale_sum ?? 0,
             'model_id' => $this->document->id,

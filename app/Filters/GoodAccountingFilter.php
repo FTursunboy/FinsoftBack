@@ -7,6 +7,7 @@ use App\Models\GoodAccounting;
 use App\Traits\Sort;
 use Carbon\Carbon;
 use EloquentFilter\ModelFilter;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class GoodAccountingFilter extends ModelFilter
@@ -27,19 +28,37 @@ class GoodAccountingFilter extends ModelFilter
     public function start($value) :GoodAccountingFilter
     {
         $date = Carbon::parse($value);
-        return $this->where('date', '>=', $date);
+        $this->addSelect(DB::raw('(
+            SUM(CASE WHEN good_accountings.movement_type = "приход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END) -
+            SUM(CASE WHEN good_accountings.movement_type = "расход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END)
+        ) as start_remainder'));
+        $this->addBinding([$date, $date], 'select');
     }
 
     public function end($value) :GoodAccountingFilter
     {
         $date = Carbon::parse($value);
-        return $this->where('date', '<=', $date);
+        $this->addSelect(DB::raw('(
+            SUM(CASE WHEN good_accountings.movement_type = "приход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END) -
+            SUM(CASE WHEN good_accountings.movement_type = "расход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END)
+        ) as end_remainder'));
+        $this->addBinding([$date, $date], 'select');
+
     }
 
     public function date($value) :GoodAccountingFilter
     {
         $date = Carbon::parse($value);
-        return $this->where('date', '<=', $date);
+        $this->addSelect(DB::raw('(
+            SUM(CASE WHEN good_accountings.movement_type = "приход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END) -
+            SUM(CASE WHEN good_accountings.movement_type = "расход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END)
+        ) as end_remainder'));
+        $this->addBinding([$date, $date], 'select');
+        $this->addSelect(DB::raw('(
+            SUM(CASE WHEN good_accountings.movement_type = "приход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END) -
+            SUM(CASE WHEN good_accountings.movement_type = "расход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END)
+        ) as start_remainder'));
+        $this->addBinding([$date, $date], 'select');
     }
 
 

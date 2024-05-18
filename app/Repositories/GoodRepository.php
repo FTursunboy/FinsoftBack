@@ -46,7 +46,7 @@ class GoodRepository implements GoodRepositoryInterface
                 'unit_id' => $DTO->unit_id,
                 'storage_id' => $DTO->storage_id,
                 'good_group_id' => $DTO->good_group_id,
-                'small_remainder' => $DTO->small_remainder
+                'small_remainder' => $DTO->small_remainder ?? 3
             ]);
 
             if ($DTO->add_images || $DTO->main_image) GoodImages::insert($this->goodImages($good, $DTO->add_images));
@@ -136,7 +136,7 @@ class GoodRepository implements GoodRepositoryInterface
             DB::raw("SUM(CASE WHEN good_accountings.movement_type = '$income'
             and good_accountings.storage_id = $storageId and good_accountings.organization_id = $organizationId THEN good_accountings.amount ELSE 0 END) -
             SUM(CASE WHEN good_accountings.movement_type = '$outcome' and good_accountings.storage_id = $storageId
-            and good_accountings.organization_id = $organizationId THEN good_accountings.amount ELSE 0 END) as amount")
+            and good_accountings.organization_id = $organizationId THEN good_accountings.amount ELSE 0 END) as good_amount")
         );
 
         return $query->groupBy('goods.id', 'goods.name', 'goods.vendor_code', 'goods.description', 'goods.unit_id', 'goods.barcode', 'goods.storage_id',

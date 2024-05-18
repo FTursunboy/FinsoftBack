@@ -6,7 +6,7 @@ use App\Http\Requests\Api\GoodGroup\GoodGroupRequest;
 
 class GoodGroupDTO
 {
-    public function __construct(public string $name, public bool $is_good, public bool $is_service)
+    public function __construct(public string $name, public ?bool $is_good, public ?bool $is_service)
     {
     }
 
