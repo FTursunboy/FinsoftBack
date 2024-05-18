@@ -10,4 +10,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 interface GoodReportRepositoryInterface
 {
     public function index(array $data);
+
+    public function export(array $data);
 }
