@@ -47,7 +47,6 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
     public function store(DocumentDTO $dto): Document
     {
-
         $document = DB::transaction(function () use ($dto) {
 
             $document = Document::create([
@@ -73,9 +72,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
         });
 
-
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
-
 
     }
 
