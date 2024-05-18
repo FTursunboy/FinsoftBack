@@ -9,7 +9,9 @@ use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\Report\ReconciliationFilterRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\BarcodeResource;
+use App\Http\Resources\CounterpartySettlementResource;
 use App\Http\Resources\GroupResource;
+use App\Http\Resources\Report\ReconciliationReportResource;
 use App\Models\Barcode;
 use App\Models\Counterparty;
 use App\Models\Good;
@@ -26,7 +28,7 @@ class ReconciliationReportController extends Controller
 
     public function index(Counterparty $counterparty, ReconciliationFilterRequest $request)
     {
-        return $this->success($this->repository->index($counterparty, $request->validated()));
+        return $this->paginate(ReconciliationReportResource::collection($this->repository->index($counterparty, $request->validated())));
     }
 
 }
