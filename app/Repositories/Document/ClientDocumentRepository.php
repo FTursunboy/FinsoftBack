@@ -318,7 +318,6 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
     public function filter($query, array $data)
     {
-
         return $query->when($data['currency_id'], function ($query) use ($data) {
             return $query->where('currency_id', $data['currency_id']);
         })

@@ -29,4 +29,5 @@ use Illuminate\Support\Facades\Route;
     Route::group(['prefix' => 'report'], function () {
         Route::get('goodAccounting', [GoodReportController::class, 'index']);
 
+        Route::get('reconciliation-report/{counterparty}', [\App\Http\Controllers\Api\Report\ReconciliationReportController::class, 'index']);
     });
