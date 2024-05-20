@@ -354,9 +354,9 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     require_once 'checkingAccount.php';
 
 
-    require_once 'reports.php';
     Route::get('logout', [AuthController::class, 'logout']);
 });
+require_once 'reports.php';
 
 
 
