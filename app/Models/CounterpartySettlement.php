@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CounterpartySettlement extends Model
 {
-
     protected $fillable = [
         'movement_type',
         'sale_sum',
