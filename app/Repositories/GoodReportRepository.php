@@ -37,9 +37,23 @@ class GoodReportRepository implements GoodReportRepositoryInterface
 
     public function export(array $data) :Collection
     {
-        $filterData = $this->model::filterData($data);
+        $query = GoodAccounting::query();
 
-        return $this->getQuery($filterData)->get();
+        $query->select([
+            'goods.name',
+            'good_groups.name as group_name',
+            DB::raw('SUM(CASE WHEN good_accountings.movement_type = "приход" THEN good_accountings.amount ELSE 0 END) as income'),
+            DB::raw('SUM(CASE WHEN good_accountings.movement_type = "расход" THEN good_accountings.amount ELSE 0 END) as outcome'),
+            DB::raw('SUM(CASE WHEN good_accountings.movement_type = "приход" THEN good_accountings.amount ELSE 0 END) - SUM(CASE WHEN good_accountings.movement_type = "расход" THEN good_accountings.amount ELSE 0 END) as remainder'),
+        ])
+            ->join('goods', 'good_accountings.good_id', '=', 'goods.id')
+            ->join('good_groups', 'good_groups.id', '=', 'goods.good_group_id')
+            ->groupBy('goods.id', 'good_groups.id');
+
+
+
+
+       return $query->get();
     }
 
     private function getQuery(array $filterData) : Builder

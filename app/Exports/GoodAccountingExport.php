@@ -13,6 +13,7 @@ class GoodAccountingExport implements FromCollection, WithHeadings
 {
     public function __construct(public Collection $collection)
     {
+
     }
 
     /**
@@ -28,6 +29,8 @@ class GoodAccountingExport implements FromCollection, WithHeadings
     {
         return [
             'Товар',         // или 'Товар ID
+            'Группа',         // или 'Товар ID
+            'Остаток На начало',         // или 'Товар ID
             'Приход',          // или 'Приход'
             'Расход',         // или 'Расход'
             'Остаток на конец',       // или 'Остаток'
