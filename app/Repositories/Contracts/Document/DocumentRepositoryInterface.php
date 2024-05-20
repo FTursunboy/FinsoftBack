@@ -28,4 +28,6 @@ interface DocumentRepositoryInterface
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO);
 
     public function copy(Document $document);
+
+    public function createOnBase(Document $document);
 }

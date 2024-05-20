@@ -27,6 +27,6 @@ class GoodReportController extends Controller
 
     public function export(FilterRequest $request)
     {
-       return Excel::download(new GoodAccountingExport($this->repository->export($request->validated())), 'отчет.xls');
+       return response()->download($this->repository->export($request->validated()))->deleteFileAfterSend();
     }
 }
