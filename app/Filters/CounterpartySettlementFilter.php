@@ -34,12 +34,12 @@ class CounterpartySettlementFilter extends ModelFilter
 
     public function counterparty(int $id) :CounterpartySettlementFilter
     {
-        return $this->where('counterparty', $id);
+        return $this->where('counterparty_id', $id);
     }
 
     public function counterpartyAgreement(int $id) :CounterpartySettlementFilter
     {
-        return $this->where('counterparty', $id);
+        return $this->where('counterparty_agreement_id', $id);
     }
 
     public function search(string $search) :CounterpartySettlementFilter

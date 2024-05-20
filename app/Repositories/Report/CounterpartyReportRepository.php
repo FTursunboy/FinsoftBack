@@ -27,12 +27,15 @@ class CounterpartyReportRepository implements CounterpartyReportRepositoryInterf
         $outcome = MovementTypes::Outcome->value;
         $query = $this->model::query();
 
-        $query = $query->select([
+        $filterData =  $this->model::filterData($data);
+
+
+       $query->select([
             'cur.id as currency_id',
             'cp.id as counterparty_id',
             DB::raw("SUM(CASE WHEN counterparty_settlements.movement_type = '{$income}' THEN counterparty_settlements.sum ELSE 0 END) as income"),
             DB::raw("SUM(CASE WHEN counterparty_settlements.movement_type = '{$outcome}' THEN counterparty_settlements.sum ELSE 0 END) as outcome"),
-            DB::raw("SUM(CASE WHEN counterparty_settlements.movement_type = '{$outcome}' THEN counterparty_settlements.sum ELSE 0 END) - SUM(CASE WHEN counterparty_settlements.movement_type = '{$income}' THEN counterparty_settlements.sum ELSE 0 END) as remainder"),
+            DB::raw("SUM(CASE WHEN counterparty_settlements.movement_type = '{$outcome}' THEN counterparty_settlements.sum ELSE 0 END) - SUM(CASE WHEN counterparty_settlements.movement_type = '{$income}' THEN counterparty_settlements.sum ELSE 0 END) as debt"),
         ])
             ->join('counterparties as cp', 'counterparty_settlements.counterparty_id', '=', 'cp.id')
             ->join('currencies as cur', 'counterparty_settlements.currency_id', '=', 'cur.id')
@@ -41,8 +44,12 @@ class CounterpartyReportRepository implements CounterpartyReportRepositoryInterf
             ->where('ur.name', Role::SUPPLIER)
             ->groupBy('cp.id');
 
+         $query->filter($filterData);
 
-        $query->filter();
+
+        return $query->paginate($filterData['itemsPerPage']);
+
+
 
     }
 }
