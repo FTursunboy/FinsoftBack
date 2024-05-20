@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,6 +11,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CounterpartySettlement extends Model
 {
+    use Filterable;
+
     protected $fillable = [
         'movement_type',
         'sale_sum',
@@ -49,7 +53,7 @@ class CounterpartySettlement extends Model
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'from' => $data['from'] ?? null,
-            'to' => $data['to'] ?? null,
+            'to' => $data['to'] ?? Carbon::now(),
         ];
     }
 }
