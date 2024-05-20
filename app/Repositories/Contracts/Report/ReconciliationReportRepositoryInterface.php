@@ -12,4 +12,6 @@ interface ReconciliationReportRepositoryInterface
 {
     public function index(Counterparty $counterparty, array $data) :LengthAwarePaginator;
 
+    public function debts(Counterparty $counterparty, array $data);
+
 }
