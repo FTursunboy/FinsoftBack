@@ -13,8 +13,8 @@ class ReconciliationFilterRequest extends FormRequest
                 'itemsPerPage' => 'integer|nullable',
                 'orderBy' => 'nullable|in:id,good_id,begin,income,outcome,all,remainder',
                 'sort' => 'in:asc,desc',
-                'from' => 'required',
-                'to' => 'required',
+                'from' => 'nullable',
+                'to' => 'nullable',
                 'date' => 'nullable',
                 'filterData' => 'nullable|array',
             ];
