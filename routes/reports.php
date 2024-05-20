@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\CashStore\ProviderRefundController;
 use App\Http\Controllers\Api\CashStore\SalaryPaymentController;
 use App\Http\Controllers\Api\CashStore\WithdrawalController;
 use App\Http\Controllers\Api\GoodReportController;
+use App\Http\Controllers\Api\Report\CounterpartyReportController;
+use App\Models\CounterpartySettlement;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 
     Route::group(['prefix' => 'report'], function () {
         Route::get('goodAccounting', [GoodReportController::class, 'index']);
+        Route::get('counterpartySettlement', [CounterpartyReportController::class, 'index']);
 
         Route::get('reconciliation-report/{counterparty}', [\App\Http\Controllers\Api\Report\ReconciliationReportController::class, 'index']);
 

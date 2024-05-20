@@ -10,6 +10,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ReconciliationReportRepositoryInterface
 {
-    public function index(Counterparty $counterparty, array $data) :LengthAwarePaginator;
+    public function index(array $data) :LengthAwarePaginator;
 
 }

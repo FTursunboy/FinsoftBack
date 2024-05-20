@@ -6,6 +6,7 @@ use App\Enums\MovementTypes;
 use App\Models\Counterparty;
 use App\Models\CounterpartySettlement;
 use App\Models\GoodAccounting;
+use App\Models\Role;
 use App\Repositories\Contracts\Report\CounterpartyReportRepositoryInterface;
 use App\Repositories\Contracts\Report\ReconciliationReportRepositoryInterface;
 use App\Traits\FilterTrait;
@@ -27,19 +28,21 @@ class CounterpartyReportRepository implements CounterpartyReportRepositoryInterf
         $query = $this->model::query();
 
         $query = $query->select([
-            'goods.id as good_id',
-            'good_groups.id as group_id',
-            DB::raw("SUM(CASE WHEN counterparty_settlements.movement_type = '{$income}' THEN counterparty_settlements.amount ELSE 0 END) as income"),
-            DB::raw("SUM(CASE WHEN counterparty_settlements.movement_type = '{$outcome}' THEN counterparty_settlements.amount ELSE 0 END) as outcome"),
-            DB::raw("SUM(CASE WHEN counterparty_settlements.movement_type = '{$income}' THEN counterparty_settlements.amount ELSE 0 END) - SUM(CASE WHEN counterparty_settlements.movement_type = '{$outcome}' THEN counterparty_settlements.amount ELSE 0 END) as remainder"),
+            'cur.id as currency_id',
+            'cp.id as counterparty_id',
+            DB::raw("SUM(CASE WHEN counterparty_settlements.movement_type = '{$income}' THEN counterparty_settlements.sum ELSE 0 END) as income"),
+            DB::raw("SUM(CASE WHEN counterparty_settlements.movement_type = '{$outcome}' THEN counterparty_settlements.sum ELSE 0 END) as outcome"),
+            DB::raw("SUM(CASE WHEN counterparty_settlements.movement_type = '{$outcome}' THEN counterparty_settlements.sum ELSE 0 END) - SUM(CASE WHEN counterparty_settlements.movement_type = '{$income}' THEN counterparty_settlements.sum ELSE 0 END) as remainder"),
         ])
-        ->join('counterparties as cp', 'counterparty_settlements.counterparty_id', '=', 'cp.id')
+            ->join('counterparties as cp', 'counterparty_settlements.counterparty_id', '=', 'cp.id')
             ->join('currencies as cur', 'counterparty_settlements.currency_id', '=', 'cur.id')
-            ->groupBy('goods.id', 'good_groups.id');
+            ->join('counterparty_roles as cr', 'cp.id', '=', 'cr.counterparty_id')
+            ->join('user_roles as ur', 'cr.role_id', '=', 'ur.id')
+            ->where('ur.name', Role::SUPPLIER)
+            ->groupBy('cp.id');
 
-        dd($query->get());
 
-
+        $query->filter();
 
     }
 }
