@@ -11,7 +11,7 @@ class FilterRequest extends FormRequest
         return [
                 'search' => 'string|nullable|max:50',
                 'itemsPerPage' => 'integer|nullable',
-                'orderBy' => 'nullable|in:id,good_id,begin,income,outcome,all,remainder',
+                'orderBy' => 'nullable|in:id,good_id,begin,income,outcome,all,remainder,debt',
                 'sort' => 'in:asc,desc',
                 'start_date' => 'nullable',
                 'end_date' => 'nullable',

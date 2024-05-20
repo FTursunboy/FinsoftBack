@@ -8,10 +8,8 @@ use App\Models\Counterparty;
 use App\Models\Good;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-interface ReconciliationReportRepositoryInterface
+interface CounterpartyReportRepositoryInterface
 {
     public function index(array $data) :LengthAwarePaginator;
-
-    public function debts(Counterparty $counterparty, array $data);
 
 }

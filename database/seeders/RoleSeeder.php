@@ -16,9 +16,9 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         Role::insert([
-            ['name' => 'Клиент'],
-            ['name' => 'Поставщик'],
-            ['name' => 'Прочие'],
+            ['name' => Role::CLIENT],
+            ['name' => Role::SUPPLIER],
+            ['name' => Role::OTHER],
         ]);
 
         Unit::create([
