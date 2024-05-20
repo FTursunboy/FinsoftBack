@@ -35,3 +35,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('goodExcel', [GoodReportController::class, 'export']);
 
     });
+
+
+
+
