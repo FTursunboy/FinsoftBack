@@ -4,6 +4,7 @@ namespace App\Filters;
 
 use App\Models\CounterpartySettlement;
 use App\Traits\Sort;
+use Carbon\Carbon;
 use EloquentFilter\ModelFilter;
 
 class CounterpartySettlementFilter extends ModelFilter
@@ -67,4 +68,18 @@ class CounterpartySettlementFilter extends ModelFilter
 
         return $this->traitSort($filteredParams, $this, $relations);
     }
+
+    public function startDate($value)
+    {
+        $date = Carbon::parse($value);
+        return $this->where('date', '>=', $date);
+    }
+
+    public function endDate($value)
+    {
+        $date = Carbon::parse($value);
+
+        return $this->where('date', '<=', $date);
+    }
+
 }
