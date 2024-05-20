@@ -20,15 +20,14 @@ class CounterpartyReportRepository implements CounterpartyReportRepositoryInterf
 
     protected $model = CounterpartySettlement::class;
 
-
     public function index(array $data): LengthAwarePaginator
     {
         $income = MovementTypes::Income->value;
         $outcome = MovementTypes::Outcome->value;
+
         $query = $this->model::query();
 
         $filterData =  $this->model::filterData($data);
-
 
        $query->select([
             'cur.id as currency_id',
@@ -44,7 +43,12 @@ class CounterpartyReportRepository implements CounterpartyReportRepositoryInterf
             ->where('ur.name', Role::SUPPLIER)
             ->groupBy('cp.id');
 
+       if (isset($filterData['sort'])) {
+           $query->orderBy($filterData['sort'], $filterData['direction']);
+       }
+
          $query->filter($filterData);
+
 
 
         return $query->paginate($filterData['itemsPerPage']);
