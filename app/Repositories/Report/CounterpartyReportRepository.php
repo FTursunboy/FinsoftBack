@@ -22,12 +22,15 @@ class CounterpartyReportRepository implements CounterpartyReportRepositoryInterf
 
     public function index(array $data): LengthAwarePaginator
     {
+        $income = MovementTypes::Income;
+        $outcome = MovementTypes::Outcome;
         $query = $this->model::query();
+
 
         $query->select([
             'goods.id as good_id',
             'good_groups.id as group_id',
-            DB::raw('SUM(CASE WHEN counterparty_settlements.movement_type = "приход" THEN counterparty_settlements.amount ELSE 0 END) as income'),
+            DB::raw('SUM(CASE WHEN counterparty_settlements.movement_type = $income THEN counterparty_settlements.amount ELSE 0 END) as income'),
             DB::raw('SUM(CASE WHEN good_accountings.movement_type = "расход" THEN good_accountings.amount ELSE 0 END) as outcome'),
             DB::raw('SUM(CASE WHEN good_accountings.movement_type = "приход" THEN good_accountings.amount ELSE 0 END) - SUM(CASE WHEN good_accountings.movement_type = "расход" THEN good_accountings.amount ELSE 0 END) as remainder'),
         ])

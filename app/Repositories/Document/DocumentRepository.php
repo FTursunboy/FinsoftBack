@@ -213,6 +213,11 @@ class DocumentRepository implements DocumentRepositoryInterface
         return $document->load(['history.changes', 'history.user']);
     }
 
+    public function createOnBase(Documentable $document)
+    {
+        return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency']);
+    }
+
     public function search($query, array $data)
     {
         $searchTerm = explode(' ', $data['search']);

@@ -236,6 +236,9 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::group(['prefix' => 'document'], function () {
 
+        Route::get('/createOnBase/{document}', [DocumentController::class, 'createOnBase']);
+
+
         Route::post('copy/{document}', [DocumentController::class, 'copy']);
 
         Route::group(['prefix' => '/provider'], function () {
@@ -351,11 +354,11 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     require_once 'checkingAccount.php';
 
 
+    require_once 'reports.php';
     Route::get('logout', [AuthController::class, 'logout']);
 });
 
 
-require_once 'reports.php';
 
 Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login'])->name('login');
 

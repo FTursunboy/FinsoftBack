@@ -42,6 +42,10 @@ class DocumentController extends Controller
     {
         return $this->success(DocumentHistoryResource::make($this->repository->changeHistory($document)));
     }
+    public function createOnBase(Documentable $document)
+    {
+        return $this->success(DocumentResource::make($this->repository->createOnBase($document)));
+    }
 
     public function approve(IdRequest $request)
     {
