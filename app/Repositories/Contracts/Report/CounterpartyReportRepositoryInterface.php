@@ -12,4 +12,6 @@ interface CounterpartyReportRepositoryInterface
 {
     public function index(array $data) :LengthAwarePaginator;
 
+    public function export(array $data) :string;
+
 }
