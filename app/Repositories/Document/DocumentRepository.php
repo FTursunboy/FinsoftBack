@@ -215,7 +215,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function createOnBase(Documentable $document)
     {
-        return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency']);
+        return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods']);
     }
 
     public function search($query, array $data)

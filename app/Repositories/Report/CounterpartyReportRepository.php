@@ -22,23 +22,24 @@ class CounterpartyReportRepository implements CounterpartyReportRepositoryInterf
 
     public function index(array $data): LengthAwarePaginator
     {
-        $income = MovementTypes::Income;
-        $outcome = MovementTypes::Outcome;
+        $income = MovementTypes::Income->value;
+        $outcome = MovementTypes::Outcome->value;
         $query = $this->model::query();
 
-
-        $query->select([
+        $query = $query->select([
             'goods.id as good_id',
             'good_groups.id as group_id',
-            DB::raw('SUM(CASE WHEN counterparty_settlements.movement_type = $income THEN counterparty_settlements.amount ELSE 0 END) as income'),
-            DB::raw('SUM(CASE WHEN good_accountings.movement_type = "расход" THEN good_accountings.amount ELSE 0 END) as outcome'),
-            DB::raw('SUM(CASE WHEN good_accountings.movement_type = "приход" THEN good_accountings.amount ELSE 0 END) - SUM(CASE WHEN good_accountings.movement_type = "расход" THEN good_accountings.amount ELSE 0 END) as remainder'),
+            DB::raw("SUM(CASE WHEN counterparty_settlements.movement_type = '{$income}' THEN counterparty_settlements.amount ELSE 0 END) as income"),
+            DB::raw("SUM(CASE WHEN counterparty_settlements.movement_type = '{$outcome}' THEN counterparty_settlements.amount ELSE 0 END) as outcome"),
+            DB::raw("SUM(CASE WHEN counterparty_settlements.movement_type = '{$income}' THEN counterparty_settlements.amount ELSE 0 END) - SUM(CASE WHEN counterparty_settlements.movement_type = '{$outcome}' THEN counterparty_settlements.amount ELSE 0 END) as remainder"),
         ])
-            ->join('goods', 'good_accountings.good_id', '=', 'goods.id')
-            ->join('good_groups', 'good_groups.id', '=', 'goods.good_group_id')
+        ->join('counterparties as cp', 'counterparty_settlements.counterparty_id', '=', 'cp.id')
+            ->join('currencies as cur', 'counterparty_settlements.currency_id', '=', 'cur.id')
             ->groupBy('goods.id', 'good_groups.id');
 
+        dd($query->get());
 
-        return $query->filter($filterData);
+
+
     }
 }
