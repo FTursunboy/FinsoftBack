@@ -4,9 +4,9 @@ namespace App\Enums;
 
 enum MovementTypes :string
 {
-    case Income = 'приход';
+    case Income = 'Приход';
 
-    case Outcome = 'расход';
+    case Outcome = 'Расход';
 
 
 

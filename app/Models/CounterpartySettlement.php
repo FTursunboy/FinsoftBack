@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Filters\CounterpartySettlementFilter;
+use App\Filters\GoodAccountingFilter;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -40,11 +42,21 @@ class CounterpartySettlement extends Model
         return $this->belongsTo(Organization::class, 'organization_id')->withTrashed();
     }
 
+    public function modelFilter()
+    {
+        return $this->provideFilter(CounterpartySettlementFilter::class);
+    }
+
+
     public function goodAccounting(): HasMany
     {
         return $this->hasMany(GoodAccounting::class, 'model_id', 'model_id');
     }
 
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
+    }
     public static function filterData(array $data): array
     {
         return [
@@ -53,7 +65,9 @@ class CounterpartySettlement extends Model
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'from' => $data['from'] ?? null,
-            'to' => $data['to'] ?? Carbon::now(),
+            'to' => $data['to'] ?? null,
+            'startDate_id' => $data['filterData']['start_date'] ?? null,
+            'endDate_id' => $data['filterData']['end_date'] ?? null,
         ];
     }
 }

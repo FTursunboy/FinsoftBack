@@ -32,9 +32,11 @@ class ReconciliationReportController extends Controller
         return $this->paginate(ReconciliationReportResource::collection($this->repository->index($counterparty, $request->validated())));
     }
 
+
     public function debts(Counterparty $counterparty, ReconciliationFilterRequest $request)
     {
         return $this->success(DebtResource::collection($this->repository->debts($counterparty, $request->validated())));
     }
+
 
 }

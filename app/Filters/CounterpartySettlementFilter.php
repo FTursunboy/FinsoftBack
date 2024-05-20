@@ -4,6 +4,7 @@ namespace App\Filters;
 
 use App\Models\CounterpartySettlement;
 use App\Traits\Sort;
+use Carbon\Carbon;
 use EloquentFilter\ModelFilter;
 
 class CounterpartySettlementFilter extends ModelFilter
@@ -33,12 +34,12 @@ class CounterpartySettlementFilter extends ModelFilter
 
     public function counterparty(int $id) :CounterpartySettlementFilter
     {
-        return $this->where('counterparty', $id);
+        return $this->where('counterparty_id', $id);
     }
 
     public function counterpartyAgreement(int $id) :CounterpartySettlementFilter
     {
-        return $this->where('counterparty', $id);
+        return $this->where('counterparty_agreement_id', $id);
     }
 
     public function search(string $search) :CounterpartySettlementFilter
@@ -63,8 +64,22 @@ class CounterpartySettlementFilter extends ModelFilter
     {
         $filteredParams = $this->input();
 
-        $relations = ['employee', 'counterparty', 'author', 'organizationBill', 'currency', 'organization', 'senderCashRegister', 'checkingAccount'];
+        $relations = ['counterparty',  'currency'];
 
         return $this->traitSort($filteredParams, $this, $relations);
     }
+
+    public function startDate($value)
+    {
+        $date = Carbon::parse($value);
+        return $this->where('date', '>=', $date);
+    }
+
+    public function endDate($value)
+    {
+        $date = Carbon::parse($value);
+
+        return $this->where('date', '<=', $date);
+    }
+
 }
