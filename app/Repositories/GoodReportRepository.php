@@ -13,6 +13,7 @@ use App\Repositories\Contracts\GoodReportRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Carbon\Carbon;
 use Google\Service\Gmail\History;
 use Illuminate\Database\Eloquent\Builder;
@@ -35,11 +36,51 @@ class GoodReportRepository implements GoodReportRepositoryInterface
     }
 
 
-    public function export(array $data) :Collection
+    public function export(array $data)
     {
-        $filterData = $this->model::filterData($data);
+        $query = GoodAccounting::query();
 
-        return $this->getQuery($filterData)->get();
+        $query->select([
+            'goods.name',
+            'good_groups.name as group_name',
+            DB::raw('SUM(CASE WHEN good_accountings.movement_type = "приход" THEN good_accountings.amount ELSE 0 END) as income'),
+            DB::raw('SUM(CASE WHEN good_accountings.movement_type = "расход" THEN good_accountings.amount ELSE 0 END) as outcome'),
+            DB::raw('SUM(CASE WHEN good_accountings.movement_type = "приход" THEN good_accountings.amount ELSE 0 END) - SUM(CASE WHEN good_accountings.movement_type = "расход" THEN good_accountings.amount ELSE 0 END) as remainder'),
+        ])
+            ->join('goods', 'good_accountings.good_id', '=', 'goods.id')
+            ->join('good_groups', 'good_groups.id', '=', 'goods.good_group_id')
+            ->groupBy('goods.id', 'good_groups.id');
+
+        $result =  $query->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'Товар', 'Группа', 'Остаток на начало', 'Приход', 'Расход', 'Остаток на конец'
+        ]);
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->name,
+                $row->group_name,
+                $row->start_reminder,
+                $row->income,
+                $row->outcome,
+                $row->remainder,
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
     }
 
     private function getQuery(array $filterData) : Builder
@@ -56,6 +97,7 @@ class GoodReportRepository implements GoodReportRepositoryInterface
             ->join('goods', 'good_accountings.good_id', '=', 'goods.id')
             ->join('good_groups', 'good_groups.id', '=', 'goods.good_group_id')
             ->groupBy('goods.id', 'good_groups.id');
+
 
 
         return $query->filter($filterData);

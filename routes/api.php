@@ -236,6 +236,9 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::group(['prefix' => 'document'], function () {
 
+        Route::get('/createOnBase/{document}', [DocumentController::class, 'createOnBase']);
+
+
         Route::post('copy/{document}', [DocumentController::class, 'copy']);
 
         Route::group(['prefix' => '/provider'], function () {

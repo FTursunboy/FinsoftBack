@@ -80,6 +80,7 @@ use App\Repositories\Contracts\OrganizationRepositoryInterface;
 use App\Repositories\Contracts\PermissionRepositoryInterface;
 use App\Repositories\Contracts\PositionRepositoryInterface;
 use App\Repositories\Contracts\PriceTypeRepository;
+use App\Repositories\Contracts\Report\CounterpartyReportRepositoryInterface;
 use App\Repositories\Contracts\Report\ReconciliationReportRepositoryInterface;
 use App\Repositories\Contracts\ReportCardRepositoryInterface;
 use App\Repositories\Contracts\ReportDocumentRepositoryInterface;
@@ -118,6 +119,7 @@ use App\Repositories\OrganizationBillRepository;
 use App\Repositories\OrganizationRepository;
 use App\Repositories\PermissionRepository;
 use App\Repositories\PositionRepository;
+use App\Repositories\Report\CounterpartyReportRepository;
 use App\Repositories\Report\ReconciliationReportRepository;
 use App\Repositories\ReportCardRepository;
 use App\Repositories\ReportDocumentRepository;
@@ -200,6 +202,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ReportDocumentRepositoryInterface::class, ReportDocumentRepository::class);
         $this->app->singleton(GoodReportRepositoryInterface::class, GoodReportRepository::class);
         $this->app->singleton(ReconciliationReportRepositoryInterface::class, ReconciliationReportRepository::class);
+        $this->app->singleton(CounterpartyReportRepositoryInterface::class, CounterpartyReportRepository::class);
     }
 
     /**

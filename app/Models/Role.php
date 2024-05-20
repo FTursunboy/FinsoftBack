@@ -10,4 +10,9 @@ class Role extends Model
     protected $guarded = false;
 
     protected $table = 'user_roles';
+
+    public const CLIENT = 'Клиент';
+    public const SUPPLIER = 'Поставщик';
+    public const OTHER = 'Прочие';
+
 }

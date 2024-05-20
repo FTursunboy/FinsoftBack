@@ -42,6 +42,7 @@ class HandleDocumentApproveCreated
             'organization_id' => $this->document->organization_id,
             'movement_type' => $this->type,
             'date' => $this->document->date,
+            'currency_id' => $this->document->currency_id,
             'model_id' => $this->document->id,
             'sum' => $sum ?? 0,
             'sale_sum' => $sale_sum ?? 0,
