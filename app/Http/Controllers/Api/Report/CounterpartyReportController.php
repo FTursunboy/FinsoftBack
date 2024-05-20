@@ -21,5 +21,11 @@ class CounterpartyReportController extends Controller
     }
 
 
+    public function export(FilterRequest $request)
+    {
+        return response()->download($this->repository->export($request->validated()))->deleteFileAfterSend();
+    }
+
+
 
 }
