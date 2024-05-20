@@ -13,6 +13,7 @@ use App\Repositories\Contracts\GoodReportRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Carbon\Carbon;
 use Google\Service\Gmail\History;
 use Illuminate\Database\Eloquent\Builder;
@@ -35,7 +36,7 @@ class GoodReportRepository implements GoodReportRepositoryInterface
     }
 
 
-    public function export(array $data) :Collection
+    public function export(array $data)
     {
         $query = GoodAccounting::query();
 
@@ -50,10 +51,36 @@ class GoodReportRepository implements GoodReportRepositoryInterface
             ->join('good_groups', 'good_groups.id', '=', 'goods.good_group_id')
             ->groupBy('goods.id', 'good_groups.id');
 
+        $result =  $query->get();
+
+        $filename = 'report ' . now() . '.xlsx';
 
 
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
 
-       return $query->get();
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'Товар', 'Группа', 'Остаток на начало', 'Приход', 'Расход', 'Остаток на конец'
+        ]);
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->name,
+                $row->group_name,
+                $row->start_reminder,
+                $row->income,
+                $row->outcome,
+                $row->remainder,
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
     }
 
     private function getQuery(array $filterData) : Builder
@@ -70,6 +97,7 @@ class GoodReportRepository implements GoodReportRepositoryInterface
             ->join('goods', 'good_accountings.good_id', '=', 'goods.id')
             ->join('good_groups', 'good_groups.id', '=', 'goods.good_group_id')
             ->groupBy('goods.id', 'good_groups.id');
+
 
 
         return $query->filter($filterData);
