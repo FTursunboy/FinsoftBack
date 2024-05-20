@@ -64,7 +64,7 @@ class CounterpartySettlementFilter extends ModelFilter
     {
         $filteredParams = $this->input();
 
-        $relations = ['employee', 'counterparty', 'author', 'organizationBill', 'currency', 'organization', 'senderCashRegister', 'checkingAccount'];
+        $relations = ['counterparty',  'currency'];
 
         return $this->traitSort($filteredParams, $this, $relations);
     }

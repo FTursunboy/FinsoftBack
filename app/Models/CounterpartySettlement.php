@@ -65,8 +65,8 @@ class CounterpartySettlement extends Model
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'from' => $data['from'] ?? null,
             'to' => $data['to'] ?? null,
-            'startDate_id' => $data['start_date'] ?? null,
-            'endDate_id' => $data['end_date'] ?? null,
+            'startDate_id' => $data['filterData']['start_date'] ?? null,
+            'endDate_id' => $data['filterData']['end_date'] ?? null,
         ];
     }
 }
