@@ -32,18 +32,30 @@ class ReconciliationReportRepository implements ReconciliationReportRepositoryIn
         return $query->paginate($data['itemsPerPage']);
     }
 
-    public function getData($query, string $from)
+    public function debts(Counterparty $counterparty, array $data)
+    {
+        $data = $this->model::filterData($data);
+
+        $query = $this->model::query()
+            ->where('counterparty_id', $counterparty->id);
+
+        $query = $this->getDebts($query, $data['from'], $data['to']);
+
+        return $query->get();
+    }
+
+    public function getDebts($query, string $from, string $to)
     {
         $outcome = MovementTypes::Outcome->value;
         $income = MovementTypes::Income->value;
 
         return $query->select('counterparty_settlements.counterparty_id',
             DB::raw("SUM(CASE WHEN movement_type = '$income' and date < '$from' THEN sum ELSE 0 END) -
-                    SUM(CASE WHEN movement_type = '$outcome' and date < '$from' THEN sum ELSE 0 END) as debt"),
-            DB::raw("SUM(CASE WHEN movement_type = '$income' and date >= '$from' THEN sum ELSE 0 END) -
-                    SUM(CASE WHEN movement_type = '$outcome' and date >= '$from' THEN sum ELSE 0 END) -
-                    (SUM(CASE WHEN movement_type = '$income' and date < '$from' THEN sum ELSE 0 END) -
-                    SUM(CASE WHEN movement_type = '$outcome' and date < '$from' THEN sum ELSE 0 END)) as debt_at_end
+                    SUM(CASE WHEN movement_type = '$outcome' and date < '$from' THEN sum ELSE 0 END) as debt_at_begin"),
+            DB::raw("SUM(CASE WHEN movement_type = '$income' and date >= '$from'and date <= '$to' THEN sum ELSE 0 END) -
+                    SUM(CASE WHEN movement_type = '$outcome' and date >= '$from' and date <= '$to' THEN sum ELSE 0 END) -
+                    (SUM(CASE WHEN movement_type = '$income' and date < '$from' and date <= '$to'THEN sum ELSE 0 END) -
+                    SUM(CASE WHEN movement_type = '$outcome' and date < '$from' and date <= '$to'THEN sum ELSE 0 END)) as debt_at_end
                     ")
         )->groupBy('counterparty_settlements.counterparty_id');
     }
