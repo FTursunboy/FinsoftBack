@@ -4,12 +4,10 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Filters\CounterpartySettlementFilter;
-use App\Filters\GoodAccountingFilter;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CounterpartySettlement extends Model
 {
