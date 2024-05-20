@@ -20,7 +20,7 @@ use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\Contracts\Report\ReconciliationReportRepositoryInterface;
 use App\Traits\ApiResponse;
 
-class ReconciliationReportController extends Controller
+class CounterpartyReportController extends Controller
 {
     use ApiResponse;
 
