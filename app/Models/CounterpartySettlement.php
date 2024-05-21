@@ -63,7 +63,7 @@ class CounterpartySettlement extends Model
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'from' => $data['from'] ?? null,
-            'to' => $data['to'] ?? Carbon::now(),
+            'to' => $data['to'] ?? Carbon::now() ,
             'startDate_id' => $data['filterData']['start_date'] ?? null,
             'endDate_id' => $data['filterData']['end_date'] ?? null,
         ];
