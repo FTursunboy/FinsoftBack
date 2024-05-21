@@ -10,7 +10,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ReconciliationReportRepositoryInterface
 {
-    public function index(array $data) :LengthAwarePaginator;
+    public function index(Counterparty $counterparty, array $data) :LengthAwarePaginator;
 
     public function debts(Counterparty $counterparty, array $data);
 
