@@ -39,9 +39,9 @@ class CounterpartyReportRepository implements CounterpartyReportRepositoryInterf
         ])
             ->join('counterparties as cp', 'counterparty_settlements.counterparty_id', '=', 'cp.id')
             ->join('currencies as cur', 'counterparty_settlements.currency_id', '=', 'cur.id')
-            ->join('counterparty_roles as cr', 'cp.id', '=', 'cr.counterparty_id')
-            ->join('user_roles as ur', 'cr.role_id', '=', 'ur.id')
-            ->where('ur.name', Role::SUPPLIER)
+//            ->join('counterparty_roles as cr', 'cp.id', '=', 'cr.counterparty_id')
+//            ->join('user_roles as ur', 'cr.role_id', '=', 'ur.id')
+//            ->where('ur.name', Role::SUPPLIER)
             ->groupBy('cp.id');
 
         if (isset($filterData['sort'])) {
