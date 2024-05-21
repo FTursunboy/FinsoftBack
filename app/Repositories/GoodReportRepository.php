@@ -35,6 +35,7 @@ class GoodReportRepository implements GoodReportRepositoryInterface
         return $query->paginate($filterData['itemsPerPage']);
     }
 
+
     public function export(array $data)
     {
         $query = GoodAccounting::query();
@@ -50,8 +51,7 @@ class GoodReportRepository implements GoodReportRepositoryInterface
             ->join('good_groups', 'good_groups.id', '=', 'goods.good_group_id')
             ->groupBy('goods.id', 'good_groups.id');
 
-
-        $result =  $query->filter()->get();
+        $result =  $query->get();
 
         $filename = 'report ' . now() . '.xlsx';
 
