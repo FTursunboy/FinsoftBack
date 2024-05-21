@@ -23,10 +23,9 @@ class ReconciliationReportRepository implements ReconciliationReportRepositoryIn
 
         $query = $this->model::filter($data);
 
-        $query = $this->model::filter($data);
 
         $query = $query
-            ->where('counterparty_id', $data['counterparty_id'])
+            ->where('counterparty_id', $counterparty->id)
             ->where('date', '>=', $data['from'])
             ->where('date', '<=', $data['to']);
 
