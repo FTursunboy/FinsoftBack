@@ -21,16 +21,15 @@ class ReconciliationReportRepository implements ReconciliationReportRepositoryIn
     {
         $data = $this->model::filterData($data);
 
-      //  $query = $this->model::filter($data);
+        $query = $this->model::filter($data);
 
-        $query = CounterpartySettlement::
-            where([
+        $query = $query
+            ->where([
                 ['counterparty_id', $counterparty->id],
                 ['date', '>=', $data['from']],
                 ['date', '<=', $data['to']]]);
 
-     // TODO делетед ет аш нест ошибка додос, дурни фильтра ба кучондан дако
-        //  $query = $this->sort($data, $query, ['goodAccounting', 'goodAccounting.good', 'counterparty', 'counterpartyAgreement', 'organization']);
+        $query = $this->sort($data, $query, ['goodAccounting', 'goodAccounting.good', 'counterparty', 'counterpartyAgreement', 'organization']);
 
         return $query->paginate($data['itemsPerPage']);
     }
