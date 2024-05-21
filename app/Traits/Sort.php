@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use function Symfony\Component\Translation\t;
 

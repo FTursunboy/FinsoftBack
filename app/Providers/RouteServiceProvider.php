@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Document;
 use App\Models\MovementDocument;
+use App\Models\OrderDocument;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -45,7 +46,8 @@ class RouteServiceProvider extends ServiceProvider
             Route::bind('document', function ($value) {
             $types = [
                 Document::class,
-                MovementDocument::class
+                MovementDocument::class,
+                OrderDocument::class,
             ];
 
             foreach ($types as $type) {
