@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Repositories\Contracts\Document\Documentable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
-class OrderDocument extends Model
+class OrderDocument extends Model  implements Documentable
 {
     protected $fillable = ['doc_number','date','counterparty_id','counterparty_agreement_id','organization_id','shipping_date',
                 'order_status_id','author_id','comment','currency_id','summa', 'order_type_id'];
@@ -93,5 +94,10 @@ class OrderDocument extends Model
         }
 
         return $filteredData;
+    }
+
+    public function history(): HasMany
+    {
+        return $this->hasMany(DocumentHistory::class, 'document_id');
     }
 }
