@@ -8,7 +8,6 @@ use App\Models\CounterpartySettlement;
 use App\Repositories\Contracts\Report\ReconciliationReportRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
-use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
@@ -22,16 +21,16 @@ class ReconciliationReportRepository implements ReconciliationReportRepositoryIn
     {
         $data = $this->model::filterData($data);
 
-        $query = $data['from'] != null ? $this->model::query()
+        $query = $this->model::filter($data);
+
+        $query = $query
             ->where([
                 ['counterparty_id', $counterparty->id],
                 ['date', '>=', $data['from']],
-                ['date', '<=', $data['to']]])
-            : $this->model::query()->where('counterparty_id', $counterparty->id);
+                ['date', '<=', $data['to']]]);
 
-        $query = $query->filter($data);
-
-        $query = $this->sort($data, $query, ['goodAccounting', 'goodAccounting.good', 'counterparty', 'counterpartyAgreement', 'organization']);
+     // TODO делетед ет аш нест ошибка додос, дурни фильтр классба ба кучондан дако
+       // $query = $this->sort($data, $query, ['goodAccounting', 'goodAccounting.good', 'counterparty', 'counterpartyAgreement', 'organization']);
 
         return $query->paginate($data['itemsPerPage']);
     }
