@@ -19,7 +19,7 @@ class CounterpartySettlementResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'currency' => $this->whenLoaded('currency'),
+            'currency' => $this->currency,
             'counterparty' => $this->counterparty,
             'income' => $this->income,
             'outcome' => $this->outcome,
