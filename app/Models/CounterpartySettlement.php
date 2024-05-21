@@ -68,4 +68,6 @@ class CounterpartySettlement extends Model
             'endDate_id' => $data['filterData']['end_date'] ?? null,
         ];
     }
+
+
 }
