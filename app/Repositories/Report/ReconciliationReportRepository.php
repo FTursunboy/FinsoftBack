@@ -22,12 +22,15 @@ class ReconciliationReportRepository implements ReconciliationReportRepositoryIn
     {
         $data = $this->model::filterData($data);
 
-        $query = $data['from'] != null ? $this->model::query()
-            ->where([
-                ['counterparty_id', $counterparty->id],
+        $query = $this->model::query()->where('counterparty_id', $counterparty->id);
+
+        if ($data['from'] != null) {
+            $query->where([
                 ['date', '>=', $data['from']],
-                ['date', '<=', $data['to']]])
-            : $this->model::query()->where('counterparty_id', $counterparty->id);
+                ['date', '<=', $data['to']]
+            ]);
+        }
+
 
         $query = $query->filter($data);
 
