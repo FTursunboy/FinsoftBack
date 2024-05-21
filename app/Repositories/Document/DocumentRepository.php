@@ -215,6 +215,13 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function createOnBase(Documentable $document)
     {
+        $modelClass = get_class($document);
+
+        // Проверяем, является ли переданная модель экземпляром OrderDocument
+        if ($document instanceof OrderDocument) {
+            return $document->load(['counterparty', 'organization', 'author', 'orderDocumentGoods.goods', 'orderStatus', 'counterpartyAgreement', 'currency']);
+        }
+
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods.good']);
     }
 
