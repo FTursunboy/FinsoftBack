@@ -37,7 +37,10 @@ class OrderDocumentResource extends JsonResource
             'comment' => $this->comment,
             'summa' => $this->summa,
             'shippingDate' => $this->shipping_date,
-            'orderGoods' => OrderDocumentGoodResource::collection($this->whenLoaded('orderDocumentGoods'))
+            'orderGoods' => OrderDocumentGoodResource::collection($this->whenLoaded('orderDocumentGoods')),
+            'goods_amount' => $this->whenLoaded('documentGoodsWithCount', function ( $query) {
+                return (float) $query->first()?->total_count ?? 0;
+            }),
         ];
     }
 }
