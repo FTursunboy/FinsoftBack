@@ -153,6 +153,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('hiring', HiringController::class);
 
     Route::group(['prefix' => 'goods'], function () {
+        Route::get('history/{good}', [GoodController::class, 'history']);
         Route::get('/getByBarcode/{barcode}', [GoodController::class, 'getByBarcode']);
         Route::post('/massDelete', [GoodController::class, 'massDelete']);
         Route::post('/massRestore', [GoodController::class, 'massRestore']);
@@ -247,6 +248,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
             Route::get('/returnList', [ReturnProviderDocumentController::class, 'index']);
             Route::post('/return', [ReturnProviderDocumentController::class, 'store']);
+            Route::post('return/approve', [ReturnProviderDocumentController::class, 'approve']);
+            Route::post('return/unApprove', [ReturnProviderDocumentController::class, 'unApprove']);
 
             Route::get('/orderList', [OrderProviderDocumentController::class, 'index']);
             Route::post('/order', [OrderProviderDocumentController::class, 'store']);
@@ -259,6 +262,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
             Route::get('/returnList', [ReturnClientDocumentController::class, 'index']);
             Route::post('/return', [ReturnClientDocumentController::class, 'store']);
+            Route::post('return/approve', [ReturnClientDocumentController::class, 'approve']);
+            Route::post('return/unApprove', [ReturnClientDocumentController::class, 'unApprove']);
 
             Route::get('orderList', [OrderClientDocumentController::class, 'index']);
             Route::post('/order', [OrderClientDocumentController::class, 'store']);
@@ -301,9 +306,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/document-author', [UserController::class, 'documentAuthors']);
 
         Route::get('/changeHistory/{document}', [DocumentController::class, 'changeHistory']);
-
-        Route::patch('Approve/{document}', [DocumentController::class, 'approve']);
-        Route::patch('unApprove/{document}', [DocumentController::class, 'unApprove']);
 
         Route::post('delete-document-goods', [DocumentController::class, 'deleteDocumentGoods']);
         Route::post('restore', [ClientDocumentController::class, 'massRestore']);

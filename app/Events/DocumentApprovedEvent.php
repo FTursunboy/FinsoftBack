@@ -20,7 +20,7 @@ class DocumentApprovedEvent
     /**
      * Create a new event instance.
      */
-    public function __construct(public Document $document, public MovementTypes $movementTypes)
+    public function __construct(public Document $document, public MovementTypes $movementTypes, public string $documentType)
     {
     }
 

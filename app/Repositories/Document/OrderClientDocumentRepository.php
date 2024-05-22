@@ -42,7 +42,7 @@ class OrderClientDocumentRepository implements OrderClientDocumentRepositoryInte
 
         $query = $this->orderFilter($query, $filteredParams);
 
-        $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'orderStatus', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods', 'documentGoodsWithCount']);
+        $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'orderStatus', 'author', 'counterpartyAgreement', 'currency']);
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }
@@ -99,23 +99,6 @@ class OrderClientDocumentRepository implements OrderClientDocumentRepositoryInte
             return $document;
         });
         return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
-    }
-
-    public function approve(Document $document)
-    {
-        $document->update(
-            ['active' => true]
-        );
-        if ($document->status_id === Status::PROVIDER_PURCHASE || $document->status_id === Status::CLIENT_PURCHASE) {
-            DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
-        }
-    }
-
-    public function unApprove(Document $document)
-    {
-        $document->update(
-            ['active' => false]
-        );
     }
 
     public function changeHistory(Documentable $document)
