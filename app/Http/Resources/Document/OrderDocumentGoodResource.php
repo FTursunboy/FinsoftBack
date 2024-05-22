@@ -21,7 +21,7 @@ class OrderDocumentGoodResource extends JsonResource
             'amount' => $this->amount,
             'price' => $this->price,
             'autoSalePercent' => $this->auto_sale_percent,
-            'autiSaleSum' => $this->auto_sale_sum
+            'autoSaleSum' => $this->auto_sale_sum
         ];
     }
 }

@@ -6,6 +6,7 @@ use App\DTO\GoodDTO;
 use App\DTO\GoodUpdateDTO;
 use App\Enums\MovementTypes;
 use App\Models\Good;
+use App\Models\GoodAccounting;
 use App\Models\GoodImages;
 use App\Repositories\Contracts\GoodRepositoryInterface;
 use App\Traits\FilterTrait;
@@ -210,5 +211,13 @@ class GoodRepository implements GoodRepositoryInterface
         return $this->model::whereHas('barcodes', function ($query) use ($barcode) {
             $query->where('barcode', $barcode);
         })->first();
+    }
+
+    public function history(Good $good)
+    {
+        return GoodAccounting::query()
+            ->where('good_id', $good->id)
+            ->with(['storage', 'good', 'organization'])
+            ->get();
     }
 }

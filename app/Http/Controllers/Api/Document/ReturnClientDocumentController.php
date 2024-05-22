@@ -54,4 +54,19 @@ class ReturnClientDocumentController extends Controller
     {
         return $this->success(OrderStatusResource::collection(OrderStatus::get()));
     }
+
+    public function approve(IdRequest $request)
+    {
+        $good = $this->repository->approve($request->validated());
+
+        if ($good !== null) {
+            return response()->json(['result' => "not enough goods", 'errors' => $good], 400);
+        }
+
+        return $this->success($good);
+    }
+    public function unApprove(IdRequest $request)
+    {
+        return $this->success($this->repository->unApprove($request->validated()));
+    }
 }

@@ -10,6 +10,7 @@ use App\Http\Requests\Api\Good\GoodRequest;
 use App\Http\Requests\Api\Good\GoodUpdateRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\IdRequest;
+use App\Http\Resources\GoodHistoryResource;
 use App\Http\Resources\GoodResource;
 use App\Http\Resources\GoodWithImagesResource;
 use App\Models\Good;
@@ -65,5 +66,10 @@ class GoodController extends Controller implements \App\Repositories\Contracts\S
     public function massRestore(IdRequest $request, MassOperationInterface $restore)
     {
         return $this->success($restore->massRestore(new Good(), $request->validated()));
+    }
+
+    public function history(Good $good)
+    {
+        return $this->success(GoodHistoryResource::collection($this->repository->history($good)));
     }
 }

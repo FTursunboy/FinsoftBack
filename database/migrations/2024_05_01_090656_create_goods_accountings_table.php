@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->integer('amount');
             $table->float('sum');
             $table->string('model_id');
+            $table->string('model_type');
+            $table->string('document_type');
             $table->timestamp('date');
             $table->boolean('active');
             $table->timestamps();

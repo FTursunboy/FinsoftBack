@@ -5,6 +5,7 @@ namespace App\Repositories\Document;
 use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
+use App\Enums\DocumentTypes;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
 use App\Models\Document;
@@ -164,9 +165,8 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
         $document->update(
             ['active' => true]
         );
-        if ($document->status_id === Status::PROVIDER_PURCHASE || $document->status_id === Status::CLIENT_PURCHASE) {
-            DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
-        }
+
+        DocumentApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::ReturnClient->value);
     }
 
     public function unApprove(Document $document)

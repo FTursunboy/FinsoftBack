@@ -17,7 +17,7 @@ use App\Models\GoodAccounting;
 
 class HandleDocumentApproveCreated
 {
-    public function __construct(public DocumentModel $document, public MovementTypes $type) { }
+    public function __construct(public DocumentModel $document, public MovementTypes $type, public string $documentType) { }
 
     public function handle(): void
     {
@@ -67,13 +67,15 @@ class HandleDocumentApproveCreated
                 'good_id' => $good->good_id,
                 'sum' => $sum ?? 0,
                 'model_id' => $good->document_id,
+                'model_type' => get_class($this->document),
                 'created_at' => now(),
                 'storage_id' => $this->document->storage_id,
                 'movement_type' => $this->type,
                 'organization_id' => $this->document->organization_id,
                 'amount' => $good->amount,
                 'active' => true,
-                'date' => $this->document->date
+                'date' => $this->document->date,
+                'document_type' => $this->documentType
             ];
 
             if ($this->type->value == MovementTypes::Income->value) {
