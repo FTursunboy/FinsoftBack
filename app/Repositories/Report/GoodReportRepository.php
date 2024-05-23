@@ -80,4 +80,8 @@ class GoodReportRepository implements GoodReportRepositoryInterface
         return $query->filter($filterData);
     }
 
+    public function topGoods(array $data)
+    {
+        // TODO: Implement topGoods() method.
+    }
 }
