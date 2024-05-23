@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Report;
 
 use App\Models\GoodAccounting;
 use App\Repositories\Contracts\GoodReportRepositoryInterface;
