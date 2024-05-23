@@ -8,6 +8,7 @@ use App\Models\CounterpartySettlement;
 use App\Repositories\Contracts\Report\ReconciliationReportRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
@@ -20,7 +21,6 @@ class ReconciliationReportRepository implements ReconciliationReportRepositoryIn
     public function index(Counterparty $counterparty, array $data): LengthAwarePaginator
     {
         $data = $this->model::filterData($data);
-
 
         $query = $this->model::query()->where('counterparty_id', $counterparty->id);
 
@@ -64,6 +64,69 @@ class ReconciliationReportRepository implements ReconciliationReportRepositoryIn
                     SUM(CASE WHEN movement_type = '$outcome' and date < '$from' and date <= '$to'THEN sum ELSE 0 END)) as debt_at_end
                     ")
         )->groupBy('counterparty_settlements.counterparty_id');
+    }
+
+    public function export(Counterparty $counterparty, array $data): string
+    {
+        $query = $this->model::query();
+
+        $filterData = $this->model::filterData($data);
+
+        if ($filterData['from'] != null) {
+            $query->where([
+                ['date', '>=', $filterData['from']],
+                ['date', '<=', $filterData['to']]
+            ]);
+        }
+
+        $query = $query->where('counterparty_settlements.counterparty_id', $counterparty->id)
+            ->select([
+                'c.name as counterparty',
+                'movement_type',
+                'cA.name as counterpartyAgreement',
+                'cur.name as currency',
+                'o.name as organization',
+                'sale_sum',
+                'sum',
+                'counterparty_settlements.date'
+            ])
+            ->join('counterparties as c', 'counterparty_settlements.counterparty_id', '=', 'c.id')
+            ->join('counterparty_agreements as cA', 'counterparty_settlements.counterparty_agreement_id', '=', 'cA.id')
+            ->join('currencies as cur', 'counterparty_settlements.currency_id', '=', 'cur.id')
+            ->join('organizations as o', 'counterparty_settlements.organization_id', '=', 'o.id');
+
+        $result = $query->filter($filterData)->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'Поставщик', 'Тип', 'Договор', 'Организация', 'Сумма со скидкой', 'Сумма', 'Валюта'
+        ]);
+
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->counterparty,
+                $row->movement_type,
+                $row->counterpartyAgreement,
+                $row->organization,
+                $row->sale_sum,
+                $row->sum,
+                $row->currency,
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
+
     }
 
 }

@@ -14,4 +14,5 @@ interface ReconciliationReportRepositoryInterface
 
     public function debts(Counterparty $counterparty, array $data);
 
+    public function export(Counterparty $counterparty, array $data);
 }

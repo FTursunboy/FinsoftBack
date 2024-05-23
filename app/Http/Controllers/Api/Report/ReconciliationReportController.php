@@ -38,5 +38,10 @@ class ReconciliationReportController extends Controller
         return $this->success(DebtResource::collection($this->repository->debts($counterparty, $request->validated())));
     }
 
+    public function export(Counterparty $counterparty, ReconciliationFilterRequest $request)
+    {
+        return response()->download($this->repository->export($counterparty, $request->validated()))->deleteFileAfterSend();
+    }
+
 
 }
