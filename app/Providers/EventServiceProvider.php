@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Events\DocumentApprovedEvent;
 use App\Events\SmallRemainderEvent;
 use App\Listeners\DocumentListener;
+use App\Listeners\GoodHistoryListener;
 use App\Listeners\SmallRemainderListener;
 use App\Models\CashStore;
 use App\Models\CheckingAccount;
@@ -33,7 +34,8 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         DocumentApprovedEvent::class => [
-            DocumentListener::class
+            DocumentListener::class,
+            GoodHistoryListener::class
         ],
         SmallRemainderEvent::class => [
             SmallRemainderListener::class
