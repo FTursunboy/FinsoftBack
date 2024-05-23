@@ -23,11 +23,11 @@ use Illuminate\Support\Facades\Lang;
 
 trait TrackHistoryTrait
 {
-    public function create(DocumentModel $model, int $user_id): void
+    public function create(DocumentModel $model, ?int $user_id): void
     {
         DocumentHistory::create([
             'status' => DocumentHistoryStatuses::CREATED,
-            'user_id' => $user_id,
+            'user_id' => $user_id ?? User::factory()->create()->id,
             'document_id' => $model->id,
         ]);
     }

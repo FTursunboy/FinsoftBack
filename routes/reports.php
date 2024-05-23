@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\CashStore\SalaryPaymentController;
 use App\Http\Controllers\Api\CashStore\WithdrawalController;
 use App\Http\Controllers\Api\GoodReportController;
 use App\Http\Controllers\Api\Report\CounterpartyReportController;
+use App\Http\Controllers\Api\Report\OrganizationReportController;
 use App\Models\CounterpartySettlement;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('goodAccounting', [GoodReportController::class, 'index']);
         Route::get('counterpartySettlement', [CounterpartyReportController::class, 'index']);
         Route::get('counterpartySettlement/export', [CounterpartyReportController::class, 'export']);
+        Route::get('organization', [OrganizationReportController::class, 'index']);
 
         Route::get('reconciliation-report/{counterparty}', [\App\Http\Controllers\Api\Report\ReconciliationReportController::class, 'index']);
         Route::get('reconciliation-report/debts/{counterparty}', [\App\Http\Controllers\Api\Report\ReconciliationReportController::class, 'debts']);

@@ -109,7 +109,6 @@ use App\Repositories\EmployeeRepository;
 use App\Repositories\ExchangeRateRepository;
 use App\Repositories\FiringRepository;
 use App\Repositories\GoodGroupRepository;
-use App\Repositories\GoodReportRepository;
 use App\Repositories\GoodRepository;
 use App\Repositories\GroupRepository;
 use App\Repositories\HiringRepository;
@@ -120,6 +119,8 @@ use App\Repositories\OrganizationRepository;
 use App\Repositories\PermissionRepository;
 use App\Repositories\PositionRepository;
 use App\Repositories\Report\CounterpartyReportRepository;
+use App\Repositories\Report\GoodReportRepository;
+use App\Repositories\Report\OrganizationReportRepository;
 use App\Repositories\Report\ReconciliationReportRepository;
 use App\Repositories\ReportCardRepository;
 use App\Repositories\ReportDocumentRepository;
@@ -203,6 +204,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(GoodReportRepositoryInterface::class, GoodReportRepository::class);
         $this->app->singleton(ReconciliationReportRepositoryInterface::class, ReconciliationReportRepository::class);
         $this->app->singleton(CounterpartyReportRepositoryInterface::class, CounterpartyReportRepository::class);
+        $this->app->singleton(\App\Repositories\Contracts\Report\OrganizationReportRepository::class, OrganizationReportRepository::class);
     }
 
     /**
