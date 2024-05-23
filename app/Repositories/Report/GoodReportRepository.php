@@ -66,7 +66,8 @@ class GoodReportRepository implements GoodReportRepositoryInterface
         $query = GoodAccounting::query();
 
         $query->select([
-            'goods.id',
+            'goods.id as good_id',
+            'good_groups.id as group_id',
             'goods.name',
             'good_groups.name as group_name',
             DB::raw('SUM(CASE WHEN good_accountings.movement_type = "приход" THEN good_accountings.amount ELSE 0 END) as income'),
