@@ -88,7 +88,7 @@ class ReconciliationReportRepository implements ReconciliationReportRepositoryIn
                 'o.name as organization',
                 'sale_sum',
                 'sum',
-                'counterparty_settlements.date'
+                'counterparty_settlements.date as date'
             ])
             ->join('counterparties as c', 'counterparty_settlements.counterparty_id', '=', 'c.id')
             ->join('counterparty_agreements as cA', 'counterparty_settlements.counterparty_agreement_id', '=', 'cA.id')
@@ -104,7 +104,7 @@ class ReconciliationReportRepository implements ReconciliationReportRepositoryIn
         $writer->openToFile($filePath);
 
         $headerRow = WriterEntityFactory::createRowFromArray([
-            'Поставщик', 'Тип', 'Договор', 'Организация', 'Сумма со скидкой', 'Сумма', 'Валюта'
+            'Дата', 'Поставщик', 'Тип', 'Договор', 'Организация', 'Сумма со скидкой', 'Сумма', 'Валюта'
         ]);
 
         $writer->addRow($headerRow);
@@ -112,6 +112,7 @@ class ReconciliationReportRepository implements ReconciliationReportRepositoryIn
 
         foreach ($result as $row) {
             $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->date,
                 $row->counterparty,
                 $row->movement_type,
                 $row->counterpartyAgreement,
