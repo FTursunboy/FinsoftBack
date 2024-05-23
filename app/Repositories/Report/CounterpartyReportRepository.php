@@ -85,7 +85,6 @@ class CounterpartyReportRepository implements CounterpartyReportRepositoryInterf
 
         $result = $query->filter($filterData)->get();
 
-
         $filename = 'report ' . now() . '.xlsx';
 
 
