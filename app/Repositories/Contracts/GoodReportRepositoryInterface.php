@@ -11,5 +11,7 @@ interface GoodReportRepositoryInterface
 {
     public function index(array $data);
 
+    public function topGoods(array $data);
+
     public function export(array $data);
 }

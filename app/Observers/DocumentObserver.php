@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Document;
+use App\Models\User;
 use App\Traits\TrackHistoryTrait;
 use Illuminate\Support\Facades\Auth;
 
