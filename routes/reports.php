@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\Route;
 
         Route::get('reconciliation-report/{counterparty}', [\App\Http\Controllers\Api\Report\ReconciliationReportController::class, 'index']);
         Route::get('reconciliation-report/debts/{counterparty}', [\App\Http\Controllers\Api\Report\ReconciliationReportController::class, 'debts']);
+        Route::get('reconciliation-report/export/{counterparty}', [\App\Http\Controllers\Api\Report\ReconciliationReportController::class, 'export']);
 
         Route::get('goodExcel', [GoodReportController::class, 'export']);
     });
