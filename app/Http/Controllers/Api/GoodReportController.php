@@ -29,4 +29,7 @@ class GoodReportController extends Controller
     {
        return response()->download($this->repository->export($request->validated()))->deleteFileAfterSend();
     }
+
+
+
 }

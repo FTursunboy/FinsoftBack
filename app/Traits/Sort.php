@@ -19,14 +19,19 @@ trait Sort
                 $thisTable = app($this->model)->getTable();
 
                 return $query->with($relations)->join($relatedTable, "$thisTable.{$relation}_id", '=', "{$relatedTable}.id")
-                        ->orderBy("{$relatedTable}.{$field}", $filteredParams['direction'])
-                        ->select("{$thisTable}.*");
+                    ->orderBy("{$relatedTable}.{$field}", $filteredParams['direction'])
+                    ->select("{$thisTable}.*");
             }
 
-            return  $query->with($relations)->orderBy($filteredParams['sort'], $filteredParams['direction']);
+            return $query->with($relations)->orderBy($filteredParams['sort'], $filteredParams['direction']);
         }
 
-        return $query->with($relations)->orderBy('deleted_at')->orderBy('created_at', 'desc');
+        $table = app($this->model)->getTable();
+
+        if (Schema::hasColumn($table, 'deleted_at'))
+            return $query->with($relations)->orderBy('deleted_at')->orderBy('created_at', 'desc');
+
+        return $query->with($relations)->orderBy('created_at', 'desc');
     }
 
 

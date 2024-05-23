@@ -101,23 +101,6 @@ class OrderClientDocumentRepository implements OrderClientDocumentRepositoryInte
         return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
     }
 
-    public function approve(Document $document)
-    {
-        $document->update(
-            ['active' => true]
-        );
-        if ($document->status_id === Status::PROVIDER_PURCHASE || $document->status_id === Status::CLIENT_PURCHASE) {
-            DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
-        }
-    }
-
-    public function unApprove(Document $document)
-    {
-        $document->update(
-            ['active' => false]
-        );
-    }
-
     public function changeHistory(Documentable $document)
     {
         return $document->load(['history.changes', 'history.user']);

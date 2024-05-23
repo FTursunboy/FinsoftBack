@@ -84,4 +84,11 @@ class OrderDocument extends DocumentModel  implements Documentable
 
         return $filteredData;
     }
+
+    public function documentGoodsWithCount() :HasMany
+    {
+        return $this->hasMany(OrderDocumentGoods::class)
+            ->selectRaw('order_document_id, COUNT(*) as total_count')
+            ->groupBy('order_document_id');
+    }
 }
