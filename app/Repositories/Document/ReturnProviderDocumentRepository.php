@@ -7,6 +7,7 @@ use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
 use App\DTO\Document\OrderDocumentDTO;
 use App\DTO\Document\OrderDocumentUpdateDTO;
+use App\Enums\DocumentTypes;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
 use App\Models\Document;
@@ -183,10 +184,8 @@ class ReturnProviderDocumentRepository implements ReturnProviderDocumentReposito
         $document->update(
             ['active' => true]
         );
-        if ($document->status_id === Status::PROVIDER_PURCHASE || $document->status_id === Status::CLIENT_PURCHASE) {
-            DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
-        }
 
+        DocumentApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::ReturnProvider->value);
     }
 
     public function unApprove(Document $document)

@@ -14,4 +14,5 @@ interface OrderClientDocumentRepositoryInterface
     public function store(OrderDocumentDTO $DTO, int $type);
 
     public function updateOrder(OrderDocument $document, OrderDocumentUpdateDTO $DTO): OrderDocument;
+
 }

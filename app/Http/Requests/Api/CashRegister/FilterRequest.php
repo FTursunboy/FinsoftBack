@@ -9,7 +9,7 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         $model = $this->getModel();
-dd($model);
+
         $fillableFields = $this->getFillable($model);
 
         return [

@@ -5,6 +5,7 @@ namespace App\Repositories\Document;
 use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
+use App\Enums\DocumentTypes;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
 use App\Models\Document;
@@ -196,7 +197,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     ['active' => true]
                 );
 
-                DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome);
+                DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::SaleToClient->value);
             }
         });
     }

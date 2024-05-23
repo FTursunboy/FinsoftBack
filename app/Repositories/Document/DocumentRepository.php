@@ -7,6 +7,7 @@ use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
 use App\DTO\Document\OrderDocumentDTO;
 use App\DTO\Document\OrderDocumentUpdateDTO;
+use App\Enums\DocumentTypes;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
 use App\Models\Document;
@@ -183,7 +184,7 @@ class DocumentRepository implements DocumentRepositoryInterface
                 ['active' => true]
             );
 
-            DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
+            DocumentApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::Purchase->value);
         }
 
     }
@@ -215,7 +216,14 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function createOnBase(Documentable $document)
     {
-        return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods.goodCounter']);
+        $modelClass = get_class($document);
+
+        // Проверяем, является ли переданная модель экземпляром OrderDocument
+        if ($document instanceof OrderDocument) {
+            return $document->load(['counterparty', 'organization', 'author', 'orderDocumentGoods.goods', 'orderStatus', 'counterpartyAgreement', 'currency']);
+        }
+
+        return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods.good']);
     }
 
     public function search($query, array $data)

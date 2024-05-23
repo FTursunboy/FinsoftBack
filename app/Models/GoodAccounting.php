@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Filters\GoodAccountingFilter;
-use App\Filters\MovementDocumentFilter;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,6 +15,7 @@ class GoodAccounting extends Model
         'amount',
         'sum',
         'model_id',
+        'model_type',
         'active',
         'date'
     ];
