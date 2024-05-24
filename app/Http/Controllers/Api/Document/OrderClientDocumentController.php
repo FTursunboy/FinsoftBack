@@ -45,7 +45,7 @@ class OrderClientDocumentController extends Controller
 
     public function show(OrderDocument $orderDocument)
     {
-        return $this->success(OrderDocumentResource::make($orderDocument->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods', 'orderStatus')));
+        return $this->success(OrderDocumentResource::make($orderDocument->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods', 'orderStatus', 'documentGoodsWithCount')));
     }
 
     public function updateOrder(OrderDocument $orderDocument, OrderDocumentUpdateRequest $request): JsonResponse
