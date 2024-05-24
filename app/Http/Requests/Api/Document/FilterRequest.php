@@ -26,6 +26,7 @@ class FilterRequest extends FormRequest
             'author_id' => 'nullable|integer',
             'startDate' => 'nullable',
             'endDate' => 'nullable',
+            'order_status_id' => 'nullable'
         ];
     }
 
