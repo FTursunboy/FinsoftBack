@@ -26,7 +26,8 @@ class MovementDocumentResource extends JsonResource
             'goods_amount' => $this->whenLoaded('documentGoodsWithCount', function ( $query) {
                 return (float) $query->first()?->total_count ?? 0;
             }),
-            'deleted_at' => $this->deleted_at
+            'deleted_at' => $this->deleted_at,
+            'active' => $this->active,
         ];
     }
 }
