@@ -4,6 +4,7 @@ namespace App\Repositories\Document;
 
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
+use App\Enums\DocumentTypes;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
 use App\Models\Document;
@@ -178,7 +179,7 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
                 ['active' => true]
             );
 
-            DocumentApprovedEvent::dispatch($document, MovementTypes::Income);
+            DocumentApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::ReturnClient);
         }
     }
 
