@@ -7,6 +7,7 @@ use App\DTO\GoodUpdateDTO;
 use App\Enums\MovementTypes;
 use App\Models\Good;
 use App\Models\GoodAccounting;
+use App\Models\GoodHistory;
 use App\Models\GoodImages;
 use App\Repositories\Contracts\GoodRepositoryInterface;
 use App\Traits\FilterTrait;
@@ -215,9 +216,9 @@ class GoodRepository implements GoodRepositoryInterface
 
     public function history(Good $good)
     {
-        return GoodAccounting::query()
+        return GoodHistory::query()
             ->where('good_id', $good->id)
-            ->with(['storage', 'good', 'organization'])
+            ->with(['good'])
             ->get();
     }
 }

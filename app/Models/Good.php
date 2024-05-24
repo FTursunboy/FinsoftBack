@@ -95,4 +95,9 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
 
         return $filteredData;
     }
+
+    public function history()
+    {
+        return $this->morphMany(GoodHistory::class, 'document');
+    }
 }

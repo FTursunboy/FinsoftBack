@@ -26,6 +26,7 @@ class MovementDocument extends DocumentModel implements Documentable
         'recipient_storage_id',
         'author_id',
         'comment',
+        'active'
     ];
 
 
