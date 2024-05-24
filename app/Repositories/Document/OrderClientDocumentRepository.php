@@ -42,7 +42,7 @@ class OrderClientDocumentRepository implements OrderClientDocumentRepositoryInte
 
         $query = $this->orderFilter($query, $filteredParams);
 
-        $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'orderStatus', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods']);
+        $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'orderStatus', 'author', 'counterpartyAgreement', 'currency', 'documentGoodsWithCount']);
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }
