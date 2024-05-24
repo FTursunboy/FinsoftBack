@@ -274,7 +274,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
         DB::transaction(function () use ($ids) {
 
-            foreach ($ids as $id) {
+            foreach ($ids['ids'] as $id) {
                 $document = $this->model::where('id', $id)->first();
                 $document->goodAccountents()->delete();
                 $document->counterpartySettlements()->delete();
@@ -283,6 +283,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     'deleted_at' => Carbon::now(),
                     'active' => 0
                 ]);
+
             }
 
         });
