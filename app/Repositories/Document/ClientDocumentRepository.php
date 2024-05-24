@@ -326,6 +326,9 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
             ->when($data['counterparty_id'], function ($query) use ($data) {
                 return $query->where('counterparty_id', $data['counterparty_id']);
             })
+            ->when($data['order_status_id'], function ($query) use ($data) {
+                return $query->where('order_status_id', $data['order_status_id']);
+            })
             ->when(isset($data['active']), function ($query) use ($data) {
                 return $query->where('active', $data['active']);
             })
