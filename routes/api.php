@@ -239,7 +239,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
         Route::get('/createOnBase/{document}', [DocumentController::class, 'createOnBase']);
 
-
         Route::post('copy/{document}', [DocumentController::class, 'copy']);
 
         Route::group(['prefix' => '/provider'], function () {
@@ -300,6 +299,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
         Route::apiResource('movement', MovementDocumentController::class)->except('destroy');
         Route::post('movement/delete-document-goods', [MovementDocumentController::class, 'deleteDocumentGoods']);
+        Route::post('movement/approve', [MovementDocumentController::class, 'approve']);
+        Route::post('movement/unApprove', [MovementDocumentController::class, 'unApprove']);
 
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
         Route::get('/show/{document}', [ProviderDocumentController::class, 'show']);

@@ -19,10 +19,8 @@ class GoodHistoryResource extends JsonResource
             'storage' => StorageResource::make($this->whenLoaded('storage')),
             'good' => GoodResource::make($this->whenLoaded('good')),
             'organization' => OrganizationResource::make($this->whenLoaded('organization')),
-            'amount' => $this->amount,
-            'sum' => $this->sum,
-            'type' => $this->document_type,
-            'date' => $this->date,
+            'type' => $this->type,
+            'date' => $this->created_at,
         ];
     }
 }

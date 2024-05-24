@@ -18,11 +18,11 @@ interface MovementDocumentRepositoryInterface
 
     public function changeHistory(Document $document);
 
-    public function approve(Document $document);
-
-    public function unApprove(Document $document);
-
     public function documentAuthor();
 
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO);
+
+    public function approve(array $data);
+
+    public function unApprove(array $data);
 }

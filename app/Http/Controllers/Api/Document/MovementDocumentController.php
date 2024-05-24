@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Document\DeleteDocumentGoodRequest;
 use App\Http\Requests\Api\MovementDocument\FilterRequest;
 use App\Http\Requests\Api\MovementDocument\MovementDocumentRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\Document\MovementDocumentResource;
 use App\Models\MovementDocument;
 use App\Repositories\Contracts\Document\MovementDocumentRepositoryInterface;
@@ -17,20 +18,20 @@ class MovementDocumentController extends Controller
 {
     use ApiResponse;
 
-    public function __construct(public MovementDocumentRepositoryInterface $service){ }
+    public function __construct(public MovementDocumentRepositoryInterface $repository){ }
 
     public function index(FilterRequest $request)
     {
         $this->authorize('viewAny', MovementDocument::class);
 
-        return $this->paginate(MovementDocumentResource::collection($this->service->index($request->validated())));
+        return $this->paginate(MovementDocumentResource::collection($this->repository->index($request->validated())));
     }
 
     public function store(MovementDocumentRequest $request)
     {
         $this->authorize('create', MovementDocument::class);
 
-        return new MovementDocumentResource($this->service->store(MovementDocumentDTO::fromRequest($request)));
+        return new MovementDocumentResource($this->repository->store(MovementDocumentDTO::fromRequest($request)));
     }
 
     public function show(MovementDocument $movement)
@@ -44,7 +45,7 @@ class MovementDocumentController extends Controller
     {
         $this->authorize('update', $movement);
 
-        return $this->success(new MovementDocumentResource($this->service->update($movement, MovementDocumentDTO::fromRequest($request))));
+        return $this->success(new MovementDocumentResource($this->repository->update($movement, MovementDocumentDTO::fromRequest($request))));
     }
 
     public function destroy(MovementDocument $movementDocument)
@@ -58,6 +59,16 @@ class MovementDocumentController extends Controller
 
     public function deleteDocumentGoods(DeleteDocumentGoodRequest $request)
     {
-        return $this->deleted($this->service->deleteDocumentGoods(DeleteDocumentGoodsDTO::fromRequest($request)));
+        return $this->deleted($this->repository->deleteDocumentGoods(DeleteDocumentGoodsDTO::fromRequest($request)));
+    }
+
+    public function approve(IdRequest $request)
+    {
+        return $this->success($this->repository->approve($request->validated()));
+    }
+
+    public function unApprove(IdRequest $request)
+    {
+        return $this->success($this->repository->unApprove($request->validated()));
     }
 }

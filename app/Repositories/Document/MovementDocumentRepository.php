@@ -103,21 +103,6 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
         }
     }
 
-    public function approve(Document $document)
-    {
-        $document->update(
-            ['active' => true]
-        );
-    }
-
-    public function unApprove(Document $document)
-    {
-        $document->update(
-            ['active' => false]
-        );
-
-    }
-
     public function changeHistory(Document $document): Document
     {
         return $document->load(['history.changes', 'history.user']);
@@ -132,5 +117,30 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
     {
         GoodDocument::whereIn('id', $DTO->ids)->delete();
+    }
+
+    public function approve(array $data)
+    {
+        foreach ($data['ids'] as $id) {
+            $document = $this->model::find($id);
+
+            $document->update(
+                ['active' => true]
+            );
+
+//            DocumentApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::Purchase->value);
+        }
+
+    }
+
+    public function unApprove(array $data)
+    {
+        foreach ($data['ids'] as $id) {
+            $document = $this->model::find($id);
+
+            $document->update(
+                ['active' => false]
+            );
+        }
     }
 }
