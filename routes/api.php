@@ -97,7 +97,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::get('group/show/{group}', [GroupController::class, 'show']);
 
     Route::group(['prefix' => 'organizationBill'], function () {
-        Route::get('export', [OrganizationBillController::class, 'export']);
+        Route::get('/export', [OrganizationBillController::class, 'export']);
         Route::post('/massDelete', [OrganizationBillController::class, 'massDelete']);
         Route::post('/massRestore', [OrganizationBillController::class, 'massRestore']);
     });
