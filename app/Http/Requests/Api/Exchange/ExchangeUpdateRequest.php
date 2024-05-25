@@ -23,7 +23,7 @@ class ExchangeUpdateRequest extends FormRequest
     {
         return [
             'date' => [
-                'date_format:d.m.Y H:i:s',
+                'date',
                 'required'
             ],
             'value' => [
