@@ -28,7 +28,7 @@ class CalculateHoursRequest extends FormRequest
             'weeks.*.week' => [
                 'required',
                 'integer',
-                Rule::enum(WeekDay::class)
+//                Rule::enum(WeekDay::class)
                 ],
             'weeks.*.hour' => ['required', 'integer', 'between:0,24']
         ];
