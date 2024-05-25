@@ -7,6 +7,7 @@ use App\Models\PriceType;
 use App\Repositories\Contracts\PriceTypeRepository as PriceTypeRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class PriceTypeRepository implements PriceTypeRepositoryInterface
@@ -72,4 +73,45 @@ class PriceTypeRepository implements PriceTypeRepositoryInterface
                 return $query->where('description', 'like', '%' . $data['description'] . '%');
             });
     }
+
+    public function export(array $data): string
+    {
+        $filteredParams = $this->model::filter($data);
+
+        $query = $this->search($filteredParams['search']);
+
+        $query = $this->filter($query, $filteredParams);
+
+        $query = $this->sort($filteredParams, $query, ['currency']);
+
+        $result = $query->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'Наименование', 'Валюта', 'Описание'
+        ]);
+
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->name,
+                $row->currency_id,
+                $row->description,
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
+
+    }
+
 }
