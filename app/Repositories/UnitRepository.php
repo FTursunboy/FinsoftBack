@@ -25,10 +25,6 @@ class UnitRepository implements UnitRepositoryInterface
 
         $query = $this->search($filterParams['search']);
 
-        if ($filterParams['deleted']) {
-            $query->withTrashed();
-        }
-
         $query = $this->filter($filterParams, $query);
 
         $query = $this->sort($filterParams, $query, []);
