@@ -10,6 +10,7 @@ use App\Models\Unit;
 use App\Repositories\Contracts\UnitRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
@@ -61,4 +62,43 @@ class UnitRepository implements UnitRepositoryInterface
 
         return $unit;
     }
+
+    public function export(array $data): string
+    {
+        $filterParams = $this->model::filter($data);
+
+        $query = $this->search($filterParams['search']);
+
+        $query = $this->filter($filterParams, $query);
+
+        $query = $this->sort($filterParams, $query, []);
+
+        $result = $query->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'Наименование'
+        ]);
+
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->name,
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
+
+    }
+
 }
