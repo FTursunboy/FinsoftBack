@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DTO\OrganizationDTO;
+use App\DTO\OrganizationUpdateDTO;
 use App\Models\Organization;
 use App\Repositories\Contracts\OrganizationRepositoryInterface;
 use App\Traits\FilterTrait;
@@ -46,7 +47,7 @@ class OrganizationRepository implements OrganizationRepositoryInterface
         ]);
     }
 
-    public function update(Organization $organization, OrganizationDTO $DTO): Organization
+    public function update(Organization $organization, OrganizationUpdateDTO $DTO): Organization
     {
         $organization->update([
             'name' => $DTO->name,

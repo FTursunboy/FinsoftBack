@@ -24,6 +24,11 @@ class OrganizationUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
+            'INN' => ['required', 'integer', Rule::unique('organizations', 'INN')->ignore($this->route('organization')->id)],
+            'director_id' => ['required', Rule::exists('employees', 'id')],
+            'chief_accountant_id' => ['required', Rule::exists('employees', 'id')],
+            'address' => ['required', 'string'],
+            'description' => ['']
         ];
     }
 }

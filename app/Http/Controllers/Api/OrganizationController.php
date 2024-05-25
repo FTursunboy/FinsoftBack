@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\DTO\OrganizationDTO;
+use App\DTO\OrganizationUpdateDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Organization\FilterRequest;
 use App\Http\Requests\Api\Organization\OrganizationRequest;
+use App\Http\Requests\Api\Organization\OrganizationUpdateRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\OrganizationResource;
 use App\Models\Organization;
@@ -40,9 +42,9 @@ class OrganizationController extends Controller
         return $this->created(OrganizationResource::make($repository->store(OrganizationDTO::fromRequest($request))));
     }
 
-    public function update(Organization $organization, OrganizationRequest $request, OrganizationRepository $repository)
+    public function update(Organization $organization, OrganizationUpdateRequest $request, OrganizationRepository $repository)
     {
-        return $this->success(OrganizationResource::make($repository->update($organization, OrganizationDTO::fromRequest($request))));
+        return $this->success(OrganizationResource::make($repository->update($organization, OrganizationUpdateDTO::fromRequest($request))));
     }
 
     public function destroy(Organization $organization)
