@@ -16,4 +16,6 @@ interface UnitRepositoryInterface
     public function store(UnitDTO $DTO);
 
     public function update(Unit $unit, UnitDTO $DTO) :Unit;
+
+    public function export(array $data);
 }
