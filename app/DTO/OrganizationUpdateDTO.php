@@ -3,15 +3,16 @@
 namespace App\DTO;
 
 use App\Http\Requests\Api\Organization\OrganizationRequest;
+use App\Http\Requests\Api\Organization\OrganizationUpdateRequest;
 use Illuminate\Http\Request;
 
-class OrganizationDTO
+class OrganizationUpdateDTO
 {
     public function __construct(public string $name, public string $address, public ?string $description, public int $INN, public int $director_id, public int $chief_accountant_id)
     {
     }
 
-    public static function fromRequest(OrganizationRequest $request) :self
+    public static function fromRequest(OrganizationUpdateRequest $request) :self
     {
         return new static(
             $request->get('name'),
