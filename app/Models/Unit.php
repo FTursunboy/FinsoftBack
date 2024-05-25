@@ -26,5 +26,10 @@ class Unit extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
         ];
     }
 
+    public static function bootSoftDeletes()
+    {
+
+    }
+
 
 }
