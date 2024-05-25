@@ -75,6 +75,10 @@ class CounterpartyController extends Controller
         return $this->paginate(CounterpartyResource::collection($this->repository->providers($request->validated())));
     }
 
+    public function export(FilterRequest $request)
+    {
+        return response()->download($this->repository->export($request->validated()))->deleteFileAfterSend();
+    }
 
 }
 
