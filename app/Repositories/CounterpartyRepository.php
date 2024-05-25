@@ -21,7 +21,7 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
     {
         $filterParams = $this->model::filter($data);
 
-        $query = $this->model::query()->whereHas('cpAgreements');
+        $query = $this->model::query();
 
         $query = $this->search($filterParams, $query);
 
