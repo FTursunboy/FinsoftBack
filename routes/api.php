@@ -52,6 +52,7 @@ use Illuminate\Support\Facades\Route;
 */
 //
 
+
 Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('currency', CurrencyController::class);
     Route::post('currency/default/{currency}', [CurrencyController::class, 'addDefaultCurrency']);
@@ -97,11 +98,13 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::get('group/show/{group}', [GroupController::class, 'show']);
 
     Route::group(['prefix' => 'organizationBill'], function () {
+        Route::get('data/export', [OrganizationBillController::class, 'export']);
         Route::post('/massDelete', [OrganizationBillController::class, 'massDelete']);
         Route::post('/massRestore', [OrganizationBillController::class, 'massRestore']);
     });
 
     Route::group(['prefix' => 'priceType'], function () {
+        Route::get('data/export', [PriceTypeController::class, 'export']);
         Route::post('/massDelete', [PriceTypeController::class, 'massDelete']);
         Route::post('/massRestore', [PriceTypeController::class, 'massRestore']);
     });
@@ -146,6 +149,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'units'], function () {
+        Route::get('/export', [UnitController::class, 'export']);
+        Route::get('/export', [UnitController::class, 'export']);
         Route::post('/massDelete', [UnitController::class, 'massDelete']);
         Route::post('/massRestore', [UnitController::class, 'massRestore']);
     });
@@ -167,6 +172,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'counterparty'], function () {
+        Route::get('data/export', [CounterpartyController::class, 'export']);
         Route::get('/clients/s', [CounterpartyController::class, 'clients']);
         Route::get('/providers/p', [CounterpartyController::class, 'providers']);
         Route::get('/restore/{counterparty}', [CounterpartyController::class, 'restore']);

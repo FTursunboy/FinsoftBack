@@ -7,6 +7,7 @@ use App\Models\Counterparty;
 use App\Repositories\Contracts\CounterpartyRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -138,4 +139,49 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
+
+    public function export(array $data): string
+    {
+        $filterParams = $this->model::filter($data);
+
+        $query = $this->model::query()->whereHas('cpAgreements');
+
+        $query = $this->search($filterParams, $query);
+
+        $query = $this->filter($query, $filterParams);
+
+        $query = $this->sort($filterParams, $query, ['cpAgreements']);
+
+        $result = $query->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'Наименование', 'Адрес', 'Телефон', 'Почта', 'Баланс',
+        ]);
+
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->name,
+                $row->address,
+                $row->phone,
+                $row->email,
+                $row->balance,
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
+
+    }
+
 }
