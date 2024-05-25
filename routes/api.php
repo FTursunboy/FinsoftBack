@@ -103,6 +103,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'priceType'], function () {
+        Route::get('data/export', [PriceTypeController::class, 'export']);
         Route::post('/massDelete', [PriceTypeController::class, 'massDelete']);
         Route::post('/massRestore', [PriceTypeController::class, 'massRestore']);
     });
