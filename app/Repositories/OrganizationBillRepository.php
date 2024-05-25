@@ -13,6 +13,7 @@ use App\Repositories\Contracts\CurrencyRepositoryInterface;
 use App\Repositories\Contracts\OrganizationBillRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
@@ -88,4 +89,48 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
                 return $query->where('comment', 'like', '%' . $data['comment'] . '%');
             });
     }
+
+    public function export(array $data): string
+    {
+        $filterParams = $this->model::filter($data);
+
+        $query = $this->search($filterParams);
+
+        $query = $this->filter($query, $filterParams);
+
+        $query = $this->sort($filterParams, $query, ['organization', 'currency']);
+
+        $result = $query->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'Наименование', 'Валюта', 'Организация', 'Расчетный счет', 'Дата', 'Комментария'
+        ]);
+
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->name,
+                $row->currency_id,
+                $row->organization_id,
+                $row->bill_number,
+                $row->date,
+                $row->comment,
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
+
+    }
+
 }
