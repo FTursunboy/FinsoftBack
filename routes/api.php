@@ -81,7 +81,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('storage', StorageController::class);
     Route::apiResource('category', CategoryController::class);
     Route::apiResource('unit', UnitController::class);
-    Route::get('unit/export', [UnitController::class, 'export']);
     Route::apiResource('good', GoodController::class)->except('update');
     Route::post('good/{good}', [GoodController::class, 'update']);
     Route::apiResource('barcode', BarcodeController::class)->except('index', 'show');
@@ -147,6 +146,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'units'], function () {
+        Route::get('/export', [UnitController::class, 'export']);
         Route::post('/massDelete', [UnitController::class, 'massDelete']);
         Route::post('/massRestore', [UnitController::class, 'massRestore']);
     });
