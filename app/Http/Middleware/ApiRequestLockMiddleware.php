@@ -15,7 +15,7 @@ class ApiRequestLockMiddleware
 
         if ($request->isMethod('POST', 'PATCH') && $request->header('permission') === null) {
 
-            $cacheKey = 'last_post_time_' . ($request->user()->id);
+            $cacheKey = 'last_post_time_' . ($request->user()?->id);
 
             $lastPostTime = Cache::get($cacheKey);
 
