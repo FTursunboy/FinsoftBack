@@ -143,6 +143,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/get-employees-by-storage_id/{storage}', [StorageEmployeeController::class, 'getEmployeesByStorageId']);
         Route::get('/show-employee/{employee}', [StorageController::class, 'showEmployee']);
         Route::patch('/update-employee/{employee}', [StorageController::class, 'updateEmployee']);
+        Route::get('excel/export', [StorageController::class, 'export']);
     });
 
     Route::group(['prefix' => 'category'], function () {
@@ -160,6 +161,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('hiring', HiringController::class);
 
     Route::group(['prefix' => 'goods'], function () {
+        Route::get('excel/export', [GoodController::class, 'export']);
         Route::get('history/{good}', [GoodController::class, 'history']);
         Route::get('/getByBarcode/{barcode}', [GoodController::class, 'getByBarcode']);
         Route::post('/massDelete', [GoodController::class, 'massDelete']);

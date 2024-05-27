@@ -7,6 +7,7 @@ use App\Models\CashRegister;
 use App\Repositories\Contracts\CashRegisterRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class CashRegisterRepository implements CashRegisterRepositoryInterface
@@ -82,5 +83,47 @@ class CashRegisterRepository implements CashRegisterRepositoryInterface
             ->when($data['name'], function ($query) use ($data) {
                 return $query->where('name', 'like', '%' . $data['name'] . '%');
             });
+    }
+
+    public function export(array $data): string
+    {
+        $filterParams = $this->model::filter($data);
+
+        $query = $this->search($filterParams);
+
+        $query = $this->filter($query, $filterParams);
+
+        $query = $this->sort($filterParams, $query, ['organization', 'currency', 'responsiblePerson']);
+
+        $result = $query->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'Наименование', 'Валюта', 'Организация', 'Ответственное лицо', 'Помечен на удаление'
+        ]);
+
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->name,
+                $row->currency?->name,
+                $row->organization?->name,
+                $row->responsiblePerson?->name,
+                $row->deleted_at ? 'Да' : 'Нет',
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
+
     }
 }

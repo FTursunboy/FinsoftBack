@@ -72,4 +72,9 @@ class GoodController extends Controller implements \App\Repositories\Contracts\S
     {
         return $this->success(GoodHistoryResource::collection($this->repository->history($good)));
     }
+
+    public function export(FilterRequest $request)
+    {
+        return response()->download($this->repository->export($request->validated()))->deleteFileAfterSend();
+    }
 }

@@ -16,4 +16,6 @@ interface GoodRepositoryInterface extends IndexInterface
     public function getByBarcode(string $barcode);
 
     public function history(Good $good);
+
+    public function export(array $data);
 }
