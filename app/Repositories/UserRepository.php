@@ -124,7 +124,15 @@ class UserRepository implements UserRepositoryInterface
     {
         $filteredParams = $this->model::filter($data);
 
-        $result = $this->getData($filteredParams);
+        $query = $this->model::whereHas('roles', function ($query) {
+            $query->where('roles.name', '!=', 'admin');
+        });
+
+        $query = $this->search($filteredParams['search'], $query);
+
+        $query = $this->sort($filteredParams, $query, ['organization', 'group']);
+
+        $result = $query->get();
 
         $filename = 'пользователи ' . now() . '.xlsx';
 
