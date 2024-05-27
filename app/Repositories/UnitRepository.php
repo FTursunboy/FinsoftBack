@@ -48,7 +48,7 @@ class UnitRepository implements UnitRepositoryInterface
     }
 
     public function filter(array $data, $query)
-    {
+    {dd($data);
         return $query->when($data['name'], function ($query) use ($data) {
             $query->where('name', 'like', '%' . $data['name'] . '%');
         })
