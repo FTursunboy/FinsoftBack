@@ -20,7 +20,7 @@ class UnitRepository implements UnitRepositoryInterface
 
     use Sort, FilterTrait;
 
-    public function index(array $data) :LengthAwarePaginator
+    public function index(array $data): LengthAwarePaginator
     {
         $filterParams = $this->model::filter($data);
 
@@ -51,10 +51,13 @@ class UnitRepository implements UnitRepositoryInterface
     {
         return $query->when($data['name'], function ($query) use ($data) {
             $query->where('name', 'like', '%' . $data['name'] . '%');
-        });
+        })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', null) : $query->where('deleted_at', '!=', null);
+            });
     }
 
-    public function update(Unit $unit, UnitDTO $DTO) :Unit
+    public function update(Unit $unit, UnitDTO $DTO): Unit
     {
         $unit->update([
             'name' => $DTO->name,
