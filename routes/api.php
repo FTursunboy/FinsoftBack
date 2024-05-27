@@ -232,9 +232,9 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/get-storages/{group}', [GroupController::class, 'getStorages']);
         Route::get('/get-employees/{group}', [GroupController::class, 'getEmployees']);
         Route::get('/restore/{group}', [GroupController::class, 'restore']);
-        Route::get('/users/excel/export', [GroupController::class, 'exportUsers']);
-        Route::get('/employees/excel/export', [GroupController::class, 'exportEmployees']);
-        Route::get('/storages/excel/export', [GroupController::class, 'exportStorages']);
+        Route::get('/users/excel/export/{group}', [GroupController::class, 'exportUsers']);
+        Route::get('/employees/excel/export/{group}', [GroupController::class, 'exportEmployees']);
+        Route::get('/storages/excel/export/{group}', [GroupController::class, 'exportStorages']);
     });
 
     Route::group(['prefix' => 'image'], function () {
