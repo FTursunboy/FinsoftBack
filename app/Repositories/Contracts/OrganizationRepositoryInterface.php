@@ -14,4 +14,6 @@ interface OrganizationRepositoryInterface extends IndexInterface
     public function store(OrganizationDTO $DTO);
 
     public function update(Organization $organization, OrganizationUpdateDTO $DTO) :Organization;
+
+    public function export(array $data);
 }

@@ -8,6 +8,7 @@ use App\Models\Organization;
 use App\Repositories\Contracts\OrganizationRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class OrganizationRepository implements OrganizationRepositoryInterface
@@ -98,5 +99,53 @@ class OrganizationRepository implements OrganizationRepositoryInterface
             ->when($data['address'], function ($query) use ($data) {
                 return $query->where('address', 'like', '%' . $data['address'] . '%');
             });
+    }
+
+    public function export(array $data): string
+    {
+        $filteredParams = $this->model::filter($data);
+
+        $query = $this->search($filteredParams);
+
+        if ($filteredParams['deleted']) {
+            $query->withTrashed();
+        }
+
+        $query = $this->filter($query, $filteredParams);
+
+        $query = $this->sort($filteredParams, $query, ['director', 'chiefAccountant']);
+
+        $result = $query->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'Наименование', 'ИНН', 'Директор', 'Гл. бухгалтер', 'Адрес', 'Описание', 'Помечен на удаление'
+        ]);
+
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->name,
+                $row->INN,
+                $row->director->name,
+                $row->chiefAccountant->name,
+                $row->address,
+                $row->description,
+                $row->deleted_at ? 'Да' : 'Нет',
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
+
     }
 }

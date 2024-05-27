@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Repositories\Contracts\GroupRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class GroupRepository implements GroupRepositoryInterface
@@ -64,6 +65,13 @@ class GroupRepository implements GroupRepositoryInterface
     {
         $filterParams = User::filter($data);
 
+        $query = $this->getUsersQuery($group, $filterParams);
+
+        return $query->paginate($filterParams['itemsPerPage']);
+    }
+
+    public function getUsersQuery(Group $group, array $filterParams)
+    {
         $query = User::where('group_id', $group->id)
             ->whereHas('roles', function ($query) {
                 return $query->where('name', '!=', 'admin');
@@ -73,39 +81,48 @@ class GroupRepository implements GroupRepositoryInterface
 
         $query = $this->filterUser($query, $filterParams);
 
-        $query = $this->sort($filterParams, $query, ['organization']);
-
-        return $query->paginate($filterParams['itemsPerPage']);
+        return $this->sort($filterParams, $query, ['organization']);
     }
 
     public function getStorages(Group $group, array $data): LengthAwarePaginator
     {
         $filterParams = Storage::filter($data);
 
+        $query = $this->getStoragesQuery($group, $filterParams);
+
+        return $query->paginate($filterParams['itemsPerPage']);
+    }
+
+    public function getStoragesQuery(Group $group, array $filterParams)
+    {
         $query = Storage::where('group_id', $group->id);
 
         $query = $this->search($query, $filterParams);
 
         $query = $this->filterStorage($query, $filterParams);
 
-        $query = $this->sort($filterParams, $query, ['employeeStorage', 'organization']);
-
-        return $query->paginate($filterParams['itemsPerPage']);
+        return $this->sort($filterParams, $query, ['employeeStorage', 'organization']);
     }
+
 
     public function getEmployees(Group $group, array $data): LengthAwarePaginator
     {
         $filterParams = Employee::filter($data);
 
+        $query = $this->getEmployeesQuery($group, $filterParams);
+
+        return $query->paginate($filterParams['itemsPerPage']);
+    }
+
+    public function getEmployeesQuery(Group $group, array $filterParams)
+    {
         $query = Employee::where('group_id', $group->id);
 
         $query = $this->search($query, $filterParams);
 
         $query = $this->filterEmployee($query, $filterParams);
 
-        $query = $this->sort($filterParams, $query, ['position', 'group']);
-
-        return $query->paginate($filterParams['itemsPerPage']);
+        return $this->sort($filterParams, $query, ['position', 'group']);
     }
 
     public function store(GroupDTO $DTO)
@@ -197,6 +214,121 @@ class GroupRepository implements GroupRepositoryInterface
             ->when($data['address'], function ($query) use ($data) {
                 return $query->where('address', 'like', '%' . $data['address'] . '%');
             });
+    }
+
+    public function exportEmployees(Group $group, array $data): string
+    {
+        $filterParams = Employee::filter($data);
+
+        $query = $this->getEmployeesQuery($group, $filterParams);
+
+        $result = $query->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'ФИО', 'Должность', 'Телефон', 'Почта', 'Адрес', 'Группа', 'Помечен на удаление'
+        ]);
+
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->name,
+                $row->position?->name,
+                $row->phone,
+                $row->email,
+                $row->address,
+                $row->group?->name,
+                $row->deleted_at ? 'Да' : 'Нет',
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
+    }
+
+    public function exportUsers(Group $group, array $data): string
+    {
+        $filterParams = User::filter($data);
+
+        $query = $this->getUsersQuery($group, $filterParams);
+
+        $result = $query->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'ФИО', 'Логин', 'Почта', 'Телефон', 'Группа', 'Организация', 'Помечен на удаление'
+        ]);
+
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->name,
+                $row->login,
+                $row->email,
+                $row->phone,
+                $row->group?->name,
+                $row->organization?->name,
+                $row->deleted_at ? 'Да' : 'Нет',
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
+    }
+
+    public function exportStorages(Group $group, array $data): string
+    {
+        $filterParams = Storage::filter($data);
+
+        $query = $this->getStoragesQuery($group, $filterParams);
+
+        $result = $query->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'ФИО', 'Организация', 'Группа', 'Помечен на удаление'
+        ]);
+
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->name,
+                $row->organization?->name,
+                $row->group?->name,
+                $row->deleted_at ? 'Да' : 'Нет',
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
+
     }
 
 }

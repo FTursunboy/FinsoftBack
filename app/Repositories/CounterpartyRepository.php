@@ -161,7 +161,7 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
         $writer->openToFile($filePath);
 
         $headerRow = WriterEntityFactory::createRowFromArray([
-            'Наименование', 'Адрес', 'Телефон', 'Почта', 'Баланс',
+            'Наименование', 'Адрес', 'Телефон', 'Почта', 'Баланс', 'Помечен на удаление'
         ]);
 
         $writer->addRow($headerRow);
@@ -174,6 +174,7 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
                 $row->phone,
                 $row->email,
                 $row->balance,
+                $row->deleted_at ? 'Да' : 'Нет',
             ]);
             $writer->addRow($dataRow);
         }

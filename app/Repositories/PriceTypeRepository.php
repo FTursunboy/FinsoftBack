@@ -93,7 +93,7 @@ class PriceTypeRepository implements PriceTypeRepositoryInterface
         $writer->openToFile($filePath);
 
         $headerRow = WriterEntityFactory::createRowFromArray([
-            'Наименование', 'Валюта', 'Описание'
+            'Наименование', 'Валюта', 'Описание', 'Помечен на удаление'
         ]);
 
         $writer->addRow($headerRow);
@@ -104,6 +104,7 @@ class PriceTypeRepository implements PriceTypeRepositoryInterface
                 $row->name,
                 $row->currency_id,
                 $row->description,
+                $row->deleted_at ? 'Да' : 'Нет',
             ]);
             $writer->addRow($dataRow);
         }
