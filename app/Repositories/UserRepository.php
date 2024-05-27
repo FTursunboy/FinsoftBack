@@ -111,4 +111,52 @@ class UserRepository implements UserRepositoryInterface
             'user_id' => auth()->id()
         ]);
     }
+
+
+    public function export(array $data): string
+    {
+        $filteredParams = $this->model::filter($data);
+
+        $query = $this->search($filteredParams['search']);
+
+        $query = $this->filter($query, $filteredParams);
+
+        $query = $this->sort($filteredParams, $query, ['group', 'organization']);
+
+        $result = $query->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'ФИО', 'Группа', 'Активность', 'Организация', 'Логин', 'Телефон', 'Почта', 'Помечен на удаление'
+        ]);
+
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->name,
+                $row->group->name,
+                $row->active ? 'Да' : 'Нет',
+                $row->organization->name,
+                $row->login,
+                $row->phone,
+                $row->email,
+                $row->deleted_at ? 'Да' : 'Нет',
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
+
+    }
+
+
 }
