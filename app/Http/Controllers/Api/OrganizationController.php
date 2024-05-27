@@ -61,4 +61,9 @@ class OrganizationController extends Controller
     {
         return $this->success($restore->massRestore(new Organization(), $request->validated()));
     }
+
+    public function export(FilterRequest $request)
+    {
+        return response()->download($this->repository->export($request->validated()))->deleteFileAfterSend();
+    }
 }

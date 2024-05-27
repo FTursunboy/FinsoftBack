@@ -23,4 +23,10 @@ interface GroupRepositoryInterface
     public function store(GroupDTO $DTO);
 
     public function update(Group $group, GroupDTO $DTO) :Group;
+
+    public function exportEmployees(Group $group, array $data);
+
+    public function exportUsers(Group $group, array $data);
+
+    public function exportStorages(Group $group, array $data);
 }

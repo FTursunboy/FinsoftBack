@@ -80,4 +80,18 @@ class GroupController extends Controller
         return $this->success($group->update(['deleted_at' => null]));
     }
 
+    public function exportEmployees(Group $group,FilterRequest $request)
+    {
+        return response()->download($this->repository->exportEmployees($group, $request->validated()))->deleteFileAfterSend();
+    }
+
+    public function exportUsers(Group $group, FilterRequest $request)
+    {
+        return response()->download($this->repository->exportUsers($group, $request->validated()))->deleteFileAfterSend();
+    }
+
+    public function exportStorages(Group $group, FilterRequest $request)
+    {
+        return response()->download($this->repository->exportStorages($group, $request->validated()))->deleteFileAfterSend();
+    }
 }
