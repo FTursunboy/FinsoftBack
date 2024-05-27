@@ -25,6 +25,13 @@ class UserRepository implements UserRepositoryInterface
     {
         $filteredParams = $this->model::filter($data);
 
+        $query = $this->getData($filteredParams);
+
+        return $query->paginate($filteredParams['itemsPerPage']);
+    }
+
+    public function getData(array $filteredParams)
+    {
         $query = $this->model::whereHas('roles', function ($query) {
             $query->where('roles.name', '!=', 'admin');
         });
@@ -32,8 +39,7 @@ class UserRepository implements UserRepositoryInterface
         $query = $this->search($filteredParams['search'], $query);
 
         $query = $this->sort($filteredParams, $query, ['organization', 'group']);
-
-        return $query->paginate($filteredParams['itemsPerPage']);
+        return $query;
     }
 
     public function store(UserDTO $DTO)
@@ -128,7 +134,7 @@ class UserRepository implements UserRepositoryInterface
 
         $result = $query->get();
 
-        $filename = 'report ' . now() . '.xlsx';
+        $filename = 'пользователи ' . now() . '.xlsx';
 
         $filePath = storage_path($filename);
         $writer = WriterEntityFactory::createXLSXWriter();

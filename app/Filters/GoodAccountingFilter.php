@@ -62,7 +62,7 @@ class GoodAccountingFilter extends ModelFilter
         return $this;
     }
 
-    public function end($value): GoodAccountingFilter
+    public function endDate($value): GoodAccountingFilter
     {
 
         $date = Carbon::parse($value);
@@ -71,6 +71,8 @@ class GoodAccountingFilter extends ModelFilter
             SUM(CASE WHEN good_accountings.movement_type = "расход" AND good_accountings.date <= ? THEN good_accountings.amount ELSE 0 END)
         ) as end_remainder'));
         $this->addBinding([$date, $date], 'select');
+
+        return $this;
     }
 
     public function date($value): GoodAccountingFilter
