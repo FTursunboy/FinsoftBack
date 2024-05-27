@@ -38,6 +38,7 @@ class UserRepository implements UserRepositoryInterface
         $query = $this->search($filteredParams['search'], $query);
 
         $query = $this->sort($filteredParams, $query, ['organization', 'group']);
+        return $query;
     }
 
     public function store(UserDTO $DTO)
