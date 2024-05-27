@@ -62,7 +62,7 @@ class GoodAccountingFilter extends ModelFilter
         return $this;
     }
 
-    public function end($value): GoodAccountingFilter
+    public function endDate($value): GoodAccountingFilter
     {
 
         $date = Carbon::parse($value);

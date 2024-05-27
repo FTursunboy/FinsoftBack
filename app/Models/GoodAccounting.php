@@ -60,7 +60,7 @@ class GoodAccounting extends Model
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'good_id' => $data['filterData']['good_id'] ?? null,
             'startDate_id' =>  $data['filterData']['start_date'] ?? null,
-            'end_date' =>  $data['filterData']['end_date'] ?? null,
+            'endDate' =>  $data['filterData']['end_date'] ?? null,
             'date' =>  $data['filterData']['date'] ?? null
         ];
     }
