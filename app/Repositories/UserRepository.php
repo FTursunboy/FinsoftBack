@@ -94,6 +94,8 @@ class UserRepository implements UserRepositoryInterface
 
         return $query->where(function ($query) use ($searchTerm) {
             $query->orWhere('name', 'like', '%' . implode('%', $searchTerm) . '%');
+        })->orWhereHas('group', function ($query) use ($searchTerm) {
+            $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
         });
     }
 
