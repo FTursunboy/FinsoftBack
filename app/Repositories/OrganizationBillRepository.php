@@ -118,8 +118,8 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
         foreach ($result as $row) {
             $dataRow = WriterEntityFactory::createRowFromArray([
                 $row->name,
-                $row->currency_id,
-                $row->organization_id,
+                $row->currency->name,
+                $row->organization->name,
                 $row->bill_number,
                 $row->date,
                 $row->comment,
