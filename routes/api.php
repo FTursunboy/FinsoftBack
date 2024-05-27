@@ -129,6 +129,7 @@ use Illuminate\Support\Facades\Route;
         Route::post('/change-password/{user}', [UserController::class, 'changePassword']);
         Route::post('/massDelete', [UserController::class, 'massDelete']);
         Route::post('/massRestore', [UserController::class, 'massRestore']);
+        Route::get('/export', [UserController::class, 'export']);
     });
 
     Route::group(['prefix' => 'storage'], function () {

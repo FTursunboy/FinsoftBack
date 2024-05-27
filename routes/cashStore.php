@@ -29,6 +29,8 @@ use Illuminate\Support\Facades\Route;
 
         Route::get('/{type}', [CashStoreController::class, 'index']);
         Route::get('/show/{cashStore}', [CashStoreController::class, 'show']);
+        Route::post('/approve', [CashStoreController::class, 'approve']);
+        Route::post('/unApprove', [CashStoreController::class, 'unApprove']);
 
         Route::group(['prefix' => 'client-payment'], function () {
             Route::get('', [ClientPaymentController::class, 'index']);
@@ -90,4 +92,5 @@ use Illuminate\Support\Facades\Route;
             Route::post('/', [SalaryPaymentController::class, 'store']);
             Route::patch('/{cashStore}', [SalaryPaymentController::class, 'update']);
         });
+
     });

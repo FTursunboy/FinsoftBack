@@ -6,6 +6,7 @@ use App\DTO\CashStore\ClientPaymentDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CashStore\ClientPaymentRequest;
 use App\Http\Requests\Api\CashStore\FilterRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\CashStoreResource;
 use App\Models\CashStore;
 use App\Models\OperationType;
@@ -28,6 +29,16 @@ class CashStoreController extends Controller
     public function show(CashStore $cashStore)
     {
        return $this->success(CashStoreResource::make($cashStore->load('organization', 'cashRegister', 'counterparty', 'counterpartyAgreement', 'author', 'currency', 'senderCashRegister', 'organizationBill', 'employee', 'balanceArticle', 'month', 'operationType')));
+    }
+
+    public function approve(IdRequest $request)
+    {
+        return $this->success($this->repository->approve($request->validated()));
+    }
+
+    public function unApprove(IdRequest $request)
+    {
+        return $this->success($this->repository->unApprove($request->validated()));
     }
 
     public function destroy(CashStore $cashStore)
