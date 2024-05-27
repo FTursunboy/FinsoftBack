@@ -72,6 +72,12 @@ class GroupController extends Controller
 
     public function destroy(Group $group)
     {
+        $users = $group->users->where('deleted_at', null);
+        $storages = $group->storages->where('deleted_at', null);
+        $employees = $group->employees->where('deleted_at', null);
+        if ($users->isNotEmpty() || $storages->isNotEmpty() || $employees->isNotEmpty()) {
+            abort(400, 'Нельзя удалить эту группу!');
+        }
         return $this->deleted($group->delete());
     }
 
