@@ -22,7 +22,8 @@ class Unit extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'name' => $data['filterData']['name'] ?? null,
-            'deleted' => $data['deleted'] ?? null
+            'deleted' => $data['deleted'] ?? null,
+            $filteredData['deleted'] = $data['filterData']['deleted']
         ];
     }
 
