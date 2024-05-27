@@ -33,13 +33,14 @@ class UserRepository implements UserRepositoryInterface
     public function getData(array $filteredParams)
     {
         $query = $this->model::whereHas('roles', function ($query) {
-            $query->where('roles.name', '!=', 'admin');
+            return $query->where('name', '!=', 'admin');
         });
 
         $query = $this->search($filteredParams['search'], $query);
 
-        $query = $this->sort($filteredParams, $query, ['organization', 'group']);
-        return $query;
+        $query = $this->filter($query, $filteredParams);
+
+        return $this->sort($filteredParams, $query, ['organization', 'group']);
     }
 
     public function store(UserDTO $DTO)
@@ -92,9 +93,30 @@ class UserRepository implements UserRepositoryInterface
         $searchTerm = explode(' ', $search);
 
         return $query->where(function ($query) use ($searchTerm) {
-            $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+            $query->orWhere('name', 'like', '%' . implode('%', $searchTerm) . '%');
         });
+    }
 
+    public function filter($query, array $data)
+    {
+        return $query->when($data['organization_id'], function ($query) use ($data) {
+            return $query->where('organization_id', $data['organization_id']);
+        })
+            ->when($data['login'], function ($query) use ($data) {
+                return $query->where('login', 'like', '%' . $data['login'] . '%');
+            })
+            ->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', '%' . $data['name'] . '%');
+            })
+            ->when($data['email'], function ($query) use ($data) {
+                return $query->where('email', 'like', '%' . $data['email'] . '%');
+            })
+            ->when($data['phone'], function ($query) use ($data) {
+                return $query->where('phone', 'like', '%' . $data['phone'] . '%');
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
+            });
     }
 
     public function documentAuthors(array $data)

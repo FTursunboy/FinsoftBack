@@ -69,6 +69,7 @@ class User extends Authenticatable implements SoftDeleteInterface
             'email' => $data['filterData']['email'] ?? null,
             'phone' => $data['filterData']['phone'] ?? null,
             'organization_id' => $data['filterData']['organization_id'] ?? null,
+            'deleted' => $data['filterData']['deleted'] ?? false,
         ];
     }
 

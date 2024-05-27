@@ -348,7 +348,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 return $query->where('author_id', $data['author_id']);
             })
             ->when(isset($data['deleted']), function ($query) use ($data) {
-                return $data['deleted'] ? $query->where('deleted_at', null) : $query->where('deleted_at', '!=', null);
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
             });
     }
 
