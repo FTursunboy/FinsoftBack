@@ -115,7 +115,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'organization'], function () {
-        Route::get('data/export', [OrganizationController::class, 'export']);
+        Route::get('excel/export', [OrganizationController::class, 'export']);
         Route::post('/massDelete', [OrganizationController::class, 'massDelete']);
         Route::post('/massRestore', [OrganizationController::class, 'massRestore']);
     });
