@@ -97,4 +97,9 @@ class StorageController extends Controller
     {
         return $this->success($restore->massRestore(new EmployeeStorage(), $request->validated()));
     }
+
+    public function export(IndexRequest $request)
+    {
+        return response()->download($this->repository->export($request->validated()))->deleteFileAfterSend();
+    }
 }

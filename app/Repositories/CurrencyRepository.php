@@ -10,6 +10,7 @@ use App\Models\PriceType;
 use App\Repositories\Contracts\CurrencyRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -20,20 +21,26 @@ class CurrencyRepository implements CurrencyRepositoryInterface
 
     public $model = Currency::class;
 
-    public function index(array $data) :LengthAwarePaginator
+    public function index(array $data): LengthAwarePaginator
     {
         $filteredParams = $this->model::filter($data);
 
-        $query = $this->search($filteredParams['search']);
-
-        $query = $this->filter($query, $filteredParams);
-
-        $query = $this->sort($filteredParams, $query, ['exchangeRates']);
+        $query = $this->getQuery($filteredParams);
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }
 
-    public function store(CurrencyDTO $dto) :Currency
+    public function getQuery(array $filteredParams)
+    {
+        $query = $this->search($filteredParams['search']);
+
+        $query = $this->filter($query, $filteredParams);
+
+        return $this->sort($filteredParams, $query, ['exchangeRates']);
+
+    }
+
+    public function store(CurrencyDTO $dto): Currency
     {
         return $this->model::create([
             'name' => $dto->name,
@@ -42,7 +49,7 @@ class CurrencyRepository implements CurrencyRepositoryInterface
         ]);
     }
 
-    public function update(Currency $currency, CurrencyDTO $dto) :Currency
+    public function update(Currency $currency, CurrencyDTO $dto): Currency
     {
         $currency->update([
             'name' => $dto->name,
@@ -100,7 +107,7 @@ class CurrencyRepository implements CurrencyRepositoryInterface
     public function filter($query, array $data)
     {
         return $query->when($data['name'], function ($query) use ($data) {
-            return $query->where('name', 'like', '%'.$data['name'].'%');
+            return $query->where('name', 'like', '%' . $data['name'] . '%');
         })
             ->when($data['digital_code'], function ($query) use ($data) {
                 return $query->where('digital_code', 'like', '%' . $data['digital_code'] . '%');
@@ -116,4 +123,43 @@ class CurrencyRepository implements CurrencyRepositoryInterface
             'default' => true
         ]);
     }
+
+
+    public function export(array $data): string
+    {
+        $filteredParams = $this->model::filter($data);
+
+        $query = $this->getQuery($filteredParams);
+
+        $result = $query->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'Наименование', 'Цифровой код', 'Символьный код', 'Помечен на удаление'
+        ]);
+
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->name,
+                $row->digital_code,
+                $row->symbol_code,
+                $row->deleted_at ? 'Да' : 'Нет',
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
+
+    }
+
 }
