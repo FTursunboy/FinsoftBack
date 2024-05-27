@@ -118,11 +118,13 @@ class UserRepository implements UserRepositoryInterface
     {
         $filteredParams = $this->model::filter($data);
 
-        $query = $this->search($filteredParams['search']);
+        $query = $this->model::whereHas('roles', function ($query) {
+            $query->where('roles.name', '!=', 'admin');
+        });
 
-        $query = $this->filter($query, $filteredParams);
+        $query = $this->search($filteredParams['search'], $query);
 
-        $query = $this->sort($filteredParams, $query, ['group', 'organization']);
+        $query = $this->sort($filteredParams, $query, ['organization', 'group']);
 
         $result = $query->get();
 
