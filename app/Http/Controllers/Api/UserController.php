@@ -88,4 +88,8 @@ class UserController extends Controller
     {
         return $this->success($this->repository->addFcmToken(FcmTokenDTO::fromRequest($request)));
     }
+    public function export(FilterRequest $request)
+    {
+        return response()->download($this->repository->export($request->validated()))->deleteFileAfterSend();
+    }
 }
