@@ -18,7 +18,8 @@ class CashStore extends DocumentModel
     use SoftDeletes, HasFactory, Filterable;
 
     protected $casts = [
-        'date' => 'datetime'
+        'date' => 'datetime',
+        'active' => 'boolean'
     ];
 
     protected $fillable = [
@@ -38,7 +39,8 @@ class CashStore extends DocumentModel
         'balance_article_id',
         'operationType_id',
         'type',
-        'month_id'
+        'month_id',
+        'active'
     ];
 
 
@@ -133,6 +135,7 @@ class CashStore extends DocumentModel
             'organization_id' => $data['organization_id'] ?? null,
             'sender_cash_register_id' => $data['sender_cash_register_id'] ?? null,
             'cash_register_id' => $data['cash_register_id'] ?? null,
+            'active' => $data['active'] ?? null,
         ];
 
         if (isset($data['filterData'])) {
@@ -141,6 +144,7 @@ class CashStore extends DocumentModel
             $filteredData['author_id'] = $data['filterData']['author_id'] ?? $filteredData['author_id'];
             $filteredData['date'] = $data['filterData']['date'] ?? $filteredData['date'];
             $filteredData['operation_type_id'] = $data['filterData']['operation_type_id'] ?? $filteredData['operation_type_id'];
+            $filteredData['active'] = $data['filterData']['active'] ?? $filteredData['active'];
         }
 
         return $filteredData;

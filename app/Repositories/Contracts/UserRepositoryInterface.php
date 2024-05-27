@@ -22,4 +22,6 @@ interface UserRepositoryInterface extends IndexInterface
     public function documentAuthors(array $data);
 
     public function addFcmToken(FcmTokenDTO $DTO);
+
+    public function export(array $data );
 }

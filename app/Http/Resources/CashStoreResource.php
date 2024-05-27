@@ -34,6 +34,7 @@ class CashStoreResource extends JsonResource
             'month' => MonthResource::make($this->whenLoaded('month')),
             'basis' => $this->basis,
             'comment' => $this->comment,
+            'active' => $this->active,
             'created_at' => $this->created_at,
             'deleted_at' => $this->deleted_at
         ];
