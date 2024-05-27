@@ -110,6 +110,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'cashRegister'], function () {
+        Route::get('excel/export', [CashRegisterController::class, 'export']);
         Route::post('/massDelete', [CashRegisterController::class, 'massDelete']);
         Route::post('/massRestore', [CashRegisterController::class, 'massRestore']);
     });
