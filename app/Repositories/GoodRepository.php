@@ -210,6 +210,9 @@ class GoodRepository implements GoodRepositoryInterface
             })
             ->when($data['barcode'], function ($query) use ($data) {
                 return $query->where('barcode', 'like', '%' . $data['barcode'] . '%');
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
             });
     }
 

@@ -44,7 +44,8 @@ class OrganizationBill extends Model implements \App\Repositories\Contracts\Soft
             'name'  => $data['filterData']['name'] ?? null,
             'bill_number' => $data['filterData']['bill_number'] ?? null,
             'date' => $data['filterData']['date'] ?? null,
-            'comment' => $data['filterData']['comment'] ?? null
+            'comment' => $data['filterData']['comment'] ?? null,
+            'deleted' => $data['filterData']['deleted'] ?? null
         ];
     }
 }
