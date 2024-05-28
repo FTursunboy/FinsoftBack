@@ -33,6 +33,7 @@ class FilterRequest extends FormRequest
             'good_storage_id' => 'nullable|exists:storages,id',
             'good_organization_id' => 'nullable|exists:organizations,id',
             'for_sale' => 'nullable|boolean',
+            'deleted' => 'nullable|boolean',
         ];
     }
 

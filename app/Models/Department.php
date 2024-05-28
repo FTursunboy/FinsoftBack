@@ -23,7 +23,8 @@ class Department extends Model implements SoftDeleteInterface
             'sort' => $data['orderBy'] ?? null,
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
-            'name'  => $data['filterData']['name'] ?? null
+            'name'  => $data['filterData']['name'] ?? null,
+            'deleted' =>  $data['filterData']['deleted'] ?? null
         ];
     }
 
