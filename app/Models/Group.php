@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Filters\MovementDocumentFilter;
+use App\Filters\UserGroupFilter;
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Group extends Model implements \App\Repositories\Contracts\SoftDeleteInterface
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Filterable;
 
     const STORAGES = 0;
     const USERS = 1;
@@ -52,5 +55,10 @@ class Group extends Model implements \App\Repositories\Contracts\SoftDeleteInter
     public static function bootSoftDeletes()
     {
 
+    }
+
+    public function modelFilter()
+    {
+        return $this->provideFilter(UserGroupFilter::class);
     }
 }
