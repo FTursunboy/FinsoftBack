@@ -52,6 +52,7 @@ Counterparty extends Model implements \App\Repositories\Contracts\SoftDeleteInte
             'address' => $data['filterData']['address'] ?? null,
             'email' => $data['filterData']['email'] ?? null,
             'roles' => $data['filterData']['roles'] ?? null,
+            'deleted' => $data['filterData']['deleted'] ?? null
         ];
     }
 

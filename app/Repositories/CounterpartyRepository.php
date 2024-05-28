@@ -104,6 +104,9 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
                 return $query->whereHas('roles', function ($query) use ($data) {
                     return $query->whereIn('role_id', $data['roles']);
                 });
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
             });
     }
 
