@@ -35,6 +35,11 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    public function location(): BelongsTo
+    {
+        return $this->belongsTo(Location::class, 'location_id');
+    }
+
     public function barcodes(): HasMany
     {
         return $this->hasMany(Barcode::class);
@@ -59,8 +64,6 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
     {
         return $this->hasMany(GoodImages::class, 'good_id');
     }
-
-
 
     public static function filter(array $data): array
     {
