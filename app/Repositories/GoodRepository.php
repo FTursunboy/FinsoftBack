@@ -41,7 +41,7 @@ class GoodRepository implements GoodRepositoryInterface
 
         $query = $this->filter($query, $filterParams);
 
-        return $this->sort($filterParams, $query, ['unit', 'images', 'storage', 'goodGroup']);
+        return $this->sort($filterParams, $query, ['unit', 'images', 'storage', 'goodGroup', 'location']);
     }
 
     public function store(GoodDTO $DTO)
