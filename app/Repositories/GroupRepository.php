@@ -23,9 +23,11 @@ class GroupRepository implements GroupRepositoryInterface
 
     public function usersGroup(array $data): LengthAwarePaginator
     {
-        $filterParams = $this->processSearchData($data);
+        $filterParams = $this->model::filter($data);
 
-        $query = Group::where('type', Group::USERS);
+        $query = Group::where('type', Group::USERS)->whereHas('users');
+
+
 
         $query = $this->searchGroup($query, $filterParams['search']);
 
@@ -33,6 +35,29 @@ class GroupRepository implements GroupRepositoryInterface
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
+
+    public function filter($query, array $data)
+    {
+        return $query->when($data['organization_id'], function ($query) use ($data) {
+            return $query->where('organization_id', $data['organization_id']);
+        })
+            ->when($data['login'], function ($query) use ($data) {
+                return $query->where('login', 'like', '%' . $data['login'] . '%');
+            })
+            ->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', '%' . $data['name'] . '%');
+            })
+            ->when($data['email'], function ($query) use ($data) {
+                return $query->where('email', 'like', '%' . $data['email'] . '%');
+            })
+            ->when($data['phone'], function ($query) use ($data) {
+                return $query->where('phone', 'like', '%' . $data['phone'] . '%');
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', null) :  $query->where('deleted_at', '!=', null);
+            });
+    }
+
 
     public function storagesGroup(array $data): LengthAwarePaginator
     {
@@ -146,8 +171,23 @@ class GroupRepository implements GroupRepositoryInterface
     {
         $searchTerm = explode(' ', $search);
 
-        return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+        return $query->where(function ($query) use ($searchTerm) {
+            return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')->orWhereHas('users', function ($query) use ($searchTerm) {
+                $query->where(function ($query) use ($searchTerm) {
+                    return $query-> where('name', 'like', implode('%', $searchTerm) . '%')
+                        ->orWhere('email', 'like', implode('%', $searchTerm) . '%')
+                        ->orWhere('login', 'like', implode('%', $searchTerm) . '%')
+                         ->orWhere('phone', 'like', implode('%', $searchTerm) . '%')
+                        ->orWhereHas('organization', function ($query) use ($searchTerm) {
+                            return $query-> where('name', 'like', implode('%', $searchTerm) . '%');
+                        });
+
+                });
+
+            });
+        }) ;
     }
+
 
     public function search($query, array $data)
     {

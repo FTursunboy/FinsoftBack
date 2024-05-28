@@ -85,7 +85,7 @@ class UnitRepository implements UnitRepositoryInterface
         $writer->openToFile($filePath);
 
         $headerRow = WriterEntityFactory::createRowFromArray([
-            'Наименование'
+            'Наименование', 'Помечен на удаление'
         ]);
 
         $writer->addRow($headerRow);
@@ -94,6 +94,7 @@ class UnitRepository implements UnitRepositoryInterface
         foreach ($result as $row) {
             $dataRow = WriterEntityFactory::createRowFromArray([
                 $row->name,
+                $row->deleted_at ? 'Да' : 'Нет'
             ]);
             $writer->addRow($dataRow);
         }

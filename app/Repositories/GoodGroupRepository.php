@@ -29,7 +29,7 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
         $filterParams = $this->model::filter($data);
 
         $query = $this->search($filterParams['search']);
-
+      //  dd($query->get());
         $query = $this->filterGroup($query, $filterParams);
 
         $query = $this->sort($filterParams, $query, ['goods']);
