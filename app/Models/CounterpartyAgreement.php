@@ -53,7 +53,6 @@ class CounterpartyAgreement extends Model implements \App\Repositories\Contracts
             'contract_number' => $this->contract_number,
             'date' => $this->date,
             'contact_person' => $this->contact_person,
-
         ];
     }
 }

@@ -30,7 +30,7 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
         $query = $this->search($filterParams);
 
         $query = $this->filter($query, $filterParams);
-//dd($query->toRawSql());
+
         $query = $this->sort($filterParams, $query, ['organization', 'currency']);
 
         return $query->paginate($filterParams['itemsPerPage']);
@@ -87,6 +87,9 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
             })
             ->when($data['comment'], function ($query) use ($data) {
                 return $query->where('comment', 'like', '%' . $data['comment'] . '%');
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
             });
     }
 

@@ -114,6 +114,9 @@ class CurrencyRepository implements CurrencyRepositoryInterface
             })
             ->when($data['symbol_code'], function ($query) use ($data) {
                 return $query->where('symbol_code', 'like', '%' . $data['symbol_code'] . '%');
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
             });
     }
 

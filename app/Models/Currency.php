@@ -47,6 +47,7 @@ class Currency extends Model implements SoftDeleteInterface
             'name'  => $data['filterData']['name'] ?? null,
             'digital_code'  => $data['filterData']['digital_code'] ?? null,
             'symbol_code'  => $data['filterData']['symbol_code'] ?? null,
+            'deleted' =>  $data['filterData']['deleted'] ?? null
         ];
     }
 

@@ -19,12 +19,13 @@ class FilterRequest extends FormRequest
         $fillableFields = $this->getFillable($model);
 
         return [
-                'search' => 'string|nullable|max:50',
-                'itemsPerPage' => 'integer|nullable',
-                'orderBy' => 'nullable|in:id,deleted_at,currency.name,' . implode(',', $fillableFields),
-                'sort' => 'in:asc,desc',
-                'filterData' => 'nullable|array',
-            ];
+            'search' => 'string|nullable|max:50',
+            'itemsPerPage' => 'integer|nullable',
+            'orderBy' => 'nullable|in:id,deleted_at,currency.name,' . implode(',', $fillableFields),
+            'sort' => 'in:asc,desc',
+            'filterData' => 'nullable|array',
+            'deleted' => 'nullable|bool',
+        ];
     }
 
     public function authorize(): bool
@@ -32,7 +33,7 @@ class FilterRequest extends FormRequest
         return true;
     }
 
-    private function getFillable($model) :array
+    private function getFillable($model): array
     {
         return $model->getFillable();
     }
