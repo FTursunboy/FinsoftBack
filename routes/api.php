@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\GoodGroupController;
 use App\Http\Controllers\Api\GroupController;
 use App\Http\Controllers\Api\HiringController;
 use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ExchangeRateController;
@@ -90,6 +91,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('good-group', GoodGroupController::class);
     Route::apiResource('schedule', ScheduleController::class);
     Route::post('calculateHours', [ScheduleController::class, 'calculateHours']);
+    Route::apiResource('location', LocationController::class);
 
     Route::get('months', [ScheduleController::class, 'months']);
 
