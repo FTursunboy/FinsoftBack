@@ -17,6 +17,7 @@ class GoodGroupResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'goods' => GoodResource::collection($this->whenLoaded('goods')),
             'is_good' => $this->is_good,
             'is_service' => $this->is_service,
             'deleted_at' => $this->deleted_at

@@ -25,7 +25,7 @@ class GroupRepository implements GroupRepositoryInterface
     {
         $filterParams = $this->processSearchData($data);
 
-        $query = Group::where('type', Group::USERS);
+        $query = Group::where('type', Group::USERS)->whereHas('users');
 
         $query = $this->searchGroup($query, $filterParams['search']);
 
@@ -146,7 +146,9 @@ class GroupRepository implements GroupRepositoryInterface
     {
         $searchTerm = explode(' ', $search);
 
-        return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+        return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')->orWhereHas('users', function ($query) use ($searchTerm) {
+            $query->where('name', 'like', implode('%', $searchTerm) . '%')->orWhere('email', 'like', implode('%', $searchTerm) . '%');
+        });
     }
 
     public function search($query, array $data)
