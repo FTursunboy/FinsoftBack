@@ -18,6 +18,7 @@ class GroupResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'users' => $this->whenLoaded('users'),
             'deleted_at' => $this->deleted_at
         ];
     }
