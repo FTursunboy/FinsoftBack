@@ -220,6 +220,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'position'], function () {
+        Route::get('export/excel', [PositionController::class, 'export']);
         Route::post('/massDelete', [PositionController::class, 'massDelete']);
         Route::post('/massRestore', [PositionController::class, 'massRestore']);
     });
