@@ -10,6 +10,6 @@ interface AuthRepositoryInterface
 {
     public function checkLogin(LoginDTO $dto) :User|null;
 
-    public function forgotPassword(string $phone) :string;
+    public function forgotPassword(string $phone);
 
 }

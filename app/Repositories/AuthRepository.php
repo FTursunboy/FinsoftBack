@@ -22,11 +22,13 @@ class AuthRepository implements AuthRepositoryInterface
         return null;
     }
 
-    public function forgotPassword(string $phone): string
+    public function forgotPassword(string $phone)
     {
         $user = User::getByPhone($phone)->first();
 
-        $code = "000000";
+        $code = "111111";
+
+        $user->codes()->delete();
 
         //todo HTTP REQUEST TO SEND SMS
 
