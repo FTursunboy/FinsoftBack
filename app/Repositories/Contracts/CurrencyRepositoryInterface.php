@@ -28,4 +28,6 @@ interface CurrencyRepositoryInterface extends IndexInterface
     public function delete(Currency $currency);
 
     public function addDefaultCurrency(Currency $currency);
+
+    public function export(array $data);
 }
