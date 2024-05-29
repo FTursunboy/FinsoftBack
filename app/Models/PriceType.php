@@ -34,7 +34,7 @@ class PriceType extends Model implements \App\Repositories\Contracts\SoftDeleteI
             'name'  => $data['filterData']['name'] ?? null,
             'currency_id' => $data['filterData']['currency_id'] ?? null,
             'description' => $data['filterData']['description '] ?? null,
-            'deleted' => $data['filterData']['deleted '] ?? null,
+            'deleted' => $data['filterData']['deleted'] ?? null,
         ];
     }
 }
