@@ -28,7 +28,7 @@ class GroupRepository implements GroupRepositoryInterface
         $query = Group::where('type', Group::USERS)->with(['users.organization', 'users.group']);
 
         $query = $this->filterUser($query, $filterParams);
-//dd($query->toRawSql());
+dd($query->get());
         $query = $this->searchGroup($query, $filterParams['search']);
 
         $query = $this->sort($filterParams, $query, []);
@@ -196,7 +196,8 @@ class GroupRepository implements GroupRepositoryInterface
         $searchTerm = explode(' ', $data['search']);
 
         return $query->where(function ($query) use ($searchTerm) {
-            $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+            $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
+            ->orWhere('barcode', 'like', '%' . implode('%', $searchTerm) . '%');
         });
     }
 
