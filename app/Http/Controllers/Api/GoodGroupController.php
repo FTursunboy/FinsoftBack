@@ -37,6 +37,11 @@ class GoodGroupController extends Controller
         return $this->success(GoodGroupResource::make($goodGroup));
     }
 
+    public function update(GoodGroup $goodGroup, GoodGroupRequest $request)
+    {
+        return $this->success(GoodGroupResource::make($this->repository->update($goodGroup, GoodGroupDTO::fromRequest($request))));
+    }
+
     public function getGoods(GoodGroup $goodGroup, FilterRequest $request)
     {
         return $this->paginate(GoodResource::collection($this->repository->getGoods($goodGroup, $request->validated())));
