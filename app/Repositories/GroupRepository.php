@@ -31,7 +31,7 @@ class GroupRepository implements GroupRepositoryInterface
 
         $query = $this->searchGroup($query, $filterParams['search']);
 
-        $query = $this->sort($filterParams, $query, ['users.organization']);
+        $query = $this->sort($filterParams, $query, ['users.organization', 'users.group']);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
@@ -202,26 +202,26 @@ class GroupRepository implements GroupRepositoryInterface
 
     public function filterUser($query, array $data)
     {
-        return $query->when($data['organization_id'], function ($query) use ($data) {
-            return $query->whereHas('users', function ($query) use ($data) {
-                dd($query->where('organization_id', $data['organization_id'])->get());
-            });
-        })
-            ->when($data['name'], function ($query) use ($data) {
-                return $query->where('name', 'like', '%' . $data['name'] . '%');
+        return $query->whereHas('users', function ($query) use ($data) {
+            $query->when($data['organization_id'], function ($query) use ($data) {
+                $query->where('organization_id', $data['organization_id']);
             })
-            ->when($data['login'], function ($query) use ($data) {
-                return $query->where('login', 'like', '%' . $data['login'] . '%');
-            })
-            ->when($data['email'], function ($query) use ($data) {
-                return $query->where('email', 'like', '%' . $data['email'] . '%');
-            })
-            ->when($data['phone'], function ($query) use ($data) {
-                return $query->where('phone', 'like', '%' . $data['phone'] . '%');
-            })
-            ->when($data['group_id'], function ($query) use ($data) {
-                return $query->where('group_id', $data['group_id']);
-            });
+                ->when($data['name'], function ($query) use ($data) {
+                    return $query->where('name', 'like', '%' . $data['name'] . '%');
+                })
+                ->when($data['login'], function ($query) use ($data) {
+                    return $query->where('login', 'like', '%' . $data['login'] . '%');
+                })
+                ->when($data['email'], function ($query) use ($data) {
+                    return $query->where('email', 'like', '%' . $data['email'] . '%');
+                })
+                ->when($data['phone'], function ($query) use ($data) {
+                    return $query->where('phone', 'like', '%' . $data['phone'] . '%');
+                })
+                ->when($data['group_id'], function ($query) use ($data) {
+                    return $query->where('group_id', $data['group_id']);
+                });
+        });
     }
 
     public function filterStorage($query, array $data)
