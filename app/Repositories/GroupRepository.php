@@ -29,7 +29,7 @@ class GroupRepository implements GroupRepositoryInterface
 
         $query = $query->filter($filterParams);
 
-        $query = $this->searchGroup($query, $filterParams);
+        $query = $this->searchGroup($query, $filterParams['search']);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
