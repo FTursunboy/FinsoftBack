@@ -105,6 +105,11 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::post('/massRestore', [OrganizationBillController::class, 'massRestore']);
     });
 
+    Route::group(['prefix' => 'schedule'], function () {
+        Route::post('/massDelete', [ScheduleController::class, 'massDelete']);
+        Route::post('/massRestore', [ScheduleController::class, 'massRestore']);
+    });
+
     Route::group(['prefix' => 'priceType'], function () {
         Route::get('data/export', [PriceTypeController::class, 'export']);
         Route::post('/massDelete', [PriceTypeController::class, 'massDelete']);
