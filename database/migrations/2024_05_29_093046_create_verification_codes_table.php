@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('code');
             $table->foreignId('user_id')->constrained('users');
+            $table->integer('attempts')->default(0);
             $table->boolean('verified')->default(false);
             $table->timestamps();
         });

@@ -374,6 +374,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
 
     Route::get('logout', [AuthController::class, 'logout']);
+    Route::post('changePassword', [AuthController::class, 'changePassword']);
 });
 require_once 'reports.php';
 
@@ -381,3 +382,4 @@ require_once 'reports.php';
 
 Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login'])->name('login');
 Route::post('forgotPassword', [AuthController::class, 'forgotPassword']);
+Route::post('checkCode', [AuthController::class, 'checkCode']);

@@ -4,19 +4,20 @@ namespace App\Http\Controllers\Api;
 
 use App\DTO\LoginDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\User\ChangePasswordRequest;
 use App\Http\Requests\Auth\ChangePinRequest;
+use App\Http\Requests\Auth\CodeRequest;
 use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\PinRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use App\Repositories\AuthRepository;
 use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use phpseclib3\Crypt\Hash;
 
 class AuthController extends Controller
 {
@@ -46,6 +47,14 @@ class AuthController extends Controller
     {
         auth()->user()->tokens()->delete();
         return $this->deleted();
+    }
+
+    public function changePassword(ChangePasswordRequest $request){
+        $user = Auth::user();
+
+        $user->update([
+            'password' => Hash::make($request->validated('password'))
+        ]);
     }
 
     public function addPin(PinRequest $request)
@@ -101,5 +110,17 @@ class AuthController extends Controller
         }
 
         return false;
+    }
+
+    public function checkCode(CodeRequest $request)
+    {
+
+        $user = User::getByPhone($request->validated('phone'))->first();
+
+        return response()->json([
+            'token' => $user->createToken('API TOKEN')->plainTextToken,
+            'user' => UserResource::make($user),
+            'pin' => $user->pin,
+        ]);
     }
 }
