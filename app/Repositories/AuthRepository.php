@@ -26,16 +26,13 @@ class AuthRepository implements AuthRepositoryInterface
     {
         $user = User::getByPhone($phone)->first();
 
-        $code = rand(1, 9999);
+        $code = "000000";
 
         //todo HTTP REQUEST TO SEND SMS
-
 
         VerificationCode::create([
             'code' => $code,
             'user_id' => $user->id,
         ]);
-
-        return $code;
     }
 }
