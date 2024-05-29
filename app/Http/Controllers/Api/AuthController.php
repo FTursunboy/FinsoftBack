@@ -16,8 +16,9 @@ use App\Repositories\Contracts\AuthRepositoryInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use phpseclib3\Crypt\Hash;
+
 
 class AuthController extends Controller
 {
@@ -55,6 +56,8 @@ class AuthController extends Controller
         $user->update([
             'password' => Hash::make($request->validated('password'))
         ]);
+
+        return $this->success();
     }
 
     public function addPin(PinRequest $request)
