@@ -77,4 +77,9 @@ class User extends Authenticatable implements SoftDeleteInterface
     {
         return $this->hasMany(UserFcmToken::class, 'user_id');
     }
+
+    public function scopeGetByPhone($query, $phone)
+    {
+        return $query->where('phone', $phone);
+    }
 }

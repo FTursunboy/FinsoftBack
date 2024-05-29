@@ -378,4 +378,4 @@ require_once 'reports.php';
 
 
 Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login'])->name('login');
-
+Route::post('forgotPassword', [AuthController::class, 'forgotPassword']);
