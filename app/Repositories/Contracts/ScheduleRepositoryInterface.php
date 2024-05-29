@@ -15,5 +15,8 @@ interface ScheduleRepositoryInterface extends IndexInterface
 
     public function month(array $data) :LengthAwarePaginator;
 
+
+    public function excel(array $data) :string;
+
     public function calculateHours(array $weeks) :array;
 }
