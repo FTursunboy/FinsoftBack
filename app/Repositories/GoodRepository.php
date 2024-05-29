@@ -180,9 +180,12 @@ class GoodRepository implements GoodRepositoryInterface
         $words = explode(' ', $search);
         return $query->where(function ($query) use ($words) {
             foreach ($words as $word) {
-                $query->where('name', 'like', '%' . $word . '%');
+                $query->where('name', 'like', '%' . $word . '%')
+                    ->orWhereHas('barcodes', function ($query) use ($word) {
+                        return  $query->Where('barcode', 'like', '%' . $word . '%');
+                    });;
             }
-        });
+        })
     }
 
     public function filter($query, array $data)
