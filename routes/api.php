@@ -106,6 +106,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'schedule'], function () {
+        Route::get('/excel/export', [ScheduleController::class, 'excel']);
         Route::post('/massDelete', [ScheduleController::class, 'massDelete']);
         Route::post('/massRestore', [ScheduleController::class, 'massRestore']);
     });

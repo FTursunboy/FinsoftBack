@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\DTO\ScheduleDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\OrganizationBill\FilterRequest;
 use App\Http\Requests\Api\Schedule\CalculateHoursRequest;
 use App\Http\Requests\Api\Schedule\ScheduleRequest;
 use App\Http\Requests\IdRequest;
@@ -50,6 +51,11 @@ class ScheduleController extends Controller
     public function calculateHours(CalculateHoursRequest $request)
     {
         return $this->success($this->repository->calculateHours($request->validated()));
+    }
+
+    public function excel(IndexRequest $request)
+    {
+        return response()->download($this->repository->excel($request->validated()))->deleteFileAfterSend();
     }
 
     public function massDelete(IdRequest $request, MassOperationInterface $repository)
