@@ -11,6 +11,7 @@ use App\Repositories\Contracts\ScheduleRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -24,13 +25,16 @@ class ScheduleRepository implements ScheduleRepositoryInterface
     {
         $filterParams = $this->processSearchData($data);
 
+        return $this->getData($filterParams)->paginate($filterParams['itemsPerPage']);
+    }
+
+    public function getData(array $filterParams)
+    {
         $query = $this->search($filterParams['search']);
 
         $query = $this->sort($filterParams, $query, ['workerSchedule.month', 'weekHours']);
 
-        $query = $this->filter($filterParams, $query);
-
-        return $query->paginate($filterParams['itemsPerPage']);
+        return $this->filter($filterParams, $query);
     }
 
     public function store(ScheduleDTO $DTO) :Schedule
@@ -177,4 +181,42 @@ class ScheduleRepository implements ScheduleRepositoryInterface
             );
         }
     }
+
+    public function excel(array $data): string
+    {
+        $filterParams = $this->processSearchData($data);
+
+        $result = $this->getData($filterParams)->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'Наименование', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВСК', 'Помечен на удаление'
+        ]);
+
+        $writer->addRow($headerRow);
+
+        foreach ($result as $rows) {
+            $array = [];
+            $array[] = $rows->name;
+
+            foreach ($rows->weekHours as $row) {
+                $array[] = $row->hours;
+            }
+
+            $array[] = $rows->deleted_at ? 'Да' : 'Нет';
+
+            $row = WriterEntityFactory::createRowFromArray($array);
+            $writer->addRow($row);
+        }
+
+        $writer->close();
+
+        return $filePath;
+    }
+
 }
