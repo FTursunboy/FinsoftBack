@@ -9,5 +9,8 @@ class VerificationCode extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'code'];
+    public const MAX_ATTEMPTS = 3;
+
+    protected $fillable = ['user_id', 'code', 'attempts'];
+
 }

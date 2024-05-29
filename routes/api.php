@@ -374,6 +374,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
 
     Route::get('logout', [AuthController::class, 'logout']);
+    Route::post('changePassword', [AuthController::class, 'changePassword']);
 });
 require_once 'reports.php';
 

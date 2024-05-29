@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Rules\CodeRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CodeRequest extends FormRequest
@@ -22,7 +23,8 @@ class CodeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => ['required', 'string', ],
+            'phone' => ['required', 'exists:users,phone', 'string'],
+            'code' => ['required', 'string', new CodeRule()],
         ];
     }
 
