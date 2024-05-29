@@ -36,7 +36,7 @@ class Document extends DocumentModel implements SoftDeleteInterface
 
     public function organization(): BelongsTo
     {
-        return $this->belongsTo(Organization::class, 'organization_id')->withTrashed();
+        return $this->belongsTo(Organization::class, 'organization_id');
     }
 
     public function storage(): BelongsTo

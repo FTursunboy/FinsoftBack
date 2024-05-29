@@ -10,6 +10,7 @@ use App\Models\UserFcmToken;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -24,15 +25,22 @@ class UserRepository implements UserRepositoryInterface
     {
         $filteredParams = $this->model::filter($data);
 
+        $query = $this->getData($filteredParams);
+
+        return $query->paginate($filteredParams['itemsPerPage']);
+    }
+
+    public function getData(array $filteredParams)
+    {
         $query = $this->model::whereHas('roles', function ($query) {
-            $query->where('roles.name', '!=', 'admin');
+            return $query->where('name', '!=', 'admin');
         });
 
         $query = $this->search($filteredParams['search'], $query);
 
-        $query = $this->sort($filteredParams, $query, ['organization', 'group']);
+        $query = $this->filter($query, $filteredParams);
 
-        return $query->paginate($filteredParams['itemsPerPage']);
+        return $this->sort($filteredParams, $query, ['organization', 'group']);
     }
 
     public function store(UserDTO $DTO)
@@ -86,8 +94,31 @@ class UserRepository implements UserRepositoryInterface
 
         return $query->where(function ($query) use ($searchTerm) {
             $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+        })->orWhereHas('group', function ($query) use ($searchTerm) {
+            $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
         });
+    }
 
+    public function filter($query, array $data)
+    {
+        return $query->when($data['organization_id'], function ($query) use ($data) {
+            return $query->where('organization_id', $data['organization_id']);
+        })
+            ->when($data['login'], function ($query) use ($data) {
+                return $query->where('login', 'like', '%' . $data['login'] . '%');
+            })
+            ->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', '%' . $data['name'] . '%');
+            })
+            ->when($data['email'], function ($query) use ($data) {
+                return $query->where('email', 'like', '%' . $data['email'] . '%');
+            })
+            ->when($data['phone'], function ($query) use ($data) {
+                return $query->where('phone', 'like', '%' . $data['phone'] . '%');
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
+            });
     }
 
     public function documentAuthors(array $data)
@@ -117,15 +148,17 @@ class UserRepository implements UserRepositoryInterface
     {
         $filteredParams = $this->model::filter($data);
 
-        $query = $this->search($filteredParams['search']);
+        $query = $this->model::whereHas('roles', function ($query) {
+            $query->where('roles.name', '!=', 'admin');
+        });
 
-        $query = $this->filter($query, $filteredParams);
+        $query = $this->search($filteredParams['search'], $query);
 
-        $query = $this->sort($filteredParams, $query, ['group', 'organization']);
+        $query = $this->sort($filteredParams, $query, ['organization', 'group']);
 
         $result = $query->get();
 
-        $filename = 'report ' . now() . '.xlsx';
+        $filename = 'пользователи ' . now() . '.xlsx';
 
         $filePath = storage_path($filename);
         $writer = WriterEntityFactory::createXLSXWriter();

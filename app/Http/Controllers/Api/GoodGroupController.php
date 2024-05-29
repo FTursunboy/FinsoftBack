@@ -6,7 +6,7 @@ use App\DTO\GoodGroupDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\GoodGroup\FilterRequest;
 use App\Http\Requests\Api\GoodGroup\GoodGroupRequest;
-use App\Http\Requests\IdRequest;
+use App\Http\Requests\Api\GoodGroup\IdRequest;
 use App\Http\Resources\GoodGroupResource;
 use App\Http\Resources\GoodResource;
 use App\Models\GoodGroup;

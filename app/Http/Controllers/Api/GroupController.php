@@ -72,6 +72,12 @@ class GroupController extends Controller
 
     public function destroy(Group $group)
     {
+        $users = $group->users->where('deleted_at', null);
+        $storages = $group->storages->where('deleted_at', null);
+        $employees = $group->employees->where('deleted_at', null);
+        if ($users->isNotEmpty() || $storages->isNotEmpty() || $employees->isNotEmpty()) {
+            abort(400, 'В этой группе есть данные!');
+        }
         return $this->deleted($group->delete());
     }
 
@@ -80,4 +86,18 @@ class GroupController extends Controller
         return $this->success($group->update(['deleted_at' => null]));
     }
 
+    public function exportEmployees(Group $group,FilterRequest $request)
+    {
+        return response()->download($this->repository->exportEmployees($group, $request->validated()))->deleteFileAfterSend();
+    }
+
+    public function exportUsers(Group $group, FilterRequest $request)
+    {
+        return response()->download($this->repository->exportUsers($group, $request->validated()))->deleteFileAfterSend();
+    }
+
+    public function exportStorages(Group $group, FilterRequest $request)
+    {
+        return response()->download($this->repository->exportStorages($group, $request->validated()))->deleteFileAfterSend();
+    }
 }

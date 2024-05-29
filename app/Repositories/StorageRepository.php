@@ -11,6 +11,7 @@ use App\Models\Storage;
 use App\Repositories\Contracts\StorageRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -102,5 +103,44 @@ class StorageRepository implements StorageRepositoryInterface
     public function search(string $search)
     {
         return $this->model::where('name', 'like', '%' . $search . '%');
+    }
+
+    public function export(array $data): string
+    {
+        $filterParams = $this->model::filter($data);
+
+        $query = $this->search($filterParams['search']);
+
+        $query = $this->sort($filterParams, $query, ['organization', 'group']);
+
+        $result = $query->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'Наименование', 'Организация', 'Группа', 'Помечен на удаление'
+        ]);
+
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->name,
+                $row->organization?->name,
+                $row->group?->name,
+                $row->deleted_at ? 'Да' : 'Нет',
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
+
     }
 }

@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\GoodGroupController;
 use App\Http\Controllers\Api\GroupController;
 use App\Http\Controllers\Api\HiringController;
 use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ExchangeRateController;
@@ -90,6 +91,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('good-group', GoodGroupController::class);
     Route::apiResource('schedule', ScheduleController::class);
     Route::post('calculateHours', [ScheduleController::class, 'calculateHours']);
+    Route::apiResource('location', LocationController::class);
 
     Route::get('months', [ScheduleController::class, 'months']);
 
@@ -103,6 +105,12 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::post('/massRestore', [OrganizationBillController::class, 'massRestore']);
     });
 
+    Route::group(['prefix' => 'schedule'], function () {
+        Route::get('/excel/export', [ScheduleController::class, 'excel']);
+        Route::post('/massDelete', [ScheduleController::class, 'massDelete']);
+        Route::post('/massRestore', [ScheduleController::class, 'massRestore']);
+    });
+
     Route::group(['prefix' => 'priceType'], function () {
         Route::get('data/export', [PriceTypeController::class, 'export']);
         Route::post('/massDelete', [PriceTypeController::class, 'massDelete']);
@@ -110,11 +118,13 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'cashRegister'], function () {
+        Route::get('excel/export', [CashRegisterController::class, 'export']);
         Route::post('/massDelete', [CashRegisterController::class, 'massDelete']);
         Route::post('/massRestore', [CashRegisterController::class, 'massRestore']);
     });
 
     Route::group(['prefix' => 'organization'], function () {
+        Route::get('excel/export', [OrganizationController::class, 'export']);
         Route::post('/massDelete', [OrganizationController::class, 'massDelete']);
         Route::post('/massRestore', [OrganizationController::class, 'massRestore']);
     });
@@ -142,6 +152,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/get-employees-by-storage_id/{storage}', [StorageEmployeeController::class, 'getEmployeesByStorageId']);
         Route::get('/show-employee/{employee}', [StorageController::class, 'showEmployee']);
         Route::patch('/update-employee/{employee}', [StorageController::class, 'updateEmployee']);
+        Route::get('excel/export', [StorageController::class, 'export']);
     });
 
     Route::group(['prefix' => 'category'], function () {
@@ -159,6 +170,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('hiring', HiringController::class);
 
     Route::group(['prefix' => 'goods'], function () {
+        Route::get('excel/export', [GoodController::class, 'export']);
         Route::get('history/{good}', [GoodController::class, 'history']);
         Route::get('/getByBarcode/{barcode}', [GoodController::class, 'getByBarcode']);
         Route::post('/massDelete', [GoodController::class, 'massDelete']);
@@ -231,6 +243,9 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/get-storages/{group}', [GroupController::class, 'getStorages']);
         Route::get('/get-employees/{group}', [GroupController::class, 'getEmployees']);
         Route::get('/restore/{group}', [GroupController::class, 'restore']);
+        Route::get('/users/excel/export/{group}', [GroupController::class, 'exportUsers']);
+        Route::get('/employees/excel/export/{group}', [GroupController::class, 'exportEmployees']);
+        Route::get('/storages/excel/export/{group}', [GroupController::class, 'exportStorages']);
     });
 
     Route::group(['prefix' => 'image'], function () {
@@ -365,10 +380,12 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
 
     Route::get('logout', [AuthController::class, 'logout']);
+    Route::post('changePassword', [AuthController::class, 'changePassword']);
 });
 require_once 'reports.php';
 
 
 
 Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login'])->name('login');
-
+Route::post('forgotPassword', [AuthController::class, 'forgotPassword']);
+Route::post('checkCode', [AuthController::class, 'checkCode']);

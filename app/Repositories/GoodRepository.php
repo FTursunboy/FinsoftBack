@@ -12,6 +12,7 @@ use App\Models\GoodImages;
 use App\Repositories\Contracts\GoodRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -27,15 +28,20 @@ class GoodRepository implements GoodRepositoryInterface
     {
         $filterParams = $this->model::filter($data);
 
-        $query = $filterParams['for_sale'] ? $this->getForSaleGoods($filterParams) :$this->getData($filterParams);
+        $query = $this->getQuery($filterParams);
+
+        return $query->paginate($filterParams['itemsPerPage']);
+    }
+
+    public function getQuery(array $filterParams)
+    {
+        $query = $filterParams['for_sale'] ? $this->getForSaleGoods($filterParams) : $this->getData($filterParams);
 
         $query = $this->search($query, $filterParams['search']);
 
         $query = $this->filter($query, $filterParams);
 
-        $query = $this->sort($filterParams, $query, ['unit', 'images', 'storage', 'goodGroup']);
-
-        return $query->paginate($filterParams['itemsPerPage']);
+        return $this->sort($filterParams, $query, ['unit', 'images', 'storage', 'goodGroup', 'location']);
     }
 
     public function store(GoodDTO $DTO)
@@ -194,16 +200,19 @@ class GoodRepository implements GoodRepositoryInterface
                 return $query->where('storage_id', $data['storage_id']);
             })
             ->when($data['name'], function ($query) use ($data) {
-                return $query->where('name', 'like', '%'.$data['name'].'%');
+                return $query->where('name', 'like', '%' . $data['name'] . '%');
             })
             ->when($data['vendor_code'], function ($query) use ($data) {
-                return $query->where('vendor_code', 'like', '%'.$data['vendor_code'].'%');
+                return $query->where('vendor_code', 'like', '%' . $data['vendor_code'] . '%');
             })
             ->when($data['description'], function ($query) use ($data) {
-                return $query->where('description', 'like', '%'.$data['description'].'%');
+                return $query->where('description', 'like', '%' . $data['description'] . '%');
             })
             ->when($data['barcode'], function ($query) use ($data) {
-                return $query->where('barcode', 'like', '%'.$data['barcode'].'%');
+                return $query->where('barcode', 'like', '%' . $data['barcode'] . '%');
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
             });
     }
 
@@ -220,5 +229,46 @@ class GoodRepository implements GoodRepositoryInterface
             ->where('good_id', $good->id)
             ->with(['good'])
             ->get();
+    }
+
+    public function export(array $data): string
+    {
+        $filterParams = $this->model::filter($data);
+
+        $query = $this->getQuery($filterParams);
+
+        $result = $query->get();
+
+        $filename = 'report ' . now() . '.xlsx';
+
+        $filePath = storage_path($filename);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToFile($filePath);
+
+        $headerRow = WriterEntityFactory::createRowFromArray([
+            'Наименование', 'Артикул', 'Описание', 'Ед. измерения', 'Штрих код', 'Склад', 'Группа', 'Помечен на удаление'
+        ]);
+
+        $writer->addRow($headerRow);
+
+
+        foreach ($result as $row) {
+            $dataRow = WriterEntityFactory::createRowFromArray([
+                $row->name,
+                $row->vendor_code,
+                $row->description,
+                $row->unit?->name,
+                $row->barcode,
+                $row->storage?->name,
+                $row->good_group?->name,
+                $row->deleted_at ? 'Да' : 'Нет',
+            ]);
+            $writer->addRow($dataRow);
+        }
+
+        $writer->close();
+
+        return $filePath;
+
     }
 }

@@ -14,6 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Code;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements SoftDeleteInterface
@@ -39,7 +40,7 @@ class User extends Authenticatable implements SoftDeleteInterface
 
     public function organization() :BelongsTo
     {
-        return $this->belongsTo(Organization::class, 'organization_id')->withTrashed();
+        return $this->belongsTo(Organization::class, 'organization_id');
     }
 
     public function group() :BelongsTo
@@ -69,11 +70,22 @@ class User extends Authenticatable implements SoftDeleteInterface
             'email' => $data['filterData']['email'] ?? null,
             'phone' => $data['filterData']['phone'] ?? null,
             'organization_id' => $data['filterData']['organization_id'] ?? null,
+            'deleted' => $data['filterData']['deleted'] ?? null,
         ];
     }
 
     public function fcmTokens()
     {
         return $this->hasMany(UserFcmToken::class, 'user_id');
+    }
+
+    public function scopeGetByPhone($query, $phone)
+    {
+        return $query->where('phone', $phone);
+    }
+
+    public function codes()
+    {
+        return $this->hasMany(VerificationCode::class, 'user_id');
     }
 }

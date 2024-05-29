@@ -104,7 +104,7 @@ class ReconciliationReportRepository implements ReconciliationReportRepositoryIn
         $writer->openToFile($filePath);
 
         $headerRow = WriterEntityFactory::createRowFromArray([
-            'Дата', 'Поставщик', 'Тип', 'Договор', 'Организация', 'Сумма со скидкой', 'Сумма', 'Валюта'
+            'Дата', 'Поставщик', 'Тип', 'Договор', 'Организация', 'Сумма со скидкой', 'Сумма', 'Валюта', 'Помечен на удаление'
         ]);
 
         $writer->addRow($headerRow);
@@ -120,6 +120,7 @@ class ReconciliationReportRepository implements ReconciliationReportRepositoryIn
                 $row->sale_sum,
                 $row->sum,
                 $row->currency,
+                $row->deleted_at ? 'Да' : 'Нет',
             ]);
             $writer->addRow($dataRow);
         }

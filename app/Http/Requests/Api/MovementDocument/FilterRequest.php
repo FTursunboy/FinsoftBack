@@ -27,6 +27,8 @@ class FilterRequest extends FormRequest
             'sender_storage_id' => 'nullable|integer',
             'startDate' => 'nullable',
             'endDate' => 'nullable',
+            'deleted' => 'nullable|bool',
+            'active' => 'nullable|bool',
         ];
     }
 

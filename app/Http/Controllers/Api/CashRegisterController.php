@@ -58,4 +58,9 @@ class CashRegisterController extends Controller
     {
         return $this->success($restore->massRestore(new CashRegister(), $request->validated()));
     }
+
+    public function export(FilterRequest $request)
+    {
+        return response()->download($this->repository->export($request->validated()))->deleteFileAfterSend();
+    }
 }

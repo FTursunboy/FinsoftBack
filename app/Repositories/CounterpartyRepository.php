@@ -104,6 +104,9 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
                 return $query->whereHas('roles', function ($query) use ($data) {
                     return $query->whereIn('role_id', $data['roles']);
                 });
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
             });
     }
 
@@ -161,7 +164,7 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
         $writer->openToFile($filePath);
 
         $headerRow = WriterEntityFactory::createRowFromArray([
-            'Наименование', 'Адрес', 'Телефон', 'Почта', 'Баланс',
+            'Наименование', 'Адрес', 'Телефон', 'Почта', 'Баланс', 'Помечен на удаление'
         ]);
 
         $writer->addRow($headerRow);
@@ -174,6 +177,7 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
                 $row->phone,
                 $row->email,
                 $row->balance,
+                $row->deleted_at ? 'Да' : 'Нет',
             ]);
             $writer->addRow($dataRow);
         }

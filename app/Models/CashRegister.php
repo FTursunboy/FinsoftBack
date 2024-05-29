@@ -51,6 +51,7 @@ class CashRegister extends Model implements \App\Repositories\Contracts\SoftDele
             'currency_id' => $data['filterData']['currency_id'] ?? null,
             'organization_id' => $data['filterData']['organization_id'] ?? null,
             'responsible_person_id' => $data['filterData']['responsible_person_id'] ?? null,
+            'deleted' => $data['filterData']['deleted'] ?? null,
         ];
     }
 }

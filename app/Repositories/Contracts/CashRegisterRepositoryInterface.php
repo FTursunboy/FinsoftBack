@@ -12,4 +12,6 @@ interface CashRegisterRepositoryInterface extends IndexInterface
 
     public function update(CashRegister $cashRegister, CashRegisterDTO $DTO) :CashRegister;
 
+    public function export(array $data);
+
 }

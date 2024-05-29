@@ -71,6 +71,9 @@ class PriceTypeRepository implements PriceTypeRepositoryInterface
             })
             ->when($data['description'], function ($query) use ($data) {
                 return $query->where('description', 'like', '%' . $data['description'] . '%');
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
             });
     }
 
@@ -93,7 +96,7 @@ class PriceTypeRepository implements PriceTypeRepositoryInterface
         $writer->openToFile($filePath);
 
         $headerRow = WriterEntityFactory::createRowFromArray([
-            'Наименование', 'Валюта', 'Описание'
+            'Наименование', 'Валюта', 'Описание', 'Помечен на удаление'
         ]);
 
         $writer->addRow($headerRow);
@@ -104,6 +107,7 @@ class PriceTypeRepository implements PriceTypeRepositoryInterface
                 $row->name,
                 $row->currency_id,
                 $row->description,
+                $row->deleted_at ? 'Да' : 'Нет',
             ]);
             $writer->addRow($dataRow);
         }

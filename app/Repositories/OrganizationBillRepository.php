@@ -30,7 +30,7 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
         $query = $this->search($filterParams);
 
         $query = $this->filter($query, $filterParams);
-//dd($query->toRawSql());
+
         $query = $this->sort($filterParams, $query, ['organization', 'currency']);
 
         return $query->paginate($filterParams['itemsPerPage']);
@@ -87,6 +87,9 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
             })
             ->when($data['comment'], function ($query) use ($data) {
                 return $query->where('comment', 'like', '%' . $data['comment'] . '%');
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
             });
     }
 
@@ -118,8 +121,8 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
         foreach ($result as $row) {
             $dataRow = WriterEntityFactory::createRowFromArray([
                 $row->name,
-                $row->currency_id,
-                $row->organization_id,
+                $row->currency->name,
+                $row->organization->name,
                 $row->bill_number,
                 $row->date,
                 $row->comment,

@@ -35,6 +35,11 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    public function location(): BelongsTo
+    {
+        return $this->belongsTo(Location::class, 'location_id');
+    }
+
     public function barcodes(): HasMany
     {
         return $this->hasMany(Barcode::class);
@@ -60,8 +65,6 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
         return $this->hasMany(GoodImages::class, 'good_id');
     }
 
-
-
     public static function filter(array $data): array
     {
         $filteredData = [
@@ -80,6 +83,7 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
             'good_storage_id' => $data['good_storage_id'] ?? null,
             'good_organization_id' => $data['good_organization_id'] ?? null,
             'for_sale' => $data['for_sale'] ?? null,
+            'deleted' => $data['deleted'] ?? null,
         ];
 
         if (isset($data['filterData'])) {
@@ -91,6 +95,7 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
             $filteredData['barcode'] = $data['filterData']['barcode'] ?? $filteredData['barcode'];
             $filteredData['storage_id'] = $data['filterData']['storage_id'] ?? $filteredData['storage_id'];
             $filteredData['good_group_id'] = $data['filterData']['good_group_id'] ?? $filteredData['good_group_id'];
+            $filteredData['deleted'] = $data['filterData']['deleted'] ?? $filteredData['deleted'];
         }
 
         return $filteredData;

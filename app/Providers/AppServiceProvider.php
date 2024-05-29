@@ -74,6 +74,7 @@ use App\Repositories\Contracts\GoodRepositoryInterface;
 use App\Repositories\Contracts\GroupRepositoryInterface;
 use App\Repositories\Contracts\HiringRepositoryInterface;
 use App\Repositories\Contracts\ImageRepositoryInterface;
+use App\Repositories\Contracts\LocationRepositoryInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\Contracts\OrganizationBillRepositoryInterface;
 use App\Repositories\Contracts\OrganizationRepositoryInterface;
@@ -113,6 +114,7 @@ use App\Repositories\GoodRepository;
 use App\Repositories\GroupRepository;
 use App\Repositories\HiringRepository;
 use App\Repositories\ImageRepository;
+use App\Repositories\LocationRepository;
 use App\Repositories\MassOperation;
 use App\Repositories\OrganizationBillRepository;
 use App\Repositories\OrganizationRepository;
@@ -205,6 +207,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ReconciliationReportRepositoryInterface::class, ReconciliationReportRepository::class);
         $this->app->singleton(CounterpartyReportRepositoryInterface::class, CounterpartyReportRepository::class);
         $this->app->singleton(\App\Repositories\Contracts\Report\OrganizationReportRepository::class, OrganizationReportRepository::class);
+        $this->app->singleton(LocationRepositoryInterface::class, LocationRepository::class);
     }
 
     /**
