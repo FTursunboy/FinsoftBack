@@ -48,6 +48,7 @@ class Group extends Model implements \App\Repositories\Contracts\SoftDeleteInter
             'email' => $data['filterData']['email'] ?? null,
             'phone' => $data['filterData']['phone'] ?? null,
             'organization_id' => $data['filterData']['organization_id'] ?? null,
+            'group_id' => $data['filterData']['group_id'] ?? null,
             'deleted' => $data['filterData']['deleted'] ?? null,
         ];
     }

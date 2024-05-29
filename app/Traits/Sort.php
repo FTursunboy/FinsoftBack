@@ -29,7 +29,7 @@ trait Sort
         $table = app($this->model)->getTable();
 
         if (Schema::hasColumn($table, 'deleted_at'))
-            return $query->with($relations)->orderBy('deleted_at')->orderBy('created_at', 'desc');
+            return $query->with($relations)->orderBy($table.'.deleted_at')->orderBy($table.'.created_at', 'desc');
 
         return $query->with($relations)->orderBy('created_at', 'desc');
     }

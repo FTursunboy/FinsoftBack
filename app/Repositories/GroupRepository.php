@@ -23,24 +23,17 @@ class GroupRepository implements GroupRepositoryInterface
 
     public function usersGroup(array $data): LengthAwarePaginator
     {
-        // Extract filter parameters
         $filterParams = $this->model::filter($data);
 
-        // Base query for Groups of type USERS with user filtering
         $query = Group::where('type', Group::USERS);
 
-
-        $query = $query->filter($filterParams);
+        $query = $this->filterUser($query, $filterParams);
 
         $query = $this->searchGroup($query, $filterParams['search']);
 
         $query = $this->sort($filterParams, $query, ['users.organization']);
 
-
-        $groups = $query->paginate($filterParams['itemsPerPage']);
-
-
-        return $groups;
+        return $query->paginate($filterParams['itemsPerPage']);
     }
 
     public function filter($query, array $data)
@@ -51,17 +44,17 @@ class GroupRepository implements GroupRepositoryInterface
             ->when($data['login'], function ($query) use ($data) {
                 return $query->where('login', 'like', '%' . $data['login'] . '%');
             })
-            ->when($data['name'], function ($query) use ($data) {
-                return $query->where('name', 'like', '%' . $data['name'] . '%');
-            })
             ->when($data['email'], function ($query) use ($data) {
                 return $query->where('email', 'like', '%' . $data['email'] . '%');
+            })
+            ->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', '%' . $data['name'] . '%');
             })
             ->when($data['phone'], function ($query) use ($data) {
                 return $query->where('phone', 'like', '%' . $data['phone'] . '%');
             })
             ->when(isset($data['deleted']), function ($query) use ($data) {
-                return $data['deleted'] ? $query->where('deleted_at', null) :  $query->where('deleted_at', '!=', null);
+                return $data['deleted'] ? $query->where('deleted_at', null) : $query->where('deleted_at', '!=', null);
             });
     }
 
@@ -179,20 +172,17 @@ class GroupRepository implements GroupRepositoryInterface
         $searchTerm = explode(' ', $search);
 
         return $query->where(function ($query) use ($searchTerm) {
-            return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')->orWhereHas('users', function ($query) use ($searchTerm) {
-                $query->where(function ($query) use ($searchTerm) {
-                    return $query-> where('name', 'like', implode('%', $searchTerm) . '%')
+            return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhereHas('users', function ($query) use ($searchTerm) {
+                    return $query->where('name', 'like', implode('%', $searchTerm) . '%')
                         ->orWhere('email', 'like', implode('%', $searchTerm) . '%')
                         ->orWhere('login', 'like', implode('%', $searchTerm) . '%')
-                         ->orWhere('phone', 'like', implode('%', $searchTerm) . '%')
+                        ->orWhere('phone', 'like', implode('%', $searchTerm) . '%')
                         ->orWhereHas('organization', function ($query) use ($searchTerm) {
-                            return $query-> where('name', 'like', implode('%', $searchTerm) . '%');
+                            return $query->where('name', 'like', implode('%', $searchTerm) . '%');
                         });
-
                 });
-
-            });
-        }) ;
+        });
     }
 
 
@@ -213,7 +203,9 @@ class GroupRepository implements GroupRepositoryInterface
     public function filterUser($query, array $data)
     {
         return $query->when($data['organization_id'], function ($query) use ($data) {
-            return $query->where('organization_id', $data['organization_id']);
+            return $query->whereHas('users', function ($query) use ($data) {
+                dd($query->where('organization_id', $data['organization_id'])->get());
+            });
         })
             ->when($data['name'], function ($query) use ($data) {
                 return $query->where('name', 'like', '%' . $data['name'] . '%');
@@ -226,6 +218,9 @@ class GroupRepository implements GroupRepositoryInterface
             })
             ->when($data['phone'], function ($query) use ($data) {
                 return $query->where('phone', 'like', '%' . $data['phone'] . '%');
+            })
+            ->when($data['group_id'], function ($query) use ($data) {
+                return $query->where('group_id', $data['group_id']);
             });
     }
 
