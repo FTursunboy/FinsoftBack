@@ -196,8 +196,7 @@ dd($query->get());
         $searchTerm = explode(' ', $data['search']);
 
         return $query->where(function ($query) use ($searchTerm) {
-            $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
-            ->orWhere('barcode', 'like', '%' . implode('%', $searchTerm) . '%');
+            $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
         });
     }
 
