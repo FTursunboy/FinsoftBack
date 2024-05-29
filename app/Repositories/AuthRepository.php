@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\DTO\LoginDTO;
 use App\Models\User;
+use App\Models\VerificationCode;
 use App\Repositories\Contracts\AuthRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -21,4 +22,19 @@ class AuthRepository implements AuthRepositoryInterface
         return null;
     }
 
+    public function forgotPassword(string $phone)
+    {
+        $user = User::getByPhone($phone)->first();
+
+        $code = "111111";
+
+        $user->codes()->delete();
+
+        //todo HTTP REQUEST TO SEND SMS
+
+        VerificationCode::create([
+            'code' => $code,
+            'user_id' => $user->id,
+        ]);
+    }
 }

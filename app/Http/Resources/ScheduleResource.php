@@ -19,7 +19,8 @@ class ScheduleResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'workerSchedule' => WorkerScheduleResource::collection($this->whenLoaded('workerSchedule')),
-            'weekHours' => $this->whenLoaded('weekHours')
+            'weekHours' => $this->whenLoaded('weekHours'),
+            'deleted_at' => $this->deleted_at
         ];
     }
 }
