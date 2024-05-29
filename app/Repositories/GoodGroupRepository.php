@@ -29,7 +29,7 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
         $filterParams = $this->model::filter($data);
 
         $query = $this->search($filterParams['search']);
-      //  dd($query->get());
+
         $query = $this->filterGroup($query, $filterParams);
 
         $query = $this->sort($filterParams, $query, ['goods']);
@@ -46,6 +46,17 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
         ]);
 
         return $good;
+    }
+
+    public function update(GoodGroup $goodGroup, GoodGroupDTO $DTO)
+    {
+        $goodGroup->update([
+            'name' => $DTO->name,
+            'is_good' => $DTO->is_good ?? false,
+            'is_service' => $DTO->is_service ?? false,
+        ]);
+
+        return $goodGroup;
     }
 
     public function getGoods(GoodGroup $goodGroup, array $data)
