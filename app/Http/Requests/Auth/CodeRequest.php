@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Api\Location;
+namespace App\Http\Requests\Auth;
 
+use App\Rules\CodeRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LocationRequest extends FormRequest
+class CodeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +23,9 @@ class LocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required']
+            'phone' => ['required', 'exists:users,phone', 'string'],
+            'code' => ['required', 'string', new CodeRule()],
         ];
     }
+
 }

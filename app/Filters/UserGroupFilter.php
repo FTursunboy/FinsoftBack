@@ -23,7 +23,9 @@ class UserGroupFilter extends ModelFilter
 
     public function organization($value) :UserGroupFilter
     {
-        return $this->whereDate('date', $value);
+        return $this->related('users', function ($query) use ($value) {
+            return $query->where('organization_id', $value);
+        });
     }
 
     public function senderStorage(int $id) :UserGroupFilter

@@ -28,6 +28,8 @@ class ScheduleRepository implements ScheduleRepositoryInterface
 
         $query = $this->sort($filterParams, $query, ['workerSchedule.month', 'weekHours']);
 
+        $query = $this->filter($filterParams, $query);
+
         return $query->paginate($filterParams['itemsPerPage']);
     }
 
@@ -66,6 +68,16 @@ class ScheduleRepository implements ScheduleRepositoryInterface
                 'hours' => $item['hour']
             ];
         }, $weeks);
+    }
+
+    public function filter(array $data, $query)
+    {
+        return $query->when($data['name'], function ($query) use ($data) {
+            $query->where('name', 'like', '%' . $data['name'] . '%');
+        })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
+            });
     }
 
     public function workerSchedule(array $data, Schedule $schedule) :array

@@ -12,7 +12,6 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
     'failed' => 'Неверный логин или пароль.',
     'password' => 'Неверный пароль',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',

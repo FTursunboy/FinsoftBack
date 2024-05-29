@@ -105,6 +105,11 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::post('/massRestore', [OrganizationBillController::class, 'massRestore']);
     });
 
+    Route::group(['prefix' => 'schedule'], function () {
+        Route::post('/massDelete', [ScheduleController::class, 'massDelete']);
+        Route::post('/massRestore', [ScheduleController::class, 'massRestore']);
+    });
+
     Route::group(['prefix' => 'priceType'], function () {
         Route::get('data/export', [PriceTypeController::class, 'export']);
         Route::post('/massDelete', [PriceTypeController::class, 'massDelete']);
@@ -374,10 +379,12 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
 
     Route::get('logout', [AuthController::class, 'logout']);
+    Route::post('changePassword', [AuthController::class, 'changePassword']);
 });
 require_once 'reports.php';
 
 
 
 Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login'])->name('login');
-
+Route::post('forgotPassword', [AuthController::class, 'forgotPassword']);
+Route::post('checkCode', [AuthController::class, 'checkCode']);

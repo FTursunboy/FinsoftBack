@@ -14,6 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Code;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements SoftDeleteInterface
@@ -76,5 +77,15 @@ class User extends Authenticatable implements SoftDeleteInterface
     public function fcmTokens()
     {
         return $this->hasMany(UserFcmToken::class, 'user_id');
+    }
+
+    public function scopeGetByPhone($query, $phone)
+    {
+        return $query->where('phone', $phone);
+    }
+
+    public function codes()
+    {
+        return $this->hasMany(VerificationCode::class, 'user_id');
     }
 }

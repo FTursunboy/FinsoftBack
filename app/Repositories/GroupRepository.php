@@ -23,17 +23,24 @@ class GroupRepository implements GroupRepositoryInterface
 
     public function usersGroup(array $data): LengthAwarePaginator
     {
+        // Extract filter parameters
         $filterParams = $this->model::filter($data);
 
-        $query = Group::where('type', Group::USERS)->whereHas('users');
+        // Base query for Groups of type USERS with user filtering
+        $query = Group::where('type', Group::USERS);
 
 
+        $query = $query->filter($filterParams);
 
         $query = $this->searchGroup($query, $filterParams['search']);
 
         $query = $this->sort($filterParams, $query, ['users.organization']);
 
-        return $query->paginate($filterParams['itemsPerPage']);
+
+        $groups = $query->paginate($filterParams['itemsPerPage']);
+
+
+        return $groups;
     }
 
     public function filter($query, array $data)
