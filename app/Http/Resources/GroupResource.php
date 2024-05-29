@@ -19,7 +19,7 @@ class GroupResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'users' => UserResource::collection($this->whenLoaded('users')),
-            'storages' => StorageResource::collection($this->whenLoaded('storages')),
+            'storages' => StorageResource::collection($this->whenLoaded('storages', 'storages.organization', 'storages.group')),
             'employees' => EmployeeResource::collection($this->whenLoaded('employees')),
             'deleted_at' => $this->deleted_at
         ];
