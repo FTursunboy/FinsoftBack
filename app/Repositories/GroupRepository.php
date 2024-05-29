@@ -25,13 +25,13 @@ class GroupRepository implements GroupRepositoryInterface
     {
         $filterParams = $this->model::filter($data);
 
-        $query = Group::query();//where('type', Group::USERS);
+        $query = Group::where('type', Group::USERS)->with(['users.organization', 'users.group']);
 
         $query = $this->filterUser($query, $filterParams);
-        dd($query->toRawSql());
+//dd($query->toRawSql());
         $query = $this->searchGroup($query, $filterParams['search']);
 
-        $query = $this->sort($filterParams, $query, ['users.organization', 'users.group']);
+        $query = $this->sort($filterParams, $query, []);
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
@@ -204,7 +204,7 @@ class GroupRepository implements GroupRepositoryInterface
     {
         return $query->whereHas('users', function ($query) use ($data) {
             $query->when($data['organization_id'], function ($query) use ($data) {
-                $query->where('organization_id', $data['organization_id']);
+                return $query->where('users.organization_id', $data['organization_id']);
             })
                 ->when($data['name'], function ($query) use ($data) {
                     return $query->where('name', 'like', '%' . $data['name'] . '%');
