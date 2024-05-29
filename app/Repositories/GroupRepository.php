@@ -220,6 +220,9 @@ class GroupRepository implements GroupRepositoryInterface
                 })
                 ->when($data['group_id'], function ($query) use ($data) {
                     return $query->where('group_id', $data['group_id']);
+                })
+                ->when(isset($data['deleted']), function ($query) use ($data) {
+                    return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
                 });
         });
     }
