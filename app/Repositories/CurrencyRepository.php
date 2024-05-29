@@ -154,7 +154,7 @@ class CurrencyRepository implements CurrencyRepositoryInterface
                 $row->name,
                 $row->digital_code,
                 $row->symbol_code,
-                $row->exchangeRates->whereNull('deleted_at')->sortByDesc('date')->first()->value,
+                $row->exchangeRates->whereNull('deleted_at')->sortByDesc('date')->first()?->value,
                 $row->deleted_at ? 'Да' : 'Нет',
             ]);
             $writer->addRow($dataRow);
