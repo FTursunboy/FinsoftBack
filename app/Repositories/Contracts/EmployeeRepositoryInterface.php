@@ -17,4 +17,6 @@ interface EmployeeRepositoryInterface extends IndexInterface
     public function update(Employee $employee, EmployeeUpdateDTO $DTO) :Employee;
 
     public function deleteImage(Employee $employee);
+
+    public function export(array $data);
 }
