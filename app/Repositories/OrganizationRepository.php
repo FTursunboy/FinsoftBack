@@ -25,10 +25,6 @@ class OrganizationRepository implements OrganizationRepositoryInterface
 
         $query = $this->search($filteredParams);
 
-        if ($filteredParams['deleted']) {
-            $query->withTrashed();
-        }
-
         $query = $this->filter($query, $filteredParams);
 
         $query = $this->sort($filteredParams, $query, ['director', 'chiefAccountant']);
@@ -98,6 +94,9 @@ class OrganizationRepository implements OrganizationRepositoryInterface
             })
             ->when($data['address'], function ($query) use ($data) {
                 return $query->where('address', 'like', '%' . $data['address'] . '%');
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
             });
     }
 
@@ -108,7 +107,7 @@ class OrganizationRepository implements OrganizationRepositoryInterface
         $query = $this->search($filteredParams);
 
         if ($filteredParams['deleted']) {
-            $query->withTrashed();
+            $query;
         }
 
         $query = $this->filter($query, $filteredParams);

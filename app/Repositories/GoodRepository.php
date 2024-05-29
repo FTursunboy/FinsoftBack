@@ -41,7 +41,7 @@ class GoodRepository implements GoodRepositoryInterface
 
         $query = $this->filter($query, $filterParams);
 
-        return $this->sort($filterParams, $query, ['unit', 'images', 'storage', 'goodGroup']);
+        return $this->sort($filterParams, $query, ['unit', 'images', 'storage', 'goodGroup', 'location']);
     }
 
     public function store(GoodDTO $DTO)
@@ -210,6 +210,9 @@ class GoodRepository implements GoodRepositoryInterface
             })
             ->when($data['barcode'], function ($query) use ($data) {
                 return $query->where('barcode', 'like', '%' . $data['barcode'] . '%');
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
             });
     }
 

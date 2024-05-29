@@ -71,6 +71,9 @@ class PriceTypeRepository implements PriceTypeRepositoryInterface
             })
             ->when($data['description'], function ($query) use ($data) {
                 return $query->where('description', 'like', '%' . $data['description'] . '%');
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
             });
     }
 
