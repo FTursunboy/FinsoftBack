@@ -34,6 +34,7 @@ class GoodGroup extends Model implements \App\Repositories\Contracts\SoftDeleteI
             'name'  => $data['filterData']['name'] ?? null,
             'is_service' => $data['filterData']['is_service'] ?? null,
             'is_good' => $data['filterData']['is_good'] ?? null,
+            'good_group_id' => $data['filterData']['good_group_id'] ?? null,
         ];
     }
 }
