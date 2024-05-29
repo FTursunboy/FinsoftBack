@@ -128,6 +128,9 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
             ->when($data['is_service'], function ($query) use ($data) {
                 return $query->where('is_service', $data['is_service']);
             })
+            ->when($data['good_group_id'], function ($query) use ($data) {
+                return $query->where('good_group_id', $data['good_group_id']);
+            })
             ->when($data['name'], function ($query) use ($data) {
                 return $query->where('name', 'like', '%' . $data['name'] . '%');
             });
