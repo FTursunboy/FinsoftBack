@@ -23,7 +23,7 @@ class GroupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['string', 'required'],
+            'name' => ['string', 'required', Rule::unique('groups', 'name')],
             'type' => ['integer', 'nullable', Rule::in([0, 1, 2])],
         ];
     }
