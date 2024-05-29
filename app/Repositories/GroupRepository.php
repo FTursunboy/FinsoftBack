@@ -25,10 +25,10 @@ class GroupRepository implements GroupRepositoryInterface
     {
         $filterParams = $this->model::filter($data);
 
-        $query = Group::where('type', Group::USERS);
-dd($query->toRawSql());
-        $query = $this->filterUser($query, $filterParams);
+        $query = Group::query();//where('type', Group::USERS);
 
+        $query = $this->filterUser($query, $filterParams);
+        dd($query->toRawSql());
         $query = $this->searchGroup($query, $filterParams['search']);
 
         $query = $this->sort($filterParams, $query, ['users.organization', 'users.group']);
@@ -219,7 +219,7 @@ dd($query->toRawSql());
                     return $query->where('phone', 'like', '%' . $data['phone'] . '%');
                 })
                 ->when($data['group_id'], function ($query) use ($data) {
-                    return $query->where('group_id', $data['group_id']);
+                    return $query->where('users.group_id', $data['group_id']);
                 })
                 ->when(isset($data['deleted']), function ($query) use ($data) {
                     return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
