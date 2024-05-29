@@ -26,7 +26,7 @@ class GroupRepository implements GroupRepositoryInterface
         $filterParams = $this->model::filter($data);
 
         $query = Group::where('type', Group::USERS);
-
+dd($query->toRawSql());
         $query = $this->filterUser($query, $filterParams);
 
         $query = $this->searchGroup($query, $filterParams['search']);

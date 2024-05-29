@@ -130,6 +130,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'employees'], function () {
+        Route::get('excel/export', [EmployeeController::class, 'export']);
         Route::post('/massDelete', [EmployeeController::class, 'massDelete']);
         Route::post('/massRestore', [EmployeeController::class, 'massRestore']);
     });
