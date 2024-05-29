@@ -183,9 +183,9 @@ class GoodRepository implements GoodRepositoryInterface
                 $query->where('name', 'like', '%' . $word . '%')
                     ->orWhereHas('barcodes', function ($query) use ($word) {
                         return  $query->Where('barcode', 'like', '%' . $word . '%');
-                    });;
+                    });
             }
-        })
+        });
     }
 
     public function filter($query, array $data)
