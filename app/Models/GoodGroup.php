@@ -32,7 +32,9 @@ class GoodGroup extends Model implements \App\Repositories\Contracts\SoftDeleteI
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'name'  => $data['filterData']['name'] ?? null,
-            'is_service' => $data['filterData']['is_service'] ?? null,
+            'unit_id'  => $data['filterData']['unit_id'] ?? null,
+            'description'  => $data['filterData']['description'] ?? null,
+            'vendor_code' => $data['filterData']['is_service'] ?? null,
             'is_good' => $data['filterData']['is_good'] ?? null,
             'good_group_id' => $data['filterData']['good_group_id'] ?? null,
         ];

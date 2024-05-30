@@ -39,16 +39,22 @@ class Currency extends Model implements SoftDeleteInterface
 
     public static function filter(array $data): array
     {
-        return [
+        $filteredData = [
             'search' => $data['search'] ?? '',
             'sort' => $data['orderBy'] ?? null,
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
-            'name'  => $data['filterData']['name'] ?? null,
-            'digital_code'  => $data['filterData']['digital_code'] ?? null,
-            'symbol_code'  => $data['filterData']['symbol_code'] ?? null,
-            'deleted' =>  $data['filterData']['deleted'] ?? null
+            'deleted' => $data['deleted'] ?? null,
         ];
+
+        if (isset($data['filterData'])) {
+            $filteredData['name'] = $data['filterData']['name'] ?? null;
+            $filteredData['digital_code'] = $data['filterData']['digital_code'] ?? null;
+            $filteredData['symbol_code'] = $data['filterData']['symbol_code'] ?? null;
+            $filteredData['deleted'] = $data['filterData']['deleted'] ?? $filteredData['deleted'];
+        }
+
+        return $filteredData;
     }
 
     public function scopeDefault(Builder $query): Builder
