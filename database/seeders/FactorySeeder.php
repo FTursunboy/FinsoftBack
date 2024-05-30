@@ -32,25 +32,25 @@ class FactorySeeder extends Seeder
      */
     public function run(): void
     {
-//        Document::factory(50)->create();
-//        Category::factory(5)->create();
-//        Employee::factory(5)->create();
-//        CounterpartyAgreement::factory(5)->create();
-//        Counterparty::factory(5)->create();
-//    //    Currency::factory(5)->create();
-//
-//        Good::factory(5)->create();
-//        Organization::factory(5)->create();
-//        Position::factory(5)->create();
-//        PriceType::factory(5)->create();
-//        Storage::factory(5)->create();
-//        Unit::factory(5)->create();
-//        User::factory(5)->create();
-//        CashRegister::factory(5)->create();
-//        EmployeeStorage::factory(5)->create();
-//        ExchangeRate::factory(5)->create();
-//        OrganizationBill::factory(5)->create();
-//        Department::factory(5)->create();
-////        Hiring::factory(5)->create();
+        Document::factory(50)->create();
+        Category::factory(5)->create();
+        Employee::factory(5)->create();
+        CounterpartyAgreement::factory(5)->create();
+        Counterparty::factory(5)->create();
+    //    Currency::factory(5)->create();
+
+        Good::factory(5)->create();
+        Organization::factory(5)->create();
+        Position::factory(5)->create();
+        PriceType::factory(5)->create();
+        Storage::factory(5)->create();
+        Unit::factory(5)->create();
+        User::factory(5)->create();
+        CashRegister::factory(5)->create();
+        EmployeeStorage::factory(5)->create();
+        ExchangeRate::factory(5)->create();
+        OrganizationBill::factory(5)->create();
+        Department::factory(5)->create();
+//        Hiring::factory(5)->create();
     }
 }
