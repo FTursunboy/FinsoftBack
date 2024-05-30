@@ -25,16 +25,78 @@ class GroupRepository implements GroupRepositoryInterface
     {
         $filterParams = $this->model::filter($data);
 
-        $query = Group::where('type', Group::USERS)->with(['users.organization', 'users.group']);
+        $userQuery = User::query();
 
-        $query = $this->filterUser($query, $filterParams);
+        $userQuery = $this->filterUser($userQuery, $filterParams);
+        $userIds = $this->searchGroup($userQuery, $filterParams['search'])->pluck('id')->toArray();
 
-        $query = $this->searchGroup($query, $filterParams['search']);
+
+        $query = Group::where('type', Group::USERS)
+            ->whereHas('users', function ($query) use ($userIds) {
+                $query->whereIn('users.id', $userIds);
+            })
+            ->with(['users' => function ($query) use ($userIds) {
+                $query->whereIn('users.id', $userIds)->with('organization', 'group');
+            }]);
 
         $query = $this->sort($filterParams, $query, []);
 
-        return $query->paginate($filterParams['itemsPerPage']);
+        $groups = $query->paginate($filterParams['itemsPerPage']);
+
+        foreach ($groups as $group) {
+            $filteredUsers = $group->users->filter(function ($user) use ($userIds) {
+                return in_array($user->id, $userIds);
+            });
+            $group->setRelation('users', $filteredUsers);
+        }
+
+        return $groups;
     }
+
+
+
+
+    public function filterUser($query, array $data)
+    {
+        return $query
+            ->when($data['organization_id'], function ($query) use ($data) {
+                return $query->where('users.organization_id', $data['organization_id']);
+            })
+            ->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', '%' . $data['name'] . '%');
+            })
+            ->when($data['login'], function ($query) use ($data) {
+                return $query->where('login', 'like', '%' . $data['login'] . '%');
+            })
+            ->when($data['email'], function ($query) use ($data) {
+                return $query->where('email', 'like', '%' . $data['email'] . '%');
+            })
+            ->when($data['phone'], function ($query) use ($data) {
+                return $query->where('phone', 'like', '%' . $data['phone'] . '%');
+            })
+            ->when($data['group_id'], function ($query) use ($data) {
+                return $query->where('users.group_id', $data['group_id']);
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->whereNotNull('deleted_at') : $query->whereNull('deleted_at');
+            });
+    }
+
+    public function searchGroup($query, string $search)
+    {
+        $searchTerm = explode(' ', $search);
+
+        return $query->where(function ($query) use ($searchTerm) {
+            return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhere('email', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhere('login', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhere('phone', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhereHas('organization', function ($query) use ($searchTerm) {
+                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                });
+        });
+    }
+
 
     public function filter($query, array $data)
     {
@@ -167,24 +229,6 @@ class GroupRepository implements GroupRepositoryInterface
         return $group;
     }
 
-    public function searchGroup($query, string $search)
-    {
-        $searchTerm = explode(' ', $search);
-
-        return $query->where(function ($query) use ($searchTerm) {
-            return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
-                ->orWhereHas('users', function ($query) use ($searchTerm) {
-                    return $query->where('name', 'like', implode('%', $searchTerm) . '%')
-                        ->orWhere('email', 'like', implode('%', $searchTerm) . '%')
-                        ->orWhere('login', 'like', implode('%', $searchTerm) . '%')
-                        ->orWhere('phone', 'like', implode('%', $searchTerm) . '%')
-                        ->orWhereHas('organization', function ($query) use ($searchTerm) {
-                            return $query->where('name', 'like', implode('%', $searchTerm) . '%');
-                        });
-                });
-        });
-    }
-
 
     public function search($query, array $data)
     {
@@ -200,32 +244,6 @@ class GroupRepository implements GroupRepositoryInterface
         });
     }
 
-    public function filterUser($query, array $data)
-    {
-        return $query->whereHas('users', function ($query) use ($data) {
-            $query->when($data['organization_id'], function ($query) use ($data) {
-                return $query->where('users.organization_id', $data['organization_id']);
-            })
-                ->when($data['name'], function ($query) use ($data) {
-                    return $query->where('name', 'like', '%' . $data['name'] . '%');
-                })
-                ->when($data['login'], function ($query) use ($data) {
-                    return $query->where('login', 'like', '%' . $data['login'] . '%');
-                })
-                ->when($data['email'], function ($query) use ($data) {
-                    return $query->where('email', 'like', '%' . $data['email'] . '%');
-                })
-                ->when($data['phone'], function ($query) use ($data) {
-                    return $query->where('phone', 'like', '%' . $data['phone'] . '%');
-                })
-                ->when($data['group_id'], function ($query) use ($data) {
-                    return $query->where('users.group_id', $data['group_id']);
-                })
-                ->when(isset($data['deleted']), function ($query) use ($data) {
-                    return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
-                });
-        });
-    }
 
     public function filterStorage($query, array $data)
     {
