@@ -378,11 +378,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
 
-    Route::get('test', function () {
-        dump(gethostname());
-        dump(getenv("username"));
-        dd(getenv("HOMEDRIVE") . getenv("HOMEPATH"));
-    });
     require_once 'cashStore.php';
     require_once 'checkingAccount.php';
 
@@ -397,3 +392,9 @@ require_once 'reports.php';
 Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login'])->name('login');
 Route::post('forgotPassword', [AuthController::class, 'forgotPassword']);
 Route::post('checkCode', [AuthController::class, 'checkCode']);
+
+Route::get('test', function () {
+    dump(gethostname());
+    dump(getenv("username"));
+    dd(getenv("HOMEDRIVE") . getenv("HOMEPATH"));
+});
