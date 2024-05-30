@@ -29,6 +29,7 @@ class ReportDocumentController extends Controller
 
     public function getGoodAccountings(Documentable $document, ReportDocumentRequest $request)
     {
+
         return $this->paginate(GoodAccountingResource::collection($this->repository->getGoodAccountings($document, $request->validated())));
     }
 }
