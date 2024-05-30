@@ -45,6 +45,9 @@ class Currency extends Model implements SoftDeleteInterface
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
             'deleted' => $data['deleted'] ?? null,
+            'digital_code' => $data['deleted'] ?? null,
+            'name' => $data['deleted'] ?? null,
+            'symbol_code' => $data['deleted'] ?? null,
         ];
 
         if (isset($data['filterData'])) {
