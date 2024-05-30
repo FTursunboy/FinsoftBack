@@ -378,6 +378,11 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
 
+    Route::get('test', function () {
+        dump(gethostname());
+        dump(getenv("username"));
+        dd(getenv("HOMEDRIVE") . getenv("HOMEPATH"));
+    });
     require_once 'cashStore.php';
     require_once 'checkingAccount.php';
 
