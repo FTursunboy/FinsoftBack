@@ -76,13 +76,16 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
         $searchTerm = explode(' ', $search);
 
         return $query->where('name', 'like', '%' . $search . '%')
-                ->Orwhere('vendor_code', 'like', '%' . $search . '%')
-                ->orWhereHas('unit', function ($query) use ($searchTerm) {
-                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
-                })
-                ->orWhereHas('goodGroup', function ($query) use ($searchTerm) {
-                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
-                });
+            ->orWhere('vendor_code', 'like', '%' . $search . '%')
+            ->orWhereHas('unit', function ($query) use ($searchTerm) {
+                return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+            })
+            ->orWhereHas('goodGroup', function ($query) use ($searchTerm) {
+                return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+            })
+            ->orWhereHas('barcodes', function ($query) use ($search) {
+                return $query->where('barcode', 'like', '%' . $search . '%');
+            });
     }
 
     public function store(GoodGroupDTO $DTO)
