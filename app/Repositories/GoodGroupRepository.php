@@ -8,6 +8,8 @@ use App\DTO\GoodUpdateDTO;
 use App\Models\Good;
 use App\Models\GoodGroup;
 use App\Models\GoodImages;
+use App\Models\Group;
+use App\Models\User;
 use App\Repositories\Contracts\GoodGroupRepositoryInterface;
 use App\Repositories\Contracts\GoodRepositoryInterface;
 use App\Traits\FilterTrait;
@@ -28,13 +30,69 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
     {
         $filterParams = $this->model::filter($data);
 
-        $query = $this->search($filterParams['search']);
+        $goodQuery = Good::query();
 
-        $query = $this->filterGroup($query, $filterParams);
+        $goodQuery = $this->filter($goodQuery, $filterParams);
+        $goodIds = $this->searchUsers($goodQuery, $filterParams['search'])->pluck('id')->toArray();
 
-        $query = $this->sort($filterParams, $query, ['goods']);
 
-        return $query->paginate($filterParams['itemsPerPage']);
+        $query = $this->model::whereHas('goods', function ($query) use ($goodIds) {
+                $query->whereIn('goods.id', $goodIds);
+            })
+            ->with(['goods' => function ($query) use ($goodIds) {
+                $query->whereIn('goods.id', $goodIds)->with('group');
+            }]);
+
+        $query = $this->sort($filterParams, $query, []);
+
+        $groups = $query->paginate($filterParams['itemsPerPage']);
+
+        foreach ($groups as $group) {
+            $filteredUsers = $group->users->filter(function ($user) use ($goodIds) {
+                return in_array($user->id, $goodIds);
+            });
+            $group->setRelation('users', $filteredUsers);
+        }
+
+        return $groups;
+    }
+
+    public function filter($query, array $data)
+    {
+        return $query->when($data['storage_id'], function ($query) use ($data) {
+            return $query->where('storage_id', $data['storage_id']);
+        })
+            ->when($data['unit_id'], function ($query) use ($data) {
+                return $query->where('unit_id', $data['unit_id']);
+            })
+            ->when($data['description'], function ($query) use ($data) {
+                return $query->where('description', 'like', '%' . $data['description'] . '%');
+            })
+            ->when($data['vendor_code'], function ($query) use ($data) {
+                return $query->where('vendor_code', 'like', '%' . $data['vendor_code'] . '%');
+            })
+            ->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', '%' . $data['name'] . '%');
+            });
+    }
+
+    public function search($query, string $search)
+    {
+        $searchTerm = explode(' ', $search);
+
+        return $query->where(function ($query) use ($searchTerm) {
+            return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhere('email', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhere('login', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhere('phone', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhereHas('organization', function ($query) use ($searchTerm) {
+                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('group', function ($query) use ($searchTerm) {
+                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ;
+        });
     }
 
     public function store(GoodGroupDTO $DTO)
@@ -72,67 +130,6 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
         return $query->paginate($filterParams['itemsPerPage']);
     }
 
-    public function search(string $search)
-    {
-        $searchTerm = explode(' ', $search);
 
-        return $this->model::where(function ($query) use ($searchTerm) {
-            $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
-                ->orWhereHas('goods', function ($query) use ($searchTerm) {
-                    return $query->where('goods.name', 'like', '%' . implode('%', $searchTerm) . '%');
-                });
-        });
-    }
 
-    public function searchGood(string $search, GoodGroup $goodGroup)
-    {
-        if (!$search) {
-            return Good::where('good_group_id', $goodGroup->id);
-        }
-
-        $searchTerms = explode(' ', $search);
-
-        $query = Good::where('good_group_id', $goodGroup->id);
-
-        $query->where(function ($query) use ($searchTerms) {
-            $query->orWhere('name', 'like', '%' . implode('%', $searchTerms) . '%');
-        });
-
-        return $query;
-    }
-
-    public function filterGood($query, array $data)
-    {
-        return $query->when($data['storage_id'], function ($query) use ($data) {
-            return $query->where('storage_id', $data['storage_id']);
-        })
-            ->when($data['unit_id'], function ($query) use ($data) {
-                return $query->where('unit_id', $data['unit_id']);
-            })
-            ->when($data['description'], function ($query) use ($data) {
-                return $query->where('description', 'like', '%' . $data['description'] . '%');
-            })
-            ->when($data['vendor_code'], function ($query) use ($data) {
-                return $query->where('vendor_code', 'like', '%' . $data['vendor_code'] . '%');
-            })
-            ->when($data['name'], function ($query) use ($data) {
-                return $query->where('name', 'like', '%' . $data['name'] . '%');
-            });
-    }
-
-    public function filterGroup($query, array $data)
-    {
-        return $query->when($data['is_good'], function ($query) use ($data) {
-            return $query->where('is_good', $data['is_good']);
-        })
-            ->when($data['is_service'], function ($query) use ($data) {
-                return $query->where('is_service', $data['is_service']);
-            })
-            ->when($data['good_group_id'], function ($query) use ($data) {
-                return $query->where('good_group_id', $data['good_group_id']);
-            })
-            ->when($data['name'], function ($query) use ($data) {
-                return $query->where('name', 'like', '%' . $data['name'] . '%');
-            });
-    }
 }
