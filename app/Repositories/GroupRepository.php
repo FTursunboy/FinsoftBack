@@ -28,7 +28,7 @@ class GroupRepository implements GroupRepositoryInterface
         $query = Group::where('type', Group::USERS)->with(['users.organization', 'users.group']);
 
         $query = $this->filterUser($query, $filterParams);
-dd($query->get());
+
         $query = $this->searchGroup($query, $filterParams['search']);
 
         $query = $this->sort($filterParams, $query, []);
