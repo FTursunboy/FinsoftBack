@@ -28,7 +28,7 @@ class GroupRepository implements GroupRepositoryInterface
         $userQuery = User::query();
 
         $userQuery = $this->filterUser($userQuery, $filterParams);
-        $userIds = $this->searchGroup($userQuery, $filterParams['search'])->pluck('id')->toArray();
+        $userIds = $this->searchUsers($userQuery, $filterParams['search'])->pluck('id')->toArray();
 
 
         $query = Group::where('type', Group::USERS)
@@ -52,9 +52,6 @@ class GroupRepository implements GroupRepositoryInterface
 
         return $groups;
     }
-
-
-
 
     public function filterUser($query, array $data)
     {
@@ -82,7 +79,7 @@ class GroupRepository implements GroupRepositoryInterface
             });
     }
 
-    public function searchGroup($query, string $search)
+    public function searchUsers($query, string $search)
     {
         $searchTerm = explode(' ', $search);
 
@@ -93,10 +90,47 @@ class GroupRepository implements GroupRepositoryInterface
                 ->orWhere('phone', 'like', '%' . implode('%', $searchTerm) . '%')
                 ->orWhereHas('organization', function ($query) use ($searchTerm) {
                     return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
-                });
+                })
+                ->orWhereHas('group', function ($query) use ($searchTerm) {
+                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ;
         });
     }
 
+    public function searchEmployees($query, string $search)
+    {
+        $searchTerm = explode(' ', $search);
+
+        return $query->where(function ($query) use ($searchTerm) {
+            return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhere('email', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhere('address', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhereHas('group', function ($query) use ($searchTerm) {
+                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('position', function ($query) use ($searchTerm) {
+                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ;
+        });
+    }
+
+    public function searchStorages($query, string $search)
+    {
+        $searchTerm = explode(' ', $search);
+
+        return $query->where(function ($query) use ($searchTerm) {
+            return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%')
+                ->orWhereHas('group', function ($query) use ($searchTerm) {
+                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ->orWhereHas('organization', function ($query) use ($searchTerm) {
+                    return $query->where('name', 'like', '%' . implode('%', $searchTerm) . '%');
+                })
+                ;
+        });
+    }
 
     public function filter($query, array $data)
     {
@@ -123,30 +157,69 @@ class GroupRepository implements GroupRepositoryInterface
 
     public function storagesGroup(array $data): LengthAwarePaginator
     {
-        $filterParams = $this->processSearchData($data);
+        $filterParams = $this->model::filter($data);
 
-        $query = Group::where('type', Group::STORAGES);
+        $storageQuery = Storage::query();
 
-        $query = $this->searchGroup($query, $filterParams['search']);
+        $storageGroup = $this->filterStorages($storageQuery, $filterParams);
+        $storageIds = $this->searchStorages($storageGroup, $filterParams['search'])->pluck('id')->toArray();
 
-        $query = $this->sort($filterParams, $query, ['storages', 'storages.organization', 'storages.group']);
 
-        return $query->paginate($filterParams['itemsPerPage']);
+        $query = Group::where('type', Group::STORAGES)
+            ->whereHas('storages', function ($query) use ($storageIds) {
+                $query->whereIn('storages.id', $storageIds);
+            })
+            ->with(['storages' => function ($query) use ($storageIds) {
+                $query->whereIn('storages.id', $storageIds)->with('organization', 'group');
+            }]);
+
+
+        $groups = $query->paginate($filterParams['itemsPerPage']);
+
+        foreach ($groups as $group) {
+            $filteredUsers = $group->storages->filter(function ($storage) use ($storageIds) {
+                return in_array($storage->id, $storageIds);
+            });
+            $group->setRelation('storages', $filteredUsers);
+        }
+
+        return $groups;
     }
 
 
     public function employeesGroup(array $data): LengthAwarePaginator
     {
-        $filterParams = $this->processSearchData($data);
+        $filterParams = $this->model::filter($data);
 
-        $query = Group::where('type', Group::EMPLOYEES);
+        $employeeGroup = Employee::query();
 
-        $query = $this->searchGroup($query, $filterParams['search']);
+        $employeeGroup = $this->filterEmployee($employeeGroup, $filterParams);
+        $employeeIds = $this->searchEmployees($employeeGroup, $filterParams['search'])->pluck('id')->toArray();
 
-        $query = $this->sort($filterParams, $query, ['employees.position', 'employees.group']);
 
-        return $query->paginate($filterParams['itemsPerPage']);
+        $query = Group::where('type', Group::EMPLOYEES)
+            ->whereHas('employees', function ($query) use ($employeeIds) {
+                $query->whereIn('employees.id', $employeeIds);
+            })
+            ->with(['employees' => function ($query) use ($employeeIds) {
+                $query->whereIn('employees.id', $employeeIds)->with('position', 'group');
+            }]);
+
+
+        $query = $this->sort($filterParams, $query, []);
+
+        $groups = $query->paginate($filterParams['itemsPerPage']);
+
+        foreach ($groups as $group) {
+            $filteredUsers = $group->employees->filter(function ($employee) use ($employeeIds) {
+                return in_array($employee->id, $employeeIds);
+            });
+            $group->setRelation('employees', $filteredUsers);
+        }
+
+        return $groups;
     }
+
 
     public function getUsers(Group $group, array $data): LengthAwarePaginator
     {
@@ -265,19 +338,44 @@ class GroupRepository implements GroupRepositoryInterface
 
     public function filterEmployee($query, array $data)
     {
-        return $query->when($data['name'], function ($query) use ($data) {
-            return $query->where('name', 'like', '%' . $data['name'] . '%');
-        })
-            ->when($data['phone'], function ($query) use ($data) {
-                return $query->where('phone', 'like', '%' . $data['phone'] . '%');
+        return $query
+            ->when($data['position_id'], function ($query) use ($data) {
+                return $query->where('employees.position_id', $data['position_id']);
+            })
+            ->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', '%' . $data['name'] . '%');
             })
             ->when($data['email'], function ($query) use ($data) {
                 return $query->where('email', 'like', '%' . $data['email'] . '%');
             })
-            ->when($data['address'], function ($query) use ($data) {
-                return $query->where('address', 'like', '%' . $data['address'] . '%');
+            ->when($data['phone'], function ($query) use ($data) {
+                return $query->where('phone', 'like', '%' . $data['phone'] . '%');
+            })
+            ->when($data['group_id'], function ($query) use ($data) {
+                return $query->where('employees.group_id', $data['group_id']);
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->whereNotNull('deleted_at') : $query->whereNull('deleted_at');
             });
     }
+
+    public function filterStorages($query, array $data)
+    {
+        return $query
+            ->when($data['organization_id'], function ($query) use ($data) {
+                return $query->where('storages.organization_id', $data['organization_id']);
+            })
+            ->when($data['name'], function ($query) use ($data) {
+                return $query->where('name', 'like', '%' . $data['name'] . '%');
+            })
+            ->when($data['group_id'], function ($query) use ($data) {
+                return $query->where('employees.group_id', $data['group_id']);
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->whereNotNull('deleted_at') : $query->whereNull('deleted_at');
+            });
+    }
+
 
     public function exportEmployees(Group $group, array $data): string
     {
