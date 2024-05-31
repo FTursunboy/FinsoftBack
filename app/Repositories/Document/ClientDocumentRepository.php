@@ -99,6 +99,9 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
             $this->calculateSum($document);
 
+            $data['ids'][] = $document->id;
+
+            $this->approve($data);
         });
     }
 
@@ -148,7 +151,6 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
         }
     }
 
-
     public function changeHistory(Documentable $document)
     {
         return $document->load(['history.changes', 'history.user']);
@@ -177,14 +179,13 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                         $good = Good::find($goods['good_id'])->name;
 
                         $response[] = [
+                            'amount' => $goods['amount'],
                             'good' => $good,
-                            'amount' => $goods['amount']
                         ];
                     }
-
+dd($response);
                     return $response;
                 }
-
 
                 if ($document->active) {
                     $this->deleteDocumentData($document);
