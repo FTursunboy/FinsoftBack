@@ -178,6 +178,7 @@ class GoodRepository implements GoodRepositoryInterface
     public function search($query, string $search)
     {
         $words = explode(' ', $search);
+
         $searchTerms = implode('%', $words);
         $likeSearch = '%' . $searchTerms . '%';
 
