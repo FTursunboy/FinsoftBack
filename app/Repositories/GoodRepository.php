@@ -184,7 +184,7 @@ class GoodRepository implements GoodRepositoryInterface
 
         return $query->where(function ($query) use ($likeSearch) {
             $query->where('name', 'like', $likeSearch)
-                ->where('vendor_code', 'like', $likeSearch)
+                ->orWhere('vendor_code', 'like', $likeSearch)
                 ->orWhere('description', 'like', $likeSearch)
                 ->orWhere('goods.id', 'like', $likeSearch)
                 ->orWhereHas('barcodes', function ($query) use ($likeSearch) {
