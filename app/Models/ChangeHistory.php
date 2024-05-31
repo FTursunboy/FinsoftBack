@@ -8,8 +8,6 @@ use Illuminate\Support\Str;
 
 class ChangeHistory extends Model
 {
-
-
     protected $fillable = ['document_history_id', 'body'];
 
     protected $keyType = 'string';
