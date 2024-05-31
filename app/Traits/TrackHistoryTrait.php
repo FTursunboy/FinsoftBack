@@ -111,7 +111,6 @@ trait TrackHistoryTrait
             ->mapWithKeys(function ($value, $field) use ($document) {
                 $translatedField = config('constants.' . $field);
 
-
                 return [$translatedField => $this->getHistoryDetails($document, $value, $field)];
             });
 
