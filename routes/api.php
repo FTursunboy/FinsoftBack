@@ -283,6 +283,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::group(['prefix' => '/client'], function () {
             Route::get('/purchasedList', [ClientDocumentController::class, 'index']);
             Route::post('/purchase', [ClientDocumentController::class, 'purchase']);
+            Route::patch('update/{document}', [ClientDocumentController::class, 'update']);
 
             Route::get('/returnList', [ReturnClientDocumentController::class, 'index']);
             Route::post('/return', [ReturnClientDocumentController::class, 'store']);
