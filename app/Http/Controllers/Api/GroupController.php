@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\DTO\GroupDTO;
+use App\DTO\GroupUpdateDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Group\FilterRequest;
 use App\Http\Requests\Api\Group\GroupRequest;
+use App\Http\Requests\Api\Group\GroupUpdateRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\EmployeeResource;
@@ -61,9 +63,9 @@ class GroupController extends Controller
         return $this->created(GroupResource::make($this->repository->store(GroupDTO::fromRequest($request))));
     }
 
-    public function update(Group $group, GroupRequest $request)
+    public function update(Group $group, GroupUpdateRequest $request)
     {
-        return $this->success(GroupResource::make($this->repository->update($group, GroupDTO::fromRequest($request))));
+        return $this->success(GroupResource::make($this->repository->update($group, GroupUpdateDTO::fromRequest($request))));
     }
 
     public function show(Group $group) {
