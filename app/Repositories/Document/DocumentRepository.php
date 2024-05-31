@@ -50,7 +50,6 @@ class DocumentRepository implements DocumentRepositoryInterface
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }
-
     public function store(DocumentDTO $dto, int $status): Document
     {
         $document = DB::transaction(function () use ($dto, $status) {

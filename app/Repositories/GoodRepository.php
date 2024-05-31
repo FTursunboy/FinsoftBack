@@ -178,12 +178,21 @@ class GoodRepository implements GoodRepositoryInterface
     public function search($query, string $search)
     {
         $words = explode(' ', $search);
-        return $query->where(function ($query) use ($words) {
-            foreach ($words as $word) {
-                $query->where('name', 'like', '%' . $word . '%');
-            }
+
+        $searchTerms = implode('%', $words);
+        $likeSearch = '%' . $searchTerms . '%';
+
+        return $query->where(function ($query) use ($likeSearch) {
+            $query->where('name', 'like', $likeSearch)
+                ->where('vendor_code', 'like', $likeSearch)
+                ->orWhere('description', 'like', $likeSearch)
+                ->orWhere('id', 'like', $likeSearch)
+                ->orWhereHas('barcodes', function ($query) use ($likeSearch) {
+                    return $query->where('barcode', 'like', $likeSearch);
+                });
         });
     }
+
 
     public function filter($query, array $data)
     {
