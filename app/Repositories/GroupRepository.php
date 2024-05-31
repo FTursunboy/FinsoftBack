@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\DTO\BarcodeDTO;
 use App\DTO\GroupDTO;
+use App\DTO\GroupUpdateDTO;
 use App\Models\Barcode;
 use App\Models\Employee;
 use App\Models\Group;
@@ -293,7 +294,7 @@ class GroupRepository implements GroupRepositoryInterface
         ]);
     }
 
-    public function update(Group $group, GroupDTO $DTO): Group
+    public function update(Group $group, GroupUpdateDTO $DTO): Group
     {
         $group->update([
             'name' => $DTO->name,
