@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Events\DocumentApprovedEvent;
+use App\Events\MovementApprovedEvent;
 use App\Events\SmallRemainderEvent;
 use App\Listeners\DocumentListener;
 use App\Listeners\GoodHistoryListener;
+use App\Listeners\MovementListener;
 use App\Listeners\SmallRemainderListener;
 use App\Models\CashStore;
 use App\Models\CheckingAccount;
@@ -17,6 +19,7 @@ use App\Observers\CheckingAccountObserver;
 use App\Observers\InventoryDocumentObserver;
 use App\Observers\DocumentObserver;
 use App\Observers\MovementDocumentObserver;
+use App\Services\HandleMovementDocumentApproveCreated;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -39,6 +42,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SmallRemainderEvent::class => [
             SmallRemainderListener::class
+        ],
+        MovementApprovedEvent::class => [
+            MovementListener::class
         ]
     ];
 

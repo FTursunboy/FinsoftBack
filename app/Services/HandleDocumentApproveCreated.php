@@ -50,7 +50,7 @@ class HandleDocumentApproveCreated
         ]);
     }
 
-    private function goodAccounting(): void
+    public function goodAccounting(): void
     {
         $goods = $this->document->documentGoods;
 
@@ -68,8 +68,8 @@ class HandleDocumentApproveCreated
                 'sum' => $sum ?? 0,
                 'model_id' => $good->document_id,
                 'model_type' => get_class($this->document),
-                'created_at' => now(),
                 'storage_id' => $this->document->storage_id,
+                'created_at' => now(),
                 'movement_type' => $this->type,
                 'organization_id' => $this->document->organization_id,
                 'amount' => $good->amount,
