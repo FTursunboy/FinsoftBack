@@ -4,6 +4,10 @@ namespace App\Repositories\Document;
 
 use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\MovementDocumentDTO;
+use App\Enums\DocumentTypes;
+use App\Enums\MovementTypes;
+use App\Events\DocumentApprovedEvent;
+use App\Events\MovementApprovedEvent;
 use App\Models\Document;
 use App\Models\GoodDocument;
 use App\Models\MovementDocument;
@@ -128,7 +132,8 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
                 ['active' => true]
             );
 
-//            DocumentApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::Purchase->value);
+            MovementApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::Movement->value, $document->sender_storage_id);
+            MovementApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::Movement->value, $document->recipient_storage_id);
         }
 
     }

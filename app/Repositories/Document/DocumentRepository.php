@@ -99,6 +99,10 @@ class DocumentRepository implements DocumentRepositoryInterface
                 $this->updateGoodDocuments($dto->goods, $document);
             }
             $this->calculateSum($document);
+
+            $data['ids'][] = $document->id;
+
+            if ($document->active) $this->approve($data);
         });
     }
 
