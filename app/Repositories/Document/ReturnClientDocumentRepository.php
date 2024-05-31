@@ -9,6 +9,7 @@ use App\Enums\DocumentTypes;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
 use App\Models\Document;
+use App\Models\Good;
 use App\Models\GoodDocument;
 use App\Models\Status;
 use App\Repositories\Contracts\Document\Documentable;
@@ -93,6 +94,10 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
             if (!is_null($dto->goods)) {
                 $this->updateGoodDocuments($dto->goods, $document);
             }
+
+            $data['ids'][] = $document->id;
+
+            if ($document->active) $this->approve($data);
         });
     }
 
@@ -160,20 +165,38 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
         ];
     }
 
-    public function approve(Document $document)
+    public function approve(array $data)
     {
-        $document->update(
-            ['active' => true]
-        );
+        return DB::transaction(function () use ($data) {
+            foreach ($data['ids'] as $id) {
+                $document = Document::find($id);
 
-        DocumentApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::ReturnClient->value);
+                if ($document->active) {
+                    $this->deleteDocumentData($document);
+                    $document->update(
+                        ['active' => false]
+                    );
+                }
+
+                $document->update(
+                    ['active' => true]
+                );
+
+                DocumentApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::ReturnClient->value);
+            }
+        });
     }
 
-    public function unApprove(Document $document)
+    public function deleteDocumentData(Document $document)
     {
-        $document->update(
-            ['active' => false]
-        );
+        $document->goodAccountents()->delete();
+        $document->counterpartySettlements()->delete();
+        $document->balances()->delete();
+    }
+
+    public function unApprove(array $data)
+    {
+        //
     }
 
     public function changeHistory(Documentable $document)

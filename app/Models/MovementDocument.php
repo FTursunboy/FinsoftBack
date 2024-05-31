@@ -55,6 +55,11 @@ class MovementDocument extends DocumentModel implements Documentable
         return $this->belongsTo(Organization::class, 'organization_id');
     }
 
+    public function documentGoods(): HasMany
+    {
+        return $this->hasMany(GoodDocument::class, 'document_id', 'id');
+    }
+
     public function modelFilter()
     {
         return $this->provideFilter(MovementDocumentFilter::class);

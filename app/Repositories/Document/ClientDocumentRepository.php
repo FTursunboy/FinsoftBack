@@ -101,7 +101,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
             $data['ids'][] = $document->id;
 
-            $this->approve($data);
+            if ($document->active) $this->approve($data);
         });
     }
 
@@ -183,7 +183,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                             'good' => $good,
                         ];
                     }
-dd($response);
+
                     return $response;
                 }
 

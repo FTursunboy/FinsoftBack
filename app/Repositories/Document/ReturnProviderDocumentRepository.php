@@ -179,20 +179,34 @@ class ReturnProviderDocumentRepository implements ReturnProviderDocumentReposito
         ];
     }
 
-    public function approve(Document $document)
+    public function approve(array $data)
     {
-        $document->update(
-            ['active' => true]
-        );
+        return DB::transaction(function () use ($data) {
 
-        DocumentApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::ReturnProvider->value);
+            foreach ($data['ids'] as $id) {
+                $document = Document::find($id);
+
+                if ($document->active) {
+                    $this->deleteDocumentData($document);
+                    $document->update(
+                        ['active' => false]
+                    );
+                }
+
+                $document->update(
+                    ['active' => true]
+                );
+
+                DocumentApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::ReturnProvider->value);
+            }
+        });
     }
 
-    public function unApprove(Document $document)
+    public function deleteDocumentData(Document $document)
     {
-        $document->update(
-            ['active' => false]
-        );
+        $document->goodAccountents()->delete();
+        $document->counterpartySettlements()->delete();
+        $document->balances()->delete();
     }
 
     public function changeHistory(Documentable $document)

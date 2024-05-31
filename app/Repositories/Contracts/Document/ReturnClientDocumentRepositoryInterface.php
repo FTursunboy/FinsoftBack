@@ -20,9 +20,9 @@ interface ReturnClientDocumentRepositoryInterface
 
     public function changeHistory(Document $document);
 
-    public function approve(Document $document);
+    public function approve(array $data);
 
-    public function unApprove(Document $document);
+    public function unApprove(array $data);
 
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO);
 }
