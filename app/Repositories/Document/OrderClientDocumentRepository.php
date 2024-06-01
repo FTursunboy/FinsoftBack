@@ -198,4 +198,18 @@ class OrderClientDocumentRepository implements OrderClientDocumentRepositoryInte
             });
     }
 
+    public function approve(array $data)
+    {
+
+        foreach ($data['ids'] as $id) {
+          OrderDocument::where('id', $id)->update(['active' => true]);
+        }
+    }
+
+    public function unApprove(array $data)
+    {
+        foreach ($data['ids'] as $id) {
+            OrderDocument::where('id', $id)->update(['active' => false]);
+        }
+    }
 }

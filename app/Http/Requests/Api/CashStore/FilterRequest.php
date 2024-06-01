@@ -32,7 +32,9 @@ class FilterRequest extends FormRequest
             'month_id' => 'nullable|integer',
             'counterparty_agreement_id' => 'nullable|integer',
             'counterparty_id' => 'nullable|integer',
-            'responsible_person_id' => 'nullable|integer'
+            'responsible_person_id' => 'nullable|integer',
+            'active' => 'nullable|boolean',
+            'deleted' => 'nullable|boolean'
         ];
     }
 

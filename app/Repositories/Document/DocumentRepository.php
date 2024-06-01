@@ -281,10 +281,10 @@ class DocumentRepository implements DocumentRepositoryInterface
             })
             ->when($data['author_id'], function ($query) use ($data) {
                 return $query->where('author_id', $data['author_id']);
-            });
-//            ->when(isset($data['deleted']), function ($query) use ($data) {
-//                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
-//            });;
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
+            });;
     }
 
 

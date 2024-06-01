@@ -315,6 +315,12 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('unApprove', [ProviderDocumentController::class, 'unApprove']);
         });
 
+        Route::group(['prefix' => 'order'], function () {
+            Route::post('approve', [OrderClientDocumentController::class, 'approve']);
+            Route::post('unApprove', [OrderClientDocumentController::class, 'unApprove']);
+        });
+
+
         Route::group(['prefix' => '/inventory'], function () {
             Route::get('/', [InventoryDocumentController::class, 'index']);
             Route::post('/', [InventoryDocumentController::class, 'store']);
@@ -394,8 +400,4 @@ Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login'])-
 Route::post('forgotPassword', [AuthController::class, 'forgotPassword']);
 Route::post('checkCode', [AuthController::class, 'checkCode']);
 
-Route::get('test', function () {
-    dump(gethostname());
-    dump(getenv("username"));
-    dd(getenv("HOMEDRIVE") . getenv("HOMEPATH"));
-});
+
