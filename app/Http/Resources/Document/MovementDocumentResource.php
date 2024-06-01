@@ -5,6 +5,7 @@ namespace App\Http\Resources\Document;
 use App\Http\Resources\OrganizationResource;
 use App\Http\Resources\StorageResource;
 use App\Http\Resources\UserResource;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,7 +17,7 @@ class MovementDocumentResource extends JsonResource
         return [
             'id' => $this->id,
             'doc_number' => $this->doc_number,
-            'date' => $this->date,
+            'date' => Carbon::parse($this->date),
             'organization_id' => OrganizationResource::make($this->whenLoaded('organization')),
             'sender_storage_id' => StorageResource::make($this->whenLoaded('sender_storage')),
             'recipient_storage_id' => StorageResource::make($this->whenLoaded('recipient_storage')),
