@@ -105,54 +105,6 @@ trait TrackHistoryTrait
         ];
     }
 
-    private function getGoodHistoryDetails($goods, $value, $field): array
-    {
-        $result = [];
-        foreach ($goods as $good) {
-            $modelMap = config('models.model_map');
-
-            $fieldKey = isset($modelMap[$field]) ? $field . '_id' : $field;
-
-            $previousValues = $good->getOriginal($fieldKey);
-
-            if (!is_array($value)) {
-                $value = [$value];
-            }
-
-            if (!is_array($previousValues)) {
-                $previousValues = [$previousValues];
-            }
-
-            $result = [];
-
-            if (isset($modelMap[$field])) {
-                $model = $modelMap[$field];
-                foreach ($value as $index => $val) {
-                    $previousValue = $previousValues[$index] ?? null;
-                    $previousModel = optional($model::find($previousValue))->name;
-                    $newModel = optional($model::find($val))->name;
-
-                    $result[] = [
-                        'previous_value' => $previousModel,
-                        'new_value' => $newModel,
-                    ];
-                }
-            } else {
-                foreach ($value as $index => $val) {
-                    $previousValue = $previousValues[$index] ?? null;
-
-                    $result[] = [
-                        'previous_value' => $previousValue,
-                        'new_value' => $val,
-                    ];
-                }
-            }
-        }
-
-        return $result;
-    }
-
-
     private function track(DocumentModel $document, DocumentHistory $history): void
     {
         $value = $this->getUpdated($document)
@@ -162,19 +114,9 @@ trait TrackHistoryTrait
                 return [$translatedField => $this->getHistoryDetails($document, $value, $field)];
             });
 
-        $documentGoods = $document->documentGoods;
-
-        $goodsValue = $this->getUpdatedGoods($documentGoods)
-            ->mapWithKeys(function ($value, $field) use ($document) {
-                $translatedField = config('constants.' . $field);
-
-                return [$translatedField => $this->getGoodHistoryDetails($document->documentGoods, $value, $field)];
-            });
-
         ChangeHistory::create([
             'document_history_id' => $history->id,
             'body' => json_encode($value),
-            'goodsBody' => json_encode($goodsValue)
         ]);
     }
 
@@ -184,17 +126,6 @@ trait TrackHistoryTrait
             return !in_array($key, ['created_at', 'updated_at']);
         })->mapWithKeys(function ($value, $key) {
             return [str_replace('_id', '', $key) => $value];
-        });
-    }
-
-    private function getUpdatedGoods($goods)
-    {
-        return $goods->map(function ($good) {
-            return collect($good->getDirty())->filter(function ($value, $key) {
-                return !in_array($key, ['created_at', 'updated_at']);
-            })->mapWithKeys(function ($value, $key) {
-                return [str_replace('_id', '', $key) => $value];
-            });
         });
     }
 

@@ -21,6 +21,6 @@ class GoodDocumentHistoryListener
      */
     public function handle(object $event): void
     {
-        $this->getUpdatedGoods($event->goods);
+        $this->getUpdatedGoods($event->goods, $event->type);
     }
 }
