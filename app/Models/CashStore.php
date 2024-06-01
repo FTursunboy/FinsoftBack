@@ -116,6 +116,7 @@ class CashStore extends DocumentModel
 
     public static function filterData(array $data): array
     {
+
         $filteredData = [
             'search' => $data['search'] ?? '',
             'sort' => $data['orderBy'] ?? null,
@@ -136,6 +137,7 @@ class CashStore extends DocumentModel
             'sender_cash_register_id' => $data['sender_cash_register_id'] ?? null,
             'cash_register_id' => $data['cash_register_id'] ?? null,
             'active' => $data['active'] ?? null,
+            'deleted' => $data['deleted'] ?? null,
         ];
 
         if (isset($data['filterData'])) {
@@ -145,6 +147,7 @@ class CashStore extends DocumentModel
             $filteredData['date'] = $data['filterData']['date'] ?? $filteredData['date'];
             $filteredData['operation_type_id'] = $data['filterData']['operation_type_id'] ?? $filteredData['operation_type_id'];
             $filteredData['active'] = $data['filterData']['active'] ?? $filteredData['active'];
+            $filteredData['deleted'] = $data['filterData']['deleted'] ?? $filteredData['deleted'];
         }
 
         return $filteredData;
