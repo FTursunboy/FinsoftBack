@@ -51,7 +51,7 @@ trait TrackGoodHistoryTrait
     }
 
     private function track(GoodDocument $document, string $type): void
-    {dd($document);
+    {
         $value = $this->getUpdated($document)
             ->mapWithKeys(function ($value, $field) use ($document) {
                 $translatedField = config('constants.' . $field);
@@ -60,7 +60,7 @@ trait TrackGoodHistoryTrait
             });
 
         $history =  ChangeHistory::latest()->first();
-
+dd($value);
         ChangeGoodDocumentHistory::create([
             'change_history_id' => $history->id,
             'body' => json_encode($value),

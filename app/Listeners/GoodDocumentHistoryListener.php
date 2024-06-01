@@ -9,6 +9,7 @@ class GoodDocumentHistoryListener
 {
 
     use TrackGoodHistoryTrait;
+
     /**
      * Create the event listener.
      */
@@ -22,6 +23,6 @@ class GoodDocumentHistoryListener
      */
     public function handle(object $event): void
     {
-        $this->track($event->goods, $event->type);
+        $this->track($event->goodDocument, $event->type);
     }
 }

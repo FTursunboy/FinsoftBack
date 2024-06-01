@@ -21,7 +21,7 @@ class DocumentApprovedEvent
     /**
      * Create a new event instance.
      */
-    public function __construct(public DocumentModel $document, public MovementTypes $movementTypes, public string $documentType)
+    public function __construct(public DocumentModel $document, public MovementTypes $movementTypes, public ?string $documentType)
     {
     }
 
