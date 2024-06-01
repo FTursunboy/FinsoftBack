@@ -18,7 +18,7 @@ class GoodDocumentHistoryEvent
     /**
      * Create a new event instance.
      */
-    public function __construct(public GoodDocument $goodDocument, string $type) { }
+    public function __construct(public GoodDocument $goodDocument, public string $type) { }
 
     /**
      * Get the channels the event should broadcast on.
