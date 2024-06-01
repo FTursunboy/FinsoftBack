@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('change_histories', function (Blueprint $table) {
-            $table->json('goodsBody')->nullable();
+        Schema::create('change_good_document_histories', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('change_history_id');
+            $table->json('body');
+            $table->string('type');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('change_histories', function (Blueprint $table) {
-            $table->dropColumn('goodsBody');
-        });
+        Schema::dropIfExists('change_good_document_histories');
     }
 };
