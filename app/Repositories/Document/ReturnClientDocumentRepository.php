@@ -295,7 +295,6 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
         $saleSum -= $documentDiscount;
 
         $document->sum = $sum;
-        $document->sale_sum = $saleSum;
 
         $document->save();
 

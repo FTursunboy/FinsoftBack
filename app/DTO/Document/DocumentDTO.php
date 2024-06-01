@@ -7,7 +7,7 @@ use App\Http\Requests\Api\Document\DocumentRequest;
 class DocumentDTO
 {
     public function  __construct(public string $date, public int $counterparty_id, public int $counterparty_agreement_id, public int $organization_id,
-                     public int $storage_id, public ?array $goods, public ?string $comment, public ?int $saleInteger, public ?int $salePercent, public int $currency_id, public ?int $sale_sum, public ?int $sum)
+                     public int $storage_id, public ?array $goods, public ?string $comment, public ?int $saleInteger, public ?int $salePercent, public int $currency_id, public ?int $sum)
     {
     }
 
@@ -24,7 +24,6 @@ class DocumentDTO
             $request->get('saleInteger'),
             $request->get('salePercent'),
             $request->get('currency_id'),
-            $request->get('sale_sum'),
             $request->get('sum'),
 
         );

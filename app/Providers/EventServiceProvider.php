@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Events\DocumentApprovedEvent;
+use App\Events\GoodDocumentHistoryEvent;
 use App\Events\MovementApprovedEvent;
 use App\Events\SmallRemainderEvent;
 use App\Listeners\DocumentListener;
+use App\Listeners\GoodDocumentHistoryListener;
 use App\Listeners\GoodHistoryListener;
 use App\Listeners\MovementListener;
 use App\Listeners\SmallRemainderListener;
@@ -45,6 +47,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         MovementApprovedEvent::class => [
             MovementListener::class
+        ],
+        GoodDocumentHistoryEvent::class => [
+            GoodDocumentHistoryListener::class
         ]
     ];
 
