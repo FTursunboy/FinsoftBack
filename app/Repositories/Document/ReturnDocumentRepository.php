@@ -96,6 +96,10 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
             if (!is_null($dto->goods)) {
                 $this->updateGoodDocuments($dto->goods, $document);
             }
+
+            $data['ids'][] = $document->id;
+
+            if ($document->active) $this->approve($data);
         });
     }
 

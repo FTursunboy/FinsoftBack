@@ -5,9 +5,11 @@ namespace App\Repositories\Document;
 use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
+use App\Enums\ChangeGoodDocument;
 use App\Enums\DocumentTypes;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
+use App\Events\GoodDocumentHistoryEvent;
 use App\Models\Document;
 use App\Models\Good;
 use App\Models\GoodAccounting;
@@ -99,6 +101,9 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
             $this->calculateSum($document);
 
+            $data['ids'][] = $document->id;
+
+            if ($document->active) $this->approve($data);
         });
     }
 
@@ -122,7 +127,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
     {
         foreach ($goods as $good) {
             if (isset($good['id'])) {
-                GoodDocument::updateOrCreate(
+                $good = GoodDocument::updateOrCreate(
                     ['id' => $good['id']],
                     [
                         'good_id' => $good['good_id'],
@@ -134,6 +139,9 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                         'updated_at' => Carbon::now()
                     ]
                 );
+
+                GoodDocumentHistoryEvent::dispatch($good, ChangeGoodDocument::Changed->value);
+
             } else {
                 GoodDocument::create([
                     'good_id' => $good['good_id'],
@@ -144,10 +152,11 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
                     'updated_at' => Carbon::now()
                 ]);
+
+                GoodDocumentHistoryEvent::dispatch($good, ChangeGoodDocument::Created->value);
             }
         }
     }
-
 
     public function changeHistory(Documentable $document)
     {
@@ -177,14 +186,13 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                         $good = Good::find($goods['good_id'])->name;
 
                         $response[] = [
+                            'amount' => $goods['amount'],
                             'good' => $good,
-                            'amount' => $goods['amount']
                         ];
                     }
 
                     return $response;
                 }
-
 
                 if ($document->active) {
                     $this->deleteDocumentData($document);

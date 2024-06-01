@@ -13,6 +13,7 @@ use App\Models\Document;
 use App\Models\DocumentHistory;
 use App\Models\DocumentModel;
 use App\Models\Employee;
+use App\Models\GoodDocument;
 use App\Models\Organization;
 use App\Models\OrganizationBill;
 use App\Models\Storage;
@@ -102,7 +103,6 @@ trait TrackHistoryTrait
             'previous_value' => $previousValue,
             'new_value' => $value,
         ];
-
     }
 
     private function track(DocumentModel $document, DocumentHistory $history): void
@@ -111,13 +111,12 @@ trait TrackHistoryTrait
             ->mapWithKeys(function ($value, $field) use ($document) {
                 $translatedField = config('constants.' . $field);
 
-
                 return [$translatedField => $this->getHistoryDetails($document, $value, $field)];
             });
 
         ChangeHistory::create([
             'document_history_id' => $history->id,
-            'body' => json_encode($value)
+            'body' => json_encode($value),
         ]);
     }
 
@@ -131,4 +130,3 @@ trait TrackHistoryTrait
     }
 
 }
-

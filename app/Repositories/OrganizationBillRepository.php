@@ -112,7 +112,7 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
         $writer->openToFile($filePath);
 
         $headerRow = WriterEntityFactory::createRowFromArray([
-            'Наименование', 'Валюта', 'Организация', 'Расчетный счет', 'Дата', 'Комментария'
+            'Наименование', 'Валюта', 'Организация', 'Расчетный счет', 'Дата', 'Комментария', 'Помечен на удаление'
         ]);
 
         $writer->addRow($headerRow);
@@ -126,6 +126,7 @@ class OrganizationBillRepository implements OrganizationBillRepositoryInterface
                 $row->bill_number,
                 $row->date,
                 $row->comment,
+                $row->deleted_at ? 'Да' : 'Нет',
             ]);
             $writer->addRow($dataRow);
         }

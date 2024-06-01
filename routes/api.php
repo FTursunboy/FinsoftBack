@@ -130,6 +130,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'employees'], function () {
+        Route::get('excel/export', [EmployeeController::class, 'export']);
         Route::post('/massDelete', [EmployeeController::class, 'massDelete']);
         Route::post('/massRestore', [EmployeeController::class, 'massRestore']);
     });
@@ -213,12 +214,14 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'currency'], function () {
+        Route::get('export/excel', [CurrencyController::class, 'export']);
         Route::get('/restore/{currency}', [CurrencyController::class, 'restore']);
         Route::post('/massDelete', [CurrencyController::class, 'massDelete']);
         Route::post('/massRestore', [CurrencyController::class, 'massRestore']);
     });
 
     Route::group(['prefix' => 'position'], function () {
+        Route::get('export/excel', [PositionController::class, 'export']);
         Route::post('/massDelete', [PositionController::class, 'massDelete']);
         Route::post('/massRestore', [PositionController::class, 'massRestore']);
     });
@@ -280,6 +283,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::group(['prefix' => '/client'], function () {
             Route::get('/purchasedList', [ClientDocumentController::class, 'index']);
             Route::post('/purchase', [ClientDocumentController::class, 'purchase']);
+            Route::patch('update/{document}', [ClientDocumentController::class, 'update']);
 
             Route::get('/returnList', [ReturnClientDocumentController::class, 'index']);
             Route::post('/return', [ReturnClientDocumentController::class, 'store']);
@@ -310,6 +314,12 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('approve', [ProviderDocumentController::class, 'approve']);
             Route::post('unApprove', [ProviderDocumentController::class, 'unApprove']);
         });
+
+        Route::group(['prefix' => 'order'], function () {
+            Route::post('approve', [OrderClientDocumentController::class, 'approve']);
+            Route::post('unApprove', [OrderClientDocumentController::class, 'unApprove']);
+        });
+
 
         Route::group(['prefix' => '/inventory'], function () {
             Route::get('/', [InventoryDocumentController::class, 'index']);
@@ -389,3 +399,5 @@ require_once 'reports.php';
 Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login'])->name('login');
 Route::post('forgotPassword', [AuthController::class, 'forgotPassword']);
 Route::post('checkCode', [AuthController::class, 'checkCode']);
+
+

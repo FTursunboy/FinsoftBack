@@ -143,7 +143,7 @@ class CurrencyRepository implements CurrencyRepositoryInterface
         $writer->openToFile($filePath);
 
         $headerRow = WriterEntityFactory::createRowFromArray([
-            'Наименование', 'Цифровой код', 'Символьный код', 'Помечен на удаление'
+            'Наименование', 'Цифровой код', 'Символьный код', 'Текущий курс валюты', 'Помечен на удаление'
         ]);
 
         $writer->addRow($headerRow);
@@ -154,6 +154,7 @@ class CurrencyRepository implements CurrencyRepositoryInterface
                 $row->name,
                 $row->digital_code,
                 $row->symbol_code,
+                $row->exchangeRates->whereNull('deleted_at')->sortByDesc('date')->first()?->value,
                 $row->deleted_at ? 'Да' : 'Нет',
             ]);
             $writer->addRow($dataRow);

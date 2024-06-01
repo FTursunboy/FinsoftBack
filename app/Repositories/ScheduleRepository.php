@@ -182,6 +182,17 @@ class ScheduleRepository implements ScheduleRepositoryInterface
         }
     }
 
+
+    public function export(array $data)
+    {
+        $filterParams = $this->processSearchData($data);
+
+        $query = $this->search($filterParams['search']);
+
+        $query = $this->sort($filterParams, $query, ['workerSchedule.month', 'weekHours']);
+
+    }
+
     public function excel(array $data): string
     {
         $filterParams = $this->processSearchData($data);
@@ -218,5 +229,6 @@ class ScheduleRepository implements ScheduleRepositoryInterface
 
         return $filePath;
     }
+
 
 }

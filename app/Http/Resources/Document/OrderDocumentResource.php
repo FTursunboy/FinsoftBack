@@ -41,6 +41,7 @@ class OrderDocumentResource extends JsonResource
             'goods_amount' => $this->whenLoaded('documentGoodsWithCount', function ( $query) {
                 return (float) $query->first()?->total_count ?? 0;
             }),
+            'active' => $this->active
         ];
     }
 }

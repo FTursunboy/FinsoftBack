@@ -53,7 +53,7 @@ class ScheduleController extends Controller
         return $this->success($this->repository->calculateHours($request->validated()));
     }
 
-    public function excel(IdRequest $request)
+    public function excel(IndexRequest $request)
     {
         return response()->download($this->repository->excel($request->validated()))->deleteFileAfterSend();
     }

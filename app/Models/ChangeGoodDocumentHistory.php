@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class ChangeHistory extends Model
+class ChangeGoodDocumentHistory extends Model
 {
-    protected $fillable = ['document_history_id', 'body'];
+    protected $fillable = ['change_history_id', 'body', 'type'];
 
     protected $keyType = 'string';
 
@@ -21,5 +21,4 @@ class ChangeHistory extends Model
             $model->id = Str::uuid();
         });
     }
-
 }

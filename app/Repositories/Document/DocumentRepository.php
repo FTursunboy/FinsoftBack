@@ -50,7 +50,6 @@ class DocumentRepository implements DocumentRepositoryInterface
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }
-
     public function store(DocumentDTO $dto, int $status): Document
     {
         $document = DB::transaction(function () use ($dto, $status) {
@@ -100,6 +99,10 @@ class DocumentRepository implements DocumentRepositoryInterface
                 $this->updateGoodDocuments($dto->goods, $document);
             }
             $this->calculateSum($document);
+
+            $data['ids'][] = $document->id;
+
+            if ($document->active) $this->approve($data);
         });
     }
 
@@ -278,10 +281,10 @@ class DocumentRepository implements DocumentRepositoryInterface
             })
             ->when($data['author_id'], function ($query) use ($data) {
                 return $query->where('author_id', $data['author_id']);
-            });
-//            ->when(isset($data['deleted']), function ($query) use ($data) {
-//                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
-//            });;
+            })
+            ->when(isset($data['deleted']), function ($query) use ($data) {
+                return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
+            });;
     }
 
 

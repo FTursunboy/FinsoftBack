@@ -5,7 +5,7 @@ namespace App\Http\Requests\Api\Group;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class GroupRequest extends FormRequest
+class GroupUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class GroupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['string', 'required', Rule::unique('groups', 'name')],
+            'name' => ['string', 'required', Rule::unique('groups', 'name')->ignore($this->route('group')->id)],
             'type' => ['integer', 'nullable', Rule::in([0, 1, 2])],
         ];
     }

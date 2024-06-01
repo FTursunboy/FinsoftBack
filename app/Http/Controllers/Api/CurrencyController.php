@@ -105,4 +105,9 @@ class CurrencyController extends Controller
 
         return $this->success($this->repository->addDefaultCurrency($currency));
     }
+
+    public function export(FilterRequest $request)
+    {
+        return response()->download($this->repository->export($request->validated()))->deleteFileAfterSend();
+    }
 }

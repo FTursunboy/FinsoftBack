@@ -13,11 +13,12 @@ use App\Models\DocumentModel;
 use App\Models\ExchangeRate;
 use App\Models\Good;
 use App\Models\GoodAccounting;
+use App\Models\GoodDocument;
 
 
 class HandleMovementDocumentApproveCreated
 {
-    public function __construct(public DocumentModel $document, public MovementTypes $type, public string $documentType) { }
+    public function __construct(public DocumentModel $document, public MovementTypes $type, public string $documentType, public int $storageId) { }
 
     public function handle(): void
     {
@@ -31,11 +32,9 @@ class HandleMovementDocumentApproveCreated
         $insertData = [];
 
         foreach ($goods as $good) {
-            $sum = $good->amount * $good->price;
+            $price = GoodDocument::where('good_id', $good->good_id)->latest()->first()->price;
 
-            if ($this->document->currency_id !== $this->getDefaultCurrency()) {
-                $sum = $good->amount * $good->price * $this->getExcangeRate();
-            }
+            $sum = $good->amount * $price;
 
             $insertData[] = [
                 'good_id' => $good->good_id,
@@ -43,7 +42,7 @@ class HandleMovementDocumentApproveCreated
                 'model_id' => $good->document_id,
                 'model_type' => get_class($this->document),
                 'created_at' => now(),
-                'storage_id' => $this->document->storage_id,
+                'storage_id' => $this->storageId,
                 'movement_type' => $this->type,
                 'organization_id' => $this->document->organization_id,
                 'amount' => $good->amount,

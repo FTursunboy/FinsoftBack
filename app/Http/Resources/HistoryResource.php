@@ -20,6 +20,8 @@ class HistoryResource extends JsonResource
             'user' => UserResource::make($this->whenLoaded('user')),
             'status' => $this->status,
             'date' => $this->created_at,
+            'ip_address' => "172.1.1.1",
+            "pc_name" => "User",
             'changes' => ChangeResource::collection($this->whenLoaded('changes'))
         ];
     }

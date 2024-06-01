@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api\Document;
 
 use App\DTO\Document\DocumentDTO;
+use App\DTO\Document\DocumentUpdateDTO;
 use App\DTO\Document\OrderDocumentDTO;
 use App\Enums\ApiResponse as ApiResponseEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Document\DocumentRequest;
+use App\Http\Requests\Api\Document\DocumentUpdateRequest;
 use App\Http\Requests\Api\Document\FilterRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
@@ -38,6 +40,11 @@ class ClientDocumentController extends Controller
     public function purchase(DocumentRequest $request): JsonResponse
     {
         return $this->created(DocumentResource::make($this->repository->store(DocumentDTO::fromRequest($request))));
+    }
+
+    public function update(Document $document, DocumentUpdateRequest $request): JsonResponse
+    {
+        return $this->success($this->repository->update($document, DocumentUpdateDTO::fromRequest($request)));
     }
 
     public function massDelete(IdRequest $request)

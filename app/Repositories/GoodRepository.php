@@ -167,23 +167,32 @@ class GoodRepository implements GoodRepositoryInterface
 
         return $query->select(
             'goods.id', 'goods.name', 'goods.vendor_code', 'goods.description', 'goods.unit_id', 'goods.barcode', 'goods.storage_id',
-            'goods.good_group_id', 'goods.deleted_at', 'goods.created_at', 'goods.updated_at',
-            DB::raw("SUM(CASE WHEN good_accountings.movement_type = '$income'
-            and good_accountings.storage_id = $storageId and good_accountings.organization_id = $organizationId THEN good_accountings.amount ELSE 0 END) -
-            SUM(CASE WHEN good_accountings.movement_type = '$outcome' and good_accountings.storage_id = $storageId
-            and good_accountings.organization_id = $organizationId THEN good_accountings.amount ELSE 0 END) as good_amount")
+            'goods.good_group_id', 'goods.deleted_at', 'goods.created_at', 'goods.updated_at', 'goods.amount as good_amount',
+//            DB::raw("SUM(CASE WHEN good_accountings.movement_type = '$income'
+//            and good_accountings.storage_id = $storageId and good_accountings.organization_id = $organizationId THEN good_accountings.amount ELSE 0 END) -
+//            SUM(CASE WHEN good_accountings.movement_type = '$outcome' and good_accountings.storage_id = $storageId
+//            and good_accountings.organization_id = $organizationId THEN good_accountings.amount ELSE 0 END) as good_amount")
         );
     }
 
     public function search($query, string $search)
     {
         $words = explode(' ', $search);
-        return $query->where(function ($query) use ($words) {
-            foreach ($words as $word) {
-                $query->where('name', 'like', '%' . $word . '%');
-            }
+
+        $searchTerms = implode('%', $words);
+        $likeSearch = '%' . $searchTerms . '%';
+
+        return $query->where(function ($query) use ($likeSearch) {
+            $query->where('name', 'like', $likeSearch)
+                ->orWhere('vendor_code', 'like', $likeSearch)
+                ->orWhere('description', 'like', $likeSearch)
+                ->orWhere('goods.id', 'like', $likeSearch)
+                ->orWhereHas('barcodes', function ($query) use ($likeSearch) {
+                    return $query->where('barcode', 'like', $likeSearch);
+                });
         });
     }
+
 
     public function filter($query, array $data)
     {

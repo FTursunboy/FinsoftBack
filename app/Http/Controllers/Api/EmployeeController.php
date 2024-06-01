@@ -67,4 +67,9 @@ class EmployeeController extends Controller
         return $this->deleted($this->repository->deleteImage($employee));
     }
 
+    public function export(IndexRequest $request)
+    {
+        return response()->download($this->repository->export($request->validated()))->deleteFileAfterSend();
+    }
+
 }
