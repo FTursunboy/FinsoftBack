@@ -285,7 +285,7 @@ class ReturnProviderDocumentRepository implements ReturnProviderDocumentReposito
             })
             ->when(isset($data['deleted']), function ($query) use ($data) {
                 return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
-            });;
+            });
     }
 
     private function calculateSum(Document $document)
