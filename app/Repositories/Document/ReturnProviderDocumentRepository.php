@@ -64,7 +64,6 @@ class ReturnProviderDocumentRepository implements ReturnProviderDocumentReposito
                 'saleInteger' => $dto->saleInteger,
                 'salePercent' => $dto->salePercent,
                 'currency_id' => $dto->currency_id,
-                'sale_sum' => $dto->sale_sum,
                 'sum' => $dto->sum,
             ]);
 
@@ -321,7 +320,6 @@ class ReturnProviderDocumentRepository implements ReturnProviderDocumentReposito
         $saleSum -= $documentDiscount;
 
         $document->sum = $sum;
-        $document->sale_sum = $saleSum;
 
         $document->save();
 

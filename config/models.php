@@ -28,5 +28,6 @@ return [
         'currency' => Currency::class,
         'balance_article' => BalanceArticle::class,
         'sender_cash_register' => CashRegister::class,
+        'good' => \App\Models\Good::class,
     ],
 ];

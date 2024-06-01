@@ -36,7 +36,6 @@ class DocumentRequest extends FormRequest
             'currency_id' => ['required', Rule::exists('currencies', 'id')],
             'saleInteger' => ['nullable', 'integer'],
             'salePercent' => ['nullable', 'integer'],
-            'sale_sum' => ['nullable', 'numeric'],
             'sum' => ['nullable', 'numeric'],
             'comment' => [''],
             'goods' => ['required', 'array'],

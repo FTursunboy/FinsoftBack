@@ -390,7 +390,6 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'saleInteger' => $document->saleInteger,
                 'salePercent' => $document->salePercent,
                 'currency_id' => $document->currency_id,
-                'sale_sum' => $document->sale_sum,
                 'sum' => $document->sum
             ]);
 
