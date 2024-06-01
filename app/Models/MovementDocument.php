@@ -29,6 +29,7 @@ class MovementDocument extends DocumentModel implements Documentable
         'active'
     ];
 
+    public static function bootSoftDeletes(){}
 
     public function author(): BelongsTo
     {
