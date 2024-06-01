@@ -2,22 +2,23 @@
 
 namespace App\Events;
 
-use App\Enums\MovementTypes;
-use App\Models\DocumentModel;
+use App\Models\GoodDocument;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MovementApprovedEvent
+class GoodDocumentHistoryEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public DocumentModel $document, public MovementTypes $movementTypes, public string $documentType, public int $storageId) { }
-
+    public function __construct(public GoodDocument $goodDocument) { }
 
     /**
      * Get the channels the event should broadcast on.
