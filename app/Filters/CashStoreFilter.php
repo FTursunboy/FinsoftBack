@@ -75,6 +75,16 @@ class CashStoreFilter extends ModelFilter
         return $this->where('operationType_id', $id);
     }
 
+    public function active($value) :CashStoreFilter
+    {
+        return $value ? $this->where('active',  true) : $this->where('active', false);
+    }
+
+    public function deleted($value) :CashStoreFilter
+    {
+        return $value ? $this->where('deleted_at', '!=', null) : $this->where('deleted_at', null);
+    }
+
     public function search(string $search) :CashStoreFilter
     {
         $searchTerm = explode(' ', $search);
