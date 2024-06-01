@@ -78,6 +78,7 @@ class MovementDocument extends DocumentModel implements Documentable
             'author_id' => $data['author_id'] ?? null,
             'startDate' => $data['startDate'] ?? null,
             'endDate' => $data['endDate'] ?? null,
+            'active' => $data['active'] ?? null,
         ];
 
         if (isset($data['filterData'])) {
@@ -85,8 +86,9 @@ class MovementDocument extends DocumentModel implements Documentable
             $filteredData['organization_id'] = $data['filterData']['organization_id'] ?? $filteredData['organization_id'];
             $filteredData['sender_storage_id'] = $data['filterData']['sender_storage_id'] ?? $filteredData['sender_storage_id'];
             $filteredData['author_id'] = $data['filterData']['author_id'] ?? $filteredData['author_id'];
-            $filteredData['startDate'] = $data['filterData']['startDate'] ?? $filteredData['startDate'];
             $filteredData['endDate'] = $data['filterData']['endDate'] ?? $filteredData['endDate'];
+            $filteredData['startDate'] = $data['filterData']['startDate'] ?? $filteredData['startDate'];
+            $filteredData['active'] = $data['filterData']['active'] ?? $filteredData['active'];
         }
 
         return $filteredData;
