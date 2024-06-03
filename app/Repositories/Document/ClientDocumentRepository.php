@@ -127,9 +127,10 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
     {
         foreach ($goods as $good) {
             if (isset($good['id'])) {
-                $good = GoodDocument::updateOrCreate(
-                    ['id' => $good['id']],
-                    [
+
+                $goodDocument = GoodDocument::where('id', $good['id'])->first();
+
+                $goodDocument->update([
                         'good_id' => $good['good_id'],
                         'amount' => $good['amount'],
                         'price' => $good['price'],
@@ -137,10 +138,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                         'document_id' => $document->id,
                         'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
                         'updated_at' => Carbon::now()
-                    ]
-                );
-
-                GoodDocumentHistoryEvent::dispatch($good, ChangeGoodDocument::Changed->value);
+                    ]);
 
             } else {
                 GoodDocument::create([
@@ -153,7 +151,6 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     'updated_at' => Carbon::now()
                 ]);
 
-                GoodDocumentHistoryEvent::dispatch($good, ChangeGoodDocument::Created->value);
             }
         }
     }

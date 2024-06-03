@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Enums\ChangeGoodDocument;
 use App\Enums\DocumentHistoryStatuses;
 use App\Models\BalanceArticle;
 use App\Models\CashRegister;
@@ -52,15 +53,23 @@ trait TrackGoodHistoryTrait
 
     private function track(GoodDocument $document, string $type): void
     {
-        $value = $this->getUpdated($document)
-            ->mapWithKeys(function ($value, $field) use ($document) {
-                $translatedField = config('constants.' . $field);
+        if ($type == ChangeGoodDocument::Changed->value) {
+            $value = $this->getUpdated($document)
+                ->mapWithKeys(function ($value, $field) use ($document) {
+                    $translatedField = config('constants.' . $field);
 
-                return [$translatedField => $this->getHistoryDetails($document, $value, $field)];
-            });
+                    return [$translatedField => $this->getHistoryDetails($document, $value, $field)];
+                });
+        } else {
+            $value = $document;
+        }
 
-        $history =  ChangeHistory::latest()->first();
-dd($value);
+        $history =  ChangeHistory::join('document_histories as dh' ,'dh.id', '=', 'document_history_id')
+            ->select('change_histories.id')
+            ->where('dh.document_id', $document->document_id )
+            ->orderByDesc('change_histories.created_at')
+            ->first();
+dd($history);
         ChangeGoodDocumentHistory::create([
             'change_history_id' => $history->id,
             'body' => json_encode($value),
