@@ -113,7 +113,7 @@ trait TrackHistoryTrait
 
                 return [$translatedField => $this->getHistoryDetails($document, $value, $field)];
             });
-
+//dd($value);
         ChangeHistory::create([
             'document_history_id' => $history->id,
             'body' => json_encode($value),

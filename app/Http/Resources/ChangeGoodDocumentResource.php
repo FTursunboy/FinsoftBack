@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ChangeResource extends JsonResource
+class ChangeGoodDocumentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,7 +18,7 @@ class ChangeResource extends JsonResource
         return [
             'id' => $this->id,
             'body' => json_decode($this->body),
-            'goods' => ChangeGoodDocumentResource::collection($this->whenLoaded('changeGoods'))
+            'type' => $this->type
         ];
     }
 }
