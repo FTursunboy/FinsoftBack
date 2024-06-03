@@ -18,6 +18,7 @@ use App\Models\GoodDocument;
 use App\Models\MovementDocument;
 use App\Observers\CashStoreObserver;
 use App\Observers\CheckingAccountObserver;
+use App\Observers\GoodDocumentObserver;
 use App\Observers\InventoryDocumentObserver;
 use App\Observers\DocumentObserver;
 use App\Observers\MovementDocumentObserver;
@@ -59,6 +60,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
      Document::observe(DocumentObserver::class);
+     GoodDocument::observe(GoodDocumentObserver::class);
 
        MovementDocument::observe(MovementDocumentObserver::class);
    //   CashStore::observe(CashStoreObserver::class);
