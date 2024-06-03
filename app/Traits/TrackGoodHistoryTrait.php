@@ -3,26 +3,9 @@
 namespace App\Traits;
 
 use App\Enums\ChangeGoodDocument;
-use App\Enums\DocumentHistoryStatuses;
-use App\Models\BalanceArticle;
-use App\Models\CashRegister;
 use App\Models\ChangeGoodDocumentHistory;
 use App\Models\ChangeHistory;
-use App\Models\Counterparty;
-use App\Models\CounterpartyAgreement;
-use App\Models\Currency;
-use App\Models\Document;
-use App\Models\DocumentHistory;
-use App\Models\DocumentModel;
-use App\Models\Employee;
 use App\Models\GoodDocument;
-use App\Models\Organization;
-use App\Models\OrganizationBill;
-use App\Models\Storage;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
 
 trait TrackGoodHistoryTrait
 {
@@ -64,12 +47,8 @@ trait TrackGoodHistoryTrait
             $value = $document;
         }
 
-        $history =  ChangeHistory::join('document_histories as dh' ,'dh.id', '=', 'document_history_id')
-            ->select('change_histories.id')
-            ->where('dh.document_id', $document->document_id )
-            ->orderByDesc('change_histories.created_at')
-            ->first();
-dd($history);
+        $history =  ChangeHistory::latest('created_at')->first();
+//dd($value);
         ChangeGoodDocumentHistory::create([
             'change_history_id' => $history->id,
             'body' => json_encode($value),
@@ -78,7 +57,7 @@ dd($history);
     }
 
     private function getUpdated($model)
-    {
+    {//dd($model, $model->getDirty());
         return collect($model->getDirty())->filter(function ($value, $key) {
             return !in_array($key, ['created_at', 'updated_at']);
         })->mapWithKeys(function ($value, $key) {
