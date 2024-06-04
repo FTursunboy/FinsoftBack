@@ -214,7 +214,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function changeHistory(Documentable $document)
     {
-        return $document->load(['history.changes', 'history.user']);
+        return $document->load(['history.changes', 'history.user', 'history.changes.changeGoods']);
     }
 
     public function createOnBase(Documentable $document)
@@ -284,7 +284,7 @@ class DocumentRepository implements DocumentRepositoryInterface
             })
             ->when(isset($data['deleted']), function ($query) use ($data) {
                 return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
-            });;
+            });
     }
 
 
@@ -390,7 +390,6 @@ class DocumentRepository implements DocumentRepositoryInterface
                 'saleInteger' => $document->saleInteger,
                 'salePercent' => $document->salePercent,
                 'currency_id' => $document->currency_id,
-                'sale_sum' => $document->sale_sum,
                 'sum' => $document->sum
             ]);
 

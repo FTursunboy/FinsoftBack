@@ -51,6 +51,11 @@ class MovementDocumentFilter extends ModelFilter
         return $this->where('active', $value);
     }
 
+    public function deleted($value) :MovementDocumentFilter
+    {
+        return $value == 1 ? $this->where('deleted_at', '!=', null) : $this->where('deleted_at', null);
+    }
+
     public function author(int $id) :MovementDocumentFilter
     {
         return $this->where('author_id', $id);

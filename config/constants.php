@@ -14,6 +14,8 @@ return [
     'counterparty_agreement' => 'Договор контрагента',
     'organization' => 'Организация',
     'sum' => 'Сумма',
-    'sale_sum' => 'Сумма со скидкой'
-
+    'sale_sum' => 'Сумма со скидкой',
+    'good' => 'Товар',
+    'amount' => 'Количество',
+    'price' => 'Цена'
 ];

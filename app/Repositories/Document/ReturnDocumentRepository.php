@@ -60,7 +60,6 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
                 'saleInteger' => $dto->saleInteger,
                 'salePercent' => $dto->salePercent,
                 'currency_id' => $dto->currency_id,
-                'sale_sum' => $dto->sale_sum,
                 'sum' => $dto->sum,
             ]);
 
@@ -183,7 +182,7 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
                 ['active' => true]
             );
 
-            DocumentApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::ReturnClient);
+            DocumentApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::ReturnClient->value);
         }
     }
 
@@ -309,7 +308,6 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
         $saleSum -= $documentDiscount;
 
         $document->sum = $sum;
-        $document->sale_sum = $saleSum;
 
         $document->save();
 
