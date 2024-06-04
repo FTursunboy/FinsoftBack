@@ -48,7 +48,7 @@ trait TrackGoodHistoryTrait
         }
 
         $history =  ChangeHistory::latest('created_at')->first();
-//dd($value);
+dd($value);
         ChangeGoodDocumentHistory::create([
             'change_history_id' => $history->id,
             'body' => json_encode($value),
@@ -57,7 +57,7 @@ trait TrackGoodHistoryTrait
     }
 
     private function getUpdated($model)
-    {//dd($model, $model->getDirty());
+    {
         return collect($model->getDirty())->filter(function ($value, $key) {
             return !in_array($key, ['created_at', 'updated_at']);
         })->mapWithKeys(function ($value, $key) {
