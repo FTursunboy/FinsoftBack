@@ -81,6 +81,7 @@ class HandleDocumentApproveCreated
             if ($this->type->value == MovementTypes::Income->value) {
                 Good::where('id', $good->good_id)->increment('amount', $good->amount);
             } else {
+                dd(3);
                 Good::where('id',$good->good_id)->decrement('amount', $good->amount);
             }
 
