@@ -48,18 +48,19 @@ trait TrackGoodHistoryTrait
         }
 
         $history =  ChangeHistory::latest('created_at')->first();
-dd($value);
+
         ChangeGoodDocumentHistory::create([
             'change_history_id' => $history->id,
+            'good' => $document->good->name,
             'body' => json_encode($value),
             'type' => $type
         ]);
     }
 
     private function getUpdated($model)
-    {
+    {//dd($model->getDirty());
         return collect($model->getDirty())->filter(function ($value, $key) {
-            return !in_array($key, ['created_at', 'updated_at']);
+            return !in_array($key, ['created_at', 'updated_at', 'change_history_id']);
         })->mapWithKeys(function ($value, $key) {
             return [str_replace('_id', '', $key) => $value];
         });

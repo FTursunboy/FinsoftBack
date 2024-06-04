@@ -17,6 +17,7 @@ class ChangeGoodDocumentResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'good' => $this->good,
             'body' => json_decode($this->body),
             'type' => $this->type
         ];
