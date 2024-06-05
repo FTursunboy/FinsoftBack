@@ -81,7 +81,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
     public function update(Document $document, DocumentUpdateDTO $dto)
     {
-        return DB::transaction(function () use ($dto, $document) {
+
             $document->update([
                 'doc_number' => $document->doc_number,
                 'date' => $dto->date,
@@ -104,7 +104,6 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
             $data['ids'][] = $document->id;
 
             if ($document->active) $this->approve($data);
-        });
     }
 
     private function insertGoodDocuments(array $goods, Document $document): array
