@@ -57,7 +57,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
      Document::observe(DocumentObserver::class);
-//     GoodDocument::observe(GoodDocumentObserver::class);
+     GoodDocument::observe(GoodDocumentObserver::class);
 
        MovementDocument::observe(MovementDocumentObserver::class);
    //   CashStore::observe(CashStoreObserver::class);
