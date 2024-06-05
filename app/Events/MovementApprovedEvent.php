@@ -16,7 +16,7 @@ class MovementApprovedEvent
     /**
      * Create a new event instance.
      */
-    public function __construct(public DocumentModel $document, public MovementTypes $movementTypes, public ?string $documentType, public int $storageId) { }
+    public function __construct(public DocumentModel $document, public MovementTypes $movementTypes, public ?string $documentType, public ?int $storageId) { }
 
 
     /**
