@@ -20,6 +20,7 @@ use App\Models\Storage;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Lang;
 
 trait TrackHistoryTrait
@@ -114,10 +115,14 @@ trait TrackHistoryTrait
                 return [$translatedField => $this->getHistoryDetails($document, $value, $field)];
             });
 
-        ChangeHistory::create([
+
+        $history =  ChangeHistory::create([
             'document_history_id' => $history->id,
             'body' => json_encode($value),
         ]);
+
+        Cache::put('history_' . Auth::id(), $history->id);
+
     }
 
     private function getUpdated($model)

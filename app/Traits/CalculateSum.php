@@ -52,7 +52,7 @@ trait CalculateSum
         }
 
 
-        $document->save();
+        $document->saveQuietly();
 
     }
 
