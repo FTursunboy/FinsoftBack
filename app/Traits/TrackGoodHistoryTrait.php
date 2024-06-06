@@ -51,11 +51,18 @@ trait TrackGoodHistoryTrait
             $value = $document;
         }
 
-        $this->calculateSum($document->document);;
-        $lastHistory = DocumentHistory::where('document_id', $document->document->id)->latest()->first();
+        $this->calculateSum($document->document);
+        $lastHistory = DocumentHistory::where('document_id', $document->document_id)->latest()->first();
+
+        if($lastHistory->status === DocumentHistoryStatuses::APPROVED || DocumentHistoryStatuses::CREATED || DocumentHistoryStatuses::UNAPPROVED) {
+            ChangeHistory::create([
+                'document_history_id' => $lastHistory->id,
+                'body' => json_encode([]),
+            ]);
+        }
+
 
         $changeHistory =  $lastHistory->changes->first();
-
 
         ChangeGoodDocumentHistory::create([
             'change_history_id' => $changeHistory->id,

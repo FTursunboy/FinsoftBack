@@ -16,6 +16,7 @@ trait CalculateSum
 
         foreach ($goods as $good) {
             $basePrice = $good->price * $good->amount;
+
             $sum += $basePrice;
 
             $discountAmount = 0;
@@ -28,6 +29,7 @@ trait CalculateSum
 
             $priceAfterGoodDiscount = $basePrice - $discountAmount;
             $saleSum += $priceAfterGoodDiscount;
+
         }
 
         $documentDiscount = 0;
@@ -41,7 +43,7 @@ trait CalculateSum
         $saleSum -= $documentDiscount;
 
         if ($document->sum != $sum) {
-            $document->sum = $sum;
+            $document->sum = (float)$sum;
         }
 
         if ($isCreate) {
