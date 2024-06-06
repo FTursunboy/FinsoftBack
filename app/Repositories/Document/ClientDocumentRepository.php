@@ -50,6 +50,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
     public function store(DocumentDTO $dto): Document
     {
+
         $document = DB::transaction(function () use ($dto) {
 
             $document = Document::create([
@@ -81,6 +82,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
     public function update(Document $document, DocumentUpdateDTO $dto)
     {
+
         return DB::transaction(function () use ($dto, $document) {
             $document->update([
                 'doc_number' => $document->doc_number,
@@ -99,7 +101,8 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 $this->updateGoodDocuments($dto->goods, $document);
             }
 
-            $this->calculateSum($document);
+
+
 
             $data['ids'][] = $document->id;
 

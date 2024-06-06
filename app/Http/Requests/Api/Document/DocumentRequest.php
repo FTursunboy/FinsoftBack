@@ -41,7 +41,10 @@ class DocumentRequest extends FormRequest
             'goods' => ['required', 'array'],
             'goods.*.good_id' => ['required', Rule::exists('goods', 'id')],
             'goods.*.amount' => ['required', 'min:1'],
-            'goods.*.price' => ['required', 'numeric'],
+            'goods.*.price' => [
+                'required',
+                'regex:/^\d+\.\d{2}$/'
+            ],
             'goods.*.auto_sale_percent' => ['nullable', 'numeric'],
             'goods.*.auto_sale_sum' => ['nullable', 'numeric'],
         ];
