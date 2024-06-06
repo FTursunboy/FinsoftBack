@@ -50,6 +50,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
     public function store(DocumentDTO $dto): Document
     {
+
         $document = DB::transaction(function () use ($dto) {
 
             $document = Document::create([
@@ -81,6 +82,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
     public function update(Document $document, DocumentUpdateDTO $dto)
     {
+
         return DB::transaction(function () use ($dto, $document) {
             $document->update([
                 'doc_number' => $document->doc_number,
@@ -100,6 +102,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
             }
 
             $this->calculateSum($document);
+
 
             $data['ids'][] = $document->id;
 
@@ -131,14 +134,14 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 $goodDocument = GoodDocument::where('id', $good['id'])->first();
 
                 $goodDocument->update([
-                        'good_id' => $good['good_id'],
-                        'amount' => $good['amount'],
-                        'price' => $good['price'],
-                        'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
-                        'document_id' => $document->id,
-                        'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
-                        'updated_at' => Carbon::now()
-                    ]);
+                    'good_id' => $good['good_id'],
+                    'amount' => $good['amount'],
+                    'price' => $good['price'],
+                    'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
+                    'document_id' => $document->id,
+                    'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
+                    'updated_at' => Carbon::now()
+                ]);
 
             } else {
                 GoodDocument::create([
@@ -170,7 +173,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
     public function approve(array $data)
     {
-        return DB::transaction(function () use ($data) {
+        try {
             foreach ($data['ids'] as $id) {
                 $document = Document::find($id);
 
@@ -202,9 +205,12 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     ['active' => true]
                 );
 
-                DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::SaleToClient->value);
+             //   DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::SaleToClient->value);
             }
-        });
+        } catch (Exception $exception) {
+            dd($exception->getMessage());
+        }
+
     }
 
 

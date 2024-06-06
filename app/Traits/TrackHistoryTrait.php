@@ -27,10 +27,14 @@ trait TrackHistoryTrait
 {
     public function create(DocumentModel $model, ?int $user_id): void
     {
-        DocumentHistory::create([
+        $history =  DocumentHistory::create([
             'status' => DocumentHistoryStatuses::CREATED,
             'user_id' => $user_id ?? User::factory()->create()->id,
             'document_id' => $model->id,
+        ]);
+        ChangeHistory::create([
+            'document_history_id' => $history->id,
+            'body' => json_encode([]),
         ]);
     }
 
@@ -38,10 +42,15 @@ trait TrackHistoryTrait
     public function update(DocumentModel $model, $user_id): void
     {
         if (array_key_exists('active', $model->getDirty())) {
-            DocumentHistory::create([
+           $history =  DocumentHistory::create([
                 'status' => $model->active === true ? DocumentHistoryStatuses::APPROVED : DocumentHistoryStatuses::UNAPPROVED,
                 'user_id' => $user_id,
                 'document_id' => $model->id,
+            ]);
+
+            ChangeHistory::create([
+                'document_history_id' => $history->id,
+                'body' => json_encode([]),
             ]);
         } else {
             $documentHistory = DocumentHistory::create([
@@ -51,6 +60,7 @@ trait TrackHistoryTrait
             ]);
             $this->track($model, $documentHistory);
         }
+
     }
 
     public function delete(DocumentModel $model, int $user_id): void

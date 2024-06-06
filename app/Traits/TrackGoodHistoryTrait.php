@@ -3,12 +3,22 @@
 namespace App\Traits;
 
 use App\Enums\ChangeGoodDocument;
+use App\Enums\DocumentHistoryStatuses;
 use App\Models\ChangeGoodDocumentHistory;
 use App\Models\ChangeHistory;
+use App\Models\DocumentHistory;
 use App\Models\GoodDocument;
+use Illuminate\Support\Facades\Auth;
 
 trait TrackGoodHistoryTrait
 {
+    use CalculateSum;
+
+    public array $statuses = [
+        "Создан",
+        "Проведен",
+        "Отменено проведение"
+    ];
     private function getHistoryDetails(GoodDocument $document, $value, $field): array
     {
         $modelMap = config('models.model_map');
@@ -36,6 +46,7 @@ trait TrackGoodHistoryTrait
 
     private function track(GoodDocument $document, string $type): void
     {
+
         if ($type == ChangeGoodDocument::Changed->value) {
             $value = $this->getUpdated($document)
                 ->mapWithKeys(function ($value, $field) use ($document) {
@@ -47,11 +58,35 @@ trait TrackGoodHistoryTrait
             $value = $document;
         }
 
-        $history =  ChangeHistory::latest('created_at')->first();
+        $lastHistory = DocumentHistory::where('document_id', $document->document_id)->latest()->first();
 
+        if (in_array($lastHistory->status, $this->statuses)) {
+
+            $documentHistory = DocumentHistory::create([
+                'document_id' => $lastHistory->document_id,
+                'status' => DocumentHistoryStatuses::UPDATED,
+                'user_id' => Auth::id()
+            ]);
+
+            $changeHistory = ChangeHistory::create([
+                'document_history_id' => $documentHistory->id,
+                'body' => json_encode([]),
+            ]);
+            ChangeGoodDocumentHistory::create([
+                'change_history_id' => $changeHistory->id,
+                'good' => $document->good->name,
+                'body' => json_encode($value),
+                'type' => $type
+            ]);
+            return;
+        }
+
+
+
+        $changeHistory =  $lastHistory->changes->first();
 
         ChangeGoodDocumentHistory::create([
-            'change_history_id' => $history->id,
+            'change_history_id' => $changeHistory->id,
             'good' => $document->good->name,
             'body' => json_encode($value),
             'type' => $type
@@ -59,9 +94,9 @@ trait TrackGoodHistoryTrait
     }
 
     private function getUpdated($model)
-    {//dd($model->getDirty());
+    {
         return collect($model->getDirty())->filter(function ($value, $key) {
-            return !in_array($key, ['created_at', 'updated_at', 'change_history_id']);
+            return !in_array($key, ['created_at', 'updated_at', 'change_history_id', 'document_id']);
         })->mapWithKeys(function ($value, $key) {
             return [str_replace('_id', '', $key) => $value];
         });

@@ -25,7 +25,6 @@ abstract class DocumentModel extends Model implements Documentable
         return $this->hasMany(DocumentHistory::class, 'document_id')->orderBy('created_at');
     }
 
-
     public static function boot() {
         parent::boot();
 
