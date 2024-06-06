@@ -8,10 +8,17 @@ use App\Models\ChangeGoodDocumentHistory;
 use App\Models\ChangeHistory;
 use App\Models\DocumentHistory;
 use App\Models\GoodDocument;
+use Illuminate\Support\Facades\Auth;
 
 trait TrackGoodHistoryTrait
 {
     use CalculateSum;
+
+    public array $statuses = [
+        "Создан",
+        "Проведен",
+        "Отменено проведение"
+    ];
     private function getHistoryDetails(GoodDocument $document, $value, $field): array
     {
         $modelMap = config('models.model_map');
@@ -51,15 +58,29 @@ trait TrackGoodHistoryTrait
             $value = $document;
         }
 
-        $this->calculateSum($document->document);
         $lastHistory = DocumentHistory::where('document_id', $document->document_id)->latest()->first();
 
-        if($lastHistory->status === DocumentHistoryStatuses::APPROVED || DocumentHistoryStatuses::CREATED || DocumentHistoryStatuses::UNAPPROVED) {
-            ChangeHistory::create([
-                'document_history_id' => $lastHistory->id,
+        if (in_array($lastHistory->status, $this->statuses)) {
+
+            $documentHistory = DocumentHistory::create([
+                'document_id' => $lastHistory->document_id,
+                'status' => DocumentHistoryStatuses::UPDATED,
+                'user_id' => Auth::id()
+            ]);
+
+            $changeHistory = ChangeHistory::create([
+                'document_history_id' => $documentHistory->id,
                 'body' => json_encode([]),
             ]);
+            ChangeGoodDocumentHistory::create([
+                'change_history_id' => $changeHistory->id,
+                'good' => $document->good->name,
+                'body' => json_encode($value),
+                'type' => $type
+            ]);
+            return;
         }
+
 
 
         $changeHistory =  $lastHistory->changes->first();
