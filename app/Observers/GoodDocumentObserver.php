@@ -19,6 +19,7 @@ class GoodDocumentObserver
 
     public function updated(GoodDocument $goodDocument): void
     {
+
         $this->track($goodDocument, ChangeGoodDocument::Changed->value);
     }
 

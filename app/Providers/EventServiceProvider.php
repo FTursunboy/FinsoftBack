@@ -49,9 +49,6 @@ class EventServiceProvider extends ServiceProvider
         MovementApprovedEvent::class => [
             MovementListener::class
         ],
-        GoodDocumentHistoryEvent::class => [
-            GoodDocumentHistoryListener::class
-        ]
     ];
 
     /**

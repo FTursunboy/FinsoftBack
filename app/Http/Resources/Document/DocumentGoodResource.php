@@ -15,11 +15,12 @@ class DocumentGoodResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
         return [
             'id' => $this->id,
             'good' => GoodResource::make($this->whenLoaded('good')),
             'amount' => $this->amount,
-            'price' => (float) $this->price,
+            'price' => $this->price,
             'auto_sale_percent' => $this->auto_sale_percent,
             'auto_sale_sum' => $this->auto_sale_percent,
             'deleted_at' => $this->deleted_at

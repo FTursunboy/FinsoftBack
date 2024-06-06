@@ -13,17 +13,6 @@ class DocumentHistory extends Model
     protected $fillable = ['document_id', 'status', 'user_id'];
 
 
-    protected $keyType = 'string';
-
-    public $incrementing = false;
-
-    public static function boot() {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->id = Str::uuid();
-        });
-    }
     public function user() :BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -36,6 +25,6 @@ class DocumentHistory extends Model
 
     public function changes(): HasMany
     {
-        return $this->hasMany(ChangeHistory::class);
+        return $this->hasMany(ChangeHistory::class)->orderBy('created_at', 'desc');
     }
 }
