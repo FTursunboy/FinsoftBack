@@ -177,7 +177,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
             foreach ($data['ids'] as $id) {
                 $document = Document::find($id);
 
-                $result = null;
+                $result = $this->checkInventory($document);
 
                 $response = [];
 
@@ -205,7 +205,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     ['active' => true]
                 );
 
-                DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::SaleToClient->value);
+             //   DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::SaleToClient->value);
             }
         } catch (Exception $exception) {
             dd($exception->getMessage());
