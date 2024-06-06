@@ -14,6 +14,9 @@ class GoodDocument extends Model
 
     protected $fillable = ['good_id', 'amount', 'price', 'document_id', 'deleted_at', 'auto_sale_percent', 'auto_sale_sum'];
 
+    protected $casts = [
+        'price' => 'float'
+    ];
     public function document(): BelongsTo
     {
         return $this->belongsTo(Document::class);

@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('document_histories', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-
+            $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('status');
             $table->string('document_id');

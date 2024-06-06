@@ -11,17 +11,6 @@ class ChangeHistory extends Model
 {
     protected $fillable = ['document_history_id', 'body'];
 
-    protected $keyType = 'string';
-
-    public $incrementing = false;
-
-    public static function boot() {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->id = Str::uuid();
-        });
-    }
 
     public function changeGoods(): HasMany
     {

@@ -40,7 +40,6 @@ trait CalculateSum
 
         $saleSum -= $documentDiscount;
 
-
         if ($document->sum != $sum) {
             $document->sum = $sum;
         }
@@ -51,9 +50,7 @@ trait CalculateSum
             return true;
         }
 
-
         $document->save();
-
     }
 
 

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('change_good_document_histories', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->foreignUuid('change_history_id');
             $table->json('body');
             $table->string('type');

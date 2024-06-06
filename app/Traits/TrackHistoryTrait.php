@@ -20,16 +20,21 @@ use App\Models\Storage;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Lang;
 
 trait TrackHistoryTrait
 {
     public function create(DocumentModel $model, ?int $user_id): void
     {
-        DocumentHistory::create([
+        $history =  DocumentHistory::create([
             'status' => DocumentHistoryStatuses::CREATED,
             'user_id' => $user_id ?? User::factory()->create()->id,
             'document_id' => $model->id,
+        ]);
+        ChangeHistory::create([
+            'document_history_id' => $history->id,
+            'body' => json_encode([]),
         ]);
     }
 
@@ -37,10 +42,15 @@ trait TrackHistoryTrait
     public function update(DocumentModel $model, $user_id): void
     {
         if (array_key_exists('active', $model->getDirty())) {
-            DocumentHistory::create([
+           $history =  DocumentHistory::create([
                 'status' => $model->active === true ? DocumentHistoryStatuses::APPROVED : DocumentHistoryStatuses::UNAPPROVED,
                 'user_id' => $user_id,
                 'document_id' => $model->id,
+            ]);
+
+            ChangeHistory::create([
+                'document_history_id' => $history->id,
+                'body' => json_encode([]),
             ]);
         } else {
             $documentHistory = DocumentHistory::create([
@@ -50,6 +60,7 @@ trait TrackHistoryTrait
             ]);
             $this->track($model, $documentHistory);
         }
+
     }
 
     public function delete(DocumentModel $model, int $user_id): void
@@ -114,10 +125,14 @@ trait TrackHistoryTrait
                 return [$translatedField => $this->getHistoryDetails($document, $value, $field)];
             });
 
-        ChangeHistory::create([
+
+        $history =  ChangeHistory::create([
             'document_history_id' => $history->id,
             'body' => json_encode($value),
         ]);
+
+        Cache::put('history_' . Auth::id(), $history->id);
+
     }
 
     private function getUpdated($model)
