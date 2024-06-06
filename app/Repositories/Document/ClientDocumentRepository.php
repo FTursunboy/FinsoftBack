@@ -177,7 +177,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
             foreach ($data['ids'] as $id) {
                 $document = Document::find($id);
 
-                $result = [];
+                $result = null;
 
                 $response = [];
 
