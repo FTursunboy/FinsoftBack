@@ -41,7 +41,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         DocumentApprovedEvent::class => [
             DocumentListener::class,
-            GoodHistoryListener::class
+        //    GoodHistoryListener::class
         ],
         SmallRemainderEvent::class => [
             SmallRemainderListener::class
