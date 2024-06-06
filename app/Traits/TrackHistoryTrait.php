@@ -42,6 +42,7 @@ trait TrackHistoryTrait
     public function update(DocumentModel $model, $user_id): void
     {
         if (array_key_exists('active', $model->getDirty())) {
+
            $history =  DocumentHistory::create([
                 'status' => $model->active === true ? DocumentHistoryStatuses::APPROVED : DocumentHistoryStatuses::UNAPPROVED,
                 'user_id' => $user_id,
