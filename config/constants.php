@@ -18,5 +18,6 @@ return [
     'good' => 'Товар',
     'amount' => 'Количество',
     'price' => 'Цена',
-    'id' => 'id'
+    'id' => 'id',
+    'currency' => 'Валюта'
 ];

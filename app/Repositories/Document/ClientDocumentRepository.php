@@ -101,7 +101,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 $this->updateGoodDocuments($dto->goods, $document);
             }
 
-
+            $this->calculateSum($document);
 
 
             $data['ids'][] = $document->id;
@@ -173,41 +173,47 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
     public function approve(array $data)
     {
-        return DB::transaction(function () use ($data) {
-            foreach ($data['ids'] as $id) {
-                $document = Document::find($id);
+        try {
+            return DB::transaction(function () use ($data) {
+                foreach ($data['ids'] as $id) {
+                    $document = Document::find($id);
 
-                $result = $this->checkInventory($document);
+                    $result = $this->checkInventory($document);
 
-                $response = [];
+                    $response = [];
 
-                if ($result !== null) {
-                    foreach ($result as $goods) {
-                        $good = Good::find($goods['good_id'])->name;
+                    if ($result !== null) {
+                        foreach ($result as $goods) {
+                            $good = Good::find($goods['good_id'])->name;
 
-                        $response[] = [
-                            'amount' => $goods['amount'],
-                            'good' => $good,
-                        ];
+                            $response[] = [
+                                'amount' => $goods['amount'],
+                                'good' => $good,
+                            ];
+                        }
+
+                        return $response;
                     }
 
-                    return $response;
-                }
+                    if ($document->active) {
+                        $this->deleteDocumentData($document);
+                        $document->update(
+                            ['active' => false]
+                        );
+                    }
 
-                if ($document->active) {
-                    $this->deleteDocumentData($document);
                     $document->update(
-                        ['active' => false]
+                        ['active' => true]
                     );
+
+                    DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::SaleToClient->value);
                 }
+            });
+        }
+        catch(Exception $exception) {
+            dd($exception->getMessage());
+        }
 
-                $document->update(
-                    ['active' => true]
-                );
-
-                DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::SaleToClient->value);
-            }
-        });
     }
 
 
