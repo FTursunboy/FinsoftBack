@@ -196,7 +196,7 @@ class ReturnProviderDocumentRepository implements ReturnProviderDocumentReposito
                     ['active' => true]
                 );
 
-                DocumentApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::ReturnProvider->value);
+                DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::ReturnProvider->value);
             }
         });
     }
