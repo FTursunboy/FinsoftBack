@@ -134,14 +134,14 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 $goodDocument = GoodDocument::where('id', $good['id'])->first();
 
                 $goodDocument->update([
-                        'good_id' => $good['good_id'],
-                        'amount' => $good['amount'],
-                        'price' => $good['price'],
-                        'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
-                        'document_id' => $document->id,
-                        'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
-                        'updated_at' => Carbon::now()
-                    ]);
+                    'good_id' => $good['good_id'],
+                    'amount' => $good['amount'],
+                    'price' => $good['price'],
+                    'auto_sale_percent' => $good['auto_sale_percent'] ?? null,
+                    'document_id' => $document->id,
+                    'auto_sale_sum' => $good['auto_sale_sum'] ?? null,
+                    'updated_at' => Carbon::now()
+                ]);
 
             } else {
                 GoodDocument::create([
@@ -174,43 +174,40 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
     public function approve(array $data)
     {
         try {
-            return DB::transaction(function () use ($data) {
-                foreach ($data['ids'] as $id) {
-                    $document = Document::find($id);
+            foreach ($data['ids'] as $id) {
+                $document = Document::find($id);
 
-                    $result = $this->checkInventory($document);
+                $result = [];
 
-                    $response = [];
+                $response = [];
 
-                    if ($result !== null) {
-                        foreach ($result as $goods) {
-                            $good = Good::find($goods['good_id'])->name;
+                if ($result !== null) {
+                    foreach ($result as $goods) {
+                        $good = Good::find($goods['good_id'])->name;
 
-                            $response[] = [
-                                'amount' => $goods['amount'],
-                                'good' => $good,
-                            ];
-                        }
-
-                        return $response;
+                        $response[] = [
+                            'amount' => $goods['amount'],
+                            'good' => $good,
+                        ];
                     }
 
-                    if ($document->active) {
-                        $this->deleteDocumentData($document);
-                        $document->update(
-                            ['active' => false]
-                        );
-                    }
-
-                    $document->update(
-                        ['active' => true]
-                    );
-
-                    DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::SaleToClient->value);
+                    return $response;
                 }
-            });
-        }
-        catch(Exception $exception) {
+
+                if ($document->active) {
+                    $this->deleteDocumentData($document);
+                    $document->update(
+                        ['active' => false]
+                    );
+                }
+
+                $document->update(
+                    ['active' => true]
+                );
+
+                DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::SaleToClient->value);
+            }
+        } catch (Exception $exception) {
             dd($exception->getMessage());
         }
 
