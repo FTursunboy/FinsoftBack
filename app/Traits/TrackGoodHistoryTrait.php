@@ -49,6 +49,7 @@ trait TrackGoodHistoryTrait
 
         $history =  ChangeHistory::latest('created_at')->first();
 
+
         ChangeGoodDocumentHistory::create([
             'change_history_id' => $history->id,
             'good' => $document->good->name,
