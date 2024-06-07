@@ -174,6 +174,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('excel/export', [GoodController::class, 'export']);
         Route::get('history/{good}', [GoodController::class, 'history']);
         Route::get('/getByBarcode/{barcode}', [GoodController::class, 'getByBarcode']);
+        Route::get('count-goods', [GoodController::class, 'countGoods']);
         Route::post('/massDelete', [GoodController::class, 'massDelete']);
         Route::post('/massRestore', [GoodController::class, 'massRestore']);
     });
@@ -319,7 +320,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('approve', [OrderClientDocumentController::class, 'approve']);
             Route::post('unApprove', [OrderClientDocumentController::class, 'unApprove']);
         });
-
 
         Route::group(['prefix' => '/inventory'], function () {
             Route::get('/', [InventoryDocumentController::class, 'index']);
