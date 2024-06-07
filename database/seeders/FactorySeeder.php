@@ -39,7 +39,7 @@ class FactorySeeder extends Seeder
         Counterparty::factory(1)->create();
     //    Currency::factory(1)->create();
 
-        Good::factory(1)->create();
+        Good::factory(6)->create();
         Organization::factory(1)->create();
         Position::factory(1)->create();
         PriceType::factory(1)->create();

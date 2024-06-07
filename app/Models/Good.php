@@ -82,6 +82,7 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
             'good_group_id' => $data['good_group_id'] ?? null,
             'good_storage_id' => $data['good_storage_id'] ?? null,
             'good_organization_id' => $data['good_organization_id'] ?? null,
+            'document_id' => $data['document_id'] ?? null,
             'for_sale' => $data['for_sale'] ?? null,
             'deleted' => $data['deleted'] ?? null,
         ];
@@ -95,6 +96,9 @@ class Good extends Model implements \App\Repositories\Contracts\SoftDeleteInterf
             $filteredData['barcode'] = $data['filterData']['barcode'] ?? $filteredData['barcode'];
             $filteredData['storage_id'] = $data['filterData']['storage_id'] ?? $filteredData['storage_id'];
             $filteredData['good_group_id'] = $data['filterData']['good_group_id'] ?? $filteredData['good_group_id'];
+            $filteredData['good_storage_id'] = $data['filterData']['good_storage_id'] ?? $filteredData['good_storage_id'];
+            $filteredData['good_organization_id'] = $data['filterData']['good_organization_id'] ?? $filteredData['good_organization_id'];
+            $filteredData['document_id'] = $data['filterData']['document_id'] ?? $filteredData['document_id'];
             $filteredData['deleted'] = $data['filterData']['deleted'] ?? $filteredData['deleted'];
         }
 
