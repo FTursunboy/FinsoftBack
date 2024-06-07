@@ -5,11 +5,9 @@ namespace App\Repositories\Document;
 use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
-use App\Enums\ChangeGoodDocument;
 use App\Enums\DocumentTypes;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
-use App\Events\GoodDocumentHistoryEvent;
 use App\Models\Document;
 use App\Models\Good;
 use App\Models\GoodAccounting;
@@ -101,9 +99,12 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 $this->updateGoodDocuments($dto->goods, $document);
             }
 
+<<<<<<< HEAD
             $this->calculateSum($document);
 
 
+=======
+>>>>>>> 14c06b914e9672929703eb95288d1a8680cd7356
             $data['ids'][] = $document->id;
 
             if ($document->active) $this->approve($data);

@@ -64,7 +64,13 @@ class MovementDocumentController extends Controller
 
     public function approve(IdRequest $request)
     {
-        return $this->success($this->repository->approve($request->validated()));
+        $good = $this->repository->approve($request->validated());
+
+        if ($good !== null) {
+            return response()->json(['result' => "not enough goods", 'errors' => $good], 400);
+        }
+
+        return $this->success($good);
     }
 
     public function unApprove(IdRequest $request)

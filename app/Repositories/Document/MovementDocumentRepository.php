@@ -9,6 +9,8 @@ use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
 use App\Events\MovementApprovedEvent;
 use App\Models\Document;
+use App\Models\Good;
+use App\Models\GoodAccounting;
 use App\Models\GoodDocument;
 use App\Models\MovementDocument;
 use App\Repositories\Contracts\Document\MovementDocumentRepositoryInterface;
@@ -128,6 +130,24 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
         foreach ($data['ids'] as $id) {
             $document = $this->model::find($id);
 
+            $result = $this->checkInventory($document);
+
+            $response = [];
+
+            if ($result !== null) {
+                foreach ($result as $goods) {
+                    $good = Good::find($goods['good_id'])->name;
+
+                    $response[] = [
+                        'amount' => $goods['amount'],
+                        'good' => $good,
+                    ];
+                }
+
+                return $response;
+            }
+
+
             $document->update(
                 ['active' => true]
             );
@@ -135,7 +155,53 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
             MovementApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::Movement->value, $document->sender_storage_id);
             MovementApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::Movement->value, $document->recipient_storage_id);
         }
+    }
 
+    public function checkInventory(MovementDocument $document)
+    {
+        $incomingDate = $document->date;
+
+        $incomingGoods = $document->documentGoods->pluck('good_id', 'amount')->toArray();
+
+        $previousIncomings = GoodAccounting::where('movement_type', MovementTypes::Income)
+            ->where('storage_id', $document->sender_storage_id)
+            ->where('date', '<=', $incomingDate)
+            ->get();
+
+        $previousOutgoings = GoodAccounting::where('movement_type', MovementTypes::Outcome)
+            ->where('date', '<=', $incomingDate)
+            ->where('storage_id', $document->sender_storage_id)
+            ->get();
+
+        $previousIncomingsByGoodId = $previousIncomings->groupBy('good_id')->map(function ($group) {
+            return $group->sum('amount');
+        });
+
+        $previousOutgoingsByGoodId = $previousOutgoings->groupBy('good_id')->map(function ($group) {
+            return $group->sum('amount');
+        });
+
+        $insufficientGoods = [];
+
+        foreach ($incomingGoods as $incomingAmount => $goodId) {
+
+
+            $totalIncoming = $previousIncomingsByGoodId->has($goodId) ? $previousIncomingsByGoodId[$goodId] : 0;
+            $totalOutgoing = $previousOutgoingsByGoodId->has($goodId) ? $previousOutgoingsByGoodId[$goodId] : 0;
+
+            $availableAmount = $totalIncoming - $totalOutgoing;
+
+            if ($incomingAmount > $availableAmount) {
+                $insufficientGoods[] = [
+                    'good_id' => $goodId,
+                    'amount' => $incomingAmount - $availableAmount
+                ];
+            }
+        }
+
+        if (!empty($insufficientGoods)) {
+            return $insufficientGoods;
+        }
     }
 
     public function unApprove(array $data)
