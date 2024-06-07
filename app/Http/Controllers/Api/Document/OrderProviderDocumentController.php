@@ -20,6 +20,7 @@ use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\OrderProviderDocumentRepositoryInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
+use Google\Service\Firestore\Order;
 use Illuminate\Http\JsonResponse;
 
 class OrderProviderDocumentController extends Controller
@@ -65,6 +66,11 @@ class OrderProviderDocumentController extends Controller
     public function massRestore(IdRequest $request, MassOperationInterface $restore)
     {
         return $this->success($restore->massRestore(new OrderDocument(), $request->validated()));
+    }
+
+    public function copy(OrderDocument $orderDocument)
+    {
+        return $this->success(OrderDocumentResource::make($this->repository->copy($orderDocument)));
     }
 
 }

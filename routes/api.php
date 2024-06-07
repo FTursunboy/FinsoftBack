@@ -286,6 +286,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('order/unApprove', [OrderProviderDocumentController::class, 'unApprove']);
             Route::post('order/massDelete', [OrderProviderDocumentController::class, 'massDelete']);
             Route::post('order/massRestore', [OrderProviderDocumentController::class, 'massRestore']);
+
+            Route::post('order/copy/{orderDocument}', [OrderProviderDocumentController::class, 'copy']);
         });
 
         Route::group(['prefix' => '/client'], function () {

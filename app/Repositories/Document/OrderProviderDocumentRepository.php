@@ -219,4 +219,32 @@ class OrderProviderDocumentRepository implements OrderProviderDocumentRepository
         }
     }
 
+    public function copy(OrderDocument $document)
+    {
+        $goods = $document->orderDocumentGoods->toArray();
+
+        $document = DB::transaction(function () use ($document, $goods) {
+            $document = OrderDocument::create([
+                'doc_number' => $this->uniqueNumber(),
+                'date' => Carbon::parse($document->date),
+                'counterparty_id' => $document->counterparty_id,
+                'counterparty_agreement_id' => $document->counterparty_agreement_id,
+                'organization_id' => $document->organization_id,
+                'order_status_id' => $document->order_status_id,
+                'author_id' => Auth::id(),
+                'comment' => $document->comment,
+                'summa' => $document->summa,
+                'shipping_date' => $document->shipping_date,
+                'currency_id' => $document->currency_id,
+                'order_type_id' => $document->order_type_id,
+            ]);
+
+            OrderDocumentGoods::insert($this->orderGoods($document, $goods));
+
+            return $document;
+        });
+
+        return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
+    }
+
 }
