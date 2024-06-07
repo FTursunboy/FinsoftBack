@@ -101,9 +101,6 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 $this->updateGoodDocuments($dto->goods, $document);
             }
 
-
-
-
             $data['ids'][] = $document->id;
 
             if ($document->active) $this->approve($data);
