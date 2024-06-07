@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\DTO\GoodDTO;
 use App\DTO\GoodUpdateDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Good\CountGoodsRequest;
 use App\Http\Requests\Api\Good\FilterRequest;
 use App\Http\Requests\Api\Good\GoodRequest;
 use App\Http\Requests\Api\Good\GoodUpdateRequest;
@@ -76,5 +77,10 @@ class GoodController extends Controller implements \App\Repositories\Contracts\S
     public function export(FilterRequest $request)
     {
         return response()->download($this->repository->export($request->validated()))->deleteFileAfterSend();
+    }
+
+    public function countGoods(CountGoodsRequest $request)
+    {
+        return $this->paginate(GoodResource::collection($this->repository->countGoods($request->validated())));
     }
 }

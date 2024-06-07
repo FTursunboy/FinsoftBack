@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\DTO\GoodDTO;
 use App\DTO\GoodUpdateDTO;
 use App\Enums\MovementTypes;
+use App\Models\Document;
 use App\Models\Good;
 use App\Models\GoodAccounting;
 use App\Models\GoodHistory;
@@ -142,6 +143,32 @@ class GoodRepository implements GoodRepositoryInterface
             'goods.good_group_id', 'goods.deleted_at', 'goods.created_at', 'goods.updated_at');
     }
 
+    public function countGoods(array $data)
+    {
+        $filterParams = $this->model::filter($data);
+
+        $query = $this->getForSaleGoods($filterParams);
+
+        $query = $query->paginate($filterParams['itemsPerPage']);
+
+        $document = Document::where('id', $data['document_id'])->first();
+
+        if ($document->active) {
+            foreach ($document->documentGoods as $good) {
+
+                if ($query->contains('id', $good->good_id)) {
+                    foreach ($query as $value) {
+                        if ($value->id == $good->good_id) {
+                            $value->good_amount += $good->amount;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $query;
+    }
+
     public function getForSaleGoods(array $data)
     {
         $organizationId = $data['good_organization_id'];
@@ -192,7 +219,6 @@ class GoodRepository implements GoodRepositoryInterface
                 });
         });
     }
-
 
     public function filter($query, array $data)
     {
