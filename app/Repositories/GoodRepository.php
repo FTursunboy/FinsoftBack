@@ -155,7 +155,6 @@ class GoodRepository implements GoodRepositoryInterface
 
         if ($document->active) {
             foreach ($document->documentGoods as $good) {
-
                 if ($query->contains('id', $good->good_id)) {
                     foreach ($query as $value) {
                         if ($value->id == $good->good_id) {
@@ -164,12 +163,33 @@ class GoodRepository implements GoodRepositoryInterface
                     }
                 }
             }
+            return $query;
         }
 
         return $query;
     }
 
-    public function getForSaleGoods(array $data)
+    public function countGoodsByGoodId(array $data)
+    {
+        $filterParams = $this->model::filter($data);
+
+        $query = $this->getForSaleGoods($filterParams, $data['good_id'])->first();
+
+        $document = Document::where('id', $data['document_id'])->first();
+
+        if ($document->active) {
+            foreach ($document->documentGoods as $good) {
+                if ($query->id == $good->good_id) {
+                    $query->good_amount += $good->amount;
+                }
+            }
+            return $query;
+        }
+
+        return $query;
+    }
+
+    public function getForSaleGoods(array $data, $good_id = 0)
     {
         $organizationId = $data['good_organization_id'];
         $storageId = $data['good_storage_id'];
@@ -180,6 +200,14 @@ class GoodRepository implements GoodRepositoryInterface
             ['good_accountings.storage_id', $storageId],
             ['good_accountings.organization_id', $organizationId]
         ]);
+
+        if ($data['date'] != null) {
+            $query->where('good_accountings.date', '<=', $data['date']);
+        }
+
+        if ($good_id != 0) {
+            $query->where('goods.id', $good_id);
+        }
 
         $query = $this->getSelect($query, $storageId, $organizationId);
 

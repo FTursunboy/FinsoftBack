@@ -23,9 +23,11 @@ class CountGoodsRequest extends FormRequest
             'itemsPerPage' => 'integer|nullable',
             'orderBy' => 'nullable|in:id,deleted_at,currency.name,storage.name,' . implode(',', $fillableFields),
             'sort' => 'in:asc,desc',
+            'date' => 'required',
             'good_storage_id' => 'required|exists:storages,id',
             'good_organization_id' => 'required|exists:organizations,id',
             'document_id' => 'required',
+            'good_id' => 'nullable'
         ];
     }
 
