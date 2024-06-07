@@ -175,6 +175,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('history/{good}', [GoodController::class, 'history']);
         Route::get('/getByBarcode/{barcode}', [GoodController::class, 'getByBarcode']);
         Route::get('count-goods', [GoodController::class, 'countGoods']);
+        Route::get('count-goods-by-good-id', [GoodController::class, 'countGoodsByGoodId']);
         Route::post('/massDelete', [GoodController::class, 'massDelete']);
         Route::post('/massRestore', [GoodController::class, 'massRestore']);
     });
