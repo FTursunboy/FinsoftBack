@@ -281,6 +281,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('/order', [OrderProviderDocumentController::class, 'store']);
             Route::get('order/show/{orderDocument}', [OrderProviderDocumentController::class, 'show']);
             Route::post('order/approve', [OrderProviderDocumentController::class, 'approve']);
+            Route::post('order/unApprove', [OrderProviderDocumentController::class, 'unApprove']);
         });
 
         Route::group(['prefix' => '/client'], function () {
