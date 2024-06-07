@@ -18,6 +18,7 @@ use App\Models\OrderType;
 use App\Models\Status;
 use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\OrderProviderDocumentRepositoryInterface;
+use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
@@ -54,6 +55,16 @@ class OrderProviderDocumentController extends Controller
     public function unApprove(IdRequest $request)
     {
         return $this->success($this->repository->unApprove($request->validated()));
+    }
+
+    public function massDelete(IdRequest $request, MassOperationInterface $delete)
+    {
+        return $delete->massDelete(new Document(), $request->validated());
+    }
+
+    public function massRestore(IdRequest $request, MassOperationInterface $restore)
+    {
+        return $this->success($restore->massRestore(new Document(), $request->validated()));
     }
 
 }
