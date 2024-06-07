@@ -9,6 +9,7 @@ use App\Http\Requests\Api\Document\DocumentRequest;
 use App\Http\Requests\Api\Document\FilterRequest;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\Document\DocumentResource;
 use App\Http\Resources\Document\OrderDocumentResource;
 use App\Models\Document;
@@ -43,6 +44,11 @@ class OrderProviderDocumentController extends Controller
                 $orderDocument->load('counterparty', 'organization', 'author', 'counterpartyAgreement', 'currency', 'orderDocumentGoods')
             )
         );
+    }
+
+    public function approve(IdRequest $request)
+    {
+        return $this->success($this->repository->approve($request->validated()));
     }
 
 }
