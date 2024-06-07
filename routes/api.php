@@ -276,12 +276,16 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('/return', [ReturnProviderDocumentController::class, 'store']);
             Route::post('return/approve', [ReturnProviderDocumentController::class, 'approve']);
             Route::post('return/unApprove', [ReturnProviderDocumentController::class, 'unApprove']);
+            Route::post('return/massDelete', [ReturnProviderDocumentController::class, 'massDelete']);
+            Route::post('return/massRestore', [ReturnProviderDocumentController::class, 'massRestore']);
 
             Route::get('/orderList', [OrderProviderDocumentController::class, 'index']);
             Route::post('/order', [OrderProviderDocumentController::class, 'store']);
             Route::get('order/show/{orderDocument}', [OrderProviderDocumentController::class, 'show']);
             Route::post('order/approve', [OrderProviderDocumentController::class, 'approve']);
             Route::post('order/unApprove', [OrderProviderDocumentController::class, 'unApprove']);
+            Route::post('order/massDelete', [OrderProviderDocumentController::class, 'massDelete']);
+            Route::post('order/massRestore', [OrderProviderDocumentController::class, 'massRestore']);
         });
 
         Route::group(['prefix' => '/client'], function () {

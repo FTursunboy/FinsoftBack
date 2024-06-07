@@ -20,4 +20,6 @@ interface OrderProviderDocumentRepositoryInterface
     public function updateOrder(OrderDocument $document, OrderDocumentUpdateDTO $DTO): OrderDocument;
 
     public function approve(array $data);
+
+    public function unApprove(array $data);
 }
