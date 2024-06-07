@@ -43,9 +43,9 @@ class ReturnProviderDocumentController extends Controller
         return $this->success($this->repository->approve($request->validated()));
     }
 
-    public function massDelete(IdRequest $request, MassOperationInterface $delete)
+    public function massDelete(IdRequest $request)
     {
-        return $delete->massDelete(new Document(), $request->validated());
+        return $this->success($this->repository->massDelete($request->validated()));
     }
 
     public function massRestore(IdRequest $request, MassOperationInterface $restore)
