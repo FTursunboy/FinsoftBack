@@ -196,4 +196,15 @@ class OrderProviderDocumentRepository implements OrderProviderDocumentRepository
             });
     }
 
+    public function approve(array $data)
+    {
+        foreach ($data['ids'] as $id) {
+            $document = $this->model::find($id);
+
+            $document->update(
+                ['active' => true]
+            );
+        }
+    }
+
 }
