@@ -83,4 +83,9 @@ class GoodController extends Controller implements \App\Repositories\Contracts\S
     {
         return $this->paginate(GoodResource::collection($this->repository->countGoods($request->validated())));
     }
+
+    public function countGoodsByGoodId(CountGoodsRequest $request)
+    {
+        return $this->success(GoodResource::make($this->repository->countGoodsByGoodId($request->validated())));
+    }
 }
