@@ -20,6 +20,7 @@ use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -98,15 +99,8 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
             if (!is_null($dto->goods)) {
                 $this->updateGoodDocuments($dto->goods, $document);
             }
-<<<<<<< HEAD
-
             $this->calculateSum($document);
 
-=======
-            $this->calculateSum($document);
-
-
->>>>>>> 80e6de558a79b1c6c5261db489b03e2c4cc13b13
             $data['ids'][] = $document->id;
 
             if ($document->active) $this->approve($data);
