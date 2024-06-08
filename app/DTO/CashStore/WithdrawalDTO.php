@@ -7,7 +7,7 @@ use App\Http\Requests\Api\CashStore\WithdrawalRequest;
 class WithdrawalDTO
 {
     public function __construct(public string $date, public int $organization_id, public int $cash_register_id, public float $sum, public int $organization_bill_id,
-                                public string $basis, public ?string $comment, public ?string $type, public int $operation_type_id)
+                                public string $basis, public ?string $comment, public ?string $type, public int $operation_type_id, public ?string $sender, public ?string $recipient)
     {
     }
 
@@ -23,6 +23,8 @@ class WithdrawalDTO
             $request->get('comment'),
             $request->get('type'),
             $request->get('operation_type_id'),
+            $request->get('sender'),
+            $request->get('recipient'),
         );
     }
 }

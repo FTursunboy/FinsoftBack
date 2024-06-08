@@ -7,8 +7,8 @@ use App\Http\Requests\Api\CashStore\AnotherCashRegisterRequest;
 
 class AnotherCashRegisterDTO
 {
-    public function __construct(public string $date, public int $organization_id, public int $cash_register_id,
-                                public float $sum, public int $sender_cash_register_id, public string $basis, public ?string $comment, public ?string $type, public int $operation_type_id)
+    public function __construct(public string $date, public int $organization_id, public int $cash_register_id, public float $sum,
+                                public int $sender_cash_register_id, public string $basis, public ?string $comment, public ?string $type, public int $operation_type_id, public ?string $sender, public ?string $recipient)
     {
     }
 
@@ -24,6 +24,8 @@ class AnotherCashRegisterDTO
             $request->get('comment'),
             $request->get('type'),
             $request->get('operation_type_id'),
+            $request->get('sender'),
+            $request->get('recipient'),
         );
     }
 }
