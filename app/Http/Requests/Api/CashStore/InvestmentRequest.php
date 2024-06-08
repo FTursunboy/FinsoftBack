@@ -20,7 +20,9 @@ class InvestmentRequest extends FormRequest
             'operation_type_id' => ['required', Rule::exists('operation_types', 'id')],
             'basis' => ['required'],
             'comment' => ['nullable'],
-            'type' => ['required', 'string', Rule::in(['RKO', 'PKO'])]
+            'type' => ['required', 'string', Rule::in(['RKO', 'PKO'])],
+            'sender' => ['required_if:type,PKO', 'string'],
+            'recipient' => ['required_if:type,PKO', 'string'],
         ];
     }
 

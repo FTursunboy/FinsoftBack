@@ -20,8 +20,8 @@ class AccountablePersonRefundRequest extends FormRequest
             'basis' => ['required'],
             'comment' => ['nullable'],
             'type' => ['required', 'string', Rule::in(['RKO', 'PKO'])],
-            'sender' => ['required', 'string'],
-            'recipient' => ['required', 'string'],
+            'sender' => ['required_if:type,PKO', 'string'],
+            'recipient' => ['required_if:type,PKO', 'string'],
         ];
     }
 
