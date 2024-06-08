@@ -27,7 +27,7 @@ class CountGoodsRequest extends FormRequest
             'good_storage_id' => 'required|exists:storages,id',
             'good_organization_id' => 'required|exists:organizations,id',
             'document_id' => 'required|exists:documents,id',
-            'good_id' => 'nullable|exists:goods,id',
+            'good_id' => 'nullable|exists:good_accountings,good_id',
         ];
     }
 
