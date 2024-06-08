@@ -98,9 +98,15 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
             if (!is_null($dto->goods)) {
                 $this->updateGoodDocuments($dto->goods, $document);
             }
+<<<<<<< HEAD
 
             $this->calculateSum($document);
 
+=======
+            $this->calculateSum($document);
+
+
+>>>>>>> 80e6de558a79b1c6c5261db489b03e2c4cc13b13
             $data['ids'][] = $document->id;
 
             if ($document->active) $this->approve($data);
@@ -163,7 +169,9 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
     public function deleteDocumentData(Document $document)
     {
         $document->goodAccountents()->delete();
+
         $document->counterpartySettlements()->delete();
+
         $document->balances()->delete();
     }
 
@@ -173,6 +181,14 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
         try {
             foreach ($data['ids'] as $id) {
                 $document = Document::find($id);
+
+                if ($document->active) {
+                    $this->deleteDocumentData($document);
+
+                    $document->update(
+                        ['active' => false]
+                    );
+                }
 
                 $result = $this->checkInventory($document);
 
@@ -191,18 +207,12 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     return $response;
                 }
 
-                if ($document->active) {
-                    $this->deleteDocumentData($document);
-                    $document->update(
-                        ['active' => false]
-                    );
-                }
-
                 $document->update(
                     ['active' => true]
                 );
 
-             //   DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::SaleToClient->value);
+
+                DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::SaleToClient->value);
             }
         } catch (Exception $exception) {
             dd($exception->getMessage());
@@ -235,6 +245,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
             return $group->sum('amount');
         });
 
+
         $insufficientGoods = [];
 
         foreach ($incomingGoods as $incomingAmount => $goodId) {
@@ -251,6 +262,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     'amount' => $incomingAmount - $availableAmount
                 ];
             }
+
         }
 
         if (!empty($insufficientGoods)) {

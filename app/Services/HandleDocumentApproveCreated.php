@@ -36,6 +36,7 @@ class HandleDocumentApproveCreated
             $sum = $this->document->sale_sum;
         }
 
+
         CounterpartySettlement::create([
             'counterparty_id' => $this->document->counterparty_id,
             'counterparty_agreement_id' => $this->document->counterparty_agreement_id,
@@ -78,16 +79,22 @@ class HandleDocumentApproveCreated
                 'document_type' => $this->documentType
             ];
 
+
             if ($this->type->value == MovementTypes::Income->value) {
                 Good::where('id', $good->good_id)->increment('amount', $good->amount);
             } else {
+                
                 Good::where('id',$good->good_id)->decrement('amount', $good->amount);
             }
+
+
 
             SmallRemainderEvent::dispatch($good->good_id);
         }
 
+
         GoodAccounting::insert($insertData);
+
 
     }
 

@@ -299,6 +299,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('/return', [ReturnClientDocumentController::class, 'store']);
             Route::post('return/approve', [ReturnClientDocumentController::class, 'approve']);
             Route::post('return/unApprove', [ReturnClientDocumentController::class, 'unApprove']);
+            Route::post('return/massDelete', [ReturnClientDocumentController::class, 'massDelete']);
+            Route::post('return/massRestore', [ReturnClientDocumentController::class, 'massRestore']);
 
             Route::get('orderList', [OrderClientDocumentController::class, 'index']);
             Route::post('/order', [OrderClientDocumentController::class, 'store']);
