@@ -5,11 +5,9 @@ namespace App\Repositories\Document;
 use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
-use App\Enums\ChangeGoodDocument;
 use App\Enums\DocumentTypes;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
-use App\Events\GoodDocumentHistoryEvent;
 use App\Models\Document;
 use App\Models\Good;
 use App\Models\GoodAccounting;
@@ -100,7 +98,6 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
             if (!is_null($dto->goods)) {
                 $this->updateGoodDocuments($dto->goods, $document);
             }
-
             $this->calculateSum($document);
 
 
@@ -362,5 +359,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
             });
     }
+
+
 
 }

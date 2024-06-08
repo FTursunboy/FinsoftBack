@@ -18,4 +18,6 @@ interface GoodRepositoryInterface extends IndexInterface
     public function history(Good $good);
 
     public function export(array $data);
+
+    public function countGoods(array $data);
 }
