@@ -8,7 +8,7 @@ use App\Http\Requests\Api\CashStore\InvestmentRequest;
 class InvestmentDTO
 {
     public function __construct(public string $date, public int $organization_id, public int $cash_register_id, public float $sum, public int $counterparty_id,
-                                public int $counterparty_agreement_id, public string $basis, public ?string $comment, public ?string $type, public int $operation_type_id)
+                                public int $counterparty_agreement_id, public string $basis, public ?string $comment, public ?string $type, public int $operation_type_id, public ?string $sender, public ?string $recipient)
     {
     }
 
@@ -25,6 +25,8 @@ class InvestmentDTO
             $request->get('comment'),
             $request->get('type'),
             $request->get('operation_type_id'),
+            $request->get('sender'),
+            $request->get('recipient'),
         );
     }
 }

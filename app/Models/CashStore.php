@@ -40,7 +40,9 @@ class CashStore extends DocumentModel
         'operationType_id',
         'type',
         'month_id',
-        'active'
+        'active',
+        'sender',
+        'recipient'
     ];
 
 

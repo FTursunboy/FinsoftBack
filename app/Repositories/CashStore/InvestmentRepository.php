@@ -41,7 +41,9 @@ class InvestmentRepository implements InvestmentRepositoryInterface
             'comment' => $dto->comment,
             'operationType_id' => $dto->operation_type_id,
             'type' => $dto->type,
-            'author_id' => Auth::id()
+            'author_id' => Auth::id(),
+            'recipient' => $dto->recipient,
+            'sender' => $dto->sender,
         ]);
     }
 
@@ -57,6 +59,8 @@ class InvestmentRepository implements InvestmentRepositoryInterface
             'basis' => $dto->basis,
             'comment' => $dto->comment,
             'type' => $dto->type,
+            'sender' => $dto->sender,
+            'recipient' => $dto->recipient,
         ]);
 
         return $cashStore;

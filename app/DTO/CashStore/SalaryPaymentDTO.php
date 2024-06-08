@@ -7,7 +7,7 @@ use App\Http\Requests\Api\CashStore\SalaryPaymentRequest;
 class SalaryPaymentDTO
 {
     public function __construct(public string $date, public int $organization_id, public int $cash_register_id, public float $sum, public int $employee_id,
-                                public int $month_id, public string $basis, public ?string $comment, public ?string $type, public int $operation_type_id)
+                                public int $month_id, public string $basis, public ?string $comment, public ?string $type, public int $operation_type_id, public ?string $sender, public ?string $recipient)
     {
     }
 
@@ -24,6 +24,8 @@ class SalaryPaymentDTO
             $request->get('comment'),
             $request->get('type'),
             $request->get('operation_type_id'),
+            $request->get('sender'),
+            $request->get('recipient'),
         );
     }
 }

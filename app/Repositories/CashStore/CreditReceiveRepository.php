@@ -41,7 +41,9 @@ class CreditReceiveRepository implements CreditReceiveRepositoryInterface
             'comment' => $dto->comment,
             'operationType_id' => $dto->operation_type_id,
             'type' => $dto->type,
-            'author_id' => Auth::id()
+            'author_id' => Auth::id(),
+            'sender' => $dto->sender,
+            'recipient' => $dto->recipient,
         ]);
     }
 
@@ -57,6 +59,8 @@ class CreditReceiveRepository implements CreditReceiveRepositoryInterface
             'basis' => $dto->basis,
             'comment' => $dto->comment,
             'type' => $dto->type,
+            'sender' => $dto->sender,
+            'recipient' => $dto->recipient,
         ]);
 
         return $cashStore;
