@@ -99,12 +99,8 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 $this->updateGoodDocuments($dto->goods, $document);
             }
 
-<<<<<<< HEAD
             $this->calculateSum($document);
 
-
-=======
->>>>>>> 14c06b914e9672929703eb95288d1a8680cd7356
             $data['ids'][] = $document->id;
 
             if ($document->active) $this->approve($data);
