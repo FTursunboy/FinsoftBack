@@ -40,7 +40,8 @@ class AuthController extends Controller
             'token' => $user->createToken('API TOKEN')->plainTextToken,
             'user' => UserResource::make($user),
             'pin' => $user->pin,
-            'fcm_token' => $this->checkFcmToken($request->device, $user)
+            'fcm_token' => $this->checkFcmToken($request->device, $user),
+            'location' => true
         ]);
     }
 
