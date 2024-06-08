@@ -163,7 +163,9 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
     public function deleteDocumentData(Document $document)
     {
         $document->goodAccountents()->delete();
+
         $document->counterpartySettlements()->delete();
+
         $document->balances()->delete();
     }
 
@@ -173,6 +175,14 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
         try {
             foreach ($data['ids'] as $id) {
                 $document = Document::find($id);
+
+                if ($document->active) {
+                    $this->deleteDocumentData($document);
+
+                    $document->update(
+                        ['active' => false]
+                    );
+                }
 
                 $result = $this->checkInventory($document);
 
@@ -191,16 +201,10 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     return $response;
                 }
 
-                if ($document->active) {
-                    $this->deleteDocumentData($document);
-                    $document->update(
-                        ['active' => false]
-                    );
-                }
-
                 $document->update(
                     ['active' => true]
                 );
+
 
                 DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::SaleToClient->value);
             }
@@ -235,6 +239,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
             return $group->sum('amount');
         });
 
+
         $insufficientGoods = [];
 
         foreach ($incomingGoods as $incomingAmount => $goodId) {
@@ -251,6 +256,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     'amount' => $incomingAmount - $availableAmount
                 ];
             }
+
         }
 
         if (!empty($insufficientGoods)) {

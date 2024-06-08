@@ -40,7 +40,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         DocumentApprovedEvent::class => [
-            DocumentListener::class,
+           DocumentListener::class,
            GoodHistoryListener::class
         ],
         SmallRemainderEvent::class => [
