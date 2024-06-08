@@ -196,7 +196,14 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
 
     public function unApprove(array $data)
     {
-        //
+        foreach ($data['ids'] as $id) {
+            $document = Document::find($id);
+
+            $this->deleteDocumentData($document);
+            $document->update(
+                ['active' => false]
+            );
+        }
     }
 
     public function changeHistory(Documentable $document)
