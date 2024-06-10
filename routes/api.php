@@ -353,6 +353,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('delete-document-goods', [MovementDocumentController::class, 'deleteDocumentGoods']);
             Route::post('approve', [MovementDocumentController::class, 'approve']);
             Route::post('unApprove', [MovementDocumentController::class, 'unApprove']);
+            Route::post('massDelete', [MovementDocumentController::class, 'massDelete']);
+            Route::post('massRestore', [MovementDocumentController::class, 'massRestore']);
         });
 
         Route::patch('/update/{document}', [DocumentController::class, 'update']);

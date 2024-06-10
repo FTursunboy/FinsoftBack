@@ -26,7 +26,8 @@ class MovementDocument extends DocumentModel implements Documentable, \App\Repos
         'recipient_storage_id',
         'author_id',
         'comment',
-        'active'
+        'active',
+        'deleted_at'
     ];
 
     public static function bootSoftDeletes(){}
@@ -95,6 +96,11 @@ class MovementDocument extends DocumentModel implements Documentable, \App\Repos
         }
 
         return $filteredData;
+    }
+
+    public function goodAccountents()
+    {
+        return $this->hasMany(GoodAccounting::class, 'model_id');
     }
 
     public function documentGoodsWithCount(): HasMany
