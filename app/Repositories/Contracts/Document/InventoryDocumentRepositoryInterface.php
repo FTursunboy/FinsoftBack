@@ -18,4 +18,10 @@ interface InventoryDocumentRepositoryInterface
 
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO);
 
+    public function massDelete(array $data);
+
+    public function approve(array $data);
+
+    public function unApprove(array $data);
+
 }
