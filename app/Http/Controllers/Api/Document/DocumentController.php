@@ -33,11 +33,6 @@ class DocumentController extends Controller
         return $this->success($this->repository->update($document, DocumentUpdateDTO::fromRequest($request)));
     }
 
-    public function updateOrder(OrderDocument $orderDocument, OrderDocumentUpdateRequest $request): JsonResponse
-    {
-        return $this->success(OrderDocumentResource::make($this->repository->updateOrder($orderDocument, OrderDocumentUpdateDTO::fromRequest($request))));
-    }
-
     public function changeHistory(Documentable $document)
     {
         return $this->success(DocumentHistoryResource::make($this->repository->changeHistory($document)));
