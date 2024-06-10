@@ -247,4 +247,24 @@ class OrderProviderDocumentRepository implements OrderProviderDocumentRepository
         return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
     }
 
+    public function massDelete(array $ids)
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
+        DB::transaction(function () use ($ids) {
+
+            foreach ($ids['ids'] as $id) {
+                $document = $this->model::where('id', $id)->first();
+                $document->update([
+                    'deleted_at' => Carbon::now(),
+                    'active' => 0
+                ]);
+
+            }
+
+        });
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+    }
+
 }
