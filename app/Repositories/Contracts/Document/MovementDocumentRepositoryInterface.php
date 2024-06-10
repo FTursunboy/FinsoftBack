@@ -25,4 +25,6 @@ interface MovementDocumentRepositoryInterface
     public function approve(array $data);
 
     public function unApprove(array $data);
+
+    public function massDelete(array $data);
 }
