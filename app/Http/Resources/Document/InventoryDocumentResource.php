@@ -25,7 +25,8 @@ class InventoryDocumentResource extends JsonResource
             'author_id' => UserResource::make($this->whenLoaded('author')),
             'comment' => $this->comment,
             'inventoryGoods' => InventoryDocumentGoodResource::collection($this->whenLoaded('inventoryDocumentGoods')),
-            'deleted_at' => $this->deleted_at
+            'deleted_at' => $this->deleted_at,
+            'active' => $this->active,
         ];
     }
 }
