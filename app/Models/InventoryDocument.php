@@ -14,11 +14,16 @@ class InventoryDocument extends DocumentModel implements \App\Repositories\Contr
 {
     use Filterable, SoftDeletes;
 
-    protected $fillable = ['doc_number', 'date', 'organization_id', 'storage_id', 'responsible_person_id', 'author_id', 'comment', 'deleted_at'];
+    protected $fillable = ['doc_number', 'date', 'organization_id', 'storage_id', 'responsible_person_id', 'author_id', 'comment', 'deleted_at', 'active'];
 
     protected $casts = [
         'active' => 'bool'
     ];
+
+    public static function bootSoftDeletes()
+    {
+
+    }
 
     public function organization(): BelongsTo
     {

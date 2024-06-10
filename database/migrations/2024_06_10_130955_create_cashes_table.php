@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('model_id');
             $table->string('model_type');
             $table->decimal('sum');
+            $table->decimal('currency_sum');
+            $table->string('sender');
+            $table->string('recipient');
             $table->timestamps();
         });
     }
