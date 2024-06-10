@@ -223,6 +223,7 @@ class MovementDocumentRepository implements MovementDocumentRepositoryInterface
 
             foreach ($ids['ids'] as $id) {
                 $document = $this->model::where('id', $id)->first();
+                $document->goodAccountents()->delete();
                 $document->update([
                     'deleted_at' => Carbon::now(),
                     'active' => 0
