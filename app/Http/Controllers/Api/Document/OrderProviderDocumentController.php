@@ -60,7 +60,7 @@ class OrderProviderDocumentController extends Controller
 
     public function massDelete(IdRequest $request, MassOperationInterface $delete)
     {
-        return $this->success($delete->massDelete(new OrderDocument(), $request->validated()));
+        return $this->success($this->repository->massDelete($request->validated()));
     }
 
     public function massRestore(IdRequest $request, MassOperationInterface $restore)
