@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 #[ObservedBy([MovementDocumentObserver::class])]
-class MovementDocument extends DocumentModel implements Documentable
+class MovementDocument extends DocumentModel implements Documentable, \App\Repositories\Contracts\SoftDeleteInterface
 {
     use SoftDeletes, HasFactory, Filterable;
 
