@@ -10,6 +10,7 @@ use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
 use App\Models\Document;
 use App\Models\Good;
+use App\Models\GoodAccounting;
 use App\Models\GoodDocument;
 use App\Models\Status;
 use App\Repositories\Contracts\Document\Documentable;
@@ -167,31 +168,103 @@ class ReturnClientDocumentRepository implements ReturnClientDocumentRepositoryIn
 
     public function approve(array $data)
     {
-        return DB::transaction(function () use ($data) {
+        try {
             foreach ($data['ids'] as $id) {
                 $document = Document::find($id);
 
                 if ($document->active) {
                     $this->deleteDocumentData($document);
+
                     $document->update(
                         ['active' => false]
                     );
+                }
+
+                $result = $this->checkInventory($document);
+
+                $response = [];
+
+                if ($result !== null) {
+                    foreach ($result as $goods) {
+                        $good = Good::find($goods['good_id'])->name;
+
+                        $response[] = [
+                            'amount' => $goods['amount'],
+                            'good' => $good,
+                        ];
+                    }
+
+                    return $response;
                 }
 
                 $document->update(
                     ['active' => true]
                 );
 
+
                 DocumentApprovedEvent::dispatch($document, MovementTypes::Income, DocumentTypes::ReturnClient->value);
             }
-        });
+        } catch (Exception $exception) {
+            dd($exception->getMessage());
+        }
+
     }
+
+
 
     public function deleteDocumentData(Document $document)
     {
         $document->goodAccountents()->delete();
         $document->counterpartySettlements()->delete();
         $document->balances()->delete();
+    }
+    public function checkInventory(Document $document)
+    {
+        $incomingDate = $document->date;
+
+        $incomingGoods = $document->documentGoods->pluck('good_id', 'amount')->toArray();
+
+        $previousIncomings = GoodAccounting::where('movement_type', MovementTypes::Income)
+            ->where('storage_id', $document->storage_id)
+            ->where('date', '<=', $incomingDate)
+            ->get();
+
+        $previousOutgoings = GoodAccounting::where('movement_type', MovementTypes::Outcome)
+            ->where('date', '<=', $incomingDate)
+            ->where('storage_id', $document->storage_id)
+            ->get();
+
+        $previousIncomingsByGoodId = $previousIncomings->groupBy('good_id')->map(function ($group) {
+            return $group->sum('amount');
+        });
+
+        $previousOutgoingsByGoodId = $previousOutgoings->groupBy('good_id')->map(function ($group) {
+            return $group->sum('amount');
+        });
+
+
+        $insufficientGoods = [];
+
+        foreach ($incomingGoods as $incomingAmount => $goodId) {
+
+
+            $totalIncoming = $previousIncomingsByGoodId->has($goodId) ? $previousIncomingsByGoodId[$goodId] : 0;
+            $totalOutgoing = $previousOutgoingsByGoodId->has($goodId) ? $previousOutgoingsByGoodId[$goodId] : 0;
+
+            $availableAmount = $totalIncoming - $totalOutgoing;
+
+            if ($incomingAmount > $availableAmount) {
+                $insufficientGoods[] = [
+                    'good_id' => $goodId,
+                    'amount' => $incomingAmount - $availableAmount
+                ];
+            }
+
+        }
+
+        if (!empty($insufficientGoods)) {
+            return $insufficientGoods;
+        }
     }
 
     public function unApprove(array $data)

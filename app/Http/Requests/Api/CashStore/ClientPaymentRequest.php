@@ -22,7 +22,7 @@ class ClientPaymentRequest extends FormRequest
             'basis' => ['required'],
             'comment' => ['nullable'],
             'type' => ['required', 'string', \Illuminate\Validation\Rule::in(['RKO', 'PKO'])],
-            'sender' => ['required_if:type,PKO', 'string'],
+            'sender' => ['required_if:type,RKO', 'string'],
             'recipient' => ['required_if:type,PKO', 'string'],
         ];
     }
