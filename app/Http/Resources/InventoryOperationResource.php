@@ -23,7 +23,8 @@ class InventoryOperationResource extends JsonResource
             'date' => $this->date,
             'comment' => $this->comment,
             'currency_id' => $this->currency,
-            'status' => $this->status
+            'status' => $this->status,
+            'deleted' => $this->deleted_at,
         ];
     }
 }
