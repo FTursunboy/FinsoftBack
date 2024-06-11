@@ -41,7 +41,7 @@ class AuthController extends Controller
             'user' => UserResource::make($user),
             'pin' => $user->pin,
             'fcm_token' => $this->checkFcmToken($request->device, $user),
-            'location' => false
+            'location' => true
         ]);
     }
 
