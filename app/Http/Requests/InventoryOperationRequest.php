@@ -10,7 +10,7 @@ class InventoryOperationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status_id' => ['required'],
+            'status' => ['required', 'string'],
             'organization_id' => ['required'],
             'storage_id' => ['required'],
             'author_id' => ['required'],

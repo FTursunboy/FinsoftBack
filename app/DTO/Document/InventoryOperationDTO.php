@@ -8,7 +8,7 @@ use App\Http\Requests\InventoryOperationRequest;
 class InventoryOperationDTO
 {
     public function  __construct(public string $date, public int $organization_id,
-                     public int $storage_id, public ?array $goods, public ?string $comment, public int $currency_id, public ?int $sum, public int $status_id)
+                     public int $storage_id, public ?array $goods, public ?string $comment, public int $currency_id, public ?int $sum, public string $status)
     {
     }
 
@@ -22,7 +22,7 @@ class InventoryOperationDTO
             $request->get('comment'),
             $request->get('currency_id'),
             $request->get('sum'),
-            $request->get('status_id')
+            $request->get('status')
         );
     }
 }

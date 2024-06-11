@@ -35,11 +35,11 @@ class InventoryOperationRepository implements InventoryOperationRepositoryInterf
 
     public $model = InventoryOperation::class;
 
-    public function index(array $data): LengthAwarePaginator
+    public function index(string $type, array $data): LengthAwarePaginator
     {
         $filteredParams = $this->model::filterData($data);
 
-        $query = $this->model::query();
+        $query = $this->model::query()->where('status', $type);
 
         $query = $this->search($query, $filteredParams);
 
@@ -57,7 +57,7 @@ class InventoryOperationRepository implements InventoryOperationRepositoryInterf
                 'storage_id' => $DTO->storage_id,
                 'author_id' => Auth::id(),
                 'comment' => $DTO->comment,
-                'status_id' => $DTO->status_id,
+                'status' => $DTO->status,
                 'currency_id' => $DTO->currency_id
             ]);
 

@@ -33,9 +33,9 @@ class InventoryOperationController extends Controller
 
     public function __construct(public InventoryOperationRepositoryInterface $repository) { }
 
-    public function index(FilterRequest $request): JsonResponse
+    public function index(FilterRequest $request, string $type): JsonResponse
     {
-        return $this->paginate(InventoryOperationResource::collection($this->repository->index($request->validated())));
+        return $this->paginate(InventoryOperationResource::collection($this->repository->index($type, $request->validated())));
     }
 
     public function store(InventoryOperationRequest $request): JsonResponse
