@@ -35,6 +35,8 @@ class CashStoreResource extends JsonResource
             'basis' => $this->basis,
             'comment' => $this->comment,
             'active' => $this->active,
+            'sender_text' => $this->sender,
+            'recipient' => $this->recipient,
             'created_at' => $this->created_at,
             'deleted_at' => $this->deleted_at
         ];
