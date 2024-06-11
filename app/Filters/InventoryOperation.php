@@ -60,7 +60,6 @@ class InventoryOperation extends ModelFilter
         return $value ? $this->where('deleted_at', '!=', null) : $this->where('deleted_at', null);
     }
 
-
     public function sort1() :InventoryOperation
     {
         $filteredParams = $this->input();
