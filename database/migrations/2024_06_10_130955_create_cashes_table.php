@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('cashes', function (Blueprint $table) {
             $table->id();
             $table->string('date');
-            $table->string('operation_type');
+            $table->string('operation_type_id');
             $table->string('model_id');
             $table->string('model_type');
             $table->decimal('sum');
