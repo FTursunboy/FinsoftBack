@@ -8,17 +8,17 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('inventory_operations', function (Blueprint $table) {
-            $table->id();
-            $table->string('id');
+            $table->uuid('id');
             $table->string('doc_number');
-            $table->string('status_id');
-            $table->string('active');
-            $table->string('organization_id');
-            $table->string('storage_id');
-            $table->string('author_id');
+            $table->string('status');
+            $table->unsignedBigInteger('sum');
+            $table->boolean('active')->default(false);
+            $table->unsignedInteger('organization_id');
+            $table->unsignedInteger('storage_id');
+            $table->unsignedInteger('author_id');
             $table->dateTime('date');
-            $table->string('comment');
-            $table->string('currency_id');
+            $table->string('comment')->nullable();
+            $table->unsignedInteger('currency_id');
             $table->softDeletes();
             $table->timestamps();
         });

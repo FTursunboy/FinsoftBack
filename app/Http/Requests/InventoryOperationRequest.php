@@ -3,21 +3,26 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class InventoryOperationRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'doc_number' => ['required'],
             'status_id' => ['required'],
-            'active' => ['required'],
             'organization_id' => ['required'],
             'storage_id' => ['required'],
             'author_id' => ['required'],
             'date' => ['required', 'date'],
-            'comment' => ['required'],
-            'currency_id' => ['required'],
+            'comment' => ['nullable', 'string'],
+            'currency_id' => ['required', 'exists:currencies,id'],
+            'goods' => ['required', 'array'],
+            'goods.*.good_id' => ['required', Rule::exists('goods', 'id')],
+            'goods.*.amount' => ['required', 'min:1'],
+            'goods.*.price' => [
+                'required'
+            ]
         ];
     }
 

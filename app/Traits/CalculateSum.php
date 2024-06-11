@@ -3,12 +3,13 @@
 namespace App\Traits;
 
 use App\Models\Document;
+use App\Models\DocumentModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 trait CalculateSum
 {
-    private function calculateSum(Document $document, bool $isCreate = false)
+    private function calculateSum(DocumentModel $document, bool $isCreate = false)
     {
         $goods = $document->documentGoods;
         $sum = 0.0;
