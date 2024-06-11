@@ -24,5 +24,23 @@ class CounterpartyCoordinates extends Model
         return $this->belongsTo(Counterparty::class);
     }
 
+    public static function filterData(array $data): array
+    {
+        $filteredData = [
+            'search' => $data['search'] ?? '',
+            'sort' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'deleted' => $data['deleted'] ?? null,
+        ];
+
+        if (isset($data['filterData'])) {
+            $filteredData['name'] = $data['filterData']['name'] ?? null;
+            $filteredData['deleted'] = $data['filterData']['deleted'] ?? $filteredData['deleted'];
+        }
+
+        return $filteredData;
+    }
+
 
 }

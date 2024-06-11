@@ -14,6 +14,7 @@ class CounterpartyCounterpartyResource extends JsonResource
      */
     public function toArray($request)
     {
+        dd($this);
         return [
             'id' => $this->id,
             'counterparty' => CounterpartyResource::make($this->counterparty),

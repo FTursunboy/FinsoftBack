@@ -25,7 +25,7 @@ class CounterpartyCoordinatesRepository
 
         $coordinate = new CounterpartyCoordinates($data);
 
-        $coordinate->counterparty_id = $data['counterparty_id'];
+        $coordinate->counterparty_id = \Auth::id();
         $coordinate->location = new Coordinates($location['lat'], $location['lon']);
 
 
@@ -49,15 +49,10 @@ class CounterpartyCoordinatesRepository
         $barcode->delete();
     }
 
-    public function index(Good $good, array $data): LengthAwarePaginator
+    public function index(array $data): LengthAwarePaginator
     {
-        $filterParams = $this->processSearchData($data);
-
-        $query = $this->search($filterParams['search']);
-
-        $query = $query->where('good_id', $good->id);
-
-        $query = $this->sort($filterParams, $query, []);
+        $filterParams = $this->model::filterData($data);
+        $query = $this->model::query()->where('counterparty_id', \Auth::id());
 
         return $query->paginate($filterParams['itemsPerPage']);
     }

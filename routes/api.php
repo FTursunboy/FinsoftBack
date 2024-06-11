@@ -412,7 +412,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/{type}', [InventoryOperationController::class, 'index']);
         Route::post('/', [InventoryOperationController::class, 'store']);
         Route::get('/show/{document}', [InventoryOperationController::class, 'show']);
-        Route::get('/{document}', [InventoryOperationController::class, 'show']);
+        Route::patch('/{document}', [InventoryOperationController::class, 'show']);
         Route::post('/massDelete', [InventoryOperationController::class, 'massDelete']);
         Route::post('/massRestore', [InventoryOperationController::class, 'massRestore']);
         Route::post('/approve', [InventoryOperationController::class, 'approve']);
