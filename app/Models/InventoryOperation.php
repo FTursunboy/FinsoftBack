@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Filters\MovementDocumentFilter;
 use App\Repositories\Contracts\SoftDeleteInterface;
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class InventoryOperation extends DocumentModel implements SoftDeleteInterface
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes, HasFactory, Filterable;
 
     protected $fillable = [
         'doc_number',
@@ -31,6 +33,10 @@ class InventoryOperation extends DocumentModel implements SoftDeleteInterface
 
     }
 
+    public function modelFilter()
+    {
+        return $this->provideFilter(\App\Filters\InventoryOperation::class);
+    }
 
     public function organization() :BelongsTo
     {

@@ -39,7 +39,9 @@ class InventoryOperationRepository implements InventoryOperationRepositoryInterf
     {
         $filteredParams = $this->model::filterData($data);
 
-        $query = $this->model::query()->where('status', $type);
+        $query = $this->model::filter($filteredParams);
+
+        $query = $query->where('status', $type);
 
         $query = $this->search($query, $filteredParams);
 
