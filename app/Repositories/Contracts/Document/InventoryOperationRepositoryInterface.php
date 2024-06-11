@@ -26,4 +26,6 @@ interface InventoryOperationRepositoryInterface
 
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO);
 
+    public function delete(array $data);
+
 }

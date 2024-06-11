@@ -63,9 +63,9 @@ class InventoryOperationController extends Controller
         return $this->success($this->repository->unApprove($request->validated()));
     }
 
-    public function massDelete(IdRequest $request, MassOperationInterface $repository): JsonResponse
+    public function massDelete(IdRequest $request): JsonResponse
     {
-        return $this->success($repository->massDelete(new InventoryOperation(), $request->validated()));
+        return $this->success($this->repository->delete($request->validated()));
     }
 
     public function massRestore(IdRequest $request, MassOperationInterface $repository)

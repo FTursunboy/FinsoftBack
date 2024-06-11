@@ -147,11 +147,11 @@ class InventoryOperationRepository implements InventoryOperationRepositoryInterf
 
     public function deleteDocumentData(InventoryOperation $document)
     {
-        $document->goodAccountents()->delete();
-
-        $document->counterpartySettlements()->delete();
-
-        $document->balances()->delete();
+//        $document->goodAccountents()->delete();
+//
+//        $document->counterpartySettlements()->delete();
+//
+//        $document->balances()->delete();
     }
 
 
@@ -255,11 +255,33 @@ class InventoryOperationRepository implements InventoryOperationRepositoryInterf
         foreach ($data['ids'] as $id) {
             $document = InventoryOperation::find($id);
 
-          //  $this->deleteDocumentData($document);
+            //  $this->deleteDocumentData($document);
             $document->update(
                 ['active' => false]
             );
         }
+    }
+
+    public function delete(array $data)
+    {
+        try {
+            foreach ($data['ids'] as $id) {
+                $document = InventoryOperation::find($id);
+
+                $document->delete();
+
+                if ($document->active) {
+                    $this->deleteDocumentData($document);
+
+                    $document->update(
+                        ['active' => false]
+                    );
+                }
+            }
+        } catch (Exception $exception) {
+            dd($exception->getMessage());
+        }
+
     }
 
     public function deleteDocumentGoods(DeleteDocumentGoodsDTO $DTO)
@@ -311,8 +333,6 @@ class InventoryOperationRepository implements InventoryOperationRepositoryInterf
                 });
         });
     }
-
-
 
 
 }
