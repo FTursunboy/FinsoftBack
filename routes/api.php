@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CashStore\ClientPaymentController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CounterpartyAgreementController;
 use App\Http\Controllers\Api\CounterpartyController;
+use App\Http\Controllers\Api\CounterpartyCoordinatesController;
 use App\Http\Controllers\Api\CurrencyController;
 use App\Http\Controllers\Api\DepartmentController;
 use App\Http\Controllers\Api\Document\ClientDocumentController;
@@ -416,6 +417,10 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::post('/massRestore', [InventoryOperationController::class, 'massRestore']);
         Route::post('/approve', [InventoryOperationController::class, 'approve']);
         Route::post('/unApprove', [InventoryOperationController::class, 'unApprove']);
+    });
+
+    Route::group(['prefix' => 'counterpartyCoordinates'], function () {
+        Route::post('/', [CounterpartyCoordinatesController::class, 'store']);
     });
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
