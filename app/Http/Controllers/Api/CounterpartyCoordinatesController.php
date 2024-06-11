@@ -28,12 +28,13 @@ class CounterpartyCoordinatesController extends Controller
 
     public function index(FilterRequest $request)
     {
-        return $this->paginate(BarcodeResource::collection($this->repository->index($request->validated())));
+        return $this->paginate(CounterpartyCoordinatesResource::collection($this->repository->index($request->validated())));
     }
 
 
     public function store(CounterpartyCoordinatesRequest $request)
     {
+
         return $this->created(CounterpartyCoordinatesResource::make($this->repository->store($request->validated())));
     }
 }

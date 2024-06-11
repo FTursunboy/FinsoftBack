@@ -24,8 +24,7 @@ class CounterpartyCoordinatesRequest extends FormRequest
                 'numeric',
                 'between:-180,180',
                 'not_in:0'
-            ],
-            'counterparty_id' => ['required', 'exists:counterparties,id'],
+            ]
         ];
     }
 
