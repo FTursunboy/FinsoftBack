@@ -10,6 +10,7 @@ use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\CounterpartyCoordinatesRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\BarcodeResource;
+use App\Http\Resources\CounterpartyCoordinatesResource;
 use App\Http\Resources\GroupResource;
 use App\Models\Barcode;
 use App\Models\Counterparty;
@@ -33,6 +34,6 @@ class CounterpartyCoordinatesController extends Controller
 
     public function store(CounterpartyCoordinatesRequest $request)
     {
-        return $this->created($this->repository->store($request->validated()));
+        return $this->created(CounterpartyCoordinatesResource::make($this->repository->store($request->validated())));
     }
 }

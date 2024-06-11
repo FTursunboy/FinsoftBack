@@ -23,4 +23,6 @@ class CounterpartyCoordinates extends Model
     {
         return $this->belongsTo(Counterparty::class);
     }
+
+
 }

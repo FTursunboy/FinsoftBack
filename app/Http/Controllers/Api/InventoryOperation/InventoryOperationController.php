@@ -50,7 +50,7 @@ class InventoryOperationController extends Controller
 
     public function show(InventoryOperation $document)
     {
-        return $this->success(InventoryOperationResource::make($document->load(['organization', 'storage', 'author',  'currency', 'goods', 'goods.good'])));
+        return $this->success(InventoryOperationResource::make($document->load(['organization', 'storage', 'author',  'currency', 'documentGoods.good'])));
     }
 
     public function approve(IdRequest $request)
