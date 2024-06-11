@@ -22,7 +22,7 @@ class ProviderRefundRequest extends FormRequest
             'comment' => ['nullable'],
             'type' => ['required', 'string', Rule::in(['RKO', 'PKO'])],
             'sender' => ['required_if:type,PKO', 'string'],
-            'recipient' => ['required_if:type,PKO', 'string'],
+            'recipient' => ['required_if:type,RKO', 'string'],
         ];
     }
 
