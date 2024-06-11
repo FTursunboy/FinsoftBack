@@ -408,9 +408,9 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
 
     Route::group(['prefix' => 'inventoryOperation'], function () {
-        Route::get('/', [InventoryOperationController::class, 'index']);
+        Route::get('/{type}', [InventoryOperationController::class, 'index']);
         Route::post('/', [InventoryOperationController::class, 'store']);
-        Route::patch('/{document}', [InventoryOperationController::class, 'update']);
+        Route::patch('/show/{document}', [InventoryOperationController::class, 'update']);
         Route::get('/{document}', [InventoryOperationController::class, 'show']);
         Route::post('/massDelete', [InventoryOperationController::class, 'massDelete']);
         Route::post('/massRestore', [InventoryOperationController::class, 'massRestore']);

@@ -14,7 +14,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface InventoryOperationRepositoryInterface
 {
-    public function index(array $data) :LengthAwarePaginator;
+    public function index(string $type, array $data) :LengthAwarePaginator;
 
     public function store(InventoryOperationDTO $DTO) :InventoryOperation;
 
