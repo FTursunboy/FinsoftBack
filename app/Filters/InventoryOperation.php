@@ -5,7 +5,6 @@ namespace App\Filters;
 
 use App\Traits\Sort;
 use EloquentFilter\Filterable;
-use EloquentFilter\ModelFilter;
 
 class InventoryOperation extends ModelFilter
 {
@@ -20,47 +19,47 @@ class InventoryOperation extends ModelFilter
 
     protected $model = InventoryOperation::class;
 
-    public function startDate($startDate) :InventoryOperation
+    public function startDate($startDate) :self
     {
         return $this->whereDate('date', '>=', $startDate);
     }
 
-    public function endDate($endDate) :InventoryOperation
+    public function endDate($endDate) :self
     {
         return $this->whereDate('date', '<=', $endDate);
     }
 
-    public function organization($value) : InventoryOperation
+    public function organization($value) : self
     {
         return $this->where('organization_id', $value);
     }
 
-    public function currency($value) : InventoryOperation
+    public function currency($value) : self
     {
         return $this->where('organization_id', $value);
     }
 
-    public function storage($value) : InventoryOperation
+    public function storage($value) : self
     {
         return $this->where('storage_id', $value);
     }
 
-    public function author($value) : InventoryOperation
+    public function author($value) : self
     {
         return $this->where('author_id', $value);
     }
 
-    public function active($value) :CashStoreFilter
+    public function active($value) :self
     {
         return $value ? $this->where('active',  true) : $this->where('active', false);
     }
 
-    public function deleted($value) :CashStoreFilter
+    public function deleted($value) :self
     {
         return $value ? $this->where('deleted_at', '!=', null) : $this->where('deleted_at', null);
     }
 
-    public function sort1() :InventoryOperation
+    public function sort1() :self
     {
         $filteredParams = $this->input();
 
