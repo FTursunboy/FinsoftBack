@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\GoodGroupController;
 use App\Http\Controllers\Api\GroupController;
 use App\Http\Controllers\Api\HiringController;
 use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\InventoryOperation\InventoryOperationController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\EmployeeController;
@@ -405,6 +406,17 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/good-accountings/{document}', [\App\Http\Controllers\Api\ReportDocumentController::class, 'getGoodAccountings']);
     });
 
+
+    Route::group(['prefix' => 'inventoryOperation'], function () {
+        Route::get('/', [InventoryOperationController::class, 'index']);
+        Route::post('/', [InventoryOperationController::class, 'store']);
+        Route::patch('/{document}', [InventoryOperationController::class, 'update']);
+        Route::get('/{document}', [InventoryOperationController::class, 'show']);
+        Route::post('/massDelete', [InventoryOperationController::class, 'massDelete']);
+        Route::post('/massRestore', [InventoryOperationController::class, 'massRestore']);
+        Route::post('/approve', [InventoryOperationController::class, 'approve']);
+        Route::post('/unApprove', [InventoryOperationController::class, 'unApprove']);
+    });
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
 

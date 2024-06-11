@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Document;
+use App\Models\InventoryOperation;
 use App\Models\MovementDocument;
 use App\Models\OrderDocument;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -48,6 +49,7 @@ class RouteServiceProvider extends ServiceProvider
                 Document::class,
                 MovementDocument::class,
                 OrderDocument::class,
+                InventoryOperation::class
             ];
 
             foreach ($types as $type) {

@@ -14,16 +14,15 @@ class InventoryOperationResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'id' => $this->id,
-            'id' => $this->id,
             'doc_number' => $this->doc_number,
-            'status_id' => $this->status_id,
+            'sum'  => $this->sum,
             'active' => $this->active,
-            'organization_id' => $this->organization_id,
-            'storage_id' => $this->storage_id,
-            'author_id' => $this->author_id,
+            'organization_id' => $this->organization,
+            'storage_id' => $this->storage,
+            'author_id' => $this->author,
             'date' => $this->date,
             'comment' => $this->comment,
-            'currency_id' => $this->currency_id,
+            'currency_id' => $this->currency,
         ];
     }
 }
