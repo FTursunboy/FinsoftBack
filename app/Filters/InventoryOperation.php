@@ -5,6 +5,7 @@ namespace App\Filters;
 
 use App\Traits\Sort;
 use EloquentFilter\Filterable;
+use EloquentFilter\ModelFilter;
 
 class InventoryOperation extends ModelFilter
 {
