@@ -30,6 +30,8 @@ class CounterpartyCoordinatesRepository
 
 
         $coordinate->save();
+
+        return $coordinate;
     }
 
     public function update(Barcode $barcode, BarcodeDTO $DTO) :Barcode

@@ -19,6 +19,7 @@ class InventoryOperationResource extends JsonResource
             'active' => $this->active,
             'organization' => $this->organization,
             'storage' => $this->storage,
+            'goods' => $this->documentGoods,
             'author' => $this->author,
             'date' => $this->date,
             'comment' => $this->comment,
