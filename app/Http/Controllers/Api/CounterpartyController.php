@@ -86,8 +86,6 @@ class CounterpartyController extends Controller
     {
         return $this->success(CounterpartyCoordinatesResource::collection($this->repository->getCoordinates($counterparty)));
     }
-
-
 }
 
 
