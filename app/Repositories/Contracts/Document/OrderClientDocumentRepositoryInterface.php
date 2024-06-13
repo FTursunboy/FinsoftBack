@@ -19,5 +19,7 @@ interface OrderClientDocumentRepositoryInterface
 
     public function unApprove(array $data);
 
+    public function massDelete(array $data);
+
 
 }

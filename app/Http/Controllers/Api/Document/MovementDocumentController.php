@@ -12,6 +12,7 @@ use App\Http\Requests\IdRequest;
 use App\Http\Resources\Document\MovementDocumentResource;
 use App\Models\MovementDocument;
 use App\Repositories\Contracts\Document\MovementDocumentRepositoryInterface;
+use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 
 class MovementDocumentController extends Controller
@@ -64,11 +65,27 @@ class MovementDocumentController extends Controller
 
     public function approve(IdRequest $request)
     {
-        return $this->success($this->repository->approve($request->validated()));
+        $good = $this->repository->approve($request->validated());
+
+        if ($good !== null) {
+            return response()->json(['result' => "not enough goods", 'errors' => $good], 400);
+        }
+
+        return $this->success($good);
     }
 
     public function unApprove(IdRequest $request)
     {
         return $this->success($this->repository->unApprove($request->validated()));
+    }
+
+    public function massDelete(IdRequest $request)
+    {
+        return $this->success($this->repository->massDelete($request->validated()));
+    }
+
+    public function massRestore(IdRequest $request, MassOperationInterface $restore)
+    {
+        return $this->success($restore->massRestore(new MovementDocument(), $request->validated()));
     }
 }

@@ -41,7 +41,9 @@ class ProviderRefundRepository implements ProviderRefundRepositoryInterface
             'comment' => $dto->comment,
             'operationType_id' => $dto->operation_type_id,
             'type' => $dto->type,
-            'author_id' => Auth::id()
+            'recipient' => $dto->recipient,
+            'sender' => $dto->sender,
+            'author_id' => Auth::id(),
         ]);
     }
 
@@ -57,6 +59,8 @@ class ProviderRefundRepository implements ProviderRefundRepositoryInterface
             'basis' => $dto->basis,
             'comment' => $dto->comment,
             'type' => $dto->type,
+            'sender' => $dto->sender,
+            'recipient' => $dto->recipient,
         ]);
 
         return $cashStore;

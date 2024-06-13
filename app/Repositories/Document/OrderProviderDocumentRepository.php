@@ -196,4 +196,75 @@ class OrderProviderDocumentRepository implements OrderProviderDocumentRepository
             });
     }
 
+    public function approve(array $data)
+    {
+        foreach ($data['ids'] as $id) {
+            $document = $this->model::find($id);
+
+            $document->update(
+                ['active' => true]
+            );
+        }
+    }
+
+
+    public function unApprove(array $data)
+    {
+        foreach ($data['ids'] as $id) {
+            $document = $this->model::find($id);
+
+            $document->update(
+                ['active' => false]
+            );
+        }
+    }
+
+    public function copy(OrderDocument $document)
+    {
+        $goods = $document->orderDocumentGoods->toArray();
+
+        $document = DB::transaction(function () use ($document, $goods) {
+            $document = OrderDocument::create([
+                'doc_number' => $this->uniqueNumber(),
+                'date' => Carbon::parse($document->date),
+                'counterparty_id' => $document->counterparty_id,
+                'counterparty_agreement_id' => $document->counterparty_agreement_id,
+                'organization_id' => $document->organization_id,
+                'order_status_id' => $document->order_status_id,
+                'author_id' => Auth::id(),
+                'comment' => $document->comment,
+                'summa' => $document->summa,
+                'shipping_date' => $document->shipping_date,
+                'currency_id' => $document->currency_id,
+                'order_type_id' => $document->order_type_id,
+            ]);
+
+            OrderDocumentGoods::insert($this->orderGoods($document, $goods));
+
+            return $document;
+        });
+
+        return $document->load('counterparty', 'organization', 'author', 'currency', 'counterpartyAgreement', 'orderDocumentGoods', 'orderStatus');
+    }
+
+    public function massDelete(array $ids)
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
+        DB::transaction(function () use ($ids) {
+
+            foreach ($ids['ids'] as $id) {
+                $document = $this->model::where('id', $id)->first();
+                $document->update([
+                    'deleted_at' => Carbon::now(),
+                    'active' => 0
+                ]);
+
+            }
+
+        });
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+    }
+
 }

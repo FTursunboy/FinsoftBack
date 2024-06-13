@@ -20,6 +20,7 @@ use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -162,7 +163,9 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
     public function deleteDocumentData(Document $document)
     {
         $document->goodAccountents()->delete();
+
         $document->counterpartySettlements()->delete();
+
         $document->balances()->delete();
     }
 
@@ -172,6 +175,14 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
         try {
             foreach ($data['ids'] as $id) {
                 $document = Document::find($id);
+
+                if ($document->active) {
+                    $this->deleteDocumentData($document);
+
+                    $document->update(
+                        ['active' => false]
+                    );
+                }
 
                 $result = $this->checkInventory($document);
 
@@ -190,16 +201,10 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     return $response;
                 }
 
-                if ($document->active) {
-                    $this->deleteDocumentData($document);
-                    $document->update(
-                        ['active' => false]
-                    );
-                }
-
                 $document->update(
                     ['active' => true]
                 );
+
 
                 DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::SaleToClient->value);
             }
@@ -234,6 +239,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
             return $group->sum('amount');
         });
 
+
         $insufficientGoods = [];
 
         foreach ($incomingGoods as $incomingAmount => $goodId) {
@@ -250,6 +256,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     'amount' => $incomingAmount - $availableAmount
                 ];
             }
+
         }
 
         if (!empty($insufficientGoods)) {
@@ -358,5 +365,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 return $data['deleted'] ? $query->where('deleted_at', '!=', null) : $query->where('deleted_at', null);
             });
     }
+
+
 
 }

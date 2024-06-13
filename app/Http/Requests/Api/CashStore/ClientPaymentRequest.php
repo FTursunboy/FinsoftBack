@@ -12,7 +12,6 @@ class ClientPaymentRequest extends FormRequest
     {
         return [
             'date' => ['required', 'date_format:Y-m-d H:i:s'],
-
             'organization_id' => ['required'],
             'cash_register_id' => ['required'],
             'sum' => ['required'],
@@ -21,7 +20,9 @@ class ClientPaymentRequest extends FormRequest
             'operation_type_id' => ['required', \Illuminate\Validation\Rule::exists('operation_types', 'id')],
             'basis' => ['required'],
             'comment' => ['nullable'],
-            'type' => ['required', 'string', \Illuminate\Validation\Rule::in(['RKO', 'PKO'])]
+            'type' => ['required', 'string', \Illuminate\Validation\Rule::in(['RKO', 'PKO'])],
+            'sender' => ['required_if:type,PKO', 'string'],
+            'recipient' => ['required_if:type,RKO', 'string'],
         ];
     }
 

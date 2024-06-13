@@ -18,4 +18,10 @@ interface OrderProviderDocumentRepositoryInterface
     public function store(OrderDocumentDTO $DTO, int $type);
 
     public function updateOrder(OrderDocument $document, OrderDocumentUpdateDTO $DTO): OrderDocument;
+
+    public function approve(array $data);
+
+    public function unApprove(array $data);
+
+    public function massDelete(array $data);
 }

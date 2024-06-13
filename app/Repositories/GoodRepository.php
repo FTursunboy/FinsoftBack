@@ -194,7 +194,7 @@ class GoodRepository implements GoodRepositoryInterface
         $organizationId = $data['good_organization_id'];
         $storageId = $data['good_storage_id'];
 
-        $query = $this->model::join('good_accountings', 'good_accountings.good_id', '=', 'goods.id');
+        $query = $this->model::leftJoin('good_accountings', 'good_accountings.good_id', '=', 'goods.id');
 
         $query = $query->where([
             ['good_accountings.storage_id', $storageId],
@@ -202,15 +202,19 @@ class GoodRepository implements GoodRepositoryInterface
         ]);
 
         if ($data['date'] != null) {
-            $query->where('good_accountings.date', '<=', $data['date']);
+            $date = Carbon::parse($data['date']);
+
+            $query->where('good_accountings.date', '<=', $date);
         }
+
 
         if ($good_id != 0) {
             $query->where('goods.id', $good_id);
         }
 
-        $query = $this->getSelect($query, $storageId, $organizationId);
 
+
+        $query = $this->getSelect($query, $storageId, $organizationId);
         return $query->groupBy('goods.id', 'goods.name', 'goods.vendor_code', 'goods.description', 'goods.unit_id', 'goods.barcode', 'goods.storage_id',
             'goods.good_group_id', 'goods.deleted_at', 'goods.created_at', 'goods.updated_at');
     }

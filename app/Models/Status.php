@@ -19,4 +19,5 @@ class Status extends Model
     const CLIENT_PURCHASE = 3;
 
     const CLIENT_RETURN = 4;
+
 }

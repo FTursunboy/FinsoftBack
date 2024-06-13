@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CashStore\ClientPaymentController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CounterpartyAgreementController;
 use App\Http\Controllers\Api\CounterpartyController;
+use App\Http\Controllers\Api\CounterpartyCoordinatesController;
 use App\Http\Controllers\Api\CurrencyController;
 use App\Http\Controllers\Api\DepartmentController;
 use App\Http\Controllers\Api\Document\ClientDocumentController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\Api\GoodGroupController;
 use App\Http\Controllers\Api\GroupController;
 use App\Http\Controllers\Api\HiringController;
 use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\InventoryOperation\InventoryOperationController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\EmployeeController;
@@ -276,10 +278,18 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('/return', [ReturnProviderDocumentController::class, 'store']);
             Route::post('return/approve', [ReturnProviderDocumentController::class, 'approve']);
             Route::post('return/unApprove', [ReturnProviderDocumentController::class, 'unApprove']);
+            Route::post('return/massDelete', [ReturnProviderDocumentController::class, 'massDelete']);
+            Route::post('return/massRestore', [ReturnProviderDocumentController::class, 'massRestore']);
 
             Route::get('/orderList', [OrderProviderDocumentController::class, 'index']);
             Route::post('/order', [OrderProviderDocumentController::class, 'store']);
             Route::get('order/show/{orderDocument}', [OrderProviderDocumentController::class, 'show']);
+            Route::post('order/approve', [OrderProviderDocumentController::class, 'approve']);
+            Route::post('order/unApprove', [OrderProviderDocumentController::class, 'unApprove']);
+            Route::post('order/massDelete', [OrderProviderDocumentController::class, 'massDelete']);
+            Route::post('order/massRestore', [OrderProviderDocumentController::class, 'massRestore']);
+
+            Route::post('order/copy/{orderDocument}', [OrderProviderDocumentController::class, 'copy']);
         });
 
         Route::group(['prefix' => '/client'], function () {
@@ -291,12 +301,18 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('/return', [ReturnClientDocumentController::class, 'store']);
             Route::post('return/approve', [ReturnClientDocumentController::class, 'approve']);
             Route::post('return/unApprove', [ReturnClientDocumentController::class, 'unApprove']);
+            Route::post('return/massDelete', [ReturnClientDocumentController::class, 'massDelete']);
+            Route::post('return/massRestore', [ReturnClientDocumentController::class, 'massRestore']);
 
             Route::get('orderList', [OrderClientDocumentController::class, 'index']);
             Route::post('/order', [OrderClientDocumentController::class, 'store']);
             Route::get('/order/statuses', [OrderClientDocumentController::class, 'statuses']);
             Route::get('order/show/{orderDocument}', [OrderClientDocumentController::class, 'show']);
             Route::patch('/update-order/{orderDocument}', [OrderClientDocumentController::class, 'updateOrder']);
+            Route::post('order/massDelete', [OrderClientDocumentController::class, 'massDelete']);
+            Route::post('order/massRestore', [OrderClientDocumentController::class, 'massRestore']);
+            Route::post('order/approve', [OrderClientDocumentController::class, 'approve']);
+            Route::post('order/unApprove', [OrderClientDocumentController::class, 'unApprove']);
 
             Route::post('delete', [ClientDocumentController::class, 'massDelete']);
             Route::post('restore', [ClientDocumentController::class, 'massRestore']);
@@ -328,12 +344,20 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::get('/{inventoryDocument}', [InventoryDocumentController::class, 'show']);
             Route::patch('/{inventoryDocument}', [InventoryDocumentController::class, 'update']);
             Route::post('delete-document-goods', [InventoryDocumentController::class, 'deleteDocumentGoods']);
+            Route::post('massDelete', [InventoryDocumentController::class, 'massDelete']);
+            Route::post('massRestore', [InventoryDocumentController::class, 'massRestore']);
+            Route::post('approve', [InventoryDocumentController::class, 'approve']);
+            Route::post('unApprove', [InventoryDocumentController::class, 'unApprove']);
         });
 
         Route::apiResource('movement', MovementDocumentController::class)->except('destroy');
-        Route::post('movement/delete-document-goods', [MovementDocumentController::class, 'deleteDocumentGoods']);
-        Route::post('movement/approve', [MovementDocumentController::class, 'approve']);
-        Route::post('movement/unApprove', [MovementDocumentController::class, 'unApprove']);
+        Route::group(['prefix' => 'movement'], function () {
+            Route::post('delete-document-goods', [MovementDocumentController::class, 'deleteDocumentGoods']);
+            Route::post('approve', [MovementDocumentController::class, 'approve']);
+            Route::post('unApprove', [MovementDocumentController::class, 'unApprove']);
+            Route::post('massDelete', [MovementDocumentController::class, 'massDelete']);
+            Route::post('massRestore', [MovementDocumentController::class, 'massRestore']);
+        });
 
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
         Route::get('/show/{document}', [ProviderDocumentController::class, 'show']);
@@ -383,6 +407,22 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/good-accountings/{document}', [\App\Http\Controllers\Api\ReportDocumentController::class, 'getGoodAccountings']);
     });
 
+
+    Route::group(['prefix' => 'inventoryOperation'], function () {
+        Route::get('/{type}', [InventoryOperationController::class, 'index']);
+        Route::post('/', [InventoryOperationController::class, 'store']);
+        Route::get('/show/{document}', [InventoryOperationController::class, 'show']);
+        Route::patch('/{document}', [InventoryOperationController::class, 'show']);
+        Route::post('/massDelete', [InventoryOperationController::class, 'massDelete']);
+        Route::post('/massRestore', [InventoryOperationController::class, 'massRestore']);
+        Route::post('/approve', [InventoryOperationController::class, 'approve']);
+        Route::post('/unApprove', [InventoryOperationController::class, 'unApprove']);
+    });
+
+    Route::group(['prefix' => 'counterpartyCoordinates'], function () {
+        Route::post('/', [CounterpartyCoordinatesController::class, 'store']);
+        Route::get('/', [CounterpartyCoordinatesController::class, 'index']);
+    });
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
 

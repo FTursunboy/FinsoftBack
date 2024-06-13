@@ -19,4 +19,8 @@ enum DocumentTypes: string
     case Inventory = 'Инвентаризация';
 
     case Movement = 'Перемещение';
+
+    case WriteOff = 'Списание';
+
+    case Disposal = 'Оприходование';
 }

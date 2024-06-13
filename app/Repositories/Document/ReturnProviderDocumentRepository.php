@@ -213,20 +213,27 @@ class ReturnProviderDocumentRepository implements ReturnProviderDocumentReposito
         return $document->load(['history.changes', 'history.user']);
     }
 
-    public function orderGoods(OrderDocument $document, array $goods): array
+    public function massDelete(array $ids)
     {
-        return array_map(function ($item) use ($document) {
-            return [
-                'good_id' => $item['good_id'],
-                'amount' => $item['amount'],
-                'price' => $item['price'],
-                'auto_sale_percent' => $item['auto_sale_percent'] ?? null,
-                'auto_sale_sum' => $item['auto_sale_sum'] ?? null,
-                'order_document_id' => $document->id,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ];
-        }, $goods);
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
+        DB::transaction(function () use ($ids) {
+
+            foreach ($ids['ids'] as $id) {
+                $document = $this->model::where('id', $id)->first();
+                $document->goodAccountents()->delete();
+                $document->counterpartySettlements()->delete();
+                $document->balances()->delete();
+                $document->update([
+                    'deleted_at' => Carbon::now(),
+                    'active' => 0
+                ]);
+
+            }
+
+        });
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 
     public function search($query, array $data)

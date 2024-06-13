@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\CashStore\ClientPaymentEvent;
 use App\Events\DocumentApprovedEvent;
 use App\Events\GoodDocumentHistoryEvent;
 use App\Events\MovementApprovedEvent;
 use App\Events\SmallRemainderEvent;
+use App\Listeners\CashStore\ClientPaymentListener;
 use App\Listeners\DocumentListener;
 use App\Listeners\GoodDocumentHistoryListener;
 use App\Listeners\GoodHistoryListener;
@@ -40,7 +42,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         DocumentApprovedEvent::class => [
-            DocumentListener::class,
+           DocumentListener::class,
            GoodHistoryListener::class
         ],
         SmallRemainderEvent::class => [
@@ -49,6 +51,9 @@ class EventServiceProvider extends ServiceProvider
         MovementApprovedEvent::class => [
             MovementListener::class
         ],
+        ClientPaymentEvent::class => [
+            ClientPaymentListener::class
+        ]
     ];
 
     /**

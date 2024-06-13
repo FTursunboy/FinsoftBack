@@ -58,6 +58,7 @@ use App\Repositories\Contracts\CurrencyRepositoryInterface;
 use App\Repositories\Contracts\Document\ClientDocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\InventoryDocumentRepositoryInterface;
+use App\Repositories\Contracts\Document\InventoryOperationRepositoryInterface;
 use App\Repositories\Contracts\Document\MovementDocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\OrderClientDocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\OrderProviderDocumentRepositoryInterface;
@@ -98,6 +99,7 @@ use App\Repositories\DepartmentRepository;
 use App\Repositories\Document\ClientDocumentRepository;
 use App\Repositories\Document\DocumentRepository;
 use App\Repositories\Document\InventoryDocumentRepository;
+use App\Repositories\Document\InventoryOperationRepository;
 use App\Repositories\Document\MovementDocumentRepository;
 use App\Repositories\Document\OrderClientDocumentRepository;
 use App\Repositories\Document\OrderProviderDocumentRepository;
@@ -208,6 +210,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CounterpartyReportRepositoryInterface::class, CounterpartyReportRepository::class);
         $this->app->singleton(\App\Repositories\Contracts\Report\OrganizationReportRepository::class, OrganizationReportRepository::class);
         $this->app->singleton(LocationRepositoryInterface::class, LocationRepository::class);
+        $this->app->singleton(InventoryOperationRepositoryInterface::class, InventoryOperationRepository::class);
     }
 
     /**

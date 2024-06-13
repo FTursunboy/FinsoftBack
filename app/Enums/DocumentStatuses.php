@@ -4,10 +4,8 @@ namespace App\Enums;
 
 enum DocumentStatuses :string
 {
+    case Approved = 'Проведен';
 
-        case Approved = 'Проведен';
-
-        case Unapproved = 'Не проведен';
-
+    case Unapproved = 'Не проведен';
 
 }

@@ -40,7 +40,9 @@ class AnotherCashRegisterRepository implements AnotherCashRegisterRepositoryInte
             'comment' => $dto->comment,
             'operationType_id' => $dto->operation_type_id,
             'type' => $dto->type,
-            'author_id' => Auth::id()
+            'author_id' => Auth::id(),
+            'sender' => $dto->sender,
+            'recipient' => $dto->recipient,
         ]);
     }
 
@@ -55,6 +57,8 @@ class AnotherCashRegisterRepository implements AnotherCashRegisterRepositoryInte
             'basis' => $dto->basis,
             'comment' => $dto->comment,
             'type' => $dto->type,
+            'sender' => $dto->sender,
+            'recipient' => $dto->recipient,
         ]);
 
         return $cashStore;

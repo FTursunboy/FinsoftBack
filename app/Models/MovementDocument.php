@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 #[ObservedBy([MovementDocumentObserver::class])]
-class MovementDocument extends DocumentModel implements Documentable
+class MovementDocument extends DocumentModel implements Documentable, \App\Repositories\Contracts\SoftDeleteInterface
 {
     use SoftDeletes, HasFactory, Filterable;
 
@@ -26,7 +26,8 @@ class MovementDocument extends DocumentModel implements Documentable
         'recipient_storage_id',
         'author_id',
         'comment',
-        'active'
+        'active',
+        'deleted_at'
     ];
 
     public static function bootSoftDeletes(){}
@@ -95,6 +96,11 @@ class MovementDocument extends DocumentModel implements Documentable
         }
 
         return $filteredData;
+    }
+
+    public function goodAccountents()
+    {
+        return $this->hasMany(GoodAccounting::class, 'model_id');
     }
 
     public function documentGoodsWithCount(): HasMany

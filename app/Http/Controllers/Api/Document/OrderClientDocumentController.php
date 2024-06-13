@@ -60,12 +60,12 @@ class OrderClientDocumentController extends Controller
 
     public function massDelete(IdRequest $request, MassOperationInterface $delete)
     {
-        return $this->success($delete->massDelete(new Document(), $request->validated()));
+        return $this->success($this->repository->massDelete($request->validated()));
     }
 
     public function massRestore(IdRequest $request, MassOperationInterface $restore)
     {
-        return $this->success($restore->massRestore(new Document(), $request->validated()));
+        return $this->success($restore->massRestore(new OrderDocument(), $request->validated()));
     }
 
     public function approve(IdRequest $request)
@@ -73,7 +73,8 @@ class OrderClientDocumentController extends Controller
         return $this->success($this->repository->approve($request->validated()));
     }
 
-    public function unApprove(IdRequest $request){
+    public function unApprove(IdRequest $request)
+    {
         return $this->success($this->repository->unApprove($request->validated()));
     }
 
