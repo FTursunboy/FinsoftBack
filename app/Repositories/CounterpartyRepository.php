@@ -4,12 +4,14 @@ namespace App\Repositories;
 
 use App\DTO\CounterpartyDTO;
 use App\Models\Counterparty;
+use App\Models\CounterpartyCoordinates;
 use App\Repositories\Contracts\CounterpartyRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class CounterpartyRepository implements CounterpartyRepositoryInterface
 {
@@ -188,4 +190,8 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
 
     }
 
+    public function getCoordinates(Counterparty $counterparty) :Collection
+    {
+        return CounterpartyCoordinates::where('counterparty_id', $counterparty->id)->orderBy('created_at', 'desc')->get();
+    }
 }

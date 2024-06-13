@@ -191,6 +191,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::group(['prefix' => 'counterparty'], function () {
         Route::get('data/export', [CounterpartyController::class, 'export']);
+        Route::get('coordinates/{counterparty}', [CounterpartyController::class, 'getCoordinates']);
         Route::get('/clients/s', [CounterpartyController::class, 'clients']);
         Route::get('/providers/p', [CounterpartyController::class, 'providers']);
         Route::get('/restore/{counterparty}', [CounterpartyController::class, 'restore']);
