@@ -17,6 +17,12 @@ class OrganizationBill extends Model implements \App\Repositories\Contracts\Soft
 
     protected $fillable = ['name', 'currency_id', 'bill_number', 'organization_id', 'date', 'comment'];
 
+    public function getClassName()
+    {
+        return get_class($this);
+    }
+
+
     public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class, 'currency_id');
