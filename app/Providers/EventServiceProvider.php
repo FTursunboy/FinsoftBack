@@ -2,12 +2,16 @@
 
 namespace App\Providers;
 
-use App\Events\CashStore\ClientPaymentEvent;
+use App\Events\CashStore\CashEvent;
+use App\Events\CashStore\CounterpartySettlementEvent;
+use App\Events\CashStore\OrganizationBillEvent;
 use App\Events\DocumentApprovedEvent;
 use App\Events\GoodDocumentHistoryEvent;
 use App\Events\MovementApprovedEvent;
 use App\Events\SmallRemainderEvent;
-use App\Listeners\CashStore\ClientPaymentListener;
+use App\Listeners\CashStore\CashListener;
+use App\Listeners\CashStore\CounterpartySettlementListener;
+use App\Listeners\CashStore\OrganizationBillListener;
 use App\Listeners\DocumentListener;
 use App\Listeners\GoodDocumentHistoryListener;
 use App\Listeners\GoodHistoryListener;
@@ -51,8 +55,14 @@ class EventServiceProvider extends ServiceProvider
         MovementApprovedEvent::class => [
             MovementListener::class
         ],
-        ClientPaymentEvent::class => [
-            ClientPaymentListener::class
+        CashEvent::class => [
+            CashListener::class
+        ],
+        CounterpartySettlementEvent::class => [
+            CounterpartySettlementListener::class
+        ],
+        OrganizationBillEvent::class => [
+            OrganizationBillListener::class
         ]
     ];
 

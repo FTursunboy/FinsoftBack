@@ -25,6 +25,12 @@ class CashRegister extends Model implements \App\Repositories\Contracts\SoftDele
 
     }
 
+    public function getClassName()
+    {
+        return get_class($this);
+    }
+
+
     public function currency() :BelongsTo
     {
         return $this->belongsTo(Currency::class, 'currency_id');

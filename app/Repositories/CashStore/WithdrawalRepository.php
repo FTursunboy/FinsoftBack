@@ -4,10 +4,15 @@ namespace App\Repositories\CashStore;
 
 use App\DTO\CashStore\WithdrawalDTO;
 use App\Enums\CashOperationType;
+use App\Enums\MovementTypes;
+use App\Events\CashStore\CashEvent;
+use App\Events\CashStore\CounterpartySettlementEvent;
+use App\Events\CashStore\OrganizationBillEvent;
 use App\Models\CashStore;
 use App\Models\OperationType;
 use App\Repositories\Contracts\CashStore\WithdrawalRepositoryInterface;
 use App\Traits\DocNumberTrait;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class WithdrawalRepository implements WithdrawalRepositoryInterface
@@ -62,5 +67,24 @@ class WithdrawalRepository implements WithdrawalRepositoryInterface
         ]);
 
         return $cashStore;
+    }
+
+    public function approve(array $ids)
+    {
+        try {
+            foreach ($ids['ids'] as $id) {
+                $cashStore = CashStore::find($id);
+
+                $cashStore->update(
+                    ['active' => true]
+                );
+
+                CashEvent::dispatch($cashStore, MovementTypes::Income);
+                OrganizationBillEvent::dispatch($cashStore, MovementTypes::Outcome);
+            }
+        } catch (Exception $exception) {
+            dd($exception->getMessage());
+        }
+
     }
 }

@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('model_type');
             $table->decimal('sum');
             $table->decimal('currency_sum');
-            $table->string('sender');
-            $table->string('recipient');
+            $table->string('sender')->nullable();
+            $table->string('recipient')->nullable();
+            $table->string('type');
             $table->timestamps();
         });
     }

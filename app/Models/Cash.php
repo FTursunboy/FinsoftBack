@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cash extends Model
 {
-    use HasFactory;
+    protected $fillable = ['date', 'model_id', 'model_type', 'sum', 'currency_sum', 'sender', 'recipient', 'operation_type_id', 'type'];
 }
