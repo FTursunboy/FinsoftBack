@@ -26,7 +26,7 @@ class ClientPaymentRepository implements CashStoreRepositoryInterface
 
     public function clientPayment(ClientPaymentDTO $dto)
     {
-        $this->model::create([
+       return $this->model::create([
             'doc_number' => $this->uniqueNumber(),
             'date' => $dto->date,
             'organization_id' => $dto->organization_id,
