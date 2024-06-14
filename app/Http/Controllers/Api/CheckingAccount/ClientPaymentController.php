@@ -24,7 +24,7 @@ class ClientPaymentController extends Controller
 
     public function store(ClientPaymentRequest $request)
     {
-        return $this->success($this->repository->clientPayment(ClientPaymentDTO::fromRequest($request)));
+        return $this->success(CheckingAccountResource::make($this->repository->clientPayment(ClientPaymentDTO::fromRequest($request))));
     }
 
     public function update(ClientPaymentRequest $request, CheckingAccount $account)

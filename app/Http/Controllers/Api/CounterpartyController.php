@@ -8,6 +8,7 @@ use App\Http\Requests\Api\Counterparty\CounterpartyRequest;
 use App\Http\Requests\Api\Counterparty\CounterpartyUpdateRequest;
 use App\Http\Requests\Api\Counterparty\FilterRequest;
 use App\Http\Requests\IdRequest;
+use App\Http\Resources\CounterpartyCoordinatesResource;
 use App\Http\Resources\CounterpartyResource;
 use App\Models\Counterparty;
 use App\Repositories\Contracts\CounterpartyRepositoryInterface;
@@ -26,7 +27,7 @@ class CounterpartyController extends Controller
 
     }
 
-    public function index(FilterRequest $request) :JsonResponse
+    public function index(FilterRequest $request): JsonResponse
     {
         return $this->paginate(CounterpartyResource::collection($this->repository->index($request->validated())));
     }
@@ -36,12 +37,12 @@ class CounterpartyController extends Controller
         return $this->success(CounterpartyResource::make($counterparty));
     }
 
-    public function store(CounterpartyRequest $request) :JsonResponse
+    public function store(CounterpartyRequest $request): JsonResponse
     {
         return $this->created($this->repository->store(CounterpartyDTO::fromRequest($request)));
     }
 
-    public function update(Counterparty $counterparty, CounterpartyUpdateRequest $request) :JsonResponse
+    public function update(Counterparty $counterparty, CounterpartyUpdateRequest $request): JsonResponse
     {
         return $this->success(CounterpartyResource::make($this->repository->update($counterparty, CounterpartyDTO::fromRequest($request))));
     }
@@ -70,6 +71,7 @@ class CounterpartyController extends Controller
     {
         return $this->paginate(CounterpartyResource::collection($this->repository->clients($request->validated())));
     }
+
     public function providers(FilterRequest $request)
     {
         return $this->paginate(CounterpartyResource::collection($this->repository->providers($request->validated())));
@@ -80,6 +82,10 @@ class CounterpartyController extends Controller
         return response()->download($this->repository->export($request->validated()))->deleteFileAfterSend();
     }
 
+    public function getCoordinates(Counterparty $counterparty)
+    {
+        return $this->success(CounterpartyCoordinatesResource::collection($this->repository->getCoordinates($counterparty)));
+    }
 }
 
 

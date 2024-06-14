@@ -25,4 +25,6 @@ interface CounterpartyRepositoryInterface extends IndexInterface
     public function clients(array $data);
 
     public function export(array $data);
+
+    public function getCoordinates(Counterparty $counterparty);
 }

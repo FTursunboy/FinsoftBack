@@ -14,8 +14,7 @@ class CounterpartyCoordinatesResource extends JsonResource
         return [
             'created_at' => $this->created_at,
             'id' => $this->id,
-            'location' => CoordinateResource::make($this->location),
-            'counterparty' => $this->counterparty,
+            'location' => CoordinateResource::make($this->location)
         ];
     }
 }
