@@ -79,7 +79,15 @@ class ExportTOJsonCommand extends Command
 
         $jsonData = json_encode($data, JSON_PRETTY_PRINT);
 
-        file_put_contents('datwa.json', $jsonData);
+        // Сохраняем JSON в файл через Storage
+        $filePath = 'data.json';
+        \Illuminate\Support\Facades\Storage::disk('public')->put($filePath, $jsonData);
+
+        // Получаем URL для скачивания файла
+        $url = \Illuminate\Support\Facades\Storage::disk('public')->url($filePath);
+
+        // Выводим URL в консоль
+        echo "File can be downloaded from: " . $url . "\n";
     }
 
 }
