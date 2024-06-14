@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Route;
         Route::group(['prefix' => 'client-payment'], function () {
             Route::get('/', [ClientPaymentController::class, 'index']);
             Route::post('/', [ClientPaymentController::class, 'store']);
-            Route::patch('/', [ClientPaymentController::class, 'update']);
+            Route::patch('/{checkingAccount}', [ClientPaymentController::class, 'update']);
         });
 
         Route::group(['prefix' => 'withdrawal'], function () {
