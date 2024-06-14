@@ -1,0 +1,1814 @@
+{
+    "units": [
+        {
+            "id": 1,
+            "name": "\u043a\u0433",
+            "deleted_at": null
+        },
+        {
+            "id": 2,
+            "name": "\u043c",
+            "deleted_at": null
+        },
+        {
+            "id": 3,
+            "name": "Jaquan Kuvalis",
+            "deleted_at": null
+        },
+        {
+            "id": 4,
+            "name": "Dr. Jacklyn Hauck",
+            "deleted_at": null
+        }
+    ],
+    "organizationBill": [
+        {
+            "id": 1,
+            "name": "Prof. Urban Herman",
+            "date": "2024-06-05T19:00:00.000000Z",
+            "currency": {
+                "id": 3,
+                "name": "\u0420\u0443\u0431\u043b\u044c",
+                "digital_code": 111,
+                "symbol_code": "RUS",
+                "deleted_at": null
+            },
+            "organization": {
+                "id": 13,
+                "name": "Jazmyne Borer",
+                "INN": 1717648378,
+                "address": "Quod omnis ut expedita labore laboriosam ut quia fugiat. Tempore commodi a blanditiis iste. Provident eum sequi repudiandae odio neque saepe qui. Explicabo excepturi earum impedit quia.",
+                "description": "Aut libero a quia rerum perspiciatis est consectetur quo. Iusto consequatur hic rerum. Accusantium modi consequatur non qui ipsam et sit.",
+                "deleted_at": null
+            },
+            "bill_number": "1717648378",
+            "comment": "Aspernatur aperiam deserunt sapiente rem vitae qui. Animi aperiam nostrum similique nesciunt nihil aliquid.",
+            "balance": 2500,
+            "deleted_at": null
+        }
+    ],
+    "users": [
+        {
+            "id": 1,
+            "name": "Admin",
+            "login": "admin",
+            "email": "admin@gmail.com",
+            "organization": {
+                "id": 1,
+                "name": "Nathen Reilly IV",
+                "INN": 1717648376,
+                "address": "Cum maiores et soluta sequi aperiam cumque voluptatem. Consequatur vitae voluptatem sequi reiciendis possimus. Voluptas molestiae molestiae fuga sed omnis voluptas. Totam ab mollitia ut.",
+                "description": "Mollitia quia optio debitis mollitia. Debitis eligendi qui occaecati numquam. Et ipsa autem et. Sint voluptas ullam ex molestiae modi. Quo asperiores accusamus nam eos rem qui.",
+                "deleted_at": null
+            },
+            "phone": "(669) 294-7617",
+            "status": 1,
+            "image": null,
+            "group": {
+                "id": 1,
+                "name": "group",
+                "deleted_at": null
+            },
+            "deleted_at": null,
+            "hasOneOrganization": false
+        },
+        {
+            "id": 2,
+            "name": "Rustam",
+            "login": "rustamjon",
+            "email": "rustamjon@gmail.com",
+            "organization": {
+                "id": 2,
+                "name": "Mr. Arjun Lynch",
+                "INN": 1717648376,
+                "address": "Expedita a illum aliquam dolorem. Tempora doloremque vero odio. Nihil quisquam aut veritatis voluptas molestias doloribus deleniti.",
+                "description": "Vero minima porro in enim accusamus. Vitae voluptatem earum est repudiandae et. Facere vel adipisci in id et. Expedita dolores et est animi eaque.",
+                "deleted_at": null
+            },
+            "phone": "1-931-514-1624",
+            "status": 1,
+            "image": null,
+            "group": {
+                "id": 1,
+                "name": "group",
+                "deleted_at": null
+            },
+            "deleted_at": null,
+            "hasOneOrganization": false
+        },
+        {
+            "id": 3,
+            "name": "Jamshed",
+            "login": "jamshed",
+            "email": "jamshed@gmail.com",
+            "organization": {
+                "id": 3,
+                "name": "Emmanuel Howell",
+                "INN": 1717648377,
+                "address": "Neque sunt debitis accusantium ducimus et. Pariatur repellat fuga et distinctio. Impedit vitae animi neque perferendis voluptas maxime qui. Consectetur sit delectus laudantium doloremque ut.",
+                "description": "Aspernatur et ut est tempora. Dolores nobis incidunt aut et assumenda incidunt blanditiis neque. Est harum ut est id adipisci in.",
+                "deleted_at": null
+            },
+            "phone": "1-820-937-9663",
+            "status": 1,
+            "image": null,
+            "group": {
+                "id": 1,
+                "name": "group",
+                "deleted_at": null
+            },
+            "deleted_at": null,
+            "hasOneOrganization": false
+        },
+        {
+            "id": 4,
+            "name": "Sheroz",
+            "login": "sheroz",
+            "email": "sheroz@gmail.com",
+            "organization": {
+                "id": 4,
+                "name": "Prof. Marquis Hills DVM",
+                "INN": 1717648377,
+                "address": "Tempora qui voluptatem voluptas fugiat ea sed qui. Voluptatem illum ut voluptatem facilis reiciendis eligendi aut rerum. Aut iusto voluptatibus consequuntur ipsum.",
+                "description": "Sequi officia maxime autem ut. Neque quos exercitationem sunt et nihil quos quo expedita. Velit modi dolor enim asperiores adipisci corporis dolores optio.",
+                "deleted_at": null
+            },
+            "phone": "+1.458.256.0976",
+            "status": 1,
+            "image": null,
+            "group": {
+                "id": 1,
+                "name": "group",
+                "deleted_at": null
+            },
+            "deleted_at": null,
+            "hasOneOrganization": false
+        },
+        {
+            "id": 5,
+            "name": "Suhrob",
+            "login": "sero",
+            "email": "gafurows@gmail.com",
+            "organization": {
+                "id": 5,
+                "name": "Augustus Prohaska III",
+                "INN": 1717648377,
+                "address": "Enim quo quis sed voluptatem nemo. Aspernatur aliquam dolorem quis maxime amet. Praesentium maiores natus quisquam qui. Ut odit qui rerum iste.",
+                "description": "Accusantium natus ut perspiciatis qui asperiores quod dolor voluptatum. Nesciunt quaerat maiores voluptatem rerum. Quas non provident perferendis.",
+                "deleted_at": null
+            },
+            "phone": "+1 (228) 278-8880",
+            "status": 1,
+            "image": null,
+            "group": {
+                "id": 1,
+                "name": "group",
+                "deleted_at": null
+            },
+            "deleted_at": null,
+            "hasOneOrganization": false
+        },
+        {
+            "id": 6,
+            "name": "Davin Hamill V",
+            "login": "Margarete Ullrich9770",
+            "email": "stehr.dannie@example.org",
+            "organization": {
+                "id": 10,
+                "name": "Christine Schoen V",
+                "INN": 1717648378,
+                "address": "Veniam aut nemo deserunt et deleniti molestias. Amet molestias voluptas similique ea.",
+                "description": "Eum provident qui quae. Et hic autem beatae asperiores facilis quaerat assumenda. In perspiciatis rerum culpa doloremque dicta. Asperiores consequatur dolor nam aut.",
+                "deleted_at": null
+            },
+            "phone": "+1-503-363-1033",
+            "status": 1,
+            "image": null,
+            "group": {
+                "id": 23,
+                "name": "Prof.",
+                "deleted_at": null
+            },
+            "deleted_at": null,
+            "hasOneOrganization": false
+        }
+    ],
+    "counterparties": [
+        {
+            "id": 1,
+            "name": "Cordie Gleichner I",
+            "address": "6785 Vicky Ville Apt. 514\nEast Madelynn, WA 74130",
+            "phone": "559-668-35631717648378",
+            "email": "31511fredy40@example.com",
+            "roles": [],
+            "balance": 2500,
+            "counterpartyAgreement": [
+                {
+                    "id": 1,
+                    "name": "Leola Kozey",
+                    "contract_number": "20871717648378",
+                    "date": "1993-06-25T19:00:00.000000Z",
+                    "contact_person": "Dr. Tabitha Lowe PhD",
+                    "comment": "Enim sed possimus reiciendis sunt est vitae earum. Modi in nisi vel facilis ratione ratione. Quo et repellat eum soluta adipisci.",
+                    "deleted_at": null
+                }
+            ],
+            "created_at": "2024-06-06T04:32:58.000000Z",
+            "deleted_at": null
+        },
+        {
+            "id": 2,
+            "name": "Miss Christine Klein V",
+            "address": "93512 Hilpert Gardens Suite 935\nMuellerstad, WI 29102",
+            "phone": "618-739-76021717648378",
+            "email": "256adalberto.goldner@example.net",
+            "roles": [],
+            "balance": 2500,
+            "counterpartyAgreement": [],
+            "created_at": "2024-06-06T04:32:58.000000Z",
+            "deleted_at": null
+        }
+    ],
+    "employees": [
+        {
+            "id": 1,
+            "name": "Mr. Prince Nolan",
+            "position": {
+                "id": 1,
+                "name": "Eldon Lueilwitz",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 2,
+                "name": "Prof.",
+                "deleted_at": null
+            },
+            "phone": "1717648376988",
+            "email": "parker.avery@yahoo.com672",
+            "address": "1539 Rhiannon Summit Apt. 155\nPort Elissaton, NJ 61462",
+            "deleted_at": null
+        },
+        {
+            "id": 2,
+            "name": "Prof. Reyna Nikolaus",
+            "position": {
+                "id": 2,
+                "name": "Mrs. Opal Wisoky III",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 3,
+                "name": "Mrs.",
+                "deleted_at": null
+            },
+            "phone": "1717648376792",
+            "email": "lorna08@heathcote.com406",
+            "address": "91895 Kertzmann Stream\nMaiaview, NH 57262",
+            "deleted_at": null
+        },
+        {
+            "id": 3,
+            "name": "Josue Gerhold",
+            "position": {
+                "id": 3,
+                "name": "Ernie O'Reilly",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 4,
+                "name": "Prof.",
+                "deleted_at": null
+            },
+            "phone": "1717648376644",
+            "email": "zelma.leannon@hotmail.com685",
+            "address": "4359 Jovani Cliffs Suite 624\nPort Richie, IN 06087-0403",
+            "deleted_at": null
+        },
+        {
+            "id": 4,
+            "name": "Abelardo Feeney I",
+            "position": {
+                "id": 4,
+                "name": "Ruth Waters",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 5,
+                "name": "Mr.",
+                "deleted_at": null
+            },
+            "phone": "1717648376961",
+            "email": "vmitchell@shanahan.info865",
+            "address": "5781 Wolff Rue\nEast Zelda, NY 70043",
+            "deleted_at": null
+        },
+        {
+            "id": 5,
+            "name": "Jairo Ziemann",
+            "position": {
+                "id": 5,
+                "name": "Tod Hermiston",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 6,
+                "name": "Dr.",
+                "deleted_at": null
+            },
+            "phone": "1717648377747",
+            "email": "vstrosin@yahoo.com567",
+            "address": "12305 Effertz Hill\nLake Vellaton, NY 08290-8895",
+            "deleted_at": null
+        },
+        {
+            "id": 6,
+            "name": "Dedrick Friesen MD",
+            "position": {
+                "id": 6,
+                "name": "Dax Langworth",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 7,
+                "name": "Prof.",
+                "deleted_at": null
+            },
+            "phone": "1717648377192",
+            "email": "pink09@yahoo.com722",
+            "address": "30029 Emmanuelle Isle\nNew Jarrettborough, CO 34115-8130",
+            "deleted_at": null
+        },
+        {
+            "id": 7,
+            "name": "Darron Raynor",
+            "position": {
+                "id": 7,
+                "name": "Prof. Tristian Roob II",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 8,
+                "name": "Dr.",
+                "deleted_at": null
+            },
+            "phone": "1717648377200",
+            "email": "reilly.declan@yahoo.com628",
+            "address": "969 Janick Views Suite 724\nDiamondchester, VA 36947-4199",
+            "deleted_at": null
+        },
+        {
+            "id": 8,
+            "name": "Andres Schmitt",
+            "position": {
+                "id": 8,
+                "name": "Willow Schroeder",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 9,
+                "name": "Mr.",
+                "deleted_at": null
+            },
+            "phone": "1717648377144",
+            "email": "jewell30@hotmail.com985",
+            "address": "36291 McDermott Fords\nTillmanstad, CT 22867",
+            "deleted_at": null
+        },
+        {
+            "id": 9,
+            "name": "Grady Herzog",
+            "position": {
+                "id": 9,
+                "name": "Chelsie Rowe DDS",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 10,
+                "name": "Ms.",
+                "deleted_at": null
+            },
+            "phone": "1717648377761",
+            "email": "tiffany.goyette@yahoo.com549",
+            "address": "205 Carolina Fall Suite 013\nJaclynborough, AL 00408-7947",
+            "deleted_at": null
+        },
+        {
+            "id": 10,
+            "name": "Mr. Muhammad Keebler",
+            "position": {
+                "id": 10,
+                "name": "Billie Kuhic",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 11,
+                "name": "Dr.",
+                "deleted_at": null
+            },
+            "phone": "1717648377930",
+            "email": "larson.marisol@kihn.net448",
+            "address": "8716 Mraz Centers\nNorth Orlandbury, SC 88638-3785",
+            "deleted_at": null
+        },
+        {
+            "id": 11,
+            "name": "Mazie Torphy V",
+            "position": {
+                "id": 11,
+                "name": "Prof. Lorine Lindgren",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 12,
+                "name": "Dr.",
+                "deleted_at": null
+            },
+            "phone": "1717648378771",
+            "email": "devon.miller@botsford.com717",
+            "address": "919 Roxane Alley\nGreenfelderburgh, NY 35786",
+            "deleted_at": null
+        },
+        {
+            "id": 12,
+            "name": "Theodora Fadel",
+            "position": {
+                "id": 12,
+                "name": "Isabell Konopelski",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 13,
+                "name": "Miss",
+                "deleted_at": null
+            },
+            "phone": "1717648378864",
+            "email": "gust18@hotmail.com183",
+            "address": "36860 Grady Views\nWest Maximoborough, RI 66972-7091",
+            "deleted_at": null
+        },
+        {
+            "id": 13,
+            "name": "Jaren Heathcote",
+            "position": {
+                "id": 13,
+                "name": "Ryley Huels",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 14,
+                "name": "Dr.",
+                "deleted_at": null
+            },
+            "phone": "1717648378170",
+            "email": "anderson93@dicki.com896",
+            "address": "195 Greenfelder Forest Suite 356\nWest Easton, DC 92347-9391",
+            "deleted_at": null
+        },
+        {
+            "id": 14,
+            "name": "Mrs. Veronica Kuhlman V",
+            "position": {
+                "id": 14,
+                "name": "Dr. Malika Gleason IV",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 15,
+                "name": "Dr.",
+                "deleted_at": null
+            },
+            "phone": "1717648378730",
+            "email": "jweimann@muller.info519",
+            "address": "7773 Swaniawski Walks Suite 053\nWest Daisy, NV 79663",
+            "deleted_at": null
+        },
+        {
+            "id": 15,
+            "name": "Kevin Schinner",
+            "position": {
+                "id": 15,
+                "name": "Mrs. Zoey Bergstrom",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 16,
+                "name": "Prof.",
+                "deleted_at": null
+            },
+            "phone": "1717648378392",
+            "email": "kellen.west@yahoo.com423",
+            "address": "245 Vallie Harbors\nWest Braxton, KS 97708",
+            "deleted_at": null
+        },
+        {
+            "id": 16,
+            "name": "Hulda Harris",
+            "position": {
+                "id": 16,
+                "name": "Jacynthe Herman",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 18,
+                "name": "Prof.",
+                "deleted_at": null
+            },
+            "phone": "1717648378713",
+            "email": "scarlett.gutkowski@gmail.com1",
+            "address": "37640 Anya Expressway Suite 146\nIdachester, VT 14811",
+            "deleted_at": null
+        },
+        {
+            "id": 17,
+            "name": "Austen Tromp",
+            "position": {
+                "id": 17,
+                "name": "Phyllis Jacobi",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 19,
+                "name": "Mrs.",
+                "deleted_at": null
+            },
+            "phone": "17176483781000",
+            "email": "harvey.jones@yahoo.com438",
+            "address": "2604 Lou Pike Apt. 874\nNew Myraburgh, MA 44350",
+            "deleted_at": null
+        },
+        {
+            "id": 18,
+            "name": "Shanny Boyer DDS",
+            "position": {
+                "id": 19,
+                "name": "Alexys Haag",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 20,
+                "name": "Dr.",
+                "deleted_at": null
+            },
+            "phone": "1717648378887",
+            "email": "shoeger@yahoo.com332",
+            "address": "1665 Rolfson Creek\nLake Jeradside, KY 99597",
+            "deleted_at": null
+        },
+        {
+            "id": 19,
+            "name": "Danika Pfeffer",
+            "position": {
+                "id": 20,
+                "name": "Kiley Stehr",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 21,
+                "name": "Mrs.",
+                "deleted_at": null
+            },
+            "phone": "1717648378854",
+            "email": "madge.kuphal@yahoo.com674",
+            "address": "856 Feeney Walk Suite 048\nJastberg, PA 40757",
+            "deleted_at": null
+        },
+        {
+            "id": 20,
+            "name": "Theron Schamberger",
+            "position": {
+                "id": 21,
+                "name": "Gilberto Witting",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 24,
+                "name": "Mrs.",
+                "deleted_at": null
+            },
+            "phone": "1717648378391",
+            "email": "berta16@gmail.com993",
+            "address": "515 Mossie Park Apt. 341\nKleinburgh, OK 89709",
+            "deleted_at": null
+        },
+        {
+            "id": 21,
+            "name": "Jimmie Wiegand",
+            "position": {
+                "id": 22,
+                "name": "Ora Fadel",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 25,
+                "name": "Prof.",
+                "deleted_at": null
+            },
+            "phone": "1717648378288",
+            "email": "tad.mueller@boehm.org120",
+            "address": "389 Leuschke Oval Suite 605\nRessieport, OH 61956",
+            "deleted_at": null
+        },
+        {
+            "id": 22,
+            "name": "Dr. Juston Schultz II",
+            "position": {
+                "id": 23,
+                "name": "Lysanne Schuppe",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 26,
+                "name": "Prof.",
+                "deleted_at": null
+            },
+            "phone": "1717648378767",
+            "email": "tprosacco@gmail.com665",
+            "address": "183 Bartoletti Rue Suite 880\nSouth Destany, CA 58945-7691",
+            "deleted_at": null
+        },
+        {
+            "id": 23,
+            "name": "Vergie Olson",
+            "position": {
+                "id": 24,
+                "name": "Mrs. Delores Kuphal MD",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 27,
+                "name": "Prof.",
+                "deleted_at": null
+            },
+            "phone": "1717648378230",
+            "email": "alice67@gmail.com152",
+            "address": "1153 Klocko Lake\nWest Bernie, OR 18101-4232",
+            "deleted_at": null
+        },
+        {
+            "id": 24,
+            "name": "Johanna Schaefer",
+            "position": {
+                "id": 25,
+                "name": "Mr. Leif Tremblay PhD",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 28,
+                "name": "Mrs.",
+                "deleted_at": null
+            },
+            "phone": "1717648378118",
+            "email": "jenkins.rosetta@gmail.com396",
+            "address": "505 Schoen Fall\nSouth Ethel, IN 58140",
+            "deleted_at": null
+        },
+        {
+            "id": 25,
+            "name": "Alessandra Kohler",
+            "position": {
+                "id": 26,
+                "name": "Felicity Mayert",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 29,
+                "name": "Dr.",
+                "deleted_at": null
+            },
+            "phone": "1717648378394",
+            "email": "roselyn.mccullough@yahoo.com275",
+            "address": "30693 Harmon Key Suite 243\nFunkberg, ME 21002-8228",
+            "deleted_at": null
+        },
+        {
+            "id": 26,
+            "name": "Gabriella King",
+            "position": {
+                "id": 27,
+                "name": "Yasmine Rohan",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 30,
+                "name": "Prof.",
+                "deleted_at": null
+            },
+            "phone": "1717648378172",
+            "email": "era.reynolds@hotmail.com392",
+            "address": "3254 Jesse Point Apt. 056\nLake Stephonchester, VA 78550-9271",
+            "deleted_at": null
+        },
+        {
+            "id": 27,
+            "name": "Albin Collier",
+            "position": {
+                "id": 28,
+                "name": "Asia Hoppe",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 32,
+                "name": "Dr.",
+                "deleted_at": null
+            },
+            "phone": "1717648378534",
+            "email": "claudie85@hotmail.com206",
+            "address": "20948 Pinkie Island\nNorth Torey, MD 44218",
+            "deleted_at": null
+        },
+        {
+            "id": 28,
+            "name": "Rosella Ondricka",
+            "position": {
+                "id": 29,
+                "name": "Bailey Olson",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 33,
+                "name": "Dr.",
+                "deleted_at": null
+            },
+            "phone": "1717648378193",
+            "email": "estracke@ortiz.com79",
+            "address": "11819 Antonina Vista\nNew Kaylah, SD 30453-7294",
+            "deleted_at": null
+        },
+        {
+            "id": 29,
+            "name": "Prof. Bailey Moen",
+            "position": {
+                "id": 30,
+                "name": "Rose Block I",
+                "deleted_at": null
+            },
+            "image": null,
+            "group": {
+                "id": 34,
+                "name": "Mr.",
+                "deleted_at": null
+            },
+            "phone": "1717648378470",
+            "email": "uwest@yahoo.com834",
+            "address": "298 Kristopher Tunnel Suite 542\nNew Nathenton, OH 20798-0895",
+            "deleted_at": null
+        }
+    ],
+    "positions": [
+        {
+            "id": 1,
+            "name": "Eldon Lueilwitz",
+            "deleted_at": null
+        },
+        {
+            "id": 2,
+            "name": "Mrs. Opal Wisoky III",
+            "deleted_at": null
+        },
+        {
+            "id": 3,
+            "name": "Ernie O'Reilly",
+            "deleted_at": null
+        },
+        {
+            "id": 4,
+            "name": "Ruth Waters",
+            "deleted_at": null
+        },
+        {
+            "id": 5,
+            "name": "Tod Hermiston",
+            "deleted_at": null
+        },
+        {
+            "id": 6,
+            "name": "Dax Langworth",
+            "deleted_at": null
+        },
+        {
+            "id": 7,
+            "name": "Prof. Tristian Roob II",
+            "deleted_at": null
+        },
+        {
+            "id": 8,
+            "name": "Willow Schroeder",
+            "deleted_at": null
+        },
+        {
+            "id": 9,
+            "name": "Chelsie Rowe DDS",
+            "deleted_at": null
+        },
+        {
+            "id": 10,
+            "name": "Billie Kuhic",
+            "deleted_at": null
+        },
+        {
+            "id": 11,
+            "name": "Prof. Lorine Lindgren",
+            "deleted_at": null
+        },
+        {
+            "id": 12,
+            "name": "Isabell Konopelski",
+            "deleted_at": null
+        },
+        {
+            "id": 13,
+            "name": "Ryley Huels",
+            "deleted_at": null
+        },
+        {
+            "id": 14,
+            "name": "Dr. Malika Gleason IV",
+            "deleted_at": null
+        },
+        {
+            "id": 15,
+            "name": "Mrs. Zoey Bergstrom",
+            "deleted_at": null
+        },
+        {
+            "id": 16,
+            "name": "Jacynthe Herman",
+            "deleted_at": null
+        },
+        {
+            "id": 17,
+            "name": "Phyllis Jacobi",
+            "deleted_at": null
+        },
+        {
+            "id": 18,
+            "name": "Florence Pouros",
+            "deleted_at": null
+        },
+        {
+            "id": 19,
+            "name": "Alexys Haag",
+            "deleted_at": null
+        },
+        {
+            "id": 20,
+            "name": "Kiley Stehr",
+            "deleted_at": null
+        },
+        {
+            "id": 21,
+            "name": "Gilberto Witting",
+            "deleted_at": null
+        },
+        {
+            "id": 22,
+            "name": "Ora Fadel",
+            "deleted_at": null
+        },
+        {
+            "id": 23,
+            "name": "Lysanne Schuppe",
+            "deleted_at": null
+        },
+        {
+            "id": 24,
+            "name": "Mrs. Delores Kuphal MD",
+            "deleted_at": null
+        },
+        {
+            "id": 25,
+            "name": "Mr. Leif Tremblay PhD",
+            "deleted_at": null
+        },
+        {
+            "id": 26,
+            "name": "Felicity Mayert",
+            "deleted_at": null
+        },
+        {
+            "id": 27,
+            "name": "Yasmine Rohan",
+            "deleted_at": null
+        },
+        {
+            "id": 28,
+            "name": "Asia Hoppe",
+            "deleted_at": null
+        },
+        {
+            "id": 29,
+            "name": "Bailey Olson",
+            "deleted_at": null
+        },
+        {
+            "id": 30,
+            "name": "Rose Block I",
+            "deleted_at": null
+        }
+    ],
+    "priceTypes": [
+        {
+            "id": 1,
+            "name": "Dashawn Hartmann",
+            "description": "Illum corrupti ut dicta et dolorem hic iste. Rem cumque quasi ut. Est ipsa optio deserunt adipisci dolore odio incidunt. Impedit animi delectus et dolor.",
+            "currency": {
+                "id": 3,
+                "name": "\u0420\u0443\u0431\u043b\u044c",
+                "digital_code": 111,
+                "symbol_code": "RUS",
+                "deleted_at": null
+            },
+            "deleted_at": null
+        },
+        {
+            "id": 2,
+            "name": "Norris Bergnaum",
+            "description": "Et dicta maxime quia delectus magni molestiae vero esse. Quidem eos quibusdam et alias unde reiciendis excepturi. Iusto fugiat sed eligendi unde rerum.",
+            "currency": {
+                "id": 3,
+                "name": "\u0420\u0443\u0431\u043b\u044c",
+                "digital_code": 111,
+                "symbol_code": "RUS",
+                "deleted_at": null
+            },
+            "deleted_at": null
+        }
+    ],
+    "currency": [
+        {
+            "id": 1,
+            "name": "\u0421\u043e\u043c\u043e\u043d\u0438",
+            "digital_code": 23,
+            "symbol_code": "TJS",
+            "last_exchange_rate": {
+                "id": 3,
+                "date": "2024-06-05T19:00:00.000000Z",
+                "value": "1809.0000",
+                "deleted_at": null
+            },
+            "exchangeRates": [
+                {
+                    "id": 3,
+                    "date": "2024-06-05T19:00:00.000000Z",
+                    "value": "1809.0000",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 2,
+            "name": "\u0414\u043e\u043b\u043b\u0430\u0440",
+            "digital_code": 213,
+            "symbol_code": "USD",
+            "last_exchange_rate": {
+                "id": 1,
+                "date": "2024-06-05T19:00:00.000000Z",
+                "value": "11.0000",
+                "deleted_at": null
+            },
+            "exchangeRates": [
+                {
+                    "id": 1,
+                    "date": "2024-06-05T19:00:00.000000Z",
+                    "value": "11.0000",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 3,
+            "name": "\u0420\u0443\u0431\u043b\u044c",
+            "digital_code": 111,
+            "symbol_code": "RUS",
+            "last_exchange_rate": {
+                "id": 2,
+                "date": "2024-06-05T19:00:00.000000Z",
+                "value": "0.1200",
+                "deleted_at": null
+            },
+            "exchangeRates": [
+                {
+                    "id": 2,
+                    "date": "2024-06-05T19:00:00.000000Z",
+                    "value": "0.1200",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        }
+    ],
+    "storage": [
+        {
+            "id": 1,
+            "name": "Franco Cummings",
+            "organization": {
+                "id": 7,
+                "name": "Dr. Brigitte Lynch",
+                "INN": 1717648378,
+                "address": "Id quidem rerum eaque. Veritatis sed accusantium impedit et id omnis minima excepturi. Quae et est debitis perspiciatis quia nisi. Eos dignissimos nesciunt rerum aut.",
+                "description": "Occaecati labore asperiores quae rerum et. Perferendis nostrum nostrum ut in inventore delectus voluptatum. Est eum facere beatae culpa et quasi consequatur.",
+                "deleted_at": null
+            },
+            "group": {
+                "id": 17,
+                "name": "Mr.",
+                "deleted_at": null
+            },
+            "deleted_at": null
+        },
+        {
+            "id": 2,
+            "name": "Mr. Jillian O'Connell III",
+            "organization": {
+                "id": 9,
+                "name": "Abigail Larkin Jr.",
+                "INN": 1717648378,
+                "address": "Dolores perspiciatis quis iste ut ratione ipsam. Est quis a sint ex beatae recusandae. Deserunt eligendi similique cumque corrupti ratione et.",
+                "description": "Aspernatur iure qui doloremque accusamus rerum. Qui quas nemo ipsam voluptate. Est blanditiis sit impedit deleniti ipsum sunt.",
+                "deleted_at": null
+            },
+            "group": {
+                "id": 22,
+                "name": "Dr.",
+                "deleted_at": null
+            },
+            "deleted_at": null
+        },
+        {
+            "id": 3,
+            "name": "Dr. Braxton Stokes IV",
+            "organization": {
+                "id": 12,
+                "name": "Ally Rempel",
+                "INN": 1717648378,
+                "address": "Deserunt ex provident ut. Vero voluptas nostrum perspiciatis aliquam quibusdam.",
+                "description": "Quia atque accusamus cumque distinctio enim aut. Libero earum maiores est eligendi dolorem autem sapiente autem. Ipsum quis asperiores eos repudiandae.",
+                "deleted_at": null
+            },
+            "group": {
+                "id": 31,
+                "name": "Miss",
+                "deleted_at": null
+            },
+            "deleted_at": null
+        }
+    ],
+    "cashRegisters": [
+        {
+            "id": 1,
+            "name": "Miss Lilyan Schneider",
+            "currency": {
+                "id": 1,
+                "name": "\u0421\u043e\u043c\u043e\u043d\u0438",
+                "digital_code": 23,
+                "symbol_code": "TJS",
+                "deleted_at": null
+            },
+            "organization": {
+                "id": 11,
+                "name": "Orland Cormier",
+                "INN": 1717648378,
+                "address": "Inventore atque minus est iusto excepturi qui velit. Quo voluptas aspernatur blanditiis eius sed dolores placeat. Placeat dolores dolor velit sint.",
+                "description": "Possimus rerum et quo quod nihil quidem. Officia magni autem ratione sunt et. Quisquam dignissimos eaque sit id necessitatibus fuga maxime rerum. Ab eligendi sequi alias et consequatur molestiae.",
+                "deleted_at": null
+            },
+            "responsiblePerson": {
+                "id": 24,
+                "name": "Johanna Schaefer",
+                "image": null,
+                "phone": "1717648378118",
+                "email": "jenkins.rosetta@gmail.com396",
+                "address": "505 Schoen Fall\nSouth Ethel, IN 58140",
+                "deleted_at": null
+            },
+            "balance": 2500,
+            "deleted_at": null
+        }
+    ],
+    "goods": [
+        {
+            "id": 1,
+            "name": "Zaria Waters",
+            "vendor_code": "2003713",
+            "description": "Numquam ut quis error inventore et porro. Aliquam non enim incidunt molestiae numquam dolores est. Sint est qui corrupti beatae ut.",
+            "unit_id": {
+                "id": 3,
+                "name": "Jaquan Kuvalis",
+                "deleted_at": null
+            },
+            "images": [],
+            "amount": 0,
+            "goodGroup": {
+                "id": 1,
+                "name": "Letha Schinner",
+                "is_good": true,
+                "is_service": false,
+                "deleted_at": null
+            },
+            "location": null,
+            "deleted_at": null
+        },
+        {
+            "id": 2,
+            "name": "\u041d\u043e\u043d",
+            "vendor_code": "12312313",
+            "description": "\u043e\u043c\u0444\u044b\u043e\u043e\u043c\u0442\u044b\u0430\u043e\u043f\u0442\u0432\u044b\u043e\u0449\u043f\u0442\u0432\u0449\u043f\u043e\u0442\u0432",
+            "unit_id": {
+                "id": 3,
+                "name": "Jaquan Kuvalis",
+                "deleted_at": null
+            },
+            "images": [],
+            "amount": 0,
+            "goodGroup": {
+                "id": 1,
+                "name": "Letha Schinner",
+                "is_good": true,
+                "is_service": false,
+                "deleted_at": null
+            },
+            "location": null,
+            "deleted_at": null
+        }
+    ],
+    "groups": [
+        {
+            "id": 1,
+            "name": "group",
+            "users": [
+                {
+                    "id": 1,
+                    "name": "Admin",
+                    "login": "admin",
+                    "email": "admin@gmail.com",
+                    "phone": "(669) 294-7617",
+                    "status": 1,
+                    "image": null,
+                    "deleted_at": null,
+                    "hasOneOrganization": false
+                },
+                {
+                    "id": 2,
+                    "name": "Rustam",
+                    "login": "rustamjon",
+                    "email": "rustamjon@gmail.com",
+                    "phone": "1-931-514-1624",
+                    "status": 1,
+                    "image": null,
+                    "deleted_at": null,
+                    "hasOneOrganization": false
+                },
+                {
+                    "id": 3,
+                    "name": "Jamshed",
+                    "login": "jamshed",
+                    "email": "jamshed@gmail.com",
+                    "phone": "1-820-937-9663",
+                    "status": 1,
+                    "image": null,
+                    "deleted_at": null,
+                    "hasOneOrganization": false
+                },
+                {
+                    "id": 4,
+                    "name": "Sheroz",
+                    "login": "sheroz",
+                    "email": "sheroz@gmail.com",
+                    "phone": "+1.458.256.0976",
+                    "status": 1,
+                    "image": null,
+                    "deleted_at": null,
+                    "hasOneOrganization": false
+                },
+                {
+                    "id": 5,
+                    "name": "Suhrob",
+                    "login": "sero",
+                    "email": "gafurows@gmail.com",
+                    "phone": "+1 (228) 278-8880",
+                    "status": 1,
+                    "image": null,
+                    "deleted_at": null,
+                    "hasOneOrganization": false
+                }
+            ],
+            "storages": [],
+            "employees": [],
+            "deleted_at": null
+        },
+        {
+            "id": 2,
+            "name": "Prof.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 1,
+                    "name": "Mr. Prince Nolan",
+                    "image": null,
+                    "phone": "1717648376988",
+                    "email": "parker.avery@yahoo.com672",
+                    "address": "1539 Rhiannon Summit Apt. 155\nPort Elissaton, NJ 61462",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 3,
+            "name": "Mrs.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 2,
+                    "name": "Prof. Reyna Nikolaus",
+                    "image": null,
+                    "phone": "1717648376792",
+                    "email": "lorna08@heathcote.com406",
+                    "address": "91895 Kertzmann Stream\nMaiaview, NH 57262",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 4,
+            "name": "Prof.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 3,
+                    "name": "Josue Gerhold",
+                    "image": null,
+                    "phone": "1717648376644",
+                    "email": "zelma.leannon@hotmail.com685",
+                    "address": "4359 Jovani Cliffs Suite 624\nPort Richie, IN 06087-0403",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 5,
+            "name": "Mr.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 4,
+                    "name": "Abelardo Feeney I",
+                    "image": null,
+                    "phone": "1717648376961",
+                    "email": "vmitchell@shanahan.info865",
+                    "address": "5781 Wolff Rue\nEast Zelda, NY 70043",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 6,
+            "name": "Dr.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 5,
+                    "name": "Jairo Ziemann",
+                    "image": null,
+                    "phone": "1717648377747",
+                    "email": "vstrosin@yahoo.com567",
+                    "address": "12305 Effertz Hill\nLake Vellaton, NY 08290-8895",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 7,
+            "name": "Prof.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 6,
+                    "name": "Dedrick Friesen MD",
+                    "image": null,
+                    "phone": "1717648377192",
+                    "email": "pink09@yahoo.com722",
+                    "address": "30029 Emmanuelle Isle\nNew Jarrettborough, CO 34115-8130",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 8,
+            "name": "Dr.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 7,
+                    "name": "Darron Raynor",
+                    "image": null,
+                    "phone": "1717648377200",
+                    "email": "reilly.declan@yahoo.com628",
+                    "address": "969 Janick Views Suite 724\nDiamondchester, VA 36947-4199",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 9,
+            "name": "Mr.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 8,
+                    "name": "Andres Schmitt",
+                    "image": null,
+                    "phone": "1717648377144",
+                    "email": "jewell30@hotmail.com985",
+                    "address": "36291 McDermott Fords\nTillmanstad, CT 22867",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 10,
+            "name": "Ms.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 9,
+                    "name": "Grady Herzog",
+                    "image": null,
+                    "phone": "1717648377761",
+                    "email": "tiffany.goyette@yahoo.com549",
+                    "address": "205 Carolina Fall Suite 013\nJaclynborough, AL 00408-7947",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 11,
+            "name": "Dr.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 10,
+                    "name": "Mr. Muhammad Keebler",
+                    "image": null,
+                    "phone": "1717648377930",
+                    "email": "larson.marisol@kihn.net448",
+                    "address": "8716 Mraz Centers\nNorth Orlandbury, SC 88638-3785",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 12,
+            "name": "Dr.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 11,
+                    "name": "Mazie Torphy V",
+                    "image": null,
+                    "phone": "1717648378771",
+                    "email": "devon.miller@botsford.com717",
+                    "address": "919 Roxane Alley\nGreenfelderburgh, NY 35786",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 13,
+            "name": "Miss",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 12,
+                    "name": "Theodora Fadel",
+                    "image": null,
+                    "phone": "1717648378864",
+                    "email": "gust18@hotmail.com183",
+                    "address": "36860 Grady Views\nWest Maximoborough, RI 66972-7091",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 14,
+            "name": "Dr.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 13,
+                    "name": "Jaren Heathcote",
+                    "image": null,
+                    "phone": "1717648378170",
+                    "email": "anderson93@dicki.com896",
+                    "address": "195 Greenfelder Forest Suite 356\nWest Easton, DC 92347-9391",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 15,
+            "name": "Dr.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 14,
+                    "name": "Mrs. Veronica Kuhlman V",
+                    "image": null,
+                    "phone": "1717648378730",
+                    "email": "jweimann@muller.info519",
+                    "address": "7773 Swaniawski Walks Suite 053\nWest Daisy, NV 79663",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 16,
+            "name": "Prof.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 15,
+                    "name": "Kevin Schinner",
+                    "image": null,
+                    "phone": "1717648378392",
+                    "email": "kellen.west@yahoo.com423",
+                    "address": "245 Vallie Harbors\nWest Braxton, KS 97708",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 17,
+            "name": "Mr.",
+            "users": [],
+            "storages": [
+                {
+                    "id": 1,
+                    "name": "Franco Cummings",
+                    "deleted_at": null
+                }
+            ],
+            "employees": [],
+            "deleted_at": null
+        },
+        {
+            "id": 18,
+            "name": "Prof.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 16,
+                    "name": "Hulda Harris",
+                    "image": null,
+                    "phone": "1717648378713",
+                    "email": "scarlett.gutkowski@gmail.com1",
+                    "address": "37640 Anya Expressway Suite 146\nIdachester, VT 14811",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 19,
+            "name": "Mrs.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 17,
+                    "name": "Austen Tromp",
+                    "image": null,
+                    "phone": "17176483781000",
+                    "email": "harvey.jones@yahoo.com438",
+                    "address": "2604 Lou Pike Apt. 874\nNew Myraburgh, MA 44350",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 20,
+            "name": "Dr.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 18,
+                    "name": "Shanny Boyer DDS",
+                    "image": null,
+                    "phone": "1717648378887",
+                    "email": "shoeger@yahoo.com332",
+                    "address": "1665 Rolfson Creek\nLake Jeradside, KY 99597",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 21,
+            "name": "Mrs.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 19,
+                    "name": "Danika Pfeffer",
+                    "image": null,
+                    "phone": "1717648378854",
+                    "email": "madge.kuphal@yahoo.com674",
+                    "address": "856 Feeney Walk Suite 048\nJastberg, PA 40757",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 22,
+            "name": "Dr.",
+            "users": [],
+            "storages": [
+                {
+                    "id": 2,
+                    "name": "Mr. Jillian O'Connell III",
+                    "deleted_at": null
+                }
+            ],
+            "employees": [],
+            "deleted_at": null
+        },
+        {
+            "id": 23,
+            "name": "Prof.",
+            "users": [
+                {
+                    "id": 6,
+                    "name": "Davin Hamill V",
+                    "login": "Margarete Ullrich9770",
+                    "email": "stehr.dannie@example.org",
+                    "phone": "+1-503-363-1033",
+                    "status": 1,
+                    "image": null,
+                    "deleted_at": null,
+                    "hasOneOrganization": false
+                }
+            ],
+            "storages": [],
+            "employees": [],
+            "deleted_at": null
+        },
+        {
+            "id": 24,
+            "name": "Mrs.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 20,
+                    "name": "Theron Schamberger",
+                    "image": null,
+                    "phone": "1717648378391",
+                    "email": "berta16@gmail.com993",
+                    "address": "515 Mossie Park Apt. 341\nKleinburgh, OK 89709",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 25,
+            "name": "Prof.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 21,
+                    "name": "Jimmie Wiegand",
+                    "image": null,
+                    "phone": "1717648378288",
+                    "email": "tad.mueller@boehm.org120",
+                    "address": "389 Leuschke Oval Suite 605\nRessieport, OH 61956",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 26,
+            "name": "Prof.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 22,
+                    "name": "Dr. Juston Schultz II",
+                    "image": null,
+                    "phone": "1717648378767",
+                    "email": "tprosacco@gmail.com665",
+                    "address": "183 Bartoletti Rue Suite 880\nSouth Destany, CA 58945-7691",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 27,
+            "name": "Prof.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 23,
+                    "name": "Vergie Olson",
+                    "image": null,
+                    "phone": "1717648378230",
+                    "email": "alice67@gmail.com152",
+                    "address": "1153 Klocko Lake\nWest Bernie, OR 18101-4232",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 28,
+            "name": "Mrs.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 24,
+                    "name": "Johanna Schaefer",
+                    "image": null,
+                    "phone": "1717648378118",
+                    "email": "jenkins.rosetta@gmail.com396",
+                    "address": "505 Schoen Fall\nSouth Ethel, IN 58140",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 29,
+            "name": "Dr.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 25,
+                    "name": "Alessandra Kohler",
+                    "image": null,
+                    "phone": "1717648378394",
+                    "email": "roselyn.mccullough@yahoo.com275",
+                    "address": "30693 Harmon Key Suite 243\nFunkberg, ME 21002-8228",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 30,
+            "name": "Prof.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 26,
+                    "name": "Gabriella King",
+                    "image": null,
+                    "phone": "1717648378172",
+                    "email": "era.reynolds@hotmail.com392",
+                    "address": "3254 Jesse Point Apt. 056\nLake Stephonchester, VA 78550-9271",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 31,
+            "name": "Miss",
+            "users": [],
+            "storages": [
+                {
+                    "id": 3,
+                    "name": "Dr. Braxton Stokes IV",
+                    "deleted_at": null
+                }
+            ],
+            "employees": [],
+            "deleted_at": null
+        },
+        {
+            "id": 32,
+            "name": "Dr.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 27,
+                    "name": "Albin Collier",
+                    "image": null,
+                    "phone": "1717648378534",
+                    "email": "claudie85@hotmail.com206",
+                    "address": "20948 Pinkie Island\nNorth Torey, MD 44218",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 33,
+            "name": "Dr.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 28,
+                    "name": "Rosella Ondricka",
+                    "image": null,
+                    "phone": "1717648378193",
+                    "email": "estracke@ortiz.com79",
+                    "address": "11819 Antonina Vista\nNew Kaylah, SD 30453-7294",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        },
+        {
+            "id": 34,
+            "name": "Mr.",
+            "users": [],
+            "storages": [],
+            "employees": [
+                {
+                    "id": 29,
+                    "name": "Prof. Bailey Moen",
+                    "image": null,
+                    "phone": "1717648378470",
+                    "email": "uwest@yahoo.com834",
+                    "address": "298 Kristopher Tunnel Suite 542\nNew Nathenton, OH 20798-0895",
+                    "deleted_at": null
+                }
+            ],
+            "deleted_at": null
+        }
+    ]
+}
