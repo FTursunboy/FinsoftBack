@@ -80,7 +80,7 @@ class CheckingAccount extends DocumentModel
 
     public function operationType() :BelongsTo
     {
-        return $this->belongsTo(OperationType::class, 'operationType_id');
+        return $this->belongsTo(OperationType::class, 'operation_type_id');
     }
 
     public static function filterData(array $data): array
