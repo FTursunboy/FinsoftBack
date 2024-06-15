@@ -12,6 +12,7 @@ class CheckingAccountResource extends JsonResource
     {
         return [
             'created_at' => $this->created_at,
+            'deleted_at' => $this->deleted_at,
             'id' => $this->id,
             'date' => $this->date,
             'doc_number' => $this->doc_number,
