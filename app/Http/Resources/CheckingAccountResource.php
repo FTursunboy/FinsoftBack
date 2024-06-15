@@ -27,6 +27,7 @@ class CheckingAccountResource extends JsonResource
             'basis' => $this->basis,
             'currency' => CurrencyResource::make($this->whenLoaded('currency')),
             'author' => UserResource::make($this->whenLoaded('author')),
+            'active' => $this->active
         ];
     }
 }

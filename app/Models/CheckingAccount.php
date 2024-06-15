@@ -31,7 +31,8 @@ class CheckingAccount extends DocumentModel implements SoftDeleteInterface
         'employee_id',
         'balance_article_id',
         'operation_type_id',
-        'type'
+        'type',
+        'active'
     ];
 
     public function senderCashRegister(): BelongsTo
