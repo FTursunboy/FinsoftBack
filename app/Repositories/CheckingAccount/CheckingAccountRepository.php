@@ -2,6 +2,7 @@
 
 namespace App\Repositories\CheckingAccount;
 
+use App\Models\CashStore;
 use App\Models\CheckingAccount;
 use App\Repositories\Contracts\CheckingAccount\CheckingAccountRepositoryInterface;
 
@@ -23,4 +24,21 @@ class CheckingAccountRepository implements CheckingAccountRepositoryInterface
     }
 
 
+    public function massDelete(array $ids)
+    {
+        foreach ($ids['ids'] as $id) {
+            $document = CheckingAccount::where('id', $id)->first();
+
+
+            if($document->active) {
+                $document->update([
+                    'active' => false
+                ]);
+
+                //todo  delete all document data
+            }
+
+            $document->delete();
+        }
+    }
 }
