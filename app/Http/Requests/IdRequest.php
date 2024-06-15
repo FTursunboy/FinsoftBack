@@ -9,6 +9,7 @@ class IdRequest extends FormRequest
 {
     public function rules(): array
     {
+
         return [
             'ids' => ['array', 'required', Rule::exists($this->getModel()->getTable(), 'id')]
         ];
@@ -23,6 +24,7 @@ class IdRequest extends FormRequest
     private function getModel()
     {
         $repository = $this->route()->getController();
+
 
         return app($repository->repository->model);
     }

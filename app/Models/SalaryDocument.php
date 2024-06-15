@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Repositories\Contracts\SoftDeleteInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SalaryDocument extends DocumentModel
+class SalaryDocument extends DocumentModel  implements SoftDeleteInterface
 {
     use SoftDeletes, HasFactory;
 

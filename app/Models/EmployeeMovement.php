@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Filters\EmployeeMovementFilter;
 use App\Filters\HiringFilter;
+use App\Repositories\Contracts\SoftDeleteInterface;
 use Carbon\Carbon;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class EmployeeMovement extends Model
+class EmployeeMovement extends Model implements SoftDeleteInterface
 {
     use SoftDeletes, HasFactory, Filterable;
 

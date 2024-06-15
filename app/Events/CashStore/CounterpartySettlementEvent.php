@@ -2,6 +2,7 @@
 
 namespace App\Events\CashStore;
 
+use App\Enums\MovementTypes;
 use App\Models\CashStore;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -11,14 +12,17 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ClientPaymentEvent
+class CounterpartySettlementEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public CashStore $cashStore) { }
+    public function __construct(public CashStore $cashStore, public MovementTypes $type)
+    {
+        //
+    }
 
     /**
      * Get the channels the event should broadcast on.

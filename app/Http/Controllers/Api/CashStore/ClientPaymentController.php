@@ -6,6 +6,7 @@ use App\DTO\CashStore\ClientPaymentDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CashStore\ClientPaymentRequest;
 use App\Http\Requests\Api\CashStore\FilterRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\CashStoreResource;
 use App\Models\CashStore;
 use App\Models\OperationType;
@@ -58,5 +59,10 @@ class ClientPaymentController extends Controller
     public function getOperationTypes(Request $request)
     {
         return $this->success(OperationType::where('type', $request->type)->get());
+    }
+
+    public function approve(IdRequest $request)
+    {
+        return $this->success($this->repository->approve($request->validated()));
     }
 }

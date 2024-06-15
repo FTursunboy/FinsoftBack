@@ -38,12 +38,14 @@ use Illuminate\Support\Facades\Route;
             Route::get('', [ClientPaymentController::class, 'index']);
             Route::post('', [ClientPaymentController::class, 'store']);
             Route::patch('/{cashStore}', [ClientPaymentController::class, 'update']);
+            Route::post('/approve', [ClientPaymentController::class, 'approve']);
         });
 
         Route::group(['prefix' => 'withdrawal'], function () {
             Route::get('', [WithdrawalController::class, 'index']);
             Route::post('', [WithdrawalController::class, 'store']);
             Route::patch('/{cashStore}', [WithdrawalController::class, 'update']);
+            Route::post('/approve', [WithdrawalController::class, 'approve']);
         });
 
         Route::group(['prefix' => 'another-cash-register'], function () {
