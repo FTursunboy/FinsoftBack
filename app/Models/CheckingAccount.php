@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Repositories\Contracts\SoftDeleteInterface;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CheckingAccount extends DocumentModel
+class CheckingAccount extends DocumentModel implements SoftDeleteInterface
 {
     use SoftDeletes, Filterable;
 

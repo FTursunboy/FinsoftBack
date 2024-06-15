@@ -6,6 +6,7 @@ use App\DTO\CashStore\ClientPaymentDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CashStore\ClientPaymentRequest;
 use App\Http\Requests\Api\CashStore\FilterRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\CashStoreResource;
 use App\Http\Resources\CheckingAccountResource;
 use App\Models\CashStore;
@@ -15,6 +16,7 @@ use App\Repositories\CashStore\CashStoreRepository;
 use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
 use App\Repositories\Contracts\CashStore\ClientPaymentRepositoryInterface;
 use App\Repositories\Contracts\CheckingAccount\CheckingAccountRepositoryInterface;
+use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 
 class CheckingAccountController extends Controller
@@ -33,11 +35,13 @@ class CheckingAccountController extends Controller
        return $this->success(CheckingAccountResource::make($checkingAccount->load('organization', 'checkingAccount', 'counterparty', 'counterpartyAgreement', 'author', 'currency', 'senderCashRegister', 'organizationBill', 'employee', 'operationType')));
     }
 
-
-    public function destroy(CheckingAccount $checkingAccount)
+    public function massDelete(IdRequest $request)
     {
-        $checkingAccount->delete();
+        return $this->success($this->repository->massDelete($request->validated()));
+    }
 
-        return response()->json();
+    public function massRestore(IdRequest $request, MassOperationInterface $repository)
+    {
+        return $this->success($repository->massRestore(new CheckingAccount(), $request->validated()));
     }
 }
