@@ -13,7 +13,8 @@ class CheckingAccount extends DocumentModel implements SoftDeleteInterface
     use SoftDeletes, Filterable;
 
     protected $casts = [
-        'date' => 'datetime'
+        'date' => 'datetime',
+        'active' => 'boolean'
     ];
 
     protected $fillable = [
