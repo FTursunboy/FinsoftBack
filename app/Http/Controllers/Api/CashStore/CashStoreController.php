@@ -13,6 +13,7 @@ use App\Models\OperationType;
 use App\Repositories\CashStore\CashStoreRepository;
 use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
 use App\Repositories\Contracts\CashStore\ClientPaymentRepositoryInterface;
+use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 
 class CashStoreController extends Controller
@@ -46,6 +47,15 @@ class CashStoreController extends Controller
         $cashStore->delete();
 
         return response()->json();
+    }
+
+    public function massDelete(IdRequest $request)
+    {
+        return $this->success($this->repository->massDelete($request->validated()));
+    }
+
+    public function massRestore(IdRequest $request, MassOperationInterface $repository) {
+        return $this->success($repository->massRestore(new CashStore(), $request->validated()));
     }
 
     public function getOperationTypes() {

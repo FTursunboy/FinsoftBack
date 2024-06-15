@@ -10,4 +10,6 @@ interface CashStoreRepositoryInterface
     public function approve(array $ids);
 
     public function unApprove(array $ids);
+
+    public function massDelete(array $ids);
 }
