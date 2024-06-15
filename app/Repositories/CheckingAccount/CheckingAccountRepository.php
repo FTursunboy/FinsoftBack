@@ -41,4 +41,24 @@ class CheckingAccountRepository implements CheckingAccountRepositoryInterface
             $document->delete();
         }
     }
+
+    public function approve(array $ids)
+    {
+        foreach ($ids['ids'] as $id) {
+            $document = CheckingAccount::where('id', $id)->first();
+            $document->update([
+                'active' => true
+            ]);
+        }
+    }
+
+    public function unApprove(array $ids)
+    {
+        foreach ($ids['ids'] as $id) {
+            $document = CheckingAccount::where('id', $id)->first();
+            $document->update([
+                'active' => false
+            ]);
+        }
+    }
 }

@@ -28,6 +28,8 @@ use Illuminate\Support\Facades\Route;
 
         Route::get('/{type}', [CheckingAccountController::class, 'index']);
         Route::get('/show/{checkingAccount}', [CheckingAccountController::class, 'show']);
+        Route::post('approve', [CheckingAccountController::class, 'approve']);
+        Route::post('unApprove', [CheckingAccountController::class, 'unApprove']);
         Route::post('massDelete', [CheckingAccountController::class, 'massDelete']);
         Route::post('massRestore', [CheckingAccountController::class, 'massRestore']);
 
