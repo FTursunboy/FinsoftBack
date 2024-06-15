@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Filters\CashStoreFilter;
 use App\Filters\InventoryDocumentFilter;
+use App\Repositories\Contracts\SoftDeleteInterface;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use function Laravel\Prompts\password;
 
-class CashStore extends DocumentModel
+class CashStore extends DocumentModel implements SoftDeleteInterface
 {
     use SoftDeletes, HasFactory, Filterable;
 
@@ -104,6 +105,11 @@ class CashStore extends DocumentModel
     public function employee() :BelongsTo
     {
         return $this->belongsTo(Employee::class, 'employee_id');
+    }
+
+    public static function bootSoftDeletes()
+    {
+
     }
 
     public function operationType() :BelongsTo

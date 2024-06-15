@@ -64,4 +64,22 @@ class CashStoreRepository implements CashStoreRepositoryInterface
             );
         }
     }
+
+    public function massDelete(array $ids)
+    {
+        foreach ($ids['ids'] as $id) {
+            $document = CashStore::where('id', $id)->first();
+
+
+            if($document->active) {
+                $document->update([
+                    'active' => false
+                ]);
+
+                //todo  delete all document data
+            }
+
+            $document->delete();
+        }
+    }
 }
