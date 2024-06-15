@@ -4,25 +4,24 @@ namespace App\Services\CashStore;
 
 use App\Enums\MovementTypes;
 use App\Models\Cash;
+use App\Models\CashRegister;
 use App\Models\CashStore;
-use App\Models\CounterpartySettlement;
+use App\Models\Credit;
 use App\Models\Currency;
 use App\Models\ExchangeRate;
-use App\Models\OrganizationBill;
+use App\Models\Investment;
 
 
-class OrganizationBillService
+class CreditService
 {
-    public function __construct(public CashStore $cashStore, public MovementTypes $type)
-    {
-    }
+    public function __construct(public CashStore $cashStore, public MovementTypes $type) { }
 
     public function handle(): void
     {
-        $this->organizationBill();
+        $this->cash();
     }
 
-    public function organizationBill()
+    public function cash()
     {
         $currency_sum = $this->cashStore->sum;
 
@@ -32,18 +31,16 @@ class OrganizationBillService
             $currency_sum = $this->cashStore->sum * $this->getExcangeRate();
         }
 
-        $organizationBill = new OrganizationBill();
-
-        Cash::create([
+        Credit::create([
             'date' => $this->cashStore->date,
-            'model_id' => $this->cashStore->organizationBill_id,
-            'model_type' => $organizationBill->getClassName(),
+            'model_id' => $this->cashStore->cashRegister_id,
             'sum' => $this->cashStore->sum,
             'currency_sum' => $currency_sum,
-            'sender' => $this->cashStore->sender,
-            'recipient' => $this->cashStore->recipient,
+            'counterparty_id' => $this->cashStore->counterparty_id,
+            'counterparty_agreement_id' => $this->cashStore->counterparty_agreement_id,
             'operation_type_id' => $this->cashStore->operationType_id,
             'type' => $this->type,
+            'currency_id' => $this->cashStore->cashRegister->currency_id,
             'organization_id' => $this->cashStore->organization_id,
         ]);
     }
