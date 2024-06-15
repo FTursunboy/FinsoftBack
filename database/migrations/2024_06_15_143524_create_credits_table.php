@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cashes', function (Blueprint $table) {
+        Schema::create('credits', function (Blueprint $table) {
             $table->id();
             $table->string('date');
+            $table->string('model_id');
+            $table->decimal('currency_sum');
+            $table->decimal('sum');
+            $table->unsignedBigInteger('currency_id');
+            $table->unsignedBigInteger('counterparty_id');
+            $table->unsignedBigInteger('counterparty_agreement_id');
+            $table->string('type');
             $table->unsignedBigInteger('operation_type_id');
             $table->unsignedBigInteger('organization_id');
-            $table->string('model_id');
-            $table->string('model_type');
-            $table->decimal('sum');
-            $table->decimal('currency_sum');
-            $table->string('sender')->nullable();
-            $table->string('recipient')->nullable();
-            $table->string('type');
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cashes');
+        Schema::dropIfExists('credits');
     }
 };
