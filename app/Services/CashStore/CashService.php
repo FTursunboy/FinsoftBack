@@ -6,7 +6,6 @@ use App\Enums\MovementTypes;
 use App\Models\Cash;
 use App\Models\CashRegister;
 use App\Models\CashStore;
-use App\Models\CounterpartySettlement;
 use App\Models\Currency;
 use App\Models\ExchangeRate;
 

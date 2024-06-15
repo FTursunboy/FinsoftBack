@@ -12,6 +12,7 @@ use App\Models\Document;
 use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
 use App\Repositories\Contracts\CashStore\ClientPaymentRepositoryInterface;
 use App\Traits\DocNumberTrait;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class CashStoreRepository implements CashStoreRepositoryInterface
@@ -33,22 +34,20 @@ class CashStoreRepository implements CashStoreRepositoryInterface
     }
 
 
-    public function approve(array $data)
+    public function approve(array $ids)
     {
-        foreach ($data['ids'] as $id) {
-            $document = CashStore::find($id);
+        try {
+            foreach ($ids['ids'] as $id) {
+                $cashStore = CashStore::find($id);
 
-            if($document->active) {
-                $document->update(
-                    ['active' => false]
+                $cashStore->update(
+                    ['active' => true]
                 );
-                //todo Delete previous value
-            }
 
-            $document->update(
-                ['active' => true]
-            );
-            //todo call Event
+
+            }
+        } catch (Exception $exception) {
+            dd($exception->getMessage());
         }
 
     }
