@@ -74,6 +74,11 @@ class CheckingAccount extends DocumentModel implements SoftDeleteInterface
         return $this->belongsTo(CounterpartyAgreement::class, 'counterparty_agreement_id');
     }
 
+    public static function bootSoftDeletes()
+    {
+
+    }
+
     public function employee() :BelongsTo
     {
         return $this->belongsTo(Employee::class, 'employee_id');

@@ -172,6 +172,11 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::apiResource('hiring', HiringController::class);
 
+    Route::group(['prefix' => 'hiring'], function () {
+       Route::post('/massDelete', [HiringController::class, 'massDelete']);
+       Route::post('/massRestore', [HiringController::class, 'massRestore']);
+    });
+
     Route::group(['prefix' => 'goods'], function () {
         Route::get('excel/export', [GoodController::class, 'export']);
         Route::get('history/{good}', [GoodController::class, 'history']);
@@ -203,19 +208,20 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('employeeMovement', EmployeeMovementController::class);
     Route::apiResource('firing', FiringController::class);
 
+
     Route::group(['prefix' => 'department'], function () {
         Route::post('massDelete', [DepartmentController::class, 'destroy']);
         Route::post('restore', [DepartmentController::class, 'restore']);
     });
 
     Route::group(['prefix' => 'employeeMovement'], function () {
-        Route::post('massDelete', [DepartmentController::class, 'destroy']);
-        Route::post('restore', [DepartmentController::class, 'restore']);
+        Route::post('massDelete', [EmployeeMovementController::class, 'massDelete']);
+        Route::post('massRestore', [EmployeeMovementController::class, 'massRestore']);
     });
 
     Route::group(['prefix' => 'firing'], function () {
-        Route::post('massDelete', [FiringController::class, 'destroy']);
-        Route::post('restore', [FiringController::class, 'restore']);
+        Route::post('massDelete', [FiringController::class, 'massDelete']);
+        Route::post('massRestore', [FiringController::class, 'massRestore']);
     });
 
     Route::group(['prefix' => 'currency'], function () {
@@ -392,6 +398,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
        Route::get('/employeeSalary', [\App\Http\Controllers\Api\ReportCardController::class, 'getEmployeesSalary']);
        Route::get('/', [\App\Http\Controllers\Api\ReportCardController::class, 'index']);
        Route::get('/{reportCard}', [\App\Http\Controllers\Api\ReportCardController::class, 'show']);
+       Route::post('/massDelete', [\App\Http\Controllers\Api\ReportCardController::class, 'massDelete']);
+       Route::post('/massRestore', [\App\Http\Controllers\Api\ReportCardController::class, 'massRestore']);
     });
 
 
@@ -400,6 +408,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/{salaryDocument}', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'show']);
         Route::post('/', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'store']);
         Route::patch('/{salaryDocument}', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'update']);
+        Route::post('/massDelete', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'massDelete']);
+        Route::post('/massRestore', [\App\Http\Controllers\Api\SalaryDocumentController::class, 'massRestore']);
     });
 
     Route::group(['prefix' => 'document-report'], function () {

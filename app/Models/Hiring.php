@@ -41,6 +41,12 @@ class Hiring extends Model implements SoftDeleteInterface
         return $this->provideFilter(FiringFilter::class);
     }
 
+    public static function bootSoftDeletes()
+    {
+
+    }
+
+
 
     public function employee(): BelongsTo
     {

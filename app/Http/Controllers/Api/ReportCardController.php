@@ -8,8 +8,11 @@ use App\Http\Requests\Api\ReportCard\EmployeeSalaryRequest;
 use App\Http\Requests\Api\ReportCard\FilterEmployeeRequest;
 use App\Http\Requests\Api\ReportCard\FilterRequest;
 use App\Http\Requests\Api\ReportCard\ReportCardRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\ReportCardResource;
 use App\Models\ReportCard;
+use App\Models\SalaryDocument;
+use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\Contracts\ReportCardRepositoryInterface;
 use App\Traits\ApiResponse;
 
@@ -51,16 +54,15 @@ class ReportCardController extends Controller
 
         return new ReportCardResource($reportCard);
     }
-
-    public function destroy(ReportCard $reportCard)
+    public function massDelete(IdRequest $request, MassOperationInterface $delete)
     {
-        $this->authorize('delete', $reportCard);
-
-        $reportCard->delete();
-
-        return response()->json();
+        return $delete->massDelete(new ReportCard(), $request->validated());
     }
 
+    public function massRestore(IdRequest $request, MassOperationInterface $restore)
+    {
+        return $this->success($restore->massRestore(new ReportCard(), $request->validated()));
+    }
     public function getEmployees(FilterEmployeeRequest $request)
     {
         return  $this->success($this->repository->getEmployees($request->validated()));

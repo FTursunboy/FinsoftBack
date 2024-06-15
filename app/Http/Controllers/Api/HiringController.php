@@ -6,9 +6,11 @@ use App\DTO\HiringDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Hiring\FilterRequest;
 use App\Http\Requests\Api\Hiring\HiringRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\HiringResource;
 use App\Models\Hiring;
 use App\Repositories\Contracts\HiringRepositoryInterface;
+use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
 use Hamcrest\Core\Is;
 
@@ -55,5 +57,15 @@ class HiringController extends Controller
         $hiring->delete();
 
         return response()->json();
+    }
+
+    public function massDelete(IdRequest $request, MassOperationInterface $repository)
+    {
+        return $this->success($repository->massDelete(new Hiring(), $request->validated()));
+    }
+
+    public function massRestore(IdRequest $request, MassOperationInterface $repository)
+    {
+        return $this->success($repository->massRestore(new Hiring(), $request->validated()));
     }
 }
