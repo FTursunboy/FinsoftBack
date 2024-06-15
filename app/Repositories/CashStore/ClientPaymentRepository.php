@@ -70,22 +70,4 @@ class ClientPaymentRepository implements ClientPaymentRepositoryInterface
         return $cashStore;
     }
 
-    public function approve(array $ids)
-    {
-        try {
-            foreach ($ids['ids'] as $id) {
-                $cashStore = CashStore::find($id);
-
-                $cashStore->update(
-                    ['active' => true]
-                );
-
-                CashEvent::dispatch($cashStore, MovementTypes::Income);
-                CounterpartySettlementEvent::dispatch($cashStore, MovementTypes::Outcome);
-            }
-        } catch (Exception $exception) {
-            dd($exception->getMessage());
-        }
-
-    }
 }
