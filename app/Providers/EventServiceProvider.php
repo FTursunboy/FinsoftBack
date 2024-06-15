@@ -2,15 +2,27 @@
 
 namespace App\Providers;
 
+use App\Events\CashStore\AccountablePersonEvent;
+use App\Events\CashStore\AnotherCashRegisterEvent;
+use App\Events\CashStore\BalanceEvent;
 use App\Events\CashStore\CashEvent;
 use App\Events\CashStore\CounterpartySettlementEvent;
+use App\Events\CashStore\CreditEvent;
+use App\Events\CashStore\IncomeEvent;
+use App\Events\CashStore\InvestmentEvent;
 use App\Events\CashStore\OrganizationBillEvent;
 use App\Events\DocumentApprovedEvent;
 use App\Events\GoodDocumentHistoryEvent;
 use App\Events\MovementApprovedEvent;
 use App\Events\SmallRemainderEvent;
+use App\Listeners\CashStore\AccountabllePersonListener;
+use App\Listeners\CashStore\AnotherCashRegisterListener;
+use App\Listeners\CashStore\BalanceListener;
 use App\Listeners\CashStore\CashListener;
 use App\Listeners\CashStore\CounterpartySettlementListener;
+use App\Listeners\CashStore\CreditListener;
+use App\Listeners\CashStore\IncomeListener;
+use App\Listeners\CashStore\InvestmentListener;
 use App\Listeners\CashStore\OrganizationBillListener;
 use App\Listeners\DocumentListener;
 use App\Listeners\GoodDocumentHistoryListener;
@@ -63,6 +75,24 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrganizationBillEvent::class => [
             OrganizationBillListener::class
+        ],
+        AnotherCashRegisterEvent::class => [
+            AnotherCashRegisterListener::class
+        ],
+        InvestmentEvent::class => [
+            InvestmentListener::class
+        ],
+        CreditEvent::class => [
+            CreditListener::class
+        ],
+        AccountablePersonEvent::class => [
+            AccountabllePersonListener::class
+        ],
+        IncomeEvent::class => [
+            IncomeListener::class
+        ],
+        BalanceEvent::class => [
+            BalanceListener::class
         ]
     ];
 

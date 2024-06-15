@@ -11,17 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cashes', function (Blueprint $table) {
+        Schema::create('accountable_people', function (Blueprint $table) {
             $table->id();
             $table->string('date');
-            $table->unsignedBigInteger('operation_type_id');
-            $table->unsignedBigInteger('organization_id');
-            $table->string('model_id');
-            $table->string('model_type');
             $table->decimal('sum');
             $table->decimal('currency_sum');
-            $table->string('sender')->nullable();
-            $table->string('recipient')->nullable();
+            $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('operation_type_id');
+            $table->unsignedBigInteger('organization_id');
             $table->string('type');
             $table->timestamps();
         });
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cashes');
+        Schema::dropIfExists('accountable_people');
     }
 };

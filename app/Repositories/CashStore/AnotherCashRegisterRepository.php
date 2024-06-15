@@ -4,10 +4,13 @@ namespace App\Repositories\CashStore;
 
 use App\DTO\CashStore\AnotherCashRegisterDTO;
 use App\Enums\CashOperationType;
+use App\Enums\MovementTypes;
+use App\Events\CashStore\CashEvent;
 use App\Models\CashStore;
 use App\Models\OperationType;
 use App\Repositories\Contracts\CashStore\AnotherCashRegisterRepositoryInterface;
 use App\Traits\DocNumberTrait;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class AnotherCashRegisterRepository implements AnotherCashRegisterRepositoryInterface
