@@ -113,7 +113,6 @@ class CashStoreRepository implements CashStoreRepositoryInterface
         foreach ($ids['ids'] as $id) {
             $document = CashStore::where('id', $id)->first();
 
-
             if ($document->active) {
                 $document->update([
                     'active' => false
