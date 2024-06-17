@@ -5,16 +5,22 @@ namespace App\Repositories\Document;
 use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
+use App\DTO\Document\ServiceDTO;
 use App\Enums\DocumentTypes;
 use App\Enums\MovementTypes;
+use App\Enums\ServiceTypes;
 use App\Events\DocumentApprovedEvent;
 use App\Models\Document;
 use App\Models\Good;
 use App\Models\GoodAccounting;
 use App\Models\GoodDocument;
+use App\Models\Service;
+use App\Models\ServiceGoods;
 use App\Models\Status;
+use App\Repositories\CashStore\ClientPaymentRepository;
 use App\Repositories\Contracts\Document\ClientDocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\Documentable;
+use App\Repositories\Contracts\Document\ServiceRepositoryInterface;
 use App\Traits\CalculateSum;
 use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;
@@ -26,11 +32,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class ClientDocumentRepository implements ClientDocumentRepositoryInterface
+class ServiceRepository implements ServiceRepositoryInterface
 {
     use FilterTrait, Sort, DocNumberTrait, CalculateSum;
 
-    public $model = Document::class;
+    public $model = Service::class;
 
     public function index(array $data): LengthAwarePaginator
     {
@@ -47,75 +53,68 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
         return $query->paginate($filteredParams['itemsPerPage']);
     }
 
-    public function store(DocumentDTO $dto): Document
+    public function store(ServiceDto $dto)
     {
+        $service = Service::create([
+            'doc_number' => $this->uniqueNumber(),
+            'date' => $dto->date,
+            'counterparty_id' => $dto->counterparty_id,
+            'counterparty_agreement_id' => $dto->counterparty_agreement_id,
+            'storage_id' => $dto->storage_id,
+            'organization_id' => $dto->organization_id,
+            'author_id' => Auth::id(),
+            'comment' => $dto->comment,
+            'currency_id' => $dto->currency_id,
+            'sales_sum' => $dto->sales_sum,
+            'return_sum' => $dto->return_sum,
+            'client_payment' => $dto->client_payment,
+        ]);
 
-        $document = DB::transaction(function () use ($dto) {
-
-            $document = Document::create([
-                'doc_number' => $this->uniqueNumber(),
-                'date' => $dto->date,
-                'counterparty_id' => $dto->counterparty_id,
-                'counterparty_agreement_id' => $dto->counterparty_agreement_id,
-                'organization_id' => $dto->organization_id,
-                'storage_id' => $dto->storage_id,
-                'author_id' => Auth::id(),
-                'comment' => $dto->comment,
-                'status_id' => Status::CLIENT_PURCHASE,
-                'saleInteger' => $dto->saleInteger,
-                'salePercent' => $dto->salePercent,
-                'currency_id' => $dto->currency_id
-            ]);
+        if (!is_null($dto->sale_goods)) {
+            ServiceGoods::insert($this->insertGoodDocuments($dto->sale_goods, $service, ServiceTypes::Sale));
+        }
+        if (!is_null($dto->return_goods)) {
+            ServiceGoods::insert($this->insertGoodDocuments($dto->return_goods, $service, ServiceTypes::Return));
+        }
 
 
-            GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
-
-            $this->calculateSum($document, true);
-            return $document;
-        });
-
-        return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
-
-    }
-
-    public function update(Document $document, DocumentUpdateDTO $dto)
-    {
-
-        return DB::transaction(function () use ($dto, $document) {
-            $document->update([
-                'doc_number' => $document->doc_number,
-                'date' => $dto->date,
-                'counterparty_id' => $dto->counterparty_id,
-                'counterparty_agreement_id' => $dto->counterparty_agreement_id,
-                'organization_id' => $dto->organization_id,
-                'storage_id' => $dto->storage_id,
-                'comment' => $dto->comment,
-                'salePercent' => $dto->salePercent,
-                'saleInteger' => $dto->saleInteger,
-                'currency_id' => $dto->currency_id
-            ]);
-
-            if (!is_null($dto->goods)) {
-                $this->updateGoodDocuments($dto->goods, $document);
+        if($dto->approve) {
+            if(!is_null($dto->sale_goods)) {
+                $document =  (new ClientDocumentRepository())->store(DocumentDTO::fromServiceDTO($dto, $dto->sale_goods));
+              $ids = ['ids' => [$document->id]];
+                (new ClientDocumentRepository())->approve($ids);
             }
-            $this->calculateSum($document);
+            if(!is_null($dto->return_goods)) {
+                $document =  (new ReturnDocumentRepository())->store(DocumentDTO::fromServiceDTO($dto, $dto->return_goods));
+                $ids = ['ids' => $document->id];
+                (new ReturnDocumentRepository())->approve($ids);
+            }
+            if (!is_null($dto->approve)) {
+                //todo ClientPayment
+            }
+        }
 
-            $data['ids'][] = $document->id;
 
-            if ($document->active) $this->approve($data);
-        });
+
     }
 
-    private function insertGoodDocuments(array $goods, Document $document): array
+
+
+    public function update(Service $document, ServiceDTO $dto)
     {
-        return array_map(function ($item) use ($document) {
+
+
+    }
+
+    private function insertGoodDocuments(array $goods, Service $document, ServiceTypes $type): array
+    {
+        return array_map(function ($item) use ($document, $type) {
             return [
                 'good_id' => $item['good_id'],
                 'amount' => $item['amount'],
                 'price' => $item['price'],
-                'document_id' => $document->id,
-                'auto_sale_percent' => $item['auto_sale_percent'] ?? null,
-                'auto_sale_sum' => $item['auto_sale_sum'] ?? null,
+                'type' => $type,
+                'service_id' => $document->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ];
@@ -172,7 +171,6 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
     public function approve(array $data)
     {
         try {
-
             foreach ($data['ids'] as $id) {
                 $document = Document::find($id);
 
@@ -187,6 +185,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                 $result = $this->checkInventory($document);
 
                 $response = [];
+
                 if ($result !== null) {
                     foreach ($result as $goods) {
                         $good = Good::find($goods['good_id'])->name;
@@ -200,7 +199,6 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     return $response;
                 }
 
-                dd($response);
                 $document->update(
                     ['active' => true]
                 );
