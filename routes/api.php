@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BarcodeController;
 use App\Http\Controllers\Api\CashRegisterController;
+use App\Http\Controllers\Api\CashStore\CashStoreController;
 use App\Http\Controllers\Api\CashStore\ClientPaymentController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CounterpartyAgreementController;
@@ -425,7 +426,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/', [CounterpartyCoordinatesController::class, 'index']);
     });
 
-    Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
+    Route::get('/operationTypes', [CashStoreController::class, 'getOperationTypes']);
 
     require_once 'cashStore.php';
     require_once 'checkingAccount.php';
