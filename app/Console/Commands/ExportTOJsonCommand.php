@@ -53,14 +53,14 @@ class ExportTOJsonCommand extends Command
         $organizationBill = OrganizationBillResource::collection(OrganizationBill::with(['currency', 'organization'])->get());
         $users = UserResource::collection(User::with(['organization', 'group'])->get());
         $counterparties = CounterpartyResource::collection(Counterparty::with(['roles', 'cpAgreements'])->get());
-        $employees = EmployeeResource::collection(Employee::with(['group', 'position' ])->get());
+        $employees = EmployeeResource::collection(Employee::with(['group', 'position'])->get());
         $positions = PositionResource::collection(Position::get());
         $priceTypes = PriceTypeResource::collection(PriceType::with(['currency'])->get());
         $currency = CurrencyResource::collection(Currency::with(['exchangeRates'])->get());
         $storage = StorageResource::collection(Storage::with(['organization', 'group', 'employeeStorage'])->get());
         $cashRegisters = CashRegisterResource::collection(CashRegister::with(['currency', 'responsiblePerson', 'organization'])->get());
         $goods = GoodResource::collection(Good::with(['location', 'barcodes', 'goodGroup', 'unit', 'images'])->get());
-        $groups = GroupResource::collection(Group::with(['users', 'storages', 'employees'])->get());
+        $groups = GroupResource::collection(Group::with(['users', 'storages', 'employees.position'])->get());
 
         $data = [
             'units' => $units,
