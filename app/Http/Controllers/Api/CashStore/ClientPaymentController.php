@@ -61,8 +61,4 @@ class ClientPaymentController extends Controller
         return $this->success(OperationType::where('type', $request->type)->get());
     }
 
-    public function approve(IdRequest $request)
-    {
-        return $this->success($this->repository->approve($request->validated()));
-    }
 }

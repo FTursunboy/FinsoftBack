@@ -10,5 +10,4 @@ interface ClientPaymentRepositoryInterface
     public function index(array $data);
     public function clientPayment(ClientPaymentDTO $dto);
     public function update(CashStore $cashStore, ClientPaymentDTO $dto);
-    public function approve(array $data);
 }
