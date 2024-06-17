@@ -6,16 +6,13 @@ use App\Enums\MovementTypes;
 use App\Models\Cash;
 use App\Models\CashRegister;
 use App\Models\CashStore;
-use App\Models\CounterpartySettlement;
 use App\Models\Currency;
 use App\Models\ExchangeRate;
 
 
 class CashService
 {
-    public function __construct(public CashStore $cashStore, public MovementTypes $type)
-    {
-    }
+    public function __construct(public CashStore $cashStore, public MovementTypes $type) { }
 
     public function handle(): void
     {
@@ -43,7 +40,8 @@ class CashService
             'sender' => $this->cashStore->sender,
             'recipient' => $this->cashStore->recipient,
             'operation_type_id' => $this->cashStore->operationType_id,
-            'type' => $this->type
+            'type' => $this->type,
+            'organization_id' => $this->cashStore->organization_id,
         ]);
     }
 

@@ -4,25 +4,22 @@ namespace App\Services\CashStore;
 
 use App\Enums\MovementTypes;
 use App\Models\Cash;
+use App\Models\CashRegister;
 use App\Models\CashStore;
-use App\Models\CounterpartySettlement;
 use App\Models\Currency;
 use App\Models\ExchangeRate;
-use App\Models\OrganizationBill;
 
 
-class OrganizationBillService
+class AnotherCashRegisterService
 {
-    public function __construct(public CashStore $cashStore, public MovementTypes $type)
-    {
-    }
+    public function __construct(public CashStore $cashStore, public MovementTypes $type, public int $cashRegisterId) { }
 
     public function handle(): void
     {
-        $this->organizationBill();
+        $this->cash();
     }
 
-    public function organizationBill()
+    public function cash()
     {
         $currency_sum = $this->cashStore->sum;
 
@@ -32,12 +29,12 @@ class OrganizationBillService
             $currency_sum = $this->cashStore->sum * $this->getExcangeRate();
         }
 
-        $organizationBill = new OrganizationBill();
+        $cashRegister = new CashRegister();
 
         Cash::create([
             'date' => $this->cashStore->date,
-            'model_id' => $this->cashStore->organizationBill_id,
-            'model_type' => $organizationBill->getClassName(),
+            'model_id' => $this->cashRegisterId,
+            'model_type' => $cashRegister->getClassName(),
             'sum' => $this->cashStore->sum,
             'currency_sum' => $currency_sum,
             'sender' => $this->cashStore->sender,
