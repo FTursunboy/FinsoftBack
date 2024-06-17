@@ -32,9 +32,4 @@ class AnotherCashRegisterController extends Controller
     {
         return $this->created(CashStoreResource::make($this->repository->update($cashStore, AnotherCashRegisterDTO::fromRequest($request))));
     }
-
-    public function approve(IdRequest $request)
-    {
-        return $this->success($this->repository->approve($request->validated()));
-    }
 }
