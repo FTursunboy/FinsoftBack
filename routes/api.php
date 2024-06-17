@@ -37,6 +37,7 @@ use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\PriceTypeController;
 use App\Http\Controllers\Api\ScheduleController;
+use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\StorageController;
 use App\Http\Controllers\Api\StorageEmployeeController;
 use App\Http\Controllers\Api\UnitController;
@@ -433,6 +434,11 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::group(['prefix' => 'counterpartyCoordinates'], function () {
         Route::post('/', [CounterpartyCoordinatesController::class, 'store']);
         Route::get('/', [CounterpartyCoordinatesController::class, 'index']);
+    });
+
+    Route::group(['prefix' => 'service'], function () {
+        Route::post('/', [ServiceController::class, 'store']);
+
     });
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
