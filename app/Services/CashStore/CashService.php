@@ -12,7 +12,9 @@ use App\Models\ExchangeRate;
 
 class CashService
 {
-    public function __construct(public CashStore $cashStore, public MovementTypes $type) { }
+    public function __construct(public CashStore $cashStore, public MovementTypes $type)
+    {
+    }
 
     public function handle(): void
     {
@@ -24,9 +26,10 @@ class CashService
         $currency_sum = $this->cashStore->sum;
 
         $currency = $this->cashStore->counterpartyAgreement ?? $this->cashStore->organizationBill;
-
-        if ($this->cashStore->cashRegister->currency_id != $currency->currency_id) {
-            $currency_sum = $this->cashStore->sum * $this->getExcangeRate();
+        if ($currency) {
+            if ($this->cashStore->cashRegister->currency_id != $currency->currency_id) {
+                $currency_sum = $this->cashStore->sum * $this->getExcangeRate();
+            }
         }
 
         $cashRegister = new CashRegister();
