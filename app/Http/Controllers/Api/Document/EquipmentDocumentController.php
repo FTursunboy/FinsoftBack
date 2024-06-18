@@ -47,6 +47,11 @@ class EquipmentDocumentController extends Controller
         return $this->created(EquipmentDocumentResource::make($this->repository->store(EquipmentDocumentDTO::fromRequest($request))));
     }
 
+    public function show(Equipment $equipment)
+    {
+        return $this->success(EquipmentDocumentResource::make($equipment->load('organization', 'storage', 'good', 'documentGoods', 'documentGoods.good')));
+    }
+
     public function update(Equipment $document, EquipmentDocumentRequest $request): JsonResponse
     {
         return $this->success($this->repository->update($document, EquipmentDocumentDTO::fromRequest($request)));
