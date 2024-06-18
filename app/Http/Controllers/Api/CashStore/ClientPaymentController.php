@@ -56,9 +56,9 @@ class ClientPaymentController extends Controller
         return response()->json();
     }
 
-    public function getOperationTypes()
+    public function getOperationTypes(Request $request)
     {
-        return OperationType::all();
+        return OperationType::where('type', $request->type)->get();
     }
 
 }
