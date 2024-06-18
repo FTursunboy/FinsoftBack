@@ -51,12 +51,12 @@ class FiringController extends Controller
         return $this->success(new EmployeeMovementResource($this->employeeMovementRepository->update($firing, FiringDTO::fromRequest($request))));
     }
 
-    public function destroy(IdRequest $request, MassOperationInterface $delete)
+    public function massDelete(IdRequest $request, MassOperationInterface $delete)
     {
         return $delete->massDelete(new Firing(), $request->validated());
     }
 
-    public function restore(IdRequest $request, MassOperationInterface $restore)
+    public function massRestore(IdRequest $request, MassOperationInterface $restore)
     {
         return $this->success($restore->massRestore(new Firing(), $request->validated()));
     }

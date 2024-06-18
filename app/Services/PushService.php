@@ -10,7 +10,8 @@ class PushService
 {
     public static function send(array $data, User $user)
     {
-        if(!$user->fcmTokens()->count() < 0) {
+        if(!$user->fcmTokens()->count() < 0)
+        {
             return null;
         }
 

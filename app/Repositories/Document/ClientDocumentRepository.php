@@ -72,7 +72,6 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
             $this->calculateSum($document, true);
             return $document;
-
         });
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
@@ -173,6 +172,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
     public function approve(array $data)
     {
         try {
+
             foreach ($data['ids'] as $id) {
                 $document = Document::find($id);
 
@@ -184,10 +184,10 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     );
                 }
 
+
                 $result = $this->checkInventory($document);
 
                 $response = [];
-
                 if ($result !== null) {
                     foreach ($result as $goods) {
                         $good = Good::find($goods['good_id'])->name;
@@ -200,6 +200,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
 
                     return $response;
                 }
+
 
                 $document->update(
                     ['active' => true]

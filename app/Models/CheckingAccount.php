@@ -13,7 +13,8 @@ class CheckingAccount extends DocumentModel implements SoftDeleteInterface
     use SoftDeletes, Filterable;
 
     protected $casts = [
-        'date' => 'datetime'
+        'date' => 'datetime',
+        'active' => 'boolean'
     ];
 
     protected $fillable = [
@@ -31,7 +32,8 @@ class CheckingAccount extends DocumentModel implements SoftDeleteInterface
         'employee_id',
         'balance_article_id',
         'operation_type_id',
-        'type'
+        'type',
+        'active'
     ];
 
     public function senderCashRegister(): BelongsTo
@@ -72,6 +74,11 @@ class CheckingAccount extends DocumentModel implements SoftDeleteInterface
     public function counterpartyAgreement() :BelongsTo
     {
         return $this->belongsTo(CounterpartyAgreement::class, 'counterparty_agreement_id');
+    }
+
+    public static function bootSoftDeletes()
+    {
+
     }
 
     public function employee() :BelongsTo

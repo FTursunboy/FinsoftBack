@@ -44,4 +44,13 @@ class CheckingAccountController extends Controller
     {
         return $this->success($repository->massRestore(new CheckingAccount(), $request->validated()));
     }
+
+    public function approve(IdRequest $request)
+    {
+        return $this->success($this->repository->approve($request->validated()));
+    }
+
+    public function unApprove(IdRequest $request) {
+        return $this->success($this->repository->unApprove($request->validated()));
+    }
 }

@@ -25,7 +25,23 @@ class DocumentDTO
             $request->get('salePercent'),
             $request->get('currency_id'),
             $request->get('sum'),
+        );
+    }
 
+    public static function fromServiceDTO(ServiceDTO $serviceDTO, array $goods) :self
+    {
+        return new static(
+            $serviceDTO->date,
+            $serviceDTO->counterparty_id,
+            $serviceDTO->counterparty_agreement_id,
+            $serviceDTO->organization_id,
+            $serviceDTO->storage_id,
+            $goods,
+            $serviceDTO->comment,
+            null,
+            null,
+            $serviceDTO->currency_id,
+            null
         );
     }
 }

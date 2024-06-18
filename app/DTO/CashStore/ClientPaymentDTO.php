@@ -3,6 +3,7 @@
 namespace App\DTO\CashStore;
 
 
+use App\DTO\Document\ServiceDTO;
 use App\Http\Requests\Api\CashStore\ClientPaymentRequest;
 
 class ClientPaymentDTO
@@ -29,4 +30,5 @@ class ClientPaymentDTO
             $request->get('recipient'),
         );
     }
+
 }

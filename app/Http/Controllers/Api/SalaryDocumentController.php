@@ -6,8 +6,11 @@ use App\DTO\Document\SalaryDocumentDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\SalaryDocument\FilterRequest;
 use App\Http\Requests\Api\SalaryDocument\SalaryDocumentRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\SalaryDocumentResource;
+use App\Models\Firing;
 use App\Models\SalaryDocument;
+use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\Contracts\SalaryDocumentRepositoryInterface;
 use App\Traits\ApiResponse;
 
@@ -48,12 +51,13 @@ class SalaryDocumentController extends Controller
 
     }
 
-    public function destroy(SalaryDocument $salaryDocument)
+    public function massDelete(IdRequest $request, MassOperationInterface $delete)
     {
-        $this->authorize('delete', $salaryDocument);
+        return $delete->massDelete(new SalaryDocument(), $request->validated());
+    }
 
-        $salaryDocument->delete();
-
-        return response()->json();
+    public function massRestore(IdRequest $request, MassOperationInterface $restore)
+    {
+        return $this->success($restore->massRestore(new SalaryDocument(), $request->validated()));
     }
 }
