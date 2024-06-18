@@ -59,34 +59,34 @@ class CashStoreRepository implements CashStoreRepositoryInterface
                     ['active' => true]
                 );
 
-                if ($cashStore->operationType_id == 1) {
-                    CashEvent::dispatch($cashStore, MovementTypes::Income);
-                    CounterpartySettlementEvent::dispatch($cashStore, MovementTypes::Outcome);
-                } elseif ($cashStore->operationType_id == 2) {
-                    CashEvent::dispatch($cashStore, MovementTypes::Income);
-                    OrganizationBillEvent::dispatch($cashStore, MovementTypes::Outcome);
-                } elseif ($cashStore->operationType_id == 3) {
-                    AnotherCashRegisterEvent::dispatch($cashStore, MovementTypes::Income, $cashStore->cashRegister_id);
-                    AnotherCashRegisterEvent::dispatch($cashStore, MovementTypes::Outcome, $cashStore->senderCashRegister_id);
-                } elseif ($cashStore->operationType_id == 4) {
-                    CashEvent::dispatch($cashStore, MovementTypes::Income);
-                    InvestmentEvent::dispatch($cashStore, MovementTypes::Income);
-                } elseif ($cashStore->operationType_id == 5) {
-                    CashEvent::dispatch($cashStore, MovementTypes::Income);
-                    CreditEvent::dispatch($cashStore, MovementTypes::Income);
-                } elseif ($cashStore->operationType_id == 6) {
-                    CashEvent::dispatch($cashStore, MovementTypes::Income);
-                    CounterpartySettlementEvent::dispatch($cashStore, MovementTypes::Outcome);
-                } elseif ($cashStore->operationType_id == 7) {
-                    CashEvent::dispatch($cashStore, MovementTypes::Income);
-                    AccountablePersonEvent::dispatch($cashStore, MovementTypes::Outcome);
-                } elseif ($cashStore->operationType_id == 8) {
-                    CashEvent::dispatch($cashStore, MovementTypes::Income);
-                    IncomeEvent::dispatch($cashStore, MovementTypes::Outcome);
-                } elseif ($cashStore->operationType_id == 9) {
-                    CashEvent::dispatch($cashStore, MovementTypes::Income);
-                    BalanceEvent::dispatch($cashStore, MovementTypes::Income);
-                }
+//                if ($cashStore->operationType_id == 1) {
+//                    CashEvent::dispatch($cashStore, MovementTypes::Income);
+//                    CounterpartySettlementEvent::dispatch($cashStore, MovementTypes::Outcome);
+//                } elseif ($cashStore->operationType_id == 2) {
+//                    CashEvent::dispatch($cashStore, MovementTypes::Income);
+//                    OrganizationBillEvent::dispatch($cashStore, MovementTypes::Outcome);
+//                } elseif ($cashStore->operationType_id == 3) {
+//                    AnotherCashRegisterEvent::dispatch($cashStore, MovementTypes::Income, $cashStore->cashRegister_id);
+//                    AnotherCashRegisterEvent::dispatch($cashStore, MovementTypes::Outcome, $cashStore->senderCashRegister_id);
+//                } elseif ($cashStore->operationType_id == 4) {
+//                    CashEvent::dispatch($cashStore, MovementTypes::Income);
+//                    InvestmentEvent::dispatch($cashStore, MovementTypes::Income);
+//                } elseif ($cashStore->operationType_id == 5) {
+//                    CashEvent::dispatch($cashStore, MovementTypes::Income);
+//                    CreditEvent::dispatch($cashStore, MovementTypes::Income);
+//                } elseif ($cashStore->operationType_id == 6) {
+//                    CashEvent::dispatch($cashStore, MovementTypes::Income);
+//                    CounterpartySettlementEvent::dispatch($cashStore, MovementTypes::Outcome);
+//                } elseif ($cashStore->operationType_id == 7) {
+//                    CashEvent::dispatch($cashStore, MovementTypes::Income);
+//                    AccountablePersonEvent::dispatch($cashStore, MovementTypes::Outcome);
+//                } elseif ($cashStore->operationType_id == 8) {
+//                    CashEvent::dispatch($cashStore, MovementTypes::Income);
+//                    IncomeEvent::dispatch($cashStore, MovementTypes::Outcome);
+//                } elseif ($cashStore->operationType_id == 9) {
+//                    CashEvent::dispatch($cashStore, MovementTypes::Income);
+//                    BalanceEvent::dispatch($cashStore, MovementTypes::Income);
+//                }
 
             }
         } catch (Exception $exception) {
