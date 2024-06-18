@@ -56,13 +56,4 @@ class ClientPaymentController extends Controller
         return response()->json();
     }
 
-    public function getOperationTypes(Request $request)
-    {
-        return $this->success(OperationType::where('type', $request->type)->get());
-    }
-
-    public function approve(IdRequest $request)
-    {
-        return $this->success($this->repository->approve($request->validated()));
-    }
 }

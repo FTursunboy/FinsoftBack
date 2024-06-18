@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BarcodeController;
 use App\Http\Controllers\Api\CashRegisterController;
+use App\Http\Controllers\Api\CashStore\CashStoreController;
 use App\Http\Controllers\Api\CashStore\ClientPaymentController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CounterpartyAgreementController;
@@ -450,6 +451,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::post('changePassword', [AuthController::class, 'changePassword']);
 });
+
+
 require_once 'reports.php';
 
 

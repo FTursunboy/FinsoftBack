@@ -22,12 +22,9 @@ class IncomeService
 
     public function cash()
     {
-        $cashRegister = new CashRegister();
-
         Income::create([
             'date' => $this->cashStore->date,
             'model_id' => $this->cashStore->cashRegister_id,
-            'model_type' => $cashRegister->getClassName(),
             'sum' => $this->cashStore->sum,
             'organization_id' => $this->cashStore->organization_id,
             'balance_article_id' => $this->cashStore->balance_article_id,
