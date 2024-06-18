@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Equipment extends DocumentModel
 {
-    protected $fillable = ['date','doc_number','organization_id','good_id','storage_id','amount'];
+    protected $fillable = ['date','doc_number','organization_id','good_id','storage_id','amount', 'author_id'];
 
     public function organization(): BelongsTo
     {
