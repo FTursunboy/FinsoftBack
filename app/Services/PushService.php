@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\Device;
+use App\Http\Resources\Document\DocumentResource;
 use App\Models\Document;
 use App\Models\FirebaseLogs;
 use App\Models\Notification;
@@ -42,7 +43,7 @@ class PushService
                         'image' => $data['image'] ?? null
                     ],
                     'data' => [
-                        'document' =>  $document
+                        'key' => DocumentResource::make($document)
                     ]
                 ]
             ];
