@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\Device;
+use App\Models\Document;
 use App\Models\FirebaseLogs;
 use App\Models\Notification;
 use App\Models\User;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 
 class PushService
 {
-    public function send(User $user, array $data)
+    public function send(User $user, array $data, Document $document)
     {
         if (!$user || $user->fcmTokens()->count() <= 0) {
             return null;
@@ -41,7 +42,7 @@ class PushService
                         'image' => $data['image'] ?? null
                     ],
                     'data' => [
-                        'key' => 'fdsa'
+                        'document' =>  $document
                     ]
                 ]
             ];
