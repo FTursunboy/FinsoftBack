@@ -71,11 +71,10 @@ class EquipmentDocumentRepository implements EquipmentDocumentRepositoryInterfac
 
             EquipmentGoods::insert($this->insertGoodDocuments($dto->goods, $document));
 
-            $this->calculateSum($document, true);
             return $document;
         });
 
-        return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
+        return $document->load(['organization', 'storage', 'author', 'good']);
 
     }
 
