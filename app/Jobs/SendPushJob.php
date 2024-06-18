@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Document;
 use App\Models\User;
 use App\Services\PushService;
 use Illuminate\Bus\Queueable;
@@ -14,13 +15,13 @@ class SendPushJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(public User $user, public array $data)
+    public function __construct(public User $user, public array $data, public Document $document)
     {
 
     }
 
     public function handle(): void
     {
-        (new PushService())->send($this->user, $this->data);
+        (new PushService())->send($this->user, $this->data, $this->document);
     }
 }
