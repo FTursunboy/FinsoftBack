@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,7 +19,8 @@ class ReportCardResource extends JsonResource
             'doc_number' => $this->doc_number,
             'date' => $this->date,
             'comment' => $this->comment,
-            'employees' => ReportEmployeesResource::collection($this->employee)
+            'employees' => ReportEmployeesResource::collection($this->employee),
+            'organization' => OrganizationResource::make($this->organization)
         ];
     }
 }
