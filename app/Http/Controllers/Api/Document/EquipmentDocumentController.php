@@ -49,7 +49,7 @@ class EquipmentDocumentController extends Controller
 
     public function show(Equipment $equipment)
     {
-        return $this->success(EquipmentDocumentResource::make($equipment->load('organization', 'storage', 'good', 'documentGoods', 'documentGoods.good')));
+        return $this->success(EquipmentDocumentResource::make($equipment->load('organization', 'storage', 'good', 'documentGoods', 'documentGoods.good', 'author')));
     }
 
     public function update(Equipment $document, EquipmentDocumentRequest $request): JsonResponse
