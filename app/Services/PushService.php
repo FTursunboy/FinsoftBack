@@ -3,50 +3,71 @@
 namespace App\Services;
 
 use App\Enums\Device;
+use App\Models\FirebaseLogs;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class PushService
 {
-    public static function send(array $data, User $user)
+    public function send(User $user, array $data)
     {
-        if(!$user->fcmTokens()->count() < 0)
-        {
+        if (!$user || $user->fcmTokens()->count() <= 0) {
             return null;
         }
 
-        $credentialsFilePath = public_path('finsoft-ba979-3717459cc9a6.json');
-        $client = new \Google_Client();
-        $client->setAuthConfig($credentialsFilePath);
-        $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
-        $client->fetchAccessTokenWithAssertion();
-        $token = $client->getAccessToken();
-        $access_token = $token['access_token'];
+        $notification = Notification::create([
+            'user_id' => $user->id,
+            'text' => $data['body'],
+        ]);
 
-
-        $apiurl = 'https://fcm.googleapis.com/v1/projects/finsoft-ba979/messages:send';
+        $apiUrl = config('firebase.api_url');
 
         $headers = [
-            'Authorization' => 'Bearer ' . $access_token,
+            'Authorization' => 'Bearer ' . $this->getAccessToken(),
             'Content-Type' => 'application/json'
         ];
 
+        $fcmTokens = $user->fcmTokens()->pluck('fcm_token')->toArray();
 
-        $test_data = [
-            "title" => $data['title'],
-            "description" => $data['description'],
-        ];
+        foreach ($fcmTokens as $fcmToken) {
+            $payload = [
+                'message' => [
+                    'token' => $fcmToken,
+                    'notification' => [
+                        'title' => $data['title'],
+                        'body' => $data['body'],
+                        'image' => $data['image'] ?? null
+                    ],
+                    'data' => [
+                        'key' => 'fdsa'
+                    ]
+                ]
+            ];
 
-        $data = [
-            'data' => $test_data,
-            'token' => $user->fcmTokens()->where('type', Device::Mobile)->first()
-        ];
-
-        $payload = [
-            'message' => $data
-        ];
-
-        Http::withHeaders($headers)->post($apiurl, $payload);
-
+            $response = Http::withHeaders($headers)->post($apiUrl, $payload);
+            FirebaseLogs::create([
+                'user_id' => $user->id,
+                'data' => json_encode($payload),
+                'status' => $response->status(),
+                'notification_id' => $notification->id,
+            ]);
+        }
     }
+
+
+
+    private function  getAccessToken()  :string
+    {
+        $credentialsFilePath = config('firebase.firebase_api_key_url');
+        $client = new \Google_Client();
+        $client->setAuthConfig($credentialsFilePath);
+        $client->addScope(config('firebase.messaging'));
+        $client->fetchAccessTokenWithAssertion();
+        $token = $client->getAccessToken();
+
+        return $token['access_token'];
+    }
+
 }
