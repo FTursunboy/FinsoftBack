@@ -246,7 +246,10 @@ class EquipmentDocumentRepository implements EquipmentDocumentRepositoryInterfac
                 return $query->where('storage_id', $data['storage_id']);
             })
             ->when($data['good_id'], function ($query) use ($data) {
-                return $query->where('good_id', $data['good_id']);
+                return $query->where('good_id', $data['good_id'])
+                    ->orWhereHas('documentGoods', function ($query) use ($data) {
+                        return $query->where('good_id', $data['good_id']);
+                    });
             })
             ->when(isset($data['active']), function ($query) use ($data) {
                 return $query->where('active', $data['active']);
