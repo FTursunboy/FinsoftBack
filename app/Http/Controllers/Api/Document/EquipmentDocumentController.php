@@ -16,6 +16,7 @@ use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\Document\DocumentResource;
+use App\Http\Resources\Document\EquipmentDocumentResource;
 use App\Http\Resources\Document\OrderDocumentResource;
 use App\Http\Resources\OrderStatusResource;
 use App\Models\Document;
@@ -39,11 +40,11 @@ class EquipmentDocumentController extends Controller
 
     public function index(FilterRequest $indexRequest): JsonResponse
     {
-        return $this->paginate(DocumentResource::collection($this->repository->index( $indexRequest->validated())));
+        return $this->paginate(EquipmentDocumentResource::collection($this->repository->index( $indexRequest->validated())));
     }
-    public function purchase(EquipmentDocumentRequest $request): JsonResponse
+    public function store(EquipmentDocumentRequest $request): JsonResponse
     {
-        return $this->created(DocumentResource::make($this->repository->store(EquipmentDocumentDTO::fromRequest($request))));
+        return $this->created(EquipmentDocumentResource::make($this->repository->store(EquipmentDocumentDTO::fromRequest($request))));
     }
 
     public function update(Equipment $document, EquipmentDocumentRequest $request): JsonResponse

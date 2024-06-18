@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('amount');
             $table->decimal('sum');
             $table->unsignedBigInteger('equipment_document_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
