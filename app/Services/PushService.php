@@ -43,7 +43,7 @@ class PushService
                         'image' => $data['image'] ?? null
                     ],
                     'data' => [
-                        'key' => "fs"
+                        'key' => json_encode(DocumentResource::make($document)),
                     ]
                 ]
             ];
