@@ -46,7 +46,7 @@ class EquipmentDocumentRepository implements EquipmentDocumentRepositoryInterfac
 
         $query = $this->filter($query, $filteredParams);
 
-        $query = $this->sort($filteredParams, $query, ['organization', 'storage', 'good']);
+        $query = $this->sort($filteredParams, $query, ['organization', 'storage', 'good', 'documentGoods']);
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }
@@ -74,7 +74,7 @@ class EquipmentDocumentRepository implements EquipmentDocumentRepositoryInterfac
             return $document;
         });
 
-        return $document->load(['organization', 'storage', 'author', 'good']);
+        return $document->load(['organization', 'storage', 'author', 'good', 'documentGoods']);
 
     }
 
