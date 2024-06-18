@@ -17,7 +17,7 @@ return new class extends Migration
             $table->decimal('price');
             $table->unsignedBigInteger('amount');
             $table->decimal('sum');
-            $table->unsignedBigInteger('equipment_document_id');
+            $table->foreignUuid('equipment_document_id');
             $table->softDeletes();
             $table->timestamps();
         });

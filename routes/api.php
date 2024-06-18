@@ -372,6 +372,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::group(['prefix' => 'equipment'], function () {
             Route::get('', [EquipmentDocumentController::class, 'index']);
             Route::post('', [EquipmentDocumentController::class, 'store']);
+            Route::get('{equipment}', [EquipmentDocumentController::class, 'show']);
         });
 
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
