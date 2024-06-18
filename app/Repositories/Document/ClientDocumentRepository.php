@@ -184,6 +184,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     );
                 }
 
+
                 $result = $this->checkInventory($document);
 
                 $response = [];
@@ -200,7 +201,7 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     return $response;
                 }
 
-                dd($response);
+
                 $document->update(
                     ['active' => true]
                 );

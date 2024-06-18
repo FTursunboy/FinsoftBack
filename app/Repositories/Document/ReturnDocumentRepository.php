@@ -155,7 +155,6 @@ class ReturnDocumentRepository implements ReturnDocumentRepositoryInterface
             $document = Document::find($id);
 
             $result = $this->checkInventory($document);
-
             $response = [];
 
             if ($result !== null) {

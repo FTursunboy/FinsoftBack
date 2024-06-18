@@ -55,54 +55,87 @@ class ServiceRepository implements ServiceRepositoryInterface
 
     public function store(ServiceDto $dto)
     {
-        $service = Service::create([
-            'doc_number' => $this->uniqueNumber(),
-            'date' => $dto->date,
-            'counterparty_id' => $dto->counterparty_id,
-            'counterparty_agreement_id' => $dto->counterparty_agreement_id,
-            'storage_id' => $dto->storage_id,
-            'organization_id' => $dto->organization_id,
-            'author_id' => Auth::id(),
-            'comment' => $dto->comment,
-            'currency_id' => $dto->currency_id,
-            'sales_sum' => $dto->sales_sum,
-            'return_sum' => $dto->return_sum,
-            'client_payment' => $dto->client_payment,
-        ]);
+        DB::beginTransaction();
 
-        if (!is_null($dto->sale_goods)) {
-            ServiceGoods::insert($this->insertGoodDocuments($dto->sale_goods, $service, ServiceTypes::Sale));
-        }
-        if (!is_null($dto->return_goods)) {
-            ServiceGoods::insert($this->insertGoodDocuments($dto->return_goods, $service, ServiceTypes::Return));
-        }
+        try {
+            $service = Service::create([
+                'doc_number' => $this->uniqueNumber(),
+                'date' => $dto->date,
+                'counterparty_id' => $dto->counterparty_id,
+                'counterparty_agreement_id' => $dto->counterparty_agreement_id,
+                'storage_id' => $dto->storage_id,
+                'organization_id' => $dto->organization_id,
+                'author_id' => Auth::id(),
+                'comment' => $dto->comment,
+                'currency_id' => $dto->currency_id,
+                'sales_sum' => $dto->sales_sum,
+                'return_sum' => $dto->return_sum,
+                'client_payment' => $dto->client_payment,
+            ]);
 
-
-        if($dto->approve) {
-            if(!is_null($dto->sale_goods)) {
-                $document =  (new ClientDocumentRepository())->store(DocumentDTO::fromServiceDTO($dto, $dto->sale_goods));
-              $ids = ['ids' => [$document->id]];
-                (new ClientDocumentRepository())->approve($ids);
+            if (!is_null($dto->sale_goods)) {
+                ServiceGoods::insert($this->insertGoodDocuments($dto->sale_goods, $service, ServiceTypes::Sale));
             }
-            if(!is_null($dto->return_goods)) {
-                $document =  (new ReturnDocumentRepository())->store(DocumentDTO::fromServiceDTO($dto, $dto->return_goods));
-                $ids = ['ids' => $document->id];
-                (new ReturnDocumentRepository())->approve($ids);
+            if (!is_null($dto->return_goods)) {
+                ServiceGoods::insert($this->insertGoodDocuments($dto->return_goods, $service, ServiceTypes::Return));
             }
-            if (!is_null($dto->approve)) {
-                //todo ClientPayment
+
+            $errors = [];
+
+            if ($dto->approve) {
+                $this->handleApproval($dto, $errors);
             }
+
+            if (!empty($errors)) {
+                DB::rollBack();
+                return ['errors' => $errors];
+            }
+
+            if ($dto->approve) {
+                $service->update(['active' => true]);
+            }
+
+            DB::commit();
+
+            return $service;
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Log::error($exception->getMessage());
+            throw $exception;
         }
-
-
-
     }
 
+    private function handleApproval(ServiceDto $dto, &$errors)
+    {
+        $this->processGoods($dto, $dto->sale_goods, __('errors.not enough goods in sale'), $errors);
+        $this->processGoods($dto, $dto->return_goods, __('errors.not enough goods in return'), $errors);
+    }
+
+    private function processGoods(ServiceDto $dto, $goods, $errorMessage, &$errors)
+    {
+        if (!is_null($goods)) {
+            $documentRepository = $this->getDocumentRepository($errorMessage);
+            $document = $documentRepository->store(DocumentDTO::fromServiceDTO($dto, $goods));
+            $ids = ['ids' => [$document->id]];
+            $response = $documentRepository->approve($ids);
+            if ($response !== null) {
+                $document->forceDelete();
+                $errors[] = [
+                    'error' => $errorMessage,
+                    'goods' => $response
+                ];
+            }
+        }
+    }
+
+    private function getDocumentRepository($errorMessage)
+    {
+        return $errorMessage === __('errors.not enough goods in sale') ? new ClientDocumentRepository() : new ReturnDocumentRepository();
+    }
 
 
     public function update(Service $document, ServiceDTO $dto)
     {
-
 
     }
 
