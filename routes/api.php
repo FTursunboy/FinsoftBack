@@ -437,16 +437,12 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/', [CounterpartyCoordinatesController::class, 'index']);
     });
 
-<<<<<<< HEAD
     Route::group(['prefix' => 'service'], function () {
         Route::post('/', [ServiceController::class, 'store']);
 
     });
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
-=======
-    Route::get('/operationTypes', [CashStoreController::class, 'getOperationTypes']);
->>>>>>> 7ba0dc0c376d45298d41c476b1ac5eabb9a7d044
 
     require_once 'cashStore.php';
     require_once 'checkingAccount.php';
