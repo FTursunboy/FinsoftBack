@@ -7,9 +7,11 @@ use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
 use App\DTO\Document\OrderDocumentDTO;
 use App\DTO\Document\OrderDocumentUpdateDTO;
+use App\Enums\DocumentStatuses;
 use App\Enums\DocumentTypes;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
+use App\Jobs\SendPushJob;
 use App\Models\Document;
 use App\Models\DocumentModel;
 use App\Models\Good;
@@ -70,11 +72,14 @@ class DocumentRepository implements DocumentRepositoryInterface
 
             GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
+
+
             $this->calculateSum($document, true);
 
             return $document;
         });
 
+        SendPushJob::dispatch($user, ['title' => DocumentTypes::Purchase, 'body' => 'Документ успешно создан']);
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
     }
@@ -98,6 +103,7 @@ class DocumentRepository implements DocumentRepositoryInterface
             if (!is_null($dto->goods)) {
                 $this->updateGoodDocuments($dto->goods, $document);
             }
+
             $this->calculateSum($document);
 
             $data['ids'][] = $document->id;
