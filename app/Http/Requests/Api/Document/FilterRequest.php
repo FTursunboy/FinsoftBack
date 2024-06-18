@@ -19,6 +19,7 @@ class FilterRequest extends FormRequest
             'sort' => 'in:asc,desc',
             'filterData' => 'nullable|array',
             'currency_id' => 'nullable|numeric',
+            'good_id' => 'nullable|numeric',
             'organization_id' => 'nullable|numeric',
             'storage_id' => 'nullable|integer',
             'author_id' => 'nullable|integer',
