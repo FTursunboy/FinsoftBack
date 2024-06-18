@@ -20,6 +20,7 @@ use App\Models\GoodDocument;
 use App\Models\OrderDocument;
 use App\Models\OrderDocumentGoods;
 use App\Models\Status;
+use App\Models\User;
 use App\Repositories\Contracts\Document\Documentable;
 use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
 use App\Traits\CalculateSum;
@@ -78,6 +79,7 @@ class DocumentRepository implements DocumentRepositoryInterface
 
             return $document;
         });
+        $user = User::find($document->author_id);
 
         SendPushJob::dispatch($user, ['title' => DocumentTypes::Purchase, 'body' => 'Документ успешно создан']);
 
