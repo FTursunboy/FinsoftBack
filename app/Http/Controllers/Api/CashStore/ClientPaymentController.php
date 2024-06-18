@@ -56,4 +56,9 @@ class ClientPaymentController extends Controller
         return response()->json();
     }
 
+    public function getOperationTypes()
+    {
+        return OperationType::all();
+    }
+
 }
