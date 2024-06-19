@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\CurrencyController;
 use App\Http\Controllers\Api\DepartmentController;
 use App\Http\Controllers\Api\Document\ClientDocumentController;
 use App\Http\Controllers\Api\Document\DocumentController;
+use App\Http\Controllers\Api\Document\EquipmentDocumentController;
 use App\Http\Controllers\Api\Document\InventoryDocumentController;
 use App\Http\Controllers\Api\Document\MovementDocumentController;
 use App\Http\Controllers\Api\Document\OrderClientDocumentController;
@@ -366,6 +367,12 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::post('unApprove', [MovementDocumentController::class, 'unApprove']);
             Route::post('massDelete', [MovementDocumentController::class, 'massDelete']);
             Route::post('massRestore', [MovementDocumentController::class, 'massRestore']);
+        });
+
+        Route::group(['prefix' => 'equipment'], function () {
+            Route::get('', [EquipmentDocumentController::class, 'index']);
+            Route::post('', [EquipmentDocumentController::class, 'store']);
+            Route::get('{equipment}', [EquipmentDocumentController::class, 'show']);
         });
 
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
