@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('author_id');
             $table->decimal('sum');
             $table->text('comment');
+            $table->boolean('active')->default(false);
             $table->softDeletes();
 
             $table->timestamps();

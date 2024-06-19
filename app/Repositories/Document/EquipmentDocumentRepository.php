@@ -75,12 +75,10 @@ class EquipmentDocumentRepository implements EquipmentDocumentRepositoryInterfac
         });
 
         return $document->load(['organization', 'storage', 'author', 'good', 'documentGoods', 'documentGoods.good', 'author']);
-
     }
 
     public function update(Equipment $document, EquipmentDocumentDTO $dto)
     {
-
         return DB::transaction(function () use ($dto, $document) {
             $document->update([
                 'date' => $dto->date,
@@ -157,7 +155,6 @@ class EquipmentDocumentRepository implements EquipmentDocumentRepositoryInterfac
     public function approve(array $data)
     {
         try {
-
             foreach ($data['ids'] as $id) {
                 $document = Equipment::find($id);
 
