@@ -2,31 +2,13 @@
 
 namespace App\Http\Controllers\Api\Document;
 
-use App\DTO\Document\DocumentDTO;
-use App\DTO\Document\DocumentUpdateDTO;
 use App\DTO\Document\EquipmentDocumentDTO;
-use App\DTO\Document\OrderDocumentDTO;
-use App\Enums\ApiResponse as ApiResponseEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Document\DocumentRequest;
-use App\Http\Requests\Api\Document\DocumentUpdateRequest;
 use App\Http\Requests\Api\Document\FilterRequest;
 use App\Http\Requests\Api\EquipmentDocument\EquipmentDocumentRequest;
-use App\Http\Requests\Api\IndexRequest;
-use App\Http\Requests\Api\OrderDocument\OrderDocumentRequest;
 use App\Http\Requests\IdRequest;
-use App\Http\Resources\Document\DocumentResource;
 use App\Http\Resources\Document\EquipmentDocumentResource;
-use App\Http\Resources\Document\OrderDocumentResource;
-use App\Http\Resources\OrderStatusResource;
-use App\Models\Document;
 use App\Models\Equipment;
-use App\Models\OrderDocument;
-use App\Models\OrderStatus;
-use App\Models\OrderType;
-use App\Models\Status;
-use App\Repositories\Contracts\Document\ClientDocumentRepositoryInterface;
-use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\EquipmentDocumentRepositoryInterface;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Traits\ApiResponse;
@@ -64,7 +46,7 @@ class EquipmentDocumentController extends Controller
 
     public function massRestore(IdRequest $request, MassOperationInterface $restore)
     {
-        return $this->success($restore->massRestore(new Document(), $request->validated()));
+        return $this->success($restore->massRestore(new Equipment(), $request->validated()));
     }
 
     public function approve(IdRequest $request)
