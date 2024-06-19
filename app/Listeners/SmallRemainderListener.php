@@ -22,6 +22,6 @@ class SmallRemainderListener
      */
     public function handle(SmallRemainderEvent $event): void
     {
-        SmallRemainderJob::dispatch($event->good_id);
+        SmallRemainderJob::dispatch($event->good_id, \Auth::user());
     }
 }
