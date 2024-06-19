@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\SmallRemainderEvent;
 use App\Jobs\SmallRemainderJob;
+use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -22,6 +23,7 @@ class SmallRemainderListener
      */
     public function handle(SmallRemainderEvent $event): void
     {
-        SmallRemainderJob::dispatch($event->good_id, \Auth::user());
+        $user = User::find(1);
+        SmallRemainderJob::dispatch($event->good_id, $user);
     }
 }

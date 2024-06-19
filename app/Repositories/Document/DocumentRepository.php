@@ -73,8 +73,6 @@ class DocumentRepository implements DocumentRepositoryInterface
 
             GoodDocument::insert($this->insertGoodDocuments($dto->goods, $document));
 
-
-
             $this->calculateSum($document, true);
 
             return $document;
