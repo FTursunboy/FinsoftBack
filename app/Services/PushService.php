@@ -8,12 +8,14 @@ use App\Models\Document;
 use App\Models\FirebaseLogs;
 use App\Models\Notification;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use PhpParser\Node\Expr\Cast\Object_;
 
 class PushService
 {
-    public function send(User $user, array $data, Document $document)
+    public function send(User $user, array $data, Model $model)
     {
         if (!$user || $user->fcmTokens()->count() <= 0) {
             return null;
@@ -43,7 +45,7 @@ class PushService
                         'image' => $data['image'] ?? null
                     ],
                     'data' => [
-                        'key' => json_encode(DocumentResource::make($document)),
+                        'key' => json_encode($model),
                     ]
                 ]
             ];
