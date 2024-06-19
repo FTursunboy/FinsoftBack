@@ -6,7 +6,7 @@ use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
 use App\Enums\DocumentTypes;
 use App\Enums\MovementTypes;
-use App\Events\DocumentApprovedEvent;
+use App\Events\Document\DocumentApprovedEvent;
 use App\Models\Document;
 use App\Models\Good;
 use App\Models\GoodAccounting;

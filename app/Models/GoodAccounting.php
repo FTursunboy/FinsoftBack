@@ -17,7 +17,11 @@ class GoodAccounting extends Model
         'model_id',
         'model_type',
         'active',
-        'date'
+        'date',
+        'storage_id',
+        'good_id',
+        'organization_id',
+        'document_type'
     ];
 
     public function storage(): BelongsTo

@@ -17,7 +17,6 @@ class SmallRemainderListener
     {
         //
     }
-
     /**
      * Handle the event.
      */

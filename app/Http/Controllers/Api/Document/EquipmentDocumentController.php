@@ -52,9 +52,9 @@ class EquipmentDocumentController extends Controller
         return $this->success(EquipmentDocumentResource::make($equipment->load('organization', 'storage', 'good', 'documentGoods', 'documentGoods.good', 'author')));
     }
 
-    public function update(Equipment $document, EquipmentDocumentRequest $request): JsonResponse
+    public function update(Equipment $equipment, EquipmentDocumentRequest $request): JsonResponse
     {
-        return $this->success($this->repository->update($document, EquipmentDocumentDTO::fromRequest($request)));
+        return $this->success($this->repository->update($equipment, EquipmentDocumentDTO::fromRequest($request)));
     }
 
     public function massDelete(IdRequest $request)

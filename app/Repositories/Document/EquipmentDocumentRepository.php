@@ -3,21 +3,12 @@
 namespace App\Repositories\Document;
 
 use App\DTO\Document\DeleteDocumentGoodsDTO;
-use App\DTO\Document\DocumentDTO;
-use App\DTO\Document\DocumentUpdateDTO;
 use App\DTO\Document\EquipmentDocumentDTO;
 use App\Enums\DocumentTypes;
-use App\Enums\MovementTypes;
-use App\Events\DocumentApprovedEvent;
+use App\Events\Document\EquipmentEvent;
 use App\Models\Document;
 use App\Models\Equipment;
 use App\Models\EquipmentGoods;
-use App\Models\Good;
-use App\Models\GoodAccounting;
-use App\Models\GoodDocument;
-use App\Models\Status;
-use App\Repositories\Contracts\Document\ClientDocumentRepositoryInterface;
-use App\Repositories\Contracts\Document\Documentable;
 use App\Repositories\Contracts\Document\EquipmentDocumentRepositoryInterface;
 use App\Traits\CalculateSum;
 use App\Traits\DocNumberTrait;
@@ -28,7 +19,6 @@ use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class EquipmentDocumentRepository implements EquipmentDocumentRepositoryInterface
 {
@@ -75,12 +65,10 @@ class EquipmentDocumentRepository implements EquipmentDocumentRepositoryInterfac
         });
 
         return $document->load(['organization', 'storage', 'author', 'good', 'documentGoods', 'documentGoods.good', 'author']);
-
     }
 
     public function update(Equipment $document, EquipmentDocumentDTO $dto)
     {
-
         return DB::transaction(function () use ($dto, $document) {
             $document->update([
                 'date' => $dto->date,
@@ -157,12 +145,12 @@ class EquipmentDocumentRepository implements EquipmentDocumentRepositoryInterfac
     public function approve(array $data)
     {
         try {
-
             foreach ($data['ids'] as $id) {
                 $document = Equipment::find($id);
 
                 if ($document->active) {
-                    $this->deleteDocumentData($document);
+
+                    $document->goodAccountents()->delete();
 
                     $document->update(
                         ['active' => false]
@@ -173,6 +161,7 @@ class EquipmentDocumentRepository implements EquipmentDocumentRepositoryInterfac
                     ['active' => true]
                 );
 
+                EquipmentEvent::dispatch($document, DocumentTypes::Equipment->value);
             }
         } catch (Exception $exception) {
             dd($exception->getMessage());
@@ -185,7 +174,8 @@ class EquipmentDocumentRepository implements EquipmentDocumentRepositoryInterfac
         foreach ($data['ids'] as $id) {
             $document = Equipment::find($id);
 
-            $this->deleteDocumentData($document);
+            $document->goodAccountents()->delete();
+
             $document->update(
                 ['active' => false]
             );

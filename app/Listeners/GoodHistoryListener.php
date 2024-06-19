@@ -2,8 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\DocumentApprovedEvent;
-use App\Services\HandleDocumentApproveCreated;
+use App\Events\Document\DocumentApprovedEvent;
 use App\Services\HandleGoodHistory;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
