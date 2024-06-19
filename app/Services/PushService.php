@@ -45,7 +45,8 @@ class PushService
                         'image' => $data['image'] ?? null
                     ],
                     'data' => [
-                        'key' => json_encode($model),
+                        'model' => json_encode($model),
+                        'type' => 'document'
                     ]
                 ]
             ];
