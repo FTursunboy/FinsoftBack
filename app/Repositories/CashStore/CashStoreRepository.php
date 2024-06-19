@@ -2,27 +2,9 @@
 
 namespace App\Repositories\CashStore;
 
-use App\DTO\CashStore\ClientPaymentDTO;
-use App\Enums\CashOperationType;
-use App\Enums\DocumentTypes;
-use App\Enums\MovementTypes;
-use App\Events\CashStore\AccountablePersonEvent;
-use App\Events\CashStore\AnotherCashRegisterEvent;
-use App\Events\CashStore\BalanceEvent;
-use App\Events\CashStore\CashEvent;
-use App\Events\CashStore\CounterpartySettlementEvent;
-use App\Events\CashStore\CreditEvent;
-use App\Events\CashStore\IncomeEvent;
-use App\Events\CashStore\InvestmentEvent;
-use App\Events\CashStore\OrganizationBillEvent;
-use App\Events\DocumentApprovedEvent;
 use App\Models\CashStore;
-use App\Models\Document;
 use App\Repositories\Contracts\CashStore\CashStoreRepositoryInterface;
-use App\Repositories\Contracts\CashStore\ClientPaymentRepositoryInterface;
-use App\Traits\DocNumberTrait;
 use Exception;
-use Illuminate\Support\Facades\Auth;
 
 class CashStoreRepository implements CashStoreRepositoryInterface
 {

@@ -23,4 +23,6 @@ enum DocumentTypes: string
     case WriteOff = 'Списание';
 
     case Disposal = 'Оприходование';
+
+    case Equipment = 'Комплектация';
 }

@@ -5,19 +5,14 @@ namespace App\Repositories\Document;
 use App\DTO\Document\DeleteDocumentGoodsDTO;
 use App\DTO\Document\DocumentDTO;
 use App\DTO\Document\DocumentUpdateDTO;
-use App\DTO\Document\OrderDocumentDTO;
-use App\DTO\Document\OrderDocumentUpdateDTO;
 use App\Enums\DocumentTypes;
 use App\Enums\MovementTypes;
-use App\Events\DocumentApprovedEvent;
+use App\Events\Document\DocumentApprovedEvent;
 use App\Models\Document;
-use App\Models\DocumentModel;
 use App\Models\Good;
 use App\Models\GoodAccounting;
 use App\Models\GoodDocument;
 use App\Models\OrderDocument;
-use App\Models\OrderDocumentGoods;
-use App\Models\Status;
 use App\Repositories\Contracts\Document\Documentable;
 use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
 use App\Traits\CalculateSum;
@@ -28,7 +23,6 @@ use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class DocumentRepository implements DocumentRepositoryInterface
 {

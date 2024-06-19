@@ -1,16 +1,11 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Document;
 
 use App\Enums\MovementTypes;
-use App\Models\Document;
 use App\Models\DocumentModel;
-use App\Models\GoodDocument;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 

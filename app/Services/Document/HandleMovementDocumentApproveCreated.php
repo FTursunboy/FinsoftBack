@@ -1,17 +1,12 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Document;
 
 use App\Enums\MovementTypes;
 use App\Events\SmallRemainderEvent;
-use App\Models\Balance;
-use App\Models\BalanceArticle;
-use App\Models\CounterpartySettlement;
 use App\Models\Currency;
-use App\Models\Document;
 use App\Models\DocumentModel;
 use App\Models\ExchangeRate;
-use App\Models\Good;
 use App\Models\GoodAccounting;
 use App\Models\GoodDocument;
 
