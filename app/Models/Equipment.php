@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Repositories\Contracts\SoftDeleteInterface;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Equipment extends DocumentModel
+class Equipment extends DocumentModel implements SoftDeleteInterface
 {
-    protected $fillable = ['date','doc_number','organization_id','good_id','storage_id','amount', 'author_id', 'sum', 'active'];
+    protected $fillable = ['date','doc_number','organization_id','good_id','storage_id','amount', 'author_id', 'sum', 'active', 'deleted_at'];
+
+
+    public static function bootSoftDeletes() { }
 
     public function organization(): BelongsTo
     {
