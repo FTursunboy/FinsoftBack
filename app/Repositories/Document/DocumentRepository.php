@@ -12,8 +12,10 @@ use App\Enums\DocumentTypes;
 use App\Enums\MovementTypes;
 use App\Events\DocumentApprovedEvent;
 use App\Jobs\SendPushJob;
+use App\Enums\DocumentTypes;
+use App\Enums\MovementTypes;
+use App\Events\Document\DocumentApprovedEvent;
 use App\Models\Document;
-use App\Models\DocumentModel;
 use App\Models\Good;
 use App\Models\GoodAccounting;
 use App\Models\GoodDocument;
@@ -31,7 +33,6 @@ use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class DocumentRepository implements DocumentRepositoryInterface
 {

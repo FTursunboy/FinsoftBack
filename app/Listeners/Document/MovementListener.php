@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Listeners\Document;
 
-use App\Services\HandleMovementDocumentApproveCreated;
+use App\Services\Document\HandleMovementDocumentApproveCreated;
 
 class MovementListener
 {
