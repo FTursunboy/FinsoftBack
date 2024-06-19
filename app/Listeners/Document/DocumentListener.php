@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Listeners\Document;
 
-use App\Events\DocumentApprovedEvent;
-use App\Services\HandleDocumentApproveCreated;
+use App\Events\Document\DocumentApprovedEvent;
+use App\Services\Document\HandleDocumentApproveCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class DocumentListener implements ShouldQueue

@@ -2,20 +2,11 @@
 
 namespace App\Repositories\Document;
 
-use App\DTO\Document\DeleteDocumentGoodsDTO;
-use App\DTO\Document\DocumentDTO;
-use App\DTO\Document\DocumentUpdateDTO;
 use App\DTO\Document\OrderDocumentDTO;
 use App\DTO\Document\OrderDocumentUpdateDTO;
-use App\Enums\MovementTypes;
-use App\Events\DocumentApprovedEvent;
-use App\Models\Document;
-use App\Models\GoodDocument;
 use App\Models\OrderDocument;
 use App\Models\OrderDocumentGoods;
-use App\Models\Status;
 use App\Repositories\Contracts\Document\Documentable;
-use App\Repositories\Contracts\Document\DocumentRepositoryInterface;
 use App\Repositories\Contracts\Document\OrderProviderDocumentRepositoryInterface;
 use App\Traits\DocNumberTrait;
 use App\Traits\FilterTrait;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Document;
 
 use App\Enums\MovementTypes;
 use App\Models\DocumentModel;
@@ -17,7 +17,6 @@ class MovementApprovedEvent
      * Create a new event instance.
      */
     public function __construct(public DocumentModel $document, public MovementTypes $movementTypes, public ?string $documentType, public ?int $storageId) { }
-
 
     /**
      * Get the channels the event should broadcast on.
