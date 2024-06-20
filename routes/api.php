@@ -36,6 +36,7 @@ use App\Http\Controllers\Api\ExchangeRateController;
 use App\Http\Controllers\Api\GoodController;
 use App\Http\Controllers\Api\OrganizationBillController;
 use App\Http\Controllers\Api\OrganizationController;
+use App\Http\Controllers\Api\Plans\GoodSaleController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\PriceTypeController;
 use App\Http\Controllers\Api\ScheduleController;
@@ -451,14 +452,20 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::group(['prefix' => 'service'], function () {
         Route::post('/', [ServiceController::class, 'store']);
-
     });
+
+
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
 
 
 
-
+    Route::group(['prefix' => 'plan'], function (){
+        Route::post('goods', [GoodSaleController::class, 'store']);
+        Route::get('goods/{plan}', [GoodSaleController::class, 'show']);
+        Route::get('goods', [GoodSaleController::class, 'index']);
+        Route::patch('goods/{plan}', [GoodSaleController::class, 'update']);
+    });
 
     require_once 'cashStore.php';
     require_once 'checkingAccount.php';

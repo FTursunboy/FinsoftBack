@@ -11,16 +11,11 @@ class GoodPlanResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'id' => $this->id,
+            'created_at' => $this->created_at,
             'quantity' => $this->quantity,
-
-            'good_sale_plan_id' => $this->good_sale_plan_id,
-            'month_id' => $this->month_id,
-            'good_id' => $this->good_id,
-
-            'goodSalePlan' => new GoodSalePlanResource($this->whenLoaded('goodSalePlan')),
+            'month' =>  MonthResource::make($this->whenLoaded('month')),
+            'good' => GoodResource::make($this->whenLoaded('good')),
         ];
     }
 }
