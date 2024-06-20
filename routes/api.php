@@ -376,6 +376,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
             Route::patch('{equipment}', [EquipmentDocumentController::class, 'update']);
             Route::post('approve', [EquipmentDocumentController::class, 'approve']);
             Route::post('unApprove', [EquipmentDocumentController::class, 'unApprove']);
+            Route::post('massDelete', [EquipmentDocumentController::class, 'massDelete']);
+            Route::post('massRestore', [EquipmentDocumentController::class, 'massRestore']);
         });
 
         Route::patch('/update/{document}', [DocumentController::class, 'update']);
