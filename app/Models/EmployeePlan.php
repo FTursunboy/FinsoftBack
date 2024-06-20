@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class GoodPlan extends Model
+class EmployeePlan extends Model
 {
     protected $fillable = [
         'sale_plan_id',
         'month_id',
-        'good_id',
-        'quantity',
+        'employee_id',
+        'sum',
     ];
 
-    public function goodSalePlan(): BelongsTo
+    public function salePlan(): BelongsTo
     {
         return $this->belongsTo(SalePlan::class, 'sale_plan_id');
     }
@@ -24,8 +24,8 @@ class GoodPlan extends Model
         return $this->belongsTo(Month::class);
     }
 
-    public function good(): BelongsTo
+    public function employee(): BelongsTo
     {
-        return $this->belongsTo(Good::class);
+        return $this->belongsTo(Employee::class);
     }
 }

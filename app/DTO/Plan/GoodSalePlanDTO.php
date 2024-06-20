@@ -1,9 +1,8 @@
 <?php
 
-namespace App\DTO;
+namespace App\DTO\Plan;
 
-use App\Http\Requests\Api\Barcode\BarcodeRequest;
-use App\Http\Requests\GoodSalePlanRequest;
+use App\Http\Requests\Api\Plan\GoodSalePlanRequest;
 
 class GoodSalePlanDTO
 {

@@ -36,6 +36,7 @@ use App\Http\Controllers\Api\ExchangeRateController;
 use App\Http\Controllers\Api\GoodController;
 use App\Http\Controllers\Api\OrganizationBillController;
 use App\Http\Controllers\Api\OrganizationController;
+use App\Http\Controllers\Api\Plans\EmployeeSaleController;
 use App\Http\Controllers\Api\Plans\GoodSaleController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\PriceTypeController;
@@ -465,6 +466,11 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('goods/{plan}', [GoodSaleController::class, 'show']);
         Route::get('goods', [GoodSaleController::class, 'index']);
         Route::patch('goods/{plan}', [GoodSaleController::class, 'update']);
+
+        Route::post('employees', [EmployeeSaleController::class, 'store']);
+        Route::get('employees/{plan}', [EmployeeSaleController::class, 'show']);
+        Route::get('employees', [EmployeeSaleController::class, 'index']);
+        Route::patch('employees/{plan}', [EmployeeSaleController::class, 'update']);
     });
 
     require_once 'cashStore.php';
