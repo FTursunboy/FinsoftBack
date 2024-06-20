@@ -8,9 +8,7 @@ use App\Models\Good;
 use App\Repositories\Contracts\BarcodeRepositoryInterface;
 use App\Traits\FilterTrait;
 use App\Traits\Sort;
-
 use Illuminate\Pagination\LengthAwarePaginator;
-use function PHPUnit\Framework\isFalse;
 
 class BarcodeRepository implements BarcodeRepositoryInterface
 {

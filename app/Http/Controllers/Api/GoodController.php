@@ -21,7 +21,7 @@ use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\GoodRepository;
 use App\Traits\ApiResponse;
 
-class GoodController extends Controller implements \App\Repositories\Contracts\SoftDeleteInterface
+class GoodController extends Controller
 {
     use ApiResponse;
 

@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->foreignId('good_sale_plan_id');
             $table->foreignId('month_id');
             $table->unsignedBigInteger('good_id');
-            $table->string('quantity');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
