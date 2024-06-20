@@ -9,23 +9,29 @@ class CounterpartyCoordinatesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'location' => [
+            'locations' => [
                 'array',
                 'required',
             ],
-            'location.lat' => [
+            'locations.*.lat' => [
                 'required',
                 'numeric',
                 'between:-90,90',
                 'not_in:0',
             ],
-            'location.lon' => [
+            'locations.*.lon' => [
                 'required',
                 'numeric',
                 'between:-180,180',
-                'not_in:0'
+                'not_in:0',
+            ],
+            'locations.*.date' => [
+                'required',
+                'date_format:Y-m-d H:i:s'
             ]
+
         ];
+
     }
 
     public function authorize(): bool

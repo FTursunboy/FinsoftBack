@@ -22,7 +22,7 @@ class SmallRemainderEvent
 
     /**
      * Get the channels the event should broadcast on.
-     *
+     *s
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
     public function broadcastOn(): array

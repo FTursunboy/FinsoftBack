@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\Good;
+use App\Models\User;
+use App\Services\PushService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -18,7 +20,7 @@ class SmallRemainderJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(int $good_id)
+    public function __construct(int $good_id, public User $user)
     {
         $this->good_id = $good_id;
     }
@@ -30,7 +32,13 @@ class SmallRemainderJob implements ShouldQueue
     {
         $good = Good::find($this->good_id);
         if ($good->amount <= $good->small_remainder) {
-            //TODO
+
+            $data = [
+                'title' => 'Предупреждение',
+                'body' => 'Товар ' . $good->name . ' меньше малого остатка'
+            ];
+
+            (new PushService())->send($this->user, $data, $good);
         }
     }
 }
