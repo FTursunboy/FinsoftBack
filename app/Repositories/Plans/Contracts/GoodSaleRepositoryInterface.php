@@ -11,7 +11,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface GoodSaleRepositoryInterface
 {
-    public function index() :LengthAwarePaginator;
+    public function index(array $data) :LengthAwarePaginator;
 
     public function store(GoodSalePlanDTO $dto);
 

@@ -14,6 +14,7 @@ use App\Models\GoodSalePlan;
 use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\Plans\Contracts\GoodSaleRepositoryInterface;
 use App\Traits\ApiResponse;
+use Illuminate\Http\Request;
 
 class GoodSaleController extends Controller
 {
@@ -31,9 +32,9 @@ class GoodSaleController extends Controller
         return $this->success(GoodSalePlanResource::make($plan->load(['goodSalePlan.month', 'goodSalePlan.good', 'organization'])));
     }
 
-    public function index()
+    public function index(IndexRequest $request)
     {
-        return $this->success(GoodSalePlanResource::collection(GoodSalePlan::with(['goodSalePlan.month', 'goodSalePlan.good', 'organization'])->get()));
+        return $this->paginate(GoodSalePlanResource::collection($this->repository->index($request->validated())));
     }
 
     public function update(GoodSalePlanRequest $request, GoodSalePlan $plan)

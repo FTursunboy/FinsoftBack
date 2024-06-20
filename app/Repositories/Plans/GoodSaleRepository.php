@@ -44,9 +44,11 @@ class GoodSaleRepository implements GoodSaleRepositoryInterface
     }
 
 
-    public function index(): LengthAwarePaginator
+    public function index(array $data): LengthAwarePaginator
     {
-        // TODO: Implement index() method.
+        $filterParams = $this->model::filterData($data);
+
+        return $this->model::with(['goodSalePlan.month', 'goodSalePlan.good', 'organization'])->paginate($filterParams['itemsPerPage']);
     }
 
     public function update(GoodSalePlanDTO $dto, GoodSalePlan $plan)
