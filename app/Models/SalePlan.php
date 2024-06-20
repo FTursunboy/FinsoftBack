@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class GoodSalePlan extends Model
+class SalePlan extends Model
 {
     use SoftDeletes;
 
@@ -19,7 +19,12 @@ class GoodSalePlan extends Model
 
     public function goodSalePlan() :HasMany
     {
-        return $this->hasMany(GoodPlan::class, 'good_sale_plan_id', 'id');
+        return $this->hasMany(GoodPlan::class, 'sale_plan_id', 'id');
+    }
+
+    public function employeeSalePlan() :HasMany
+    {
+        return $this->hasMany(EmployeePlan::class, 'sale_plan_id', 'id');
     }
 
     public function organization() :BelongsTo {

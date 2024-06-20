@@ -2,11 +2,8 @@
 
 namespace App\Repositories\Plans\Contracts;
 
-use App\DTO\BarcodeDTO;
-use App\DTO\GoodSalePlanDTO;
-use App\Models\Barcode;
-use App\Models\Good;
-use App\Models\GoodSalePlan;
+use App\DTO\Plan\GoodSalePlanDTO;
+use App\Models\SalePlan;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface GoodSaleRepositoryInterface
@@ -15,7 +12,7 @@ interface GoodSaleRepositoryInterface
 
     public function store(GoodSalePlanDTO $dto);
 
-    public function update(GoodSalePlanDTO $dto, GoodSalePlan $plan);
+    public function update(GoodSalePlanDTO $dto, SalePlan $plan);
 
 
 }
