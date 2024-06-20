@@ -16,7 +16,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class GoodSaleRepository implements GoodSaleRepositoryInterface
 {
-
     public $model = GoodSalePlan::class;
 
     public function store(GoodSalePlanDTO $DTO)
