@@ -13,6 +13,7 @@ class CounterpartyCoordinates extends Model
 
     protected $fillable = [
         'counterparty_id',
+        'created_at'
     ];
 
     protected $casts = [

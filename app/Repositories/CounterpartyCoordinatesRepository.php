@@ -12,6 +12,7 @@ use App\Traits\FilterTrait;
 use App\Traits\Sort;
 
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use function PHPUnit\Framework\isFalse;
 
 class CounterpartyCoordinatesRepository
@@ -21,17 +22,19 @@ class CounterpartyCoordinatesRepository
 
     public function store(array $data)
     {
-        $location = $data['location'];
+         foreach ($data['locations'] as $location) {
+             $coordinate = new CounterpartyCoordinates($data);
 
-        $coordinate = new CounterpartyCoordinates($data);
+             $coordinate->counterparty_id = Auth::id();
+             $coordinate->location = new Coordinates($location['lat'], $location['lon']);
+             $coordinate->created_at = $location['date'];
 
-        $coordinate->counterparty_id = \Auth::id();
-        $coordinate->location = new Coordinates($location['lat'], $location['lon']);
+             $coordinate->save();
+         }
 
 
-        $coordinate->save();
 
-        return $coordinate;
+        return true;
     }
 
     public function update(Barcode $barcode, BarcodeDTO $DTO) :Barcode

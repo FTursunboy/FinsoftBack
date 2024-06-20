@@ -454,6 +454,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
 
+
+
     require_once 'cashStore.php';
     require_once 'checkingAccount.php';
 

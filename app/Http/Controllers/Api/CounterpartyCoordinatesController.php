@@ -35,6 +35,6 @@ class CounterpartyCoordinatesController extends Controller
     public function store(CounterpartyCoordinatesRequest $request)
     {
 
-        return $this->created(CounterpartyCoordinatesResource::make($this->repository->store($request->validated())));
+        return $this->created($this->repository->store($request->validated()));
     }
 }
