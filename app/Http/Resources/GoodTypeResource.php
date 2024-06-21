@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Plan;
+namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\SalePlan */
-class GoodSalePlanResource extends JsonResource
+/** @mixin \App\Models\SetUpPrice */
+class GoodTypeResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
@@ -14,10 +14,11 @@ class GoodSalePlanResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'id' => $this->id,
-            'organization_id' => $this->whenLoaded('organization'),
-            'year' => $this->year,
-            'goods' => GoodPlanResource::collection($this->whenLoaded('goodSalePlan')),
+            'old_price' => $this->old_price,
+            'new_price' => $this->new_price,
 
+            'good_id' => $this->good_id,
+            'price_id' => $this->price_id,
         ];
     }
 }

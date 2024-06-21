@@ -74,7 +74,7 @@ class DocumentRepository implements DocumentRepositoryInterface
         });
         $user = User::find($document->author_id);
 
-        SendPushJob::dispatch($user, ['title' => DocumentTypes::Purchase, 'body' => 'Документ успешно создан'], $document);
+        SendPushJob::dispatch($user, ['title' => DocumentTypes::Purchase, 'body' => 'Документ успешно создан'], $document, 'document');
 
         return $document->load(['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoods', 'documentGoods.good']);
     }
