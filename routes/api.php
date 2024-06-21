@@ -39,6 +39,7 @@ use App\Http\Controllers\Api\OrganizationBillController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\Plans\EmployeeSaleController;
 use App\Http\Controllers\Api\Plans\GoodSaleController;
+use App\Http\Controllers\Api\Plans\StorageSaleController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\PriceSetUpController;
 use App\Http\Controllers\Api\PriceTypeController;
@@ -473,6 +474,11 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('employees/{plan}', [EmployeeSaleController::class, 'show']);
         Route::get('employees', [EmployeeSaleController::class, 'index']);
         Route::patch('employees/{plan}', [EmployeeSaleController::class, 'update']);
+
+        Route::post('storages', [StorageSaleController::class, 'store']);
+        Route::get('storages/{plan}', [StorageSaleController::class, 'show']);
+        Route::get('storages', [StorageSaleController::class, 'index']);
+        Route::patch('storages/{plan}', [StorageSaleController::class, 'update']);
     });
 
 

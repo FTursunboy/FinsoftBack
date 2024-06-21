@@ -3,6 +3,7 @@
 namespace App\Repositories\Plans;
 
 use App\DTO\Plan\GoodSalePlanDTO;
+use App\Enums\PlanType;
 use App\Models\GoodPlan;
 use App\Models\SalePlan;
 use App\Repositories\Plans\Contracts\GoodSaleRepositoryInterface;
@@ -17,6 +18,7 @@ class GoodSaleRepository implements GoodSaleRepositoryInterface
         $plan = SalePlan::create([
             'year' => $DTO->year,
             'organization_id' => $DTO->organization_id,
+            'type' => PlanType::Good
         ]);
 
         foreach ($DTO->goods as $good) {
@@ -40,7 +42,9 @@ class GoodSaleRepository implements GoodSaleRepositoryInterface
     {
         $filterParams = $this->model::filterData($data);
 
-        return $this->model::with(['goodSalePlan.month', 'goodSalePlan.good', 'organization'])->paginate($filterParams['itemsPerPage']);
+        $query = $this->model::where('type', PlanType::Good);
+
+        return $query->with(['goodSalePlan.month', 'goodSalePlan.good', 'organization'])->paginate($filterParams['itemsPerPage']);
     }
 
     public function update(GoodSalePlanDTO $dto, SalePlan $plan)
@@ -48,6 +52,7 @@ class GoodSaleRepository implements GoodSaleRepositoryInterface
         $plan->update([
             'year' => $dto->year,
             'organization_id' => $dto->organization_id,
+            'type' => PlanType::Good
         ]);
 
         foreach ($dto->goods as $good) {

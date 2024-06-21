@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employee_plans', function (Blueprint $table) {
+        Schema::create('storage_plans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('sale_plan_id');
             $table->foreignId('month_id');
-            $table->unsignedBigInteger('employee_id');
-            $table->decimal('sum',20,3);
+            $table->unsignedBigInteger('storage_id');
+            $table->decimal('sum', 20, 3);
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee_plans');
+        Schema::dropIfExists('storage_plans');
     }
 };
