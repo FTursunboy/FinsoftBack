@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers\Api\Plans;
 
-use App\DTO\GoodSalePlanDTO;
+use App\DTO\Plan\GoodSalePlanDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Barcode\BarcodeRequest;
 use App\Http\Requests\Api\IndexRequest;
-use App\Http\Requests\GoodSalePlanRequest;
-use App\Http\Requests\IdRequest;
-use App\Http\Resources\GoodSalePlanResource;
-use App\Models\Good;
-use App\Models\GoodSalePlan;
-use App\Repositories\Contracts\MassOperationInterface;
+use App\Http\Requests\Api\Plan\GoodSalePlanRequest;
+use App\Http\Resources\Plan\GoodSalePlanResource;
+use App\Models\SalePlan;
 use App\Repositories\Plans\Contracts\GoodSaleRepositoryInterface;
 use App\Traits\ApiResponse;
-use Illuminate\Http\Request;
 
 class GoodSaleController extends Controller
 {
@@ -27,7 +22,7 @@ class GoodSaleController extends Controller
         return $this->created(GoodSalePlanResource::make($this->repository->store(GoodSalePlanDTO::fromRequest($request))));
     }
 
-    public function show(GoodSalePlan $plan)
+    public function show(SalePlan $plan)
     {
         return $this->success(GoodSalePlanResource::make($plan->load(['goodSalePlan.month', 'goodSalePlan.good', 'organization'])));
     }
@@ -37,7 +32,7 @@ class GoodSaleController extends Controller
         return $this->paginate(GoodSalePlanResource::collection($this->repository->index($request->validated())));
     }
 
-    public function update(GoodSalePlanRequest $request, GoodSalePlan $plan)
+    public function update(GoodSalePlanRequest $request, SalePlan $plan)
     {
         return $this->success(GoodSalePlanResource::make($this->repository->update(GoodSalePlanDTO::fromRequest($request), $plan)));
     }
