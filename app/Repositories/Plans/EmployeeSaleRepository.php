@@ -3,6 +3,7 @@
 namespace App\Repositories\Plans;
 
 use App\DTO\Plan\EmployeeSalePlanDTO;
+use App\Enums\PlanType;
 use App\Models\EmployeePlan;
 use App\Models\SalePlan;
 use App\Repositories\Plans\Contracts\EmployeeSaleRepositoryInterface;
@@ -18,6 +19,7 @@ class EmployeeSaleRepository implements EmployeeSaleRepositoryInterface
         $plan = SalePlan::create([
             'organization_id' => $DTO->organization_id,
             'year' => $DTO->year,
+            'type' => PlanType::Employee
         ]);
 
         foreach ($DTO->employees as $employee) {
@@ -41,7 +43,9 @@ class EmployeeSaleRepository implements EmployeeSaleRepositoryInterface
     {
         $filterParams = $this->model::filterData($data);
 
-        return $this->model::with(['employeeSalePlan.month', 'employeeSalePlan.employee', 'organization'])->paginate($filterParams['itemsPerPage']);
+        $query = $this->model::where('type', PlanType::Employee);
+
+        return $query->with(['employeeSalePlan.month', 'employeeSalePlan.employee', 'organization'])->paginate($filterParams['itemsPerPage']);
     }
 
     public function update(EmployeeSalePlanDTO $dto, SalePlan $plan)
@@ -49,6 +53,7 @@ class EmployeeSaleRepository implements EmployeeSaleRepositoryInterface
         $plan->update([
             'organization_id' => $dto->organization_id,
             'year' => $dto->year,
+            'type' => PlanType::Employee
         ]);
 
         foreach ($dto->employees as $employee) {
