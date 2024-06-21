@@ -39,6 +39,7 @@ use App\Http\Controllers\Api\OrganizationBillController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\Plans\EmployeeSaleController;
 use App\Http\Controllers\Api\Plans\GoodSaleController;
+use App\Http\Controllers\Api\Plans\OldNewClientSaleController;
 use App\Http\Controllers\Api\Plans\OperationTypeSaleController;
 use App\Http\Controllers\Api\Plans\StorageSaleController;
 use App\Http\Controllers\Api\PositionController;
@@ -484,6 +485,11 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('operation-types/{plan}', [OperationTypeSaleController::class, 'show']);
         Route::get('operation-types', [OperationTypeSaleController::class, 'index']);
         Route::patch('operation-types/{plan}', [OperationTypeSaleController::class, 'update']);
+
+        Route::post('old-new-client', [OldNewClientSaleController::class, 'store']);
+        Route::get('old-new-client/{plan}', [OldNewClientSaleController::class, 'show']);
+        Route::get('old-new-client', [OldNewClientSaleController::class, 'index']);
+        Route::patch('old-new-client/{plan}', [OldNewClientSaleController::class, 'update']);
     });
 
     Route::group(['prefix' => 'notifications'], function () {
