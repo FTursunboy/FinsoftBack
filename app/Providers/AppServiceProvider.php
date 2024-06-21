@@ -129,8 +129,10 @@ use App\Repositories\OrganizationRepository;
 use App\Repositories\PermissionRepository;
 use App\Repositories\Plans\Contracts\EmployeeSaleRepositoryInterface;
 use App\Repositories\Plans\Contracts\GoodSaleRepositoryInterface;
+use App\Repositories\Plans\Contracts\StorageSaleRepositoryInterface;
 use App\Repositories\Plans\EmployeeSaleRepository;
 use App\Repositories\Plans\GoodSaleRepository;
+use App\Repositories\Plans\StorageSaleRepository;
 use App\Repositories\PositionRepository;
 use App\Repositories\Report\CounterpartyReportRepository;
 use App\Repositories\Report\GoodReportRepository;
@@ -225,7 +227,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(EquipmentDocumentRepositoryInterface::class, EquipmentDocumentRepository::class);
         $this->app->singleton(GoodSaleRepositoryInterface::class, GoodSaleRepository::class);
         $this->app->singleton(EmployeeSaleRepositoryInterface::class, EmployeeSaleRepository::class);
+<<<<<<< HEAD
         $this->app->singleton(NotificationRepositoryInterface::class, NotificationRepository::class);
+=======
+        $this->app->singleton(StorageSaleRepositoryInterface::class, StorageSaleRepository::class);
+>>>>>>> d8fcd496a07fe27bc8f92f8748b1fe3d62a22bc2
     }
 
     /**
