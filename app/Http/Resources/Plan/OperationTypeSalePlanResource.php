@@ -5,8 +5,7 @@ namespace App\Http\Resources\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\SalePlan */
-class EmployeeSalePlanResource extends JsonResource
+class OperationTypeSalePlanResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
@@ -16,8 +15,7 @@ class EmployeeSalePlanResource extends JsonResource
             'id' => $this->id,
             'organization_id' => $this->whenLoaded('organization'),
             'year' => $this->year,
-            'employees' => EmployeePlanResource::collection($this->whenLoaded('employeeSalePlan')),
-
+            'operationTypes' => OperationTypePlanResource::collection($this->whenLoaded('operationTypeSalePlan')),
         ];
     }
 }

@@ -21,7 +21,6 @@ class GoodSaleRepository implements GoodSaleRepositoryInterface
             'type' => PlanType::Good
         ]);
 
-
         foreach ($DTO->goods as $good) {
             GoodPlan::updateOrCreate(
                 [

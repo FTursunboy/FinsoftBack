@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class EmployeePlan extends Model
+class OperationTypePlan extends Model
 {
     protected $fillable = [
         'sale_plan_id',
         'month_id',
-        'employee_id',
+        'operation_type_id',
         'sum',
     ];
 
@@ -24,8 +24,8 @@ class EmployeePlan extends Model
         return $this->belongsTo(Month::class);
     }
 
-    public function employee(): BelongsTo
+    public function operationType(): BelongsTo
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(OperationType::class);
     }
 }

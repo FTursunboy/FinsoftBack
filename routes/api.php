@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\HiringController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\InventoryOperation\InventoryOperationController;
 use App\Http\Controllers\Api\LocationController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ExchangeRateController;
@@ -38,6 +39,7 @@ use App\Http\Controllers\Api\OrganizationBillController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\Plans\EmployeeSaleController;
 use App\Http\Controllers\Api\Plans\GoodSaleController;
+use App\Http\Controllers\Api\Plans\OperationTypeSaleController;
 use App\Http\Controllers\Api\Plans\StorageSaleController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\PriceTypeController;
@@ -79,7 +81,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('counterparty', CounterpartyController::class);
     Route::apiResource('priceType', PriceTypeController::class);
     Route::apiResource('cpAgreement', CounterpartyAgreementController::class);
-    Route::apiResource('position', PositionController::class);
+    Route::apiResource('positiNon', PositionController::class);
     Route::apiResource('cashRegister', CashRegisterController::class);
     Route::apiResource('organization', OrganizationController::class);
     Route::apiResource('employee', EmployeeController::class)->except('update');
@@ -477,6 +479,17 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('storages/{plan}', [StorageSaleController::class, 'show']);
         Route::get('storages', [StorageSaleController::class, 'index']);
         Route::patch('storages/{plan}', [StorageSaleController::class, 'update']);
+
+        Route::post('operation-types', [OperationTypeSaleController::class, 'store']);
+        Route::get('operation-types/{plan}', [OperationTypeSaleController::class, 'show']);
+        Route::get('operation-types', [OperationTypeSaleController::class, 'index']);
+        Route::patch('operation-types/{plan}', [OperationTypeSaleController::class, 'update']);
+    });
+
+    Route::group(['prefix' => 'notifications'], function () {
+        Route::get('/',  [NotificationController::class, 'getUnreadNotifications']);
+        Route::post('read/{notification}',  [NotificationController::class, 'read']);
+        Route::get('all',  [NotificationController::class, 'getAllNotifications']);
     });
 
     require_once 'cashStore.php';

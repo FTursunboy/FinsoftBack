@@ -15,13 +15,13 @@ class SendPushJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(public User $user, public array $data, public Document $document)
+    public function __construct(public User $user, public array $data, public Document $document, public string $type)
     {
 
     }
 
     public function handle(): void
     {
-        (new PushService())->send($this->user, $this->data, $this->document);
+        (new PushService())->send($this->user, $this->data, $this->document, $this->type);
     }
 }

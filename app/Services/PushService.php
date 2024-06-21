@@ -15,7 +15,7 @@ use PhpParser\Node\Expr\Cast\Object_;
 
 class PushService
 {
-    public function send(User $user, array $data, Model $model)
+    public function send(User $user, array $data, Model $model, string $type)
     {
         if (!$user || $user->fcmTokens()->count() <= 0) {
             return null;
@@ -24,6 +24,8 @@ class PushService
         $notification = Notification::create([
             'user_id' => $user->id,
             'text' => $data['body'],
+            'data' => $data['data'],
+            'type' => $type
         ]);
 
         $apiUrl = config('firebase.api_url');
