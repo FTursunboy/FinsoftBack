@@ -467,6 +467,8 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::patch('goods/{plan}', [GoodSaleController::class, 'update']);
     });
 
+
+
     require_once 'cashStore.php';
     require_once 'checkingAccount.php';
 

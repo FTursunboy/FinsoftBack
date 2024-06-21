@@ -11,5 +11,6 @@ class Notification extends Model
         'type',
         'read_at',
         'text',
+        'data'
     ];
 }
