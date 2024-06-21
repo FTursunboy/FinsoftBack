@@ -12,16 +12,15 @@ class PriceSetUpResource extends JsonResource
     {
         return [
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'id' => $this->id,
             'doc_number' => $this->doc_number,
             'start_date' => $this->start_date,
             'comment' => $this->comment,
             'basis' => $this->basis,
             'active' => $this->active,
-
-            'organization_id' => $this->organization_id,
-            'author_id' => $this->author_id,
+            'organization' => OrganizationResource::make($this->organization),
+            'author' => UserResource::make($this->author),
+            'goodPrices' => SetUpResource::collection($this->whenLoaded('goodPrices')),
         ];
     }
 }

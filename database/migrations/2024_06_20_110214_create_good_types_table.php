@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('setup_goods', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('price_set_up_id');
             $table->unsignedInteger('good_id');
             $table->unsignedInteger('price_type_id');
             $table->decimal('old_price', 20, 3)->nullable();

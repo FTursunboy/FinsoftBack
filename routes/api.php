@@ -40,6 +40,7 @@ use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\Plans\EmployeeSaleController;
 use App\Http\Controllers\Api\Plans\GoodSaleController;
 use App\Http\Controllers\Api\PositionController;
+use App\Http\Controllers\Api\PriceSetUpController;
 use App\Http\Controllers\Api\PriceTypeController;
 use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\ServiceController;
@@ -474,10 +475,15 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::patch('employees/{plan}', [EmployeeSaleController::class, 'update']);
     });
 
+
     Route::group(['prefix' => 'notifications'], function () {
         Route::get('/',  [NotificationController::class, 'getUnreadNotifications']);
         Route::post('read/{notification}',  [NotificationController::class, 'read']);
         Route::get('all',  [NotificationController::class, 'getAllNotifications']);
+    });
+
+    Route::group(['prefix' => 'priceSetUp'], function () {
+        Route::get('/', [PriceSetUpController::class, 'index']);
     });
 
     require_once 'cashStore.php';
