@@ -13,4 +13,6 @@ enum PlanType :string {
 
     case OperationType = 'Тип операции';
 
+    case OldNewClient = 'Старые и новые клиенты';
+
 }
