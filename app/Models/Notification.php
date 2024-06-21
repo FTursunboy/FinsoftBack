@@ -13,4 +13,24 @@ class Notification extends Model
         'text',
         'data'
     ];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
+
+
+    public static function filterData(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'sort' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'organization_id' => $data['filterData']['organization_id'] ?? null,
+        ];
+    }
 }

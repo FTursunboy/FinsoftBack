@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\HiringController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\InventoryOperation\InventoryOperationController;
 use App\Http\Controllers\Api\LocationController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ExchangeRateController;
@@ -78,7 +79,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::apiResource('counterparty', CounterpartyController::class);
     Route::apiResource('priceType', PriceTypeController::class);
     Route::apiResource('cpAgreement', CounterpartyAgreementController::class);
-    Route::apiResource('position', PositionController::class);
+    Route::apiResource('positiNon', PositionController::class);
     Route::apiResource('cashRegister', CashRegisterController::class);
     Route::apiResource('organization', OrganizationController::class);
     Route::apiResource('employee', EmployeeController::class)->except('update');
@@ -473,7 +474,11 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::patch('employees/{plan}', [EmployeeSaleController::class, 'update']);
     });
 
-
+    Route::group(['prefix' => 'notifications'], function () {
+        Route::get('/',  [NotificationController::class, 'getUnreadNotifications']);
+        Route::post('read/{notification}',  [NotificationController::class, 'read']);
+        Route::get('all',  [NotificationController::class, 'getAllNotifications']);
+    });
 
     require_once 'cashStore.php';
     require_once 'checkingAccount.php';

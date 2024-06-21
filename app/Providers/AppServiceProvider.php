@@ -79,6 +79,7 @@ use App\Repositories\Contracts\HiringRepositoryInterface;
 use App\Repositories\Contracts\ImageRepositoryInterface;
 use App\Repositories\Contracts\LocationRepositoryInterface;
 use App\Repositories\Contracts\MassOperationInterface;
+use App\Repositories\Contracts\NotificationRepositoryInterface;
 use App\Repositories\Contracts\OrganizationBillRepositoryInterface;
 use App\Repositories\Contracts\OrganizationRepositoryInterface;
 use App\Repositories\Contracts\PermissionRepositoryInterface;
@@ -122,6 +123,7 @@ use App\Repositories\HiringRepository;
 use App\Repositories\ImageRepository;
 use App\Repositories\LocationRepository;
 use App\Repositories\MassOperation;
+use App\Repositories\NotificationRepository;
 use App\Repositories\OrganizationBillRepository;
 use App\Repositories\OrganizationRepository;
 use App\Repositories\PermissionRepository;
@@ -223,6 +225,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(EquipmentDocumentRepositoryInterface::class, EquipmentDocumentRepository::class);
         $this->app->singleton(GoodSaleRepositoryInterface::class, GoodSaleRepository::class);
         $this->app->singleton(EmployeeSaleRepositoryInterface::class, EmployeeSaleRepository::class);
+        $this->app->singleton(NotificationRepositoryInterface::class, NotificationRepository::class);
     }
 
     /**
