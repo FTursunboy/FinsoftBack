@@ -88,8 +88,6 @@ class InstallmentSaleRepository implements InstallmentSaleRepositoryInterface
             foreach ($ids['ids'] as $id) {
                 $plan = $this->model::where('id', $id)->first();
 
-                $plan->installmentSalePlan()->delete();
-
                 $plan->update([
                     'deleted_at' => Carbon::now(),
                 ]);

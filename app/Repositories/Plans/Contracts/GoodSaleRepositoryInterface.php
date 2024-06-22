@@ -14,5 +14,6 @@ interface GoodSaleRepositoryInterface
 
     public function update(GoodSalePlanDTO $dto, SalePlan $plan);
 
+    public function massDelete(array $data);
 
 }

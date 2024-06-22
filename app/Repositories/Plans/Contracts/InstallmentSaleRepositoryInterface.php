@@ -15,5 +15,6 @@ interface InstallmentSaleRepositoryInterface
 
     public function update(InstallmentSalePlanDTO $dto, SalePlan $plan);
 
+    public function massDelete(array $data);
 
 }

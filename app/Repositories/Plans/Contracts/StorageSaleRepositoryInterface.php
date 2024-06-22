@@ -15,4 +15,5 @@ interface StorageSaleRepositoryInterface
 
     public function update(StorageSalePlanDTO $dto, SalePlan $plan);
 
+    public function massDelete(array $data);
 }

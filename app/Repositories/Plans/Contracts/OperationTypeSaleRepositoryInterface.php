@@ -14,5 +14,6 @@ interface OperationTypeSaleRepositoryInterface
 
     public function update(OperationTypeSalePlanDTO $dto, SalePlan $plan);
 
+    public function massDelete(array $data);
 
 }

@@ -15,6 +15,7 @@ class GoodPlan extends Model implements \App\Repositories\Contracts\SoftDeleteIn
         'month_id',
         'good_id',
         'quantity',
+        'deleted_at'
     ];
 
     public static function bootSoftDeletes() { }

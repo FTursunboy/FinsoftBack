@@ -15,6 +15,7 @@ class EmployeePlan extends Model implements \App\Repositories\Contracts\SoftDele
         'month_id',
         'employee_id',
         'sum',
+        'deleted_at'
     ];
 
     public static function bootSoftDeletes() { }

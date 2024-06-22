@@ -92,8 +92,6 @@ class OldNewClientSaleRepository implements OldNewClientSaleRepositoryInterface
             foreach ($ids['ids'] as $id) {
                 $plan = $this->model::where('id', $id)->first();
 
-                $plan->oldNewClientSalePlan()->delete();
-
                 $plan->update([
                     'deleted_at' => Carbon::now(),
                 ]);
