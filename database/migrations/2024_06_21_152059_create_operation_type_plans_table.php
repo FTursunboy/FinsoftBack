@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('month_id');
             $table->unsignedBigInteger('operation_type_id');
             $table->decimal('sum', 20, 3);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
