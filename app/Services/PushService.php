@@ -24,7 +24,7 @@ class PushService
         $notification = Notification::create([
             'user_id' => $user->id,
             'text' => $data['title'],
-            'data' => $data['body'],
+            'data' => json_encode($model),
             'type' => $type
         ]);
 
