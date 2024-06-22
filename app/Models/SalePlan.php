@@ -14,7 +14,8 @@ class SalePlan extends Model
     protected $fillable = [
         'organization_id',
         'year',
-        'type'
+        'type',
+        'deleted_at'
     ];
 
     public function goodSalePlan() :HasMany
@@ -44,10 +45,11 @@ class SalePlan extends Model
 
     public function installmentSalePlan() :HasMany
     {
-        return $this->hasMany(OldNewClientPlan::class, 'sale_plan_id', 'id');
+        return $this->hasMany(InstallmentPlan::class, 'sale_plan_id', 'id');
     }
 
-    public function organization() :BelongsTo {
+    public function organization() :BelongsTo
+    {
         return $this->belongsTo(Organization::class, 'organization_id', 'id');
     }
 

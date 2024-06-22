@@ -15,6 +15,7 @@ class StoragePlan extends Model implements \App\Repositories\Contracts\SoftDelet
         'month_id',
         'storage_id',
         'sum',
+        'deleted_at'
     ];
 
     public static function bootSoftDeletes() { }

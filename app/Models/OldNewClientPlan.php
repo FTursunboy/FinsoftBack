@@ -16,6 +16,7 @@ class OldNewClientPlan extends Model implements \App\Repositories\Contracts\Soft
         'month_id',
         'new_client',
         'old_client',
+        'deleted_at'
     ];
 
     public static function bootSoftDeletes() { }

@@ -15,5 +15,6 @@ interface OldNewClientSaleRepositoryInterface
 
     public function update(OldNewClientSalePlanDTO $dto, SalePlan $plan);
 
+    public function massDelete(array $data);
 
 }

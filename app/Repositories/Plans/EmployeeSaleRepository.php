@@ -88,8 +88,6 @@ class EmployeeSaleRepository implements EmployeeSaleRepositoryInterface
             foreach ($ids['ids'] as $id) {
                 $plan = $this->model::where('id', $id)->first();
 
-                $plan->employeeSalePlan()->delete();
-
                 $plan->update([
                     'deleted_at' => Carbon::now(),
                 ]);
