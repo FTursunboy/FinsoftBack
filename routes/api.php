@@ -39,6 +39,7 @@ use App\Http\Controllers\Api\OrganizationBillController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\Plans\EmployeeSaleController;
 use App\Http\Controllers\Api\Plans\GoodSaleController;
+use App\Http\Controllers\Api\Plans\InstallmentSaleController;
 use App\Http\Controllers\Api\Plans\OldNewClientSaleController;
 use App\Http\Controllers\Api\Plans\OperationTypeSaleController;
 use App\Http\Controllers\Api\Plans\StorageSaleController;
@@ -491,6 +492,11 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('old-new-client/{plan}', [OldNewClientSaleController::class, 'show']);
         Route::get('old-new-client', [OldNewClientSaleController::class, 'index']);
         Route::patch('old-new-client/{plan}', [OldNewClientSaleController::class, 'update']);
+
+        Route::post('installment', [InstallmentSaleController::class, 'store']);
+        Route::get('installment/{plan}', [InstallmentSaleController::class, 'show']);
+        Route::get('installment', [InstallmentSaleController::class, 'index']);
+        Route::patch('installment/{plan}', [InstallmentSaleController::class, 'update']);
     });
 
 
