@@ -15,4 +15,6 @@ enum PlanType :string {
 
     case OldNewClient = 'Старые и новые клиенты';
 
+    case Installment = 'Рассрочка';
+
 }
