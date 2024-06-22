@@ -6,8 +6,11 @@ use App\DTO\Plan\OldNewClientSalePlanDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\Plan\OldNewClientPlanRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\Plan\OldNewClientSalePlanResource;
+use App\Models\OldNewClientPlan;
 use App\Models\SalePlan;
+use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\Plans\Contracts\OldNewClientSaleRepositoryInterface;
 use App\Traits\ApiResponse;
 
@@ -37,4 +40,13 @@ class OldNewClientSaleController extends Controller
         return $this->success(OldNewClientSalePlanResource::make($this->repository->update(OldNewClientSalePlanDTO::fromRequest($request), $plan)));
     }
 
+    public function massDelete(IdRequest $request)
+    {
+        return $this->success($this->repository->massDelete($request->validated()));
+    }
+
+    public function massRestore(IdRequest $request, MassOperationInterface $restore)
+    {
+        return $this->success($restore->massRestore(new OldNewClientPlan(), $request->validated()));
+    }
 }

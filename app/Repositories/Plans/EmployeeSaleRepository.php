@@ -8,7 +8,9 @@ use App\Models\EmployeePlan;
 use App\Models\SalePlan;
 use App\Repositories\Plans\Contracts\EmployeeSaleRepositoryInterface;
 
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeSaleRepository implements EmployeeSaleRepositoryInterface
 {
@@ -37,7 +39,6 @@ class EmployeeSaleRepository implements EmployeeSaleRepositoryInterface
 
         return $plan->load(['employeeSalePlan.month', 'employeeSalePlan.employee', 'organization']);
     }
-
 
     public function index(array $data): LengthAwarePaginator
     {
@@ -76,5 +77,27 @@ class EmployeeSaleRepository implements EmployeeSaleRepositoryInterface
         }
 
         return $plan->load(['employeeSalePlan.month', 'employeeSalePlan.good', 'organization']);
+    }
+
+    public function massDelete(array $ids)
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
+        DB::transaction(function () use ($ids) {
+
+            foreach ($ids['ids'] as $id) {
+                $plan = $this->model::where('id', $id)->first();
+
+                $plan->employeeSalePlan()->delete();
+
+                $plan->update([
+                    'deleted_at' => Carbon::now(),
+                ]);
+
+            }
+
+        });
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }

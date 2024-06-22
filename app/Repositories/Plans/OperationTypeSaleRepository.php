@@ -11,7 +11,9 @@ use App\Models\SalePlan;
 use App\Repositories\Plans\Contracts\EmployeeSaleRepositoryInterface;
 
 use App\Repositories\Plans\Contracts\OperationTypeSaleRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class OperationTypeSaleRepository implements OperationTypeSaleRepositoryInterface
 {
@@ -78,5 +80,24 @@ class OperationTypeSaleRepository implements OperationTypeSaleRepositoryInterfac
         }
 
         return $plan->load(['operationTypeSalePlan.month', 'operationTypeSalePlan.good', 'organization']);
+    }
+
+    public function massDelete(array $ids)
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
+        DB::transaction(function () use ($ids) {
+            foreach ($ids['ids'] as $id) {
+                $plan = $this->model::where('id', $id)->first();
+
+                $plan->operationTypeSalePlan()->delete();
+
+                $plan->update([
+                    'deleted_at' => Carbon::now(),
+                ]);
+            }
+        });
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }

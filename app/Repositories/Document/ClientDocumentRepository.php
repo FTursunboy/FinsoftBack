@@ -291,8 +291,8 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
             foreach ($ids['ids'] as $id) {
                 $document = $this->model::where('id', $id)->first();
                 $document->goodAccountents()->delete();
-                $document->counterpartySettlements()->delete();
                 $document->balances()->delete();
+                $document->counterpartySettlements()->delete();
                 $document->update([
                     'deleted_at' => Carbon::now(),
                     'active' => 0
