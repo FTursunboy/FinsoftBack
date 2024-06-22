@@ -8,9 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\Plan\EmployeeSalePlanRequest;
 use App\Http\Requests\Api\Plan\StorageSalePlanRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\Plan\EmployeeSalePlanResource;
 use App\Http\Resources\Plan\StorageSalePlanResource;
 use App\Models\SalePlan;
+use App\Models\StoragePlan;
+use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\Plans\Contracts\EmployeeSaleRepositoryInterface;
 use App\Repositories\Plans\Contracts\StorageSaleRepositoryInterface;
 use App\Traits\ApiResponse;
@@ -39,6 +42,16 @@ class StorageSaleController extends Controller
     public function update(StorageSalePlanRequest $request, SalePlan $plan)
     {
         return $this->success(StorageSalePlanResource::make($this->repository->update(StorageSalePlanDTO::fromRequest($request), $plan)));
+    }
+
+    public function massDelete(IdRequest $request)
+    {
+        return $this->success($this->repository->massDelete($request->validated()));
+    }
+
+    public function massRestore(IdRequest $request, MassOperationInterface $restore)
+    {
+        return $this->success($restore->massRestore(new StoragePlan(), $request->validated()));
     }
 
 }

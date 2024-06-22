@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('month_id');
             $table->unsignedBigInteger('employee_id');
             $table->decimal('sum',20,3);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

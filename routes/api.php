@@ -462,7 +462,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
 
 
-    Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
+    Route::get('/operationTypes', [CashStoreController::class, 'getOperationTypes']);
 
 
 

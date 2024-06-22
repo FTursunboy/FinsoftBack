@@ -42,6 +42,11 @@ class SalePlan extends Model
         return $this->hasMany(OldNewClientPlan::class, 'sale_plan_id', 'id');
     }
 
+    public function installmentSalePlan() :HasMany
+    {
+        return $this->hasMany(OldNewClientPlan::class, 'sale_plan_id', 'id');
+    }
+
     public function organization() :BelongsTo {
         return $this->belongsTo(Organization::class, 'organization_id', 'id');
     }

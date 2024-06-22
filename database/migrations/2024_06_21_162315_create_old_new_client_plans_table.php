@@ -17,6 +17,7 @@ return new class extends Migration
             $table->tinyInteger('month_id');
             $table->integer('new_client');
             $table->integer('old_client');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

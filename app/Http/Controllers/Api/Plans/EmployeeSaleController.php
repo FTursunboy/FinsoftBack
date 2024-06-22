@@ -6,8 +6,11 @@ use App\DTO\Plan\EmployeeSalePlanDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\Plan\EmployeeSalePlanRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\Plan\EmployeeSalePlanResource;
+use App\Models\EmployeePlan;
 use App\Models\SalePlan;
+use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\Plans\Contracts\EmployeeSaleRepositoryInterface;
 use App\Traits\ApiResponse;
 
@@ -35,6 +38,16 @@ class EmployeeSaleController extends Controller
     public function update(EmployeeSalePlanRequest $request, SalePlan $plan)
     {
         return $this->success(EmployeeSalePlanResource::make($this->repository->update(EmployeeSalePlanDTO::fromRequest($request), $plan)));
+    }
+
+    public function massDelete(IdRequest $request)
+    {
+        return $this->success($this->repository->massDelete($request->validated()));
+    }
+
+    public function massRestore(IdRequest $request, MassOperationInterface $restore)
+    {
+        return $this->success($restore->massRestore(new EmployeePlan(), $request->validated()));
     }
 
 }
