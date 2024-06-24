@@ -239,6 +239,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::group(['prefix' => 'currency'], function () {
         Route::get('export/excel', [CurrencyController::class, 'export']);
         Route::get('/restore/{currency}', [CurrencyController::class, 'restore']);
+        Route::get('/get-price-type/{currency}', [CurrencyController::class, 'getPriceType']);
         Route::post('/massDelete', [CurrencyController::class, 'massDelete']);
         Route::post('/massRestore', [CurrencyController::class, 'massRestore']);
     });
