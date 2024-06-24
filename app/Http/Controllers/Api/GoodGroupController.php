@@ -57,4 +57,11 @@ class GoodGroupController extends Controller
         return $this->success($restore->massRestore(new GoodGroup(), $request->validated()));
     }
 
+    public function goodsByGoodGroups(\App\Http\Requests\IdRequest $request)
+    {
+        return $this->success($this->repository->goodsByGoodGroups($request->validated()));
+    }
+
+    //массиви айдихор ани гуд груп товароя буроварда додоан даркор
+
 }

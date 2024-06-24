@@ -123,6 +123,9 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
         return $query->paginate($filterParams['itemsPerPage']);
     }
 
-
+    public function goodsByGoodGroups(array $ids)
+    {
+        return Good::whereIn('good_group_id', $ids['ids'])->get();
+    }
 
 }
