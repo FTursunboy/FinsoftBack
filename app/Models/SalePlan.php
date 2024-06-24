@@ -48,6 +48,12 @@ class SalePlan extends Model
         return $this->hasMany(InstallmentPlan::class, 'sale_plan_id', 'id');
     }
 
+
+    public function expenseItemSalePlan() :HasMany
+    {
+        return $this->hasMany(ExpenseItemPlan::class, 'sale_plan_id', 'id');
+    }
+
     public function organization() :BelongsTo
     {
         return $this->belongsTo(Organization::class, 'organization_id', 'id');
