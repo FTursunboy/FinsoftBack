@@ -163,6 +163,11 @@ class CurrencyRepository implements CurrencyRepositoryInterface
         $writer->close();
 
         return $filePath;
+    }
+
+    public function getPriceType(Currency $currency)
+    {
+        return PriceType::where('currency_id', $currency->id)->get();
 
     }
 

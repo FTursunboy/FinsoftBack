@@ -30,4 +30,6 @@ interface CurrencyRepositoryInterface extends IndexInterface
     public function addDefaultCurrency(Currency $currency);
 
     public function export(array $data);
+
+    public function getPriceType(Currency $currency);
 }

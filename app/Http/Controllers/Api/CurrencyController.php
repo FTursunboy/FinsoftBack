@@ -12,6 +12,7 @@ use App\Http\Requests\Api\Exchange\ExchangeUpdateRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\CurrencyResource;
 use App\Http\Resources\ExchangeRateResource;
+use App\Http\Resources\PriceTypeResource;
 use App\Models\Currency;
 use App\Models\ExchangeRate;
 use App\Repositories\Contracts\CurrencyRepositoryInterface;
@@ -110,4 +111,11 @@ class CurrencyController extends Controller
     {
         return response()->download($this->repository->export($request->validated()))->deleteFileAfterSend();
     }
+
+    public function getPriceType(Currency $currency)
+    {
+        return $this->success(PriceTypeResource::collection($this->repository->getPriceType($currency)));
+    }
+
+    //массиви айдихор ани гуд груп товароя буроварда додоан даркор
 }
