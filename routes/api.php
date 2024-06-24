@@ -38,6 +38,7 @@ use App\Http\Controllers\Api\GoodController;
 use App\Http\Controllers\Api\OrganizationBillController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\Plans\EmployeeSaleController;
+use App\Http\Controllers\Api\Plans\ExpenseItemSaleController;
 use App\Http\Controllers\Api\Plans\GoodSaleController;
 use App\Http\Controllers\Api\Plans\InstallmentSaleController;
 use App\Http\Controllers\Api\Plans\OldNewClientSaleController;
@@ -508,6 +509,13 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::patch('installment/{plan}', [InstallmentSaleController::class, 'update']);
         Route::post('installment/massDelete', [InstallmentSaleController::class, 'massDelete']);
         Route::post('installment/massRestore', [InstallmentSaleController::class, 'massRestore']);
+
+        Route::post('expense-item', [ExpenseItemSaleController::class, 'store']);
+        Route::get('expense-item/{plan}', [ExpenseItemSaleController::class, 'show']);
+        Route::get('expense-item', [ExpenseItemSaleController::class, 'index']);
+        Route::patch('expense-item/{plan}', [ExpenseItemSaleController::class, 'update']);
+        Route::post('expense-item/massDelete', [ExpenseItemSaleController::class, 'massDelete']);
+        Route::post('expense-item/massRestore', [ExpenseItemSaleController::class, 'massRestore']);
     });
 
     Route::group(['prefix' => 'notifications'], function () {
