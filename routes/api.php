@@ -495,6 +495,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     require_once 'cashStore.php';
     require_once 'checkingAccount.php';
 
+    Route::get('json', []);
 
     Route::get('logout', [AuthController::class, 'logout']);
     Route::post('changePassword', [AuthController::class, 'changePassword']);
