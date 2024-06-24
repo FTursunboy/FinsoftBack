@@ -252,6 +252,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::group(['prefix' => 'good-group'], function () {
         Route::get('get-goods/{goodGroup}', [GoodGroupController::class, 'getGoods']);
+        Route::get('get/goods-by-good-group', [GoodGroupController::class, 'goodsByGoodGroups']);
         Route::post('/massDelete', [GoodGroupController::class, 'massDelete']);
         Route::post('/massRestore', [GoodGroupController::class, 'massRestore']);
     });

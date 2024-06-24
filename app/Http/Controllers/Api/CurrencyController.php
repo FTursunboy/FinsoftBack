@@ -117,5 +117,4 @@ class CurrencyController extends Controller
         return $this->success(PriceTypeResource::collection($this->repository->getPriceType($currency)));
     }
 
-    //массиви айдихор ани гуд груп товароя буроварда додоан даркор
 }
