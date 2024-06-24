@@ -91,8 +91,6 @@ class StorageSaleRepository implements StorageSaleRepositoryInterface
             foreach ($ids['ids'] as $id) {
                 $plan = $this->model::where('id', $id)->first();
 
-                $plan->storageSalePlan()->delete();
-
                 $plan->update([
                     'deleted_at' => Carbon::now(),
                 ]);

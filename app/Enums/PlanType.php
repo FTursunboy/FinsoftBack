@@ -17,4 +17,6 @@ enum PlanType :string {
 
     case Installment = 'Рассрочка';
 
+    case ExpenseItem = 'Статья расходов';
+
 }

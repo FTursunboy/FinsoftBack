@@ -15,6 +15,7 @@ class OperationTypePlan extends Model implements \App\Repositories\Contracts\Sof
         'month_id',
         'operation_type_id',
         'sum',
+        'deleted_at'
     ];
 
     public static function bootSoftDeletes() { }

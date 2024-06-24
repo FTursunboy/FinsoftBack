@@ -16,6 +16,7 @@ class InstallmentPlan extends Model implements \App\Repositories\Contracts\SoftD
         'month_id',
         'good_id',
         'quantity',
+        'deleted_at'
     ];
 
     public static function bootSoftDeletes() { }

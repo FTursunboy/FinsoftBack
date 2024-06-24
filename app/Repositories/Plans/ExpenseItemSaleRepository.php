@@ -3,41 +3,43 @@
 namespace App\Repositories\Plans;
 
 use App\DTO\Plan\EmployeeSalePlanDTO;
+use App\DTO\Plan\ExpenseItemSalePlanDTO;
 use App\Enums\PlanType;
 use App\Models\EmployeePlan;
 use App\Models\SalePlan;
 use App\Repositories\Plans\Contracts\EmployeeSaleRepositoryInterface;
 
+use App\Repositories\Plans\Contracts\ExpenseItemSaleRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
-class EmployeeSaleRepository implements EmployeeSaleRepositoryInterface
+class ExpenseItemSaleRepository implements ExpenseItemSaleRepositoryInterface
 {
     public $model = SalePlan::class;
 
-    public function store(EmployeeSalePlanDTO $DTO)
+    public function store(ExpenseItemSalePlanDTO $DTO)
     {
         $plan = SalePlan::create([
             'organization_id' => $DTO->organization_id,
             'year' => $DTO->year,
-            'type' => PlanType::Employee
+            'type' => PlanType::ExpenseItem
         ]);
 
-        foreach ($DTO->employees as $employee) {
+        foreach ($DTO->expenseItems as $expenseItem) {
             EmployeePlan::updateOrCreate(
                 [
                     'sale_plan_id' => $plan->id,
-                    'employee_id' => $employee['employee_id'],
-                    'month_id' => $employee['month_id']
+                    'employee_id' => $expenseItem['expense_item_id'],
+                    'month_id' => $expenseItem['month_id']
                 ],
                 [
-                    'sum' => $employee['sum']
+                    'sum' => $expenseItem['sum']
                 ]
             );
         }
 
-        return $plan->load(['employeeSalePlan.month', 'employeeSalePlan.employee', 'organization']);
+        return $plan->load(['expenseItemSalePlan.month', 'expenseItemSalePlan.employee', 'organization']);
     }
 
     public function index(array $data): LengthAwarePaginator
@@ -46,37 +48,37 @@ class EmployeeSaleRepository implements EmployeeSaleRepositoryInterface
 
         $query = $this->model::where('type', PlanType::Employee);
 
-        return $query->with(['employeeSalePlan.month', 'employeeSalePlan.employee', 'organization'])->paginate($filterParams['itemsPerPage']);
+        return $query->with(['expenseItemSalePlan.month', 'expenseItemSalePlan.employee', 'organization'])->paginate($filterParams['itemsPerPage']);
     }
 
-    public function update(EmployeeSalePlanDTO $dto, SalePlan $plan)
+    public function update(ExpenseItemSalePlanDTO $dto, SalePlan $plan)
     {
         $plan->update([
             'organization_id' => $dto->organization_id,
             'year' => $dto->year,
-            'type' => PlanType::Employee
+            'type' => PlanType::ExpenseItem
         ]);
 
-        foreach ($dto->employees as $employee) {
-            $employeesPlan = EmployeePlan::where('sale_plan_id', $plan->id)
-                ->where('employee_id', $employee['employee_id'])
-                ->where('month_id', $employee['month_id'])
+        foreach ($dto->expenseItems as $expenseItem) {
+            $expenseItemPlan = EmployeePlan::where('sale_plan_id', $plan->id)
+                ->where('expense_item_id', $expenseItem['expense_item_id'])
+                ->where('month_id', $expenseItem['month_id'])
                 ->first();
 
-            if ($employeesPlan) {
-                $employeesPlan->sum = $employee['sum'];
-                $employeesPlan->save();
+            if ($expenseItemPlan) {
+                $expenseItemPlan->sum = $expenseItem['sum'];
+                $expenseItemPlan->save();
             } else {
                 EmployeePlan::create([
                     'sale_plan_id' => $plan->id,
-                    'employee_id' => $employee['employee_id'],
-                    'month_id' => $employee['month_id'],
-                    'sum' => $employee['sum']
+                    'expense_item_id' => $expenseItem['expense_item_id'],
+                    'month_id' => $expenseItem['month_id'],
+                    'sum' => $expenseItem['sum']
                 ]);
             }
         }
 
-        return $plan->load(['employeeSalePlan.month', 'employeeSalePlan.good', 'organization']);
+        return $plan->load(['expenseItemSalePlan.month', 'expenseItemSalePlan.good', 'organization']);
     }
 
     public function massDelete(array $ids)
@@ -91,7 +93,6 @@ class EmployeeSaleRepository implements EmployeeSaleRepositoryInterface
                 $plan->update([
                     'deleted_at' => Carbon::now(),
                 ]);
-
             }
 
         });

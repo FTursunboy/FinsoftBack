@@ -2,18 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class StoragePlan extends Model implements \App\Repositories\Contracts\SoftDeleteInterface
+class ExpenseItemPlan extends Model implements \App\Repositories\Contracts\SoftDeleteInterface
 {
     use SoftDeletes;
 
     protected $fillable = [
         'sale_plan_id',
         'month_id',
-        'storage_id',
+        'expense_item_id',
         'sum',
         'deleted_at'
     ];
@@ -30,8 +31,8 @@ class StoragePlan extends Model implements \App\Repositories\Contracts\SoftDelet
         return $this->belongsTo(Month::class);
     }
 
-    public function storage(): BelongsTo
+    public function expenseItem(): BelongsTo
     {
-        return $this->belongsTo(Storage::class);
+        return $this->belongsTo(ExpenseItem::class);
     }
 }

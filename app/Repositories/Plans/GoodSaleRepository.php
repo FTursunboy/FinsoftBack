@@ -88,8 +88,6 @@ class GoodSaleRepository implements GoodSaleRepositoryInterface
             foreach ($ids['ids'] as $id) {
                 $plan = $this->model::where('id', $id)->first();
 
-                $plan->goodSalePlan()->delete();
-
                 $plan->update([
                     'deleted_at' => Carbon::now(),
                 ]);
