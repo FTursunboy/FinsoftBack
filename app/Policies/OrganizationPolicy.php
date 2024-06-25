@@ -13,7 +13,7 @@ class OrganizationPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('organization.read');
+        return true;
     }
 
     /**

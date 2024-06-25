@@ -59,9 +59,9 @@ class GoodGroupController extends Controller
         return $this->success($restore->massRestore(new GoodGroup(), $request->validated()));
     }
 
-    public function goodsByGoodGroups(GoodGroupIdsRequest $request)
+    public function goodsPrice(GoodGroupIdsRequest $request)
     {
-        return $this->success(GoodsPriceResource::collection($this->repository->goodsByGoodGroups($request->validated())));
+        return $this->success(GoodsPriceResource::collection($this->repository->goodsPrice($request->validated())));
     }
 
 }
