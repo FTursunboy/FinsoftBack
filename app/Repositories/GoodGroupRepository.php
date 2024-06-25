@@ -9,6 +9,7 @@ use App\Models\Good;
 use App\Models\GoodGroup;
 use App\Models\GoodImages;
 use App\Models\Group;
+use App\Models\Price;
 use App\Models\User;
 use App\Repositories\Contracts\GoodGroupRepositoryInterface;
 use App\Repositories\Contracts\GoodRepositoryInterface;
@@ -125,7 +126,32 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
 
     public function goodsByGoodGroups(array $ids)
     {
-        return Good::whereIn('good_group_id', $ids['ids'])->get();
+        $prices = Price::query()
+            ->select('p.name', 'prices.price','prices.good_id')
+            ->join('price_types as p', 'prices.price_type_id', '=', 'p.id')
+            ->whereIn('prices.price_type_id', $ids['priceTypeIds'])
+            ->get();
+
+        $goods = Good::query()
+            ->join('good_groups as gg', 'gg.id', '=', 'goods.good_group_id')
+            ->whereIn('goods.good_group_id', $ids['goodGroupIds'])
+            ->get();
+
+        $goods = $goods->map(function ($good) use ($prices, $ids) {
+
+            foreach ($prices as $price) {
+                if ($price->good_id == $good->id) {
+                    $newPrice = $ids['changeBySum'] ? $price->price + $ids['changeBySum'] : ($ids['changeByPercent'] * $price->price) / 100 ;
+                    $price->newPrice = $newPrice;
+                    $good->prices = $price;
+                    return $good;
+                }
+            }
+            return $good;
+        });
+
+        return $goods;
+
     }
 
 }
