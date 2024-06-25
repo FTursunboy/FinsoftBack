@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Storage;
 
 class GoodGroupRepository implements GoodGroupRepositoryInterface
 {
+
+
     use Sort, FilterTrait;
 
     public $model = GoodGroup::class;
@@ -124,24 +126,28 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
         return $query->paginate($filterParams['itemsPerPage']);
     }
 
-    public function goodsByGoodGroups(array $ids)
+    public function goodsPrice(array $data)
     {
         $prices = Price::query()
             ->select('p.name', 'prices.price as old_price','prices.good_id', 'p.id')
             ->join('price_types as p', 'prices.price_type_id', '=', 'p.id')
-            ->whereIn('prices.price_type_id', $ids['priceTypeIds'])
+            ->whereIn('prices.price_type_id', $data['priceTypeIds'])
+            ->where([
+                ['date', '=', $data['date']],
+                'organization_id', '=', $data['organization_id']
+            ])
             ->get();
 
         $goods = Good::query()
             ->join('good_groups as gg', 'gg.id', '=', 'goods.good_group_id')
-            ->whereIn('goods.good_group_id', $ids['goodGroupIds'])
+            ->whereIn('goods.good_group_id', $data['goodGroupIds'])
             ->get();
 
-        $goods = $goods->map(function ($good) use ($prices, $ids) {
+        $goods = $goods->map(function ($good) use ($prices, $data) {
 
             foreach ($prices as $price) {
                 if ($price->good_id == $good->id) {
-                    $newPrice = $ids['changeBySum'] ? $price->price + $ids['changeBySum'] : ($ids['changeByPercent'] * $price->price) / 100 ;
+                    $newPrice = $data['changeBySum'] ? $price->price + $data['changeBySum'] : ($data['changeByPercent'] * $price->price) / 100 ;
                     $price->newPrice = $newPrice;
                     $good->prices = $price;
                     return $good;

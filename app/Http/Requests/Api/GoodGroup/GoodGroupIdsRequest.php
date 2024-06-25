@@ -15,6 +15,8 @@ class GoodGroupIdsRequest extends FormRequest
             'priceTypeIds' => ['array', 'required'],
             'changeBySum' => [''],
             'changeByPercent' => [''],
+            'date' => ['required'],
+            'organization_id' => ['required', Rule::exists('organizations','id')]
         ];
     }
 

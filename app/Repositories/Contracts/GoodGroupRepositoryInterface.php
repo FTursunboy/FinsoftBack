@@ -15,5 +15,5 @@ interface GoodGroupRepositoryInterface extends IndexInterface
 
     public function getGoods(GoodGroup $goodGroup, array $data);
 
-    public function goodsByGoodGroups(array $ids);
+    public function goodsPrice(array $data);
 }
