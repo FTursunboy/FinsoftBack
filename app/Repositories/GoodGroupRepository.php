@@ -127,7 +127,7 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
     public function goodsByGoodGroups(array $ids)
     {
         $prices = Price::query()
-            ->select('p.name', 'prices.price','prices.good_id')
+            ->select('p.name', 'prices.price as old_price','prices.good_id', 'p.id')
             ->join('price_types as p', 'prices.price_type_id', '=', 'p.id')
             ->whereIn('prices.price_type_id', $ids['priceTypeIds'])
             ->get();
