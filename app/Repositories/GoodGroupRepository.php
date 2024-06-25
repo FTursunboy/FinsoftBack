@@ -133,8 +133,8 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
             ->join('price_types as p', 'prices.price_type_id', '=', 'p.id')
             ->whereIn('prices.price_type_id', $data['priceTypeIds'])
             ->where([
-                ['date', '=', $data['date']],
-                'organization_id', '=', $data['organization_id']
+                ['prices.date', '=', $data['date']],
+                ['prices.organization_id', '=', $data['organization_id']]
             ])
             ->get();
 
