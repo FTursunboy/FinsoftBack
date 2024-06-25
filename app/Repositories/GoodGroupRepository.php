@@ -128,14 +128,15 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
 
     public function goodsPrice(array $data)
     {
+        $changeByPercent = $data['changeByPercent'] ?? null;
+        $changeBySum = $data['changeBySum'] ?? null;
+
         $prices = Price::query()
             ->select('p.name', 'prices.price as old_price','prices.good_id', 'p.id')
             ->join('price_types as p', 'prices.price_type_id', '=', 'p.id')
             ->whereIn('prices.price_type_id', $data['priceTypeIds'])
-            ->where([
-                ['prices.date', '=', $data['date']],
-                ['prices.organization_id', '=', $data['organization_id']]
-            ])
+            ->where('prices.organization_id', '=', $data['organization_id'])
+            ->whereRaw("DATE_FORMAT(prices.date, '%Y-%m-%d %H:%i') = DATE_FORMAT(?, '%Y-%m-%d %H:%i')", [$data['date']])
             ->get();
 
         $goods = Good::query()
@@ -143,11 +144,10 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
             ->whereIn('goods.good_group_id', $data['goodGroupIds'])
             ->get();
 
-        $goods = $goods->map(function ($good) use ($prices, $data) {
-
+        $goods = $goods->map(function ($good) use ($prices, $changeByPercent, $changeBySum) {
             foreach ($prices as $price) {
                 if ($price->good_id == $good->id) {
-                    $newPrice = $data['changeBySum'] ? $price->price + $data['changeBySum'] : ($data['changeByPercent'] * $price->price) / 100 ;
+                    $newPrice = $changeByPercent ? $price->old_price + (($changeByPercent * $price->old_price) / 100) : $price->old_price + $changeBySum;
                     $price->newPrice = $newPrice;
                     $good->prices = $price;
                     return $good;
