@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\DTO\GoodGroupDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\GoodGroup\FilterRequest;
+use App\Http\Requests\Api\GoodGroup\GoodGroupIdsRequest;
 use App\Http\Requests\Api\GoodGroup\GoodGroupRequest;
 use App\Http\Requests\Api\GoodGroup\IdRequest;
 use App\Http\Resources\GoodGroupResource;
 use App\Http\Resources\GoodResource;
+use App\Http\Resources\GoodsPriceResource;
 use App\Models\GoodGroup;
 use App\Repositories\Contracts\GoodGroupRepositoryInterface;
 use App\Repositories\Contracts\MassOperationInterface;
@@ -57,11 +59,9 @@ class GoodGroupController extends Controller
         return $this->success($restore->massRestore(new GoodGroup(), $request->validated()));
     }
 
-    public function goodsByGoodGroups(\App\Http\Requests\IdRequest $request)
+    public function goodsByGoodGroups(GoodGroupIdsRequest $request)
     {
-        return $this->success($this->repository->goodsByGoodGroups($request->validated()));
+        return $this->success(GoodsPriceResource::collection($this->repository->goodsByGoodGroups($request->validated())));
     }
-
-    //массиви айдихор ани гуд груп товароя буроварда додоан даркор
 
 }
