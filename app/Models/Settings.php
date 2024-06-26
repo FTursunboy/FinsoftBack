@@ -10,13 +10,15 @@ class Settings extends Model
         'name',
         'next_payment',
         'last_payment',
-        'has_access'
+        'has_access',
+        'mobile_access'
     ];
 
     protected $casts = [
         'last_payment' => 'datetime',
         'next_payment' => 'datetime',
-        'has_access' => 'boolean'
+        'has_access' => 'boolean',
+        'mobile_access' => 'boolean'
     ];
 
 

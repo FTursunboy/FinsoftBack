@@ -14,6 +14,6 @@ interface NotificationRepositoryInterface
     public function getUnreadNotifications(array $data) :LengthAwarePaginator;
     public function getAllNotifications(array $data) :LengthAwarePaginator;
 
-    public function read(Notification $notification);
+    public function read(array $data);
 
 }

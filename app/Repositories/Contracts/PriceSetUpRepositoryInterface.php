@@ -4,6 +4,7 @@ namespace App\Repositories\Contracts;
 
 use App\DTO\PriceSetUpDTO;
 use App\Models\PriceSetUp;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface PriceSetUpRepositoryInterface extends IndexInterface
 {

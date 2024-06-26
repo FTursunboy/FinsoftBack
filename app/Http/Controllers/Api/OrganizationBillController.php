@@ -21,7 +21,7 @@ class OrganizationBillController extends Controller
 
     public function __construct(public OrganizationBillRepositoryInterface $repository)
     {
-        $this->authorizeResource(OrganizationBill::class, 'organizationBill');
+
     }
 
     public function index(FilterRequest $request) :JsonResponse

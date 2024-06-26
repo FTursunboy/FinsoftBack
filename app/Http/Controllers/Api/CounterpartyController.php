@@ -23,7 +23,7 @@ class CounterpartyController extends Controller
     public function __construct(public CounterpartyRepositoryInterface $repository)
     {
 
-        $this->authorizeResource(Counterparty::class, 'counterparty');
+
 
     }
 

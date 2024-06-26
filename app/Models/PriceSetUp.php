@@ -21,6 +21,11 @@ class PriceSetUp extends Model
         'active',
     ];
 
+    protected $casts = [
+        'active' => 'boolean',
+        'start_date' => 'datetime',
+    ];
+
     public function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class);
@@ -31,6 +36,23 @@ class PriceSetUp extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
+<<<<<<< HEAD
+    public function goodPrices() :HasMany
+    {
+        return $this->hasMany(SetUpPrice::class);
+    }
+
+
+
+    public static function filterData(array $data): array
+    {
+        return [
+            'search' => $data['search'] ?? '',
+            'sort' => $data['orderBy'] ?? null,
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25
+        ];
+=======
     public function setupGoods(): HasMany
     {
         return $this->hasMany(SetUpPrice::class, 'price_set_up_id', 'id');
@@ -52,5 +74,6 @@ class PriceSetUp extends Model
         }
 
         return $filteredData;
+>>>>>>> 37bdc4ba8a15815342d66825129126448c04a8bf
     }
 }

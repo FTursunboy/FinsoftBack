@@ -238,6 +238,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(GoodSaleRepositoryInterface::class, GoodSaleRepository::class);
         $this->app->singleton(EmployeeSaleRepositoryInterface::class, EmployeeSaleRepository::class);
         $this->app->singleton(NotificationRepositoryInterface::class, NotificationRepository::class);
+        $this->app->singleton(PriceSetUpRepositoryInterface::class, PriceSetUpRepository::class);
+
         $this->app->singleton(StorageSaleRepositoryInterface::class, StorageSaleRepository::class);
         $this->app->singleton(OperationTypeSaleRepositoryInterface::class, OperationTypeSaleRepository::class);
         $this->app->singleton(OldNewClientSaleRepositoryInterface::class, OldNewClientSaleRepository::class);

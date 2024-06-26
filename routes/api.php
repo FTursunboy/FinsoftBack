@@ -527,10 +527,21 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::post('expense-item/massRestore', [ExpenseItemSaleController::class, 'massRestore']);
     });
 
+
     Route::group(['prefix' => 'notifications'], function () {
         Route::get('/',  [NotificationController::class, 'getUnreadNotifications']);
-        Route::post('read/{notification}',  [NotificationController::class, 'read']);
+        Route::post('read',  [NotificationController::class, 'read']);
         Route::get('all',  [NotificationController::class, 'getAllNotifications']);
+        Route::get('/exists', [NotificationController::class, 'exists']);
+    });
+
+    Route::group(['prefix' => 'priceSetUp'], function () {
+        Route::get('/', [PriceSetUpController::class, 'index']);
+    });
+
+
+    Route::group(['prefix' => 'settings'], function () {
+        Route::post('/mobile-access', [SettingsController::class, 'switchMobileAccess']);
     });
 
     require_once 'cashStore.php';
