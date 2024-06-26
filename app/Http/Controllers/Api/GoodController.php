@@ -27,7 +27,7 @@ class GoodController extends Controller
 
     public function __construct(public GoodRepositoryInterface $repository)
     {
-        $this->authorizeResource(Good::class, 'good');
+
     }
 
     public function index(FilterRequest $request)

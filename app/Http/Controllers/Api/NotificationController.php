@@ -42,6 +42,6 @@ class NotificationController extends Controller
 
     public function exists()
     {
-        return $this
+        return $this->success(Notification::where('user_id', \Auth::id())->where('read_at', null)->exists);
     }
 }
