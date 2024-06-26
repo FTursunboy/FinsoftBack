@@ -526,6 +526,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/',  [NotificationController::class, 'getUnreadNotifications']);
         Route::post('read/{notification}',  [NotificationController::class, 'read']);
         Route::get('all',  [NotificationController::class, 'getAllNotifications']);
+        Route::get('/exists', [NotificationController::class, 'exists']);
     });
 
     Route::group(['prefix' => 'priceSetUp'], function () {
@@ -535,6 +536,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     require_once 'cashStore.php';
     require_once 'checkingAccount.php';
 
+    Route::get('json', []);
 
     Route::get('logout', [AuthController::class, 'logout']);
     Route::post('changePassword', [AuthController::class, 'changePassword']);

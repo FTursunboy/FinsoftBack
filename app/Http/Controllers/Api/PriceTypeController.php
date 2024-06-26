@@ -22,7 +22,7 @@ class PriceTypeController extends Controller
 
     public function __construct(public PriceTypeRepository $repository)
     {
-        $this->authorizeResource(PriceType::class, 'priceType');
+
     }
 
     public function index(FilterRequest $request) :JsonResponse

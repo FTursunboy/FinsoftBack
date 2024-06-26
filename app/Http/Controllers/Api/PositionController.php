@@ -24,7 +24,7 @@ class PositionController extends Controller
 
     public function __construct(public PositionRepositoryInterface $repository)
     {
-        $this->authorizeResource(Position::class, 'position');
+
     }
 
     public function index(FilterRequest $request): JsonResponse
