@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SetUpPrice extends Model
 {
+    protected $table = 'setup_goods';
+
     protected $fillable = [
         'good_id',
         'price_type_id',

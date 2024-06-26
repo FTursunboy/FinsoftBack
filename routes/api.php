@@ -45,6 +45,7 @@ use App\Http\Controllers\Api\Plans\OldNewClientSaleController;
 use App\Http\Controllers\Api\Plans\OperationTypeSaleController;
 use App\Http\Controllers\Api\Plans\StorageSaleController;
 use App\Http\Controllers\Api\PositionController;
+use App\Http\Controllers\Api\PriceSetUpController;
 use App\Http\Controllers\Api\PriceTypeController;
 use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\ServiceController;
@@ -279,6 +280,12 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/{good}', [ImageController::class, 'index']);
         Route::post('/', [ImageController::class, 'store']);
         Route::delete('/{images}', [ImageController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'price-set-up'], function () {
+        Route::get('/', [PriceSetUpController::class, 'index']);
+        Route::post('/', [PriceSetUpController::class, 'store']);
+
     });
 
     Route::get('/settings', [SettingsController::class, 'index']);
