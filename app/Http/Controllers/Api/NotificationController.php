@@ -40,4 +40,8 @@ class NotificationController extends Controller
         return $this->success($this->repository->read($notification));
     }
 
+    public function exists()
+    {
+        return $this
+    }
 }
