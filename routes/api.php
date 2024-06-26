@@ -524,7 +524,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::group(['prefix' => 'notifications'], function () {
         Route::get('/',  [NotificationController::class, 'getUnreadNotifications']);
-        Route::post('read/{notification}',  [NotificationController::class, 'read']);
+        Route::post('read',  [NotificationController::class, 'read']);
         Route::get('all',  [NotificationController::class, 'getAllNotifications']);
         Route::get('/exists', [NotificationController::class, 'exists']);
     });

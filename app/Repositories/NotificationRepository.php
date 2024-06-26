@@ -28,8 +28,10 @@ class NotificationRepository implements NotificationRepositoryInterface
         return $query->paginate($filterParams['itemsPerPage']);
     }
 
-    public function read(Notification $notification)
+    public function read(array $data)
     {
-        $notification->update(['read_at' => now()]);
+        foreach ($data['ids'] as $id) {
+            Notification::find($id)->update(['read_at' => now()]);
+        }
     }
 }
