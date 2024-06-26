@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->foreignId('month_id');
             $table->unsignedBigInteger('good_id');
             $table->integer('quantity');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

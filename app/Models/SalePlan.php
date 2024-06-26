@@ -14,7 +14,8 @@ class SalePlan extends Model
     protected $fillable = [
         'organization_id',
         'year',
-        'type'
+        'type',
+        'deleted_at'
     ];
 
     public function goodSalePlan() :HasMany
@@ -32,7 +33,29 @@ class SalePlan extends Model
         return $this->hasMany(StoragePlan::class, 'sale_plan_id', 'id');
     }
 
-    public function organization() :BelongsTo {
+    public function operationTypeSalePlan() :HasMany
+    {
+        return $this->hasMany(OperationTypePlan::class, 'sale_plan_id', 'id');
+    }
+
+    public function oldNewClientSalePlan() :HasMany
+    {
+        return $this->hasMany(OldNewClientPlan::class, 'sale_plan_id', 'id');
+    }
+
+    public function installmentSalePlan() :HasMany
+    {
+        return $this->hasMany(InstallmentPlan::class, 'sale_plan_id', 'id');
+    }
+
+
+    public function expenseItemSalePlan() :HasMany
+    {
+        return $this->hasMany(ExpenseItemPlan::class, 'sale_plan_id', 'id');
+    }
+
+    public function organization() :BelongsTo
+    {
         return $this->belongsTo(Organization::class, 'organization_id', 'id');
     }
 
@@ -41,8 +64,8 @@ class SalePlan extends Model
         return [
             'search' => $data['search'] ?? '',
             'sort' => $data['orderBy'] ?? null,
-            'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'direction' => $data['sort'] ?? 'asc',
             'organization_id' => $data['filterData']['organization_id'] ?? null,
         ];
     }

@@ -13,7 +13,7 @@ class CounterpartyPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('counterparty.read');
+        return true;
     }
 
     /**

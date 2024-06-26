@@ -38,7 +38,11 @@ use App\Http\Controllers\Api\GoodController;
 use App\Http\Controllers\Api\OrganizationBillController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\Plans\EmployeeSaleController;
+use App\Http\Controllers\Api\Plans\ExpenseItemSaleController;
 use App\Http\Controllers\Api\Plans\GoodSaleController;
+use App\Http\Controllers\Api\Plans\InstallmentSaleController;
+use App\Http\Controllers\Api\Plans\OldNewClientSaleController;
+use App\Http\Controllers\Api\Plans\OperationTypeSaleController;
 use App\Http\Controllers\Api\Plans\StorageSaleController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\PriceSetUpController;
@@ -235,6 +239,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::group(['prefix' => 'currency'], function () {
         Route::get('export/excel', [CurrencyController::class, 'export']);
         Route::get('/restore/{currency}', [CurrencyController::class, 'restore']);
+        Route::get('/get-price-type/{currency}', [CurrencyController::class, 'getPriceType']);
         Route::post('/massDelete', [CurrencyController::class, 'massDelete']);
         Route::post('/massRestore', [CurrencyController::class, 'massRestore']);
     });
@@ -247,6 +252,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::group(['prefix' => 'good-group'], function () {
         Route::get('get-goods/{goodGroup}', [GoodGroupController::class, 'getGoods']);
+        Route::get('get/good-prices', [GoodGroupController::class, 'goodsPrice']);
         Route::post('/massDelete', [GoodGroupController::class, 'massDelete']);
         Route::post('/massRestore', [GoodGroupController::class, 'massRestore']);
     });
@@ -460,7 +466,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
 
 
-    Route::get('/operationTypes', [ClientPaymentController::class, 'getOperationTypes']);
+    Route::get('/operationTypes', [CashStoreController::class, 'getOperationTypes']);
 
 
 
@@ -469,16 +475,50 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('goods/{plan}', [GoodSaleController::class, 'show']);
         Route::get('goods', [GoodSaleController::class, 'index']);
         Route::patch('goods/{plan}', [GoodSaleController::class, 'update']);
+        Route::post('goods/massDelete', [GoodSaleController::class, 'massDelete']);
+        Route::post('goods/massRestore', [GoodSaleController::class, 'massRestore']);
 
         Route::post('employees', [EmployeeSaleController::class, 'store']);
         Route::get('employees/{plan}', [EmployeeSaleController::class, 'show']);
         Route::get('employees', [EmployeeSaleController::class, 'index']);
         Route::patch('employees/{plan}', [EmployeeSaleController::class, 'update']);
+        Route::post('employees/massDelete', [EmployeeSaleController::class, 'massDelete']);
+        Route::post('employees/massRestore', [EmployeeSaleController::class, 'massRestore']);
 
         Route::post('storages', [StorageSaleController::class, 'store']);
         Route::get('storages/{plan}', [StorageSaleController::class, 'show']);
         Route::get('storages', [StorageSaleController::class, 'index']);
         Route::patch('storages/{plan}', [StorageSaleController::class, 'update']);
+        Route::post('storages/massDelete', [StorageSaleController::class, 'massDelete']);
+        Route::post('storages/massRestore', [StorageSaleController::class, 'massRestore']);
+
+        Route::post('operation-types', [OperationTypeSaleController::class, 'store']);
+        Route::get('operation-types/{plan}', [OperationTypeSaleController::class, 'show']);
+        Route::get('operation-types', [OperationTypeSaleController::class, 'index']);
+        Route::patch('operation-types/{plan}', [OperationTypeSaleController::class, 'update']);
+        Route::post('operation-types/massDelete', [OperationTypeSaleController::class, 'massDelete']);
+        Route::post('operation-types/massRestore', [OperationTypeSaleController::class, 'massRestore']);
+
+        Route::post('old-new-client', [OldNewClientSaleController::class, 'store']);
+        Route::get('old-new-client/{plan}', [OldNewClientSaleController::class, 'show']);
+        Route::get('old-new-client', [OldNewClientSaleController::class, 'index']);
+        Route::patch('old-new-client/{plan}', [OldNewClientSaleController::class, 'update']);
+        Route::post('old-new-client/massDelete', [OldNewClientSaleController::class, 'massDelete']);
+        Route::post('old-new-client/massRestore', [OldNewClientSaleController::class, 'massRestore']);
+
+        Route::post('installment', [InstallmentSaleController::class, 'store']);
+        Route::get('installment/{plan}', [InstallmentSaleController::class, 'show']);
+        Route::get('installment', [InstallmentSaleController::class, 'index']);
+        Route::patch('installment/{plan}', [InstallmentSaleController::class, 'update']);
+        Route::post('installment/massDelete', [InstallmentSaleController::class, 'massDelete']);
+        Route::post('installment/massRestore', [InstallmentSaleController::class, 'massRestore']);
+
+        Route::post('expense-item', [ExpenseItemSaleController::class, 'store']);
+        Route::get('expense-item/{plan}', [ExpenseItemSaleController::class, 'show']);
+        Route::get('expense-item', [ExpenseItemSaleController::class, 'index']);
+        Route::patch('expense-item/{plan}', [ExpenseItemSaleController::class, 'update']);
+        Route::post('expense-item/massDelete', [ExpenseItemSaleController::class, 'massDelete']);
+        Route::post('expense-item/massRestore', [ExpenseItemSaleController::class, 'massRestore']);
     });
 
 

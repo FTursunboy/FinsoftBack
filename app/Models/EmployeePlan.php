@@ -4,15 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class EmployeePlan extends Model
+class EmployeePlan extends Model implements \App\Repositories\Contracts\SoftDeleteInterface
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'sale_plan_id',
         'month_id',
         'employee_id',
         'sum',
+        'deleted_at'
     ];
+
+    public static function bootSoftDeletes() { }
 
     public function salePlan(): BelongsTo
     {

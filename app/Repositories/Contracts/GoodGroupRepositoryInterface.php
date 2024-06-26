@@ -14,4 +14,6 @@ interface GoodGroupRepositoryInterface extends IndexInterface
     public function store(GoodGroupDTO $DTO);
 
     public function getGoods(GoodGroup $goodGroup, array $data);
+
+    public function goodsPrice(array $data);
 }

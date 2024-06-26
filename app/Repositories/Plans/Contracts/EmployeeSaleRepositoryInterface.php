@@ -14,5 +14,7 @@ interface EmployeeSaleRepositoryInterface
 
     public function update(EmployeeSalePlanDTO $dto, SalePlan $plan);
 
+    public function massDelete(array $data);
+
 
 }

@@ -9,6 +9,7 @@ use App\Models\Good;
 use App\Models\GoodGroup;
 use App\Models\GoodImages;
 use App\Models\Group;
+use App\Models\Price;
 use App\Models\User;
 use App\Repositories\Contracts\GoodGroupRepositoryInterface;
 use App\Repositories\Contracts\GoodRepositoryInterface;
@@ -22,6 +23,8 @@ use Illuminate\Support\Facades\Storage;
 
 class GoodGroupRepository implements GoodGroupRepositoryInterface
 {
+
+
     use Sort, FilterTrait;
 
     public $model = GoodGroup::class;
@@ -123,6 +126,38 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
         return $query->paginate($filterParams['itemsPerPage']);
     }
 
+    public function goodsPrice(array $data)
+    {
+        $changeByPercent = $data['changeByPercent'] ?? null;
+        $changeBySum = $data['changeBySum'] ?? null;
 
+        $prices = Price::query()
+            ->select('p.name', 'prices.price as old_price','prices.good_id', 'p.id')
+            ->join('price_types as p', 'prices.price_type_id', '=', 'p.id')
+            ->whereIn('prices.price_type_id', $data['priceTypeIds'])
+            ->where('prices.organization_id', '=', $data['organization_id'])
+            ->whereRaw("DATE_FORMAT(prices.date, '%Y-%m-%d %H:%i') = DATE_FORMAT(?, '%Y-%m-%d %H:%i')", [$data['date']])
+            ->get();
+
+        $goods = Good::query()
+            ->join('good_groups as gg', 'gg.id', '=', 'goods.good_group_id')
+            ->whereIn('goods.good_group_id', $data['goodGroupIds'])
+            ->get();
+
+        $goods = $goods->map(function ($good) use ($prices, $changeByPercent, $changeBySum) {
+            foreach ($prices as $price) {
+                if ($price->good_id == $good->id) {
+                    $newPrice = $changeByPercent ? $price->old_price + (($changeByPercent * $price->old_price) / 100) : $price->old_price + $changeBySum;
+                    $price->newPrice = $newPrice;
+                    $good->prices = $price;
+                    return $good;
+                }
+            }
+            return $good;
+        });
+
+        return $goods;
+
+    }
 
 }

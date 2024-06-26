@@ -6,8 +6,11 @@ use App\DTO\Plan\GoodSalePlanDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\Plan\GoodSalePlanRequest;
+use App\Http\Requests\IdRequest;
 use App\Http\Resources\Plan\GoodSalePlanResource;
+use App\Models\GoodPlan;
 use App\Models\SalePlan;
+use App\Repositories\Contracts\MassOperationInterface;
 use App\Repositories\Plans\Contracts\GoodSaleRepositoryInterface;
 use App\Traits\ApiResponse;
 
@@ -35,6 +38,16 @@ class GoodSaleController extends Controller
     public function update(GoodSalePlanRequest $request, SalePlan $plan)
     {
         return $this->success(GoodSalePlanResource::make($this->repository->update(GoodSalePlanDTO::fromRequest($request), $plan)));
+    }
+
+    public function massDelete(IdRequest $request)
+    {
+        return $this->success($this->repository->massDelete($request->validated()));
+    }
+
+    public function massRestore(IdRequest $request, MassOperationInterface $restore)
+    {
+        return $this->success($restore->massRestore(new GoodPlan(), $request->validated()));
     }
 
 }

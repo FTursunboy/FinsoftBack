@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\DTO\GoodGroupDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\GoodGroup\FilterRequest;
+use App\Http\Requests\Api\GoodGroup\GoodGroupIdsRequest;
 use App\Http\Requests\Api\GoodGroup\GoodGroupRequest;
 use App\Http\Requests\Api\GoodGroup\IdRequest;
 use App\Http\Resources\GoodGroupResource;
 use App\Http\Resources\GoodResource;
+use App\Http\Resources\GoodsPriceResource;
 use App\Models\GoodGroup;
 use App\Repositories\Contracts\GoodGroupRepositoryInterface;
 use App\Repositories\Contracts\MassOperationInterface;
@@ -55,6 +57,11 @@ class GoodGroupController extends Controller
     public function massRestore(IdRequest $request, MassOperationInterface $restore)
     {
         return $this->success($restore->massRestore(new GoodGroup(), $request->validated()));
+    }
+
+    public function goodsPrice(GoodGroupIdsRequest $request)
+    {
+        return $this->success(GoodsPriceResource::collection($this->repository->goodsPrice($request->validated())));
     }
 
 }

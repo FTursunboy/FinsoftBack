@@ -11,4 +11,12 @@ enum PlanType :string {
 
     case Employee = 'Сотрудник';
 
+    case OperationType = 'Тип операции';
+
+    case OldNewClient = 'Старые и новые клиенты';
+
+    case Installment = 'Рассрочка';
+
+    case ExpenseItem = 'Статья расходов';
+
 }

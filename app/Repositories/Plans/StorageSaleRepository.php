@@ -11,7 +11,9 @@ use App\Models\StoragePlan;
 use App\Repositories\Plans\Contracts\EmployeeSaleRepositoryInterface;
 
 use App\Repositories\Plans\Contracts\StorageSaleRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class StorageSaleRepository implements StorageSaleRepositoryInterface
 {
@@ -78,5 +80,25 @@ class StorageSaleRepository implements StorageSaleRepositoryInterface
         }
 
         return $plan->load(['storageSalePlan.month', 'storageSalePlan.storage', 'organization']);
+    }
+
+    public function massDelete(array $ids)
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
+        DB::transaction(function () use ($ids) {
+
+            foreach ($ids['ids'] as $id) {
+                $plan = $this->model::where('id', $id)->first();
+
+                $plan->update([
+                    'deleted_at' => Carbon::now(),
+                ]);
+
+            }
+
+        });
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }

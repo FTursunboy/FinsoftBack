@@ -7,7 +7,9 @@ use App\Enums\PlanType;
 use App\Models\GoodPlan;
 use App\Models\SalePlan;
 use App\Repositories\Plans\Contracts\GoodSaleRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class GoodSaleRepository implements GoodSaleRepositoryInterface
 {
@@ -75,5 +77,23 @@ class GoodSaleRepository implements GoodSaleRepositoryInterface
         }
 
         return $plan->load(['goodSalePlan.month', 'goodSalePlan.good', 'organization']);
+    }
+
+    public function massDelete(array $ids)
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
+        DB::transaction(function () use ($ids) {
+
+            foreach ($ids['ids'] as $id) {
+                $plan = $this->model::where('id', $id)->first();
+
+                $plan->update([
+                    'deleted_at' => Carbon::now(),
+                ]);
+            }
+        });
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }
