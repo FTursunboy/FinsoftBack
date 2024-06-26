@@ -533,10 +533,14 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/', [PriceSetUpController::class, 'index']);
     });
 
+
+    Route::group(['prefix' => 'settings'], function () {
+        Route::post('/mobile-access', [SettingsController::class, 'switchMobileAccess']);
+    });
+
     require_once 'cashStore.php';
     require_once 'checkingAccount.php';
 
-    Route::get('json', []);
 
     Route::get('logout', [AuthController::class, 'logout']);
     Route::post('changePassword', [AuthController::class, 'changePassword']);
