@@ -32,7 +32,7 @@ class FactorySeeder extends Seeder
      */
     public function run(): void
     {
-//        Document::factory(10)->create();
+        Document::factory(200)->create();
         Category::factory(1)->create();
         Employee::factory(1)->create();
         CounterpartyAgreement::factory(1)->create();
