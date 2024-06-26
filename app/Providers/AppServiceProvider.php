@@ -84,6 +84,7 @@ use App\Repositories\Contracts\OrganizationBillRepositoryInterface;
 use App\Repositories\Contracts\OrganizationRepositoryInterface;
 use App\Repositories\Contracts\PermissionRepositoryInterface;
 use App\Repositories\Contracts\PositionRepositoryInterface;
+use App\Repositories\Contracts\PriceSetUpRepositoryInterface;
 use App\Repositories\Contracts\PriceTypeRepository;
 use App\Repositories\Contracts\Report\CounterpartyReportRepositoryInterface;
 use App\Repositories\Contracts\Report\ReconciliationReportRepositoryInterface;
@@ -142,6 +143,7 @@ use App\Repositories\Plans\OldNewClientSaleRepository;
 use App\Repositories\Plans\OperationTypeSaleRepository;
 use App\Repositories\Plans\StorageSaleRepository;
 use App\Repositories\PositionRepository;
+use App\Repositories\PriceSetUpRepository;
 use App\Repositories\Report\CounterpartyReportRepository;
 use App\Repositories\Report\GoodReportRepository;
 use App\Repositories\Report\OrganizationReportRepository;
@@ -241,6 +243,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(OldNewClientSaleRepositoryInterface::class, OldNewClientSaleRepository::class);
         $this->app->singleton(ExpenseItemSaleRepositoryInterface::class, ExpenseItemSaleRepository::class);
         $this->app->singleton(InstallmentSaleRepositoryInterface::class, InstallmentSaleRepository::class);
+        $this->app->singleton(PriceSetUpRepositoryInterface::class, PriceSetUpRepository::class);
     }
 
     /**
