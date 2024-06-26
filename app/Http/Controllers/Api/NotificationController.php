@@ -35,9 +35,9 @@ class NotificationController extends Controller
         return  $this->paginate(NotificationResource::collection($this->repository->getAllNotifications($request->validated())));
     }
 
-    public function read(Notification $notification)
+    public function read(IdRequest $request)
     {
-        return $this->success($this->repository->read($notification));
+        return $this->success($this->repository->read($request->validated()));
     }
 
     public function exists()
