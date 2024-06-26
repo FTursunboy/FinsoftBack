@@ -104,8 +104,8 @@ class ServiceRepository implements ServiceRepositoryInterface
 
     private function handleApproval(ServiceDto $dto, &$errors)
     {
-        $this->processGoods($dto, $dto->sale_goods, __('errors.not enough goods in sale'), $errors);
-        $this->processGoods($dto, $dto->return_goods, __('errors.not enough goods in return'), $errors);
+        $this->processGoods($dto, $dto->sale_goods, "not enough goods in sale", $errors);
+        $this->processGoods($dto, $dto->return_goods, "not enough goods in return", $errors);
     }
 
     private function processGoods(ServiceDto $dto, $goods, $errorMessage, &$errors)
@@ -127,7 +127,7 @@ class ServiceRepository implements ServiceRepositoryInterface
 
     private function getDocumentRepository($errorMessage)
     {
-        return $errorMessage === __('errors.not enough goods in sale') ? new ClientDocumentRepository() : new ReturnDocumentRepository();
+        return $errorMessage === "not enough goods in sale" ? new ClientDocumentRepository() : new ReturnDocumentRepository();
     }
 
 
