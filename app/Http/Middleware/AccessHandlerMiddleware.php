@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Enums\AccessMessages;
+use App\Enums\ApiResponse as ApiResponseEnum;
 use App\Models\Settings;
 use App\Traits\ApiResponse;
 use Closure;
@@ -18,6 +19,15 @@ class AccessHandlerMiddleware
         if(!$settings->has_access) {
             return $this->notAccess(AccessMessages::NoAccess);
         }
+
+        if ((bool)$request->header('mobile') === true) {
+            if (!$settings->mobile_access){
+                return response()->json([
+                    'message' => ApiResponseEnum::NotAccess
+                ], 403);
+            }
+        }
+
 
         return $next($request);
     }

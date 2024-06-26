@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AccessRequest;
 use App\Models\Setting;
 use App\Models\Settings;
+use App\Traits\ApiResponse;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class SettingsController extends Controller
 {
+    use ApiResponse;
     public function index()
     {
         return Settings::first();
@@ -46,5 +48,19 @@ class SettingsController extends Controller
 
         $settings->has_access = false;
         $settings->save();
+    }
+
+    public function switchMobileAccess(Request $request)
+    {
+        $data = $request->validate([
+            'access' => 'required|boolean',
+        ]);
+
+        $settings = Settings::first();
+
+        $settings->mobile_access = $data['access'];
+        $settings->save();
+
+        return $this->success();
     }
 }
