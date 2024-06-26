@@ -36,6 +36,7 @@ class PriceSetUp extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
+<<<<<<< HEAD
     public function goodPrices() :HasMany
     {
         return $this->hasMany(SetUpPrice::class);
@@ -51,5 +52,28 @@ class PriceSetUp extends Model
             'direction' => $data['sort'] ?? 'asc',
             'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25
         ];
+=======
+    public function setupGoods(): HasMany
+    {
+        return $this->hasMany(SetUpPrice::class, 'price_set_up_id', 'id');
+    }
+
+    public static function filter(array $data): array
+    {
+        $filteredData = [
+            'sort' => $data['orderBy'] ?? null,
+            'search' => $data['search'] ?? '',
+            'direction' => $data['sort'] ?? 'asc',
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'deleted' => $data['deleted'] ?? null,
+            'organization' => $data['organization'] ?? null
+        ];
+
+        if (isset($data['filterData'])) {
+            $filteredData['deleted'] = $data['filterData']['deleted'] ?? $filteredData['deleted'];
+        }
+
+        return $filteredData;
+>>>>>>> 37bdc4ba8a15815342d66825129126448c04a8bf
     }
 }

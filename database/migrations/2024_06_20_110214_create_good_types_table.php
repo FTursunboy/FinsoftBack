@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->unsignedInteger('price_type_id');
             $table->decimal('old_price', 20, 3)->nullable();
             $table->decimal('new_price', 20, 3)->nullable();
+            $table->string('price_set_up_id');
             $table->timestamps();
         });
     }

@@ -282,6 +282,12 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::delete('/{images}', [ImageController::class, 'destroy']);
     });
 
+    Route::group(['prefix' => 'price-set-up'], function () {
+        Route::get('/', [PriceSetUpController::class, 'index']);
+        Route::post('/', [PriceSetUpController::class, 'store']);
+
+    });
+
     Route::get('/settings', [SettingsController::class, 'index']);
     Route::post('/settings', [SettingsController::class, 'store']);
 
