@@ -10,6 +10,8 @@ print_first:
   only:
     - develop
   script:
+    - export RUSTAM="blabla"
+    - echo RUSTAM
     - echo $APP_NAME
     - echo $APP_ENV
     - echo $APP_KEY
