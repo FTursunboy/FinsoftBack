@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PriceSetUp extends Model
+class PriceSetUp extends DocumentModel
 {
     use SoftDeletes;
 
@@ -36,20 +36,26 @@ class PriceSetUp extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
-    public function goodPrices() :HasMany
+    public function setupGoods(): HasMany
     {
-        return $this->hasMany(SetUpPrice::class);
+        return $this->hasMany(SetUpPrice::class, 'price_set_up_id', 'id');
     }
 
-
-
-    public static function filterData(array $data): array
+    public static function filter(array $data): array
     {
-        return [
-            'search' => $data['search'] ?? '',
+        $filteredData = [
             'sort' => $data['orderBy'] ?? null,
+            'search' => $data['search'] ?? '',
             'direction' => $data['sort'] ?? 'asc',
-            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25
+            'itemsPerPage' => isset($data['itemsPerPage']) ? ($data['itemsPerPage'] == 10 ? 25 : $data['itemsPerPage']) : 25,
+            'deleted' => $data['deleted'] ?? null,
+            'organization' => $data['organization'] ?? null
         ];
+
+        if (isset($data['filterData'])) {
+            $filteredData['deleted'] = $data['filterData']['deleted'] ?? $filteredData['deleted'];
+        }
+
+        return $filteredData;
     }
 }
