@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::table('settings', function (Blueprint $table) {
             $table->boolean('mobile_access')->default(true);
+            $table->boolean('retail')->default(false);
         });
     }
 

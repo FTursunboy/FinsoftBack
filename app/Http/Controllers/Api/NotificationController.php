@@ -40,6 +40,7 @@ class NotificationController extends Controller
         return $this->success($this->repository->read($request->validated()));
     }
 
+
     public function exists()
     {
         return $this->success(Notification::where('user_id', \Auth::id())->where('read_at', null)->exists());
