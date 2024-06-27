@@ -1,0 +1,31 @@
+stages:
+  - first
+  - second
+  - third
+
+print_first:
+  stage: first
+  tags:
+    - build
+  only:
+    - main
+  script:
+    - echo "hell world"
+
+print_second:
+  stage: second
+  tags:
+    - build
+  only:
+    - main
+  script:
+    - echo "hell world second"
+
+print_forth:
+  stage:
+  tags:
+    - build
+  only:
+    - main
+  script:
+    - echo "hell world third"
