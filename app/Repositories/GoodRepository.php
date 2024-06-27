@@ -198,7 +198,7 @@ class GoodRepository implements GoodRepositoryInterface
 
         //todo fix amount
 
-        //todo
+        //todo b
         $query = $query->where([
             ['good_accountings.storage_id', $storageId],
             ['good_accountings.organization_id', $organizationId]
