@@ -8,7 +8,7 @@ print_first:
   tags:
     - build
   only:
-    - main
+    - develop
   script:
     - echo "hell world"
 
@@ -17,15 +17,16 @@ print_second:
   tags:
     - build
   only:
-    - main
+    - develop
   script:
     - echo "hell world second"
+
 
 print_forth:
   stage:
   tags:
     - build
   only:
-    - main
+    - develop
   script:
     - echo "hell world third"
