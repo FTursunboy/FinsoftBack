@@ -196,6 +196,9 @@ class GoodRepository implements GoodRepositoryInterface
 
         $query = $this->model::leftJoin('good_accountings', 'good_accountings.good_id', '=', 'goods.id');
 
+        //todo fix amount
+
+        //todo
         $query = $query->where([
             ['good_accountings.storage_id', $storageId],
             ['good_accountings.organization_id', $organizationId]
