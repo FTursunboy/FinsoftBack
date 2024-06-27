@@ -10,9 +10,7 @@ print_first:
   only:
     - develop
   script:
-    - echo $CI_COMMIT_SHA
-    - echo $CI_COMMIT_TITLE
-    - echo $CI_COMMIT_TAG
+    - echo "another:$CI_COMMIT_SHA/$CI_COMMIT_TITLE/$CI_COMMIT_TAGS"
 
 print_second:
   stage: second
@@ -21,14 +19,4 @@ print_second:
   only:
     - develop
   script:
-    - echo $CI_REGISTRY_USER
-    - echo $CI_REGISTRY
-
-print_third:
-  stage: third
-  tags:
-    - build
-  only:
-    - develop
-  script:
-    - echo "hello world third"
+    - echo $SOME
