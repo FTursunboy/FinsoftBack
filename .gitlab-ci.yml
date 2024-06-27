@@ -10,13 +10,15 @@ print_first:
   only:
     - develop
   script:
-    - echo "another:$CI_COMMIT_SHA/$CI_COMMIT_TITLE/$CI_COMMIT_TAGS"
+    - echo $APP_NAME
+    - echo $APP_ENV
+    - echo $APP_KEY
+    - echo $APP_DEBUG
+    - echo $APP_URL
+    - echo $DB_CONNECTION
+    - echo $DB_HOST
+    - echo $DB_PORT
+    - echo $DB_DATABASE
+    - echo $DB_USERNAME
+    - echo $DB_PASSWORD
 
-print_second:
-  stage: second
-  tags:
-    - build
-  only:
-    - develop
-  script:
-    - echo $SOME
