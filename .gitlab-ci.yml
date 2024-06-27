@@ -10,7 +10,7 @@ print_first:
   only:
     - develop
   script:
-    - echo "hell world"
+    - echo "hello world"
 
 print_second:
   stage: second
@@ -19,14 +19,13 @@ print_second:
   only:
     - develop
   script:
-    - echo "hell world second"
+    - echo "hello world second"
 
-
-print_forth:
-  stage:
+print_third:
+  stage: third
   tags:
     - build
   only:
     - develop
   script:
-    - echo "hell world third"
+    - echo "hello world third"
