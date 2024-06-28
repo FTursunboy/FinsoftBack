@@ -1,6 +1,6 @@
 version: '3'
 services:
-    server_rustam:
+    finsoft_server:
         image: "nginx:stable-alpine"
         volumes:
             - ./:/var/www
@@ -8,18 +8,18 @@ services:
         ports:
             - "8410:80"
         depends_on:
-            - app_rustam
-        container_name: server_rustam
-    app_rustam:
+            - finsoft_app
+        container_name: finsoft_server
+    finsoft_app:
         build:
             context: .
             dockerfile: _docker/app/Dockerfile
         volumes:
             - ./:/var/www
         depends_on:
-            -   database_rustam
-        container_name: app_rustam
-    database_rustam:
+            -   finsoft_database
+        container_name: finsoft_app
+    finsoft_database:
         image: mysql:8.0
         restart: always
         volumes:
@@ -30,5 +30,5 @@ services:
         ports:
             -   8102:3306
         command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
-        container_name: database_rustam
+        container_name: finsoft_database
 
