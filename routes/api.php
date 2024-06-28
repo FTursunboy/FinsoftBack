@@ -285,6 +285,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     Route::group(['prefix' => 'price-set-up'], function () {
         Route::get('/', [PriceSetUpController::class, 'index']);
         Route::post('/', [PriceSetUpController::class, 'store']);
+        Route::get('/{priceSetUp}', [PriceSetUpController::class, 'show']);
 
     });
 

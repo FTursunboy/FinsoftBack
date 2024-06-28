@@ -45,6 +45,8 @@ class PriceSetUpRepository implements PriceSetUpRepositoryInterface
             ]);
 
             SetUpPrice::insert($this->setupGoods($DTO->goods, $model));
+
+            return $model->load('organization', 'author', 'setupGoods', 'setupGoods.good', 'setupGoods.priceType');
         });
     }
 
