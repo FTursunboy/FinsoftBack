@@ -147,7 +147,7 @@ class GoodGroupRepository implements GoodGroupRepositoryInterface
         $goods = $goods->map(function ($good) use ($prices, $changeByPercent, $changeBySum) {
             foreach ($prices as $price) {
                 if ($price->good_id == $good->id) {
-                    $newPrice = $changeByPercent ? $price->old_price + (($changeByPercent * $price->old_price) / 100) : $price->old_price + $changeBySum;
+                    $newPrice = $changeByPercent ? $price->oldPrice + (($changeByPercent * $price->oldPrice) / 100) : $price->oldPrice + $changeBySum;
                     $price->newPrice = $newPrice;
                     $good->prices = $price;
                     return $good;
