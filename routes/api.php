@@ -450,7 +450,6 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::get('/good-accountings/{document}', [\App\Http\Controllers\Api\ReportDocumentController::class, 'getGoodAccountings']);
     });
 
-
     Route::group(['prefix' => 'inventoryOperation'], function () {
         Route::get('/{type}', [InventoryOperationController::class, 'index']);
         Route::post('/', [InventoryOperationController::class, 'store']);
@@ -471,11 +470,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
         Route::post('/', [ServiceController::class, 'store']);
     });
 
-
-
     Route::get('/operationTypes', [CashStoreController::class, 'getOperationTypes']);
-
-
 
     Route::group(['prefix' => 'plan'], function (){
         Route::post('goods', [GoodSaleController::class, 'store']);
