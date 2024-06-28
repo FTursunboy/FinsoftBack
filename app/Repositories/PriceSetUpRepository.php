@@ -63,8 +63,8 @@ class PriceSetUpRepository implements PriceSetUpRepositoryInterface
                 $data[] = [
                     'good_id' => $good['good_id'],
                     'price_type_id' => $price['price_type_id'],
-                    'old_price' => $price['old_price'],
-                    'new_price' => $price['new_price'],
+                    'old_price' => $price['oldPrice'],
+                    'new_price' => $price['newPrice'],
                     'price_set_up_id' => $priceSetUp->id
                 ];
             }

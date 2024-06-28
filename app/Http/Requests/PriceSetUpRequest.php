@@ -17,8 +17,8 @@ class PriceSetUpRequest extends FormRequest
             'goods.*.good_id' => ['required', 'integer', 'exists:goods,id'],
             'goods.prices' => ['array'],
             'goods.*.prices.*.price_type_id' => ['required', 'integer', 'exists:price_types,id'],
-            'goods.*.prices.*.old_price' => ['nullable', 'numeric', 'not_in:0'],
-            'goods.*.prices.*.new_price' => ['nullable', 'numeric', 'not_in:0'],
+            'goods.*.prices.*.oldPrice' => ['nullable', 'numeric', 'not_in:0'],
+            'goods.*.prices.*.newPrice' => ['nullable', 'numeric', 'not_in:0'],
         ];
     }
 
