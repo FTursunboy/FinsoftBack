@@ -7,7 +7,7 @@ variables:
 
 before_script:
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-
+  - sudo chmod -R 777 /home/tursunboy/builds/BbbzGFtw5/0/FTursunboy/finsoft/tmp/db
 
 app_build:
   stage: build
