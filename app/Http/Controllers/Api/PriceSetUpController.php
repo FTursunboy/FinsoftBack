@@ -30,6 +30,11 @@ class PriceSetUpController extends Controller
         return $this->created($this->repository->store(PriceSetUpDTO::fromRequest($request)));
     }
 
+    public function show(PriceSetUp $priceSetUp) :JsonResponse
+    {
+        return $this->success(PriceSetUpResource::make($priceSetUp->load('organization', 'author', 'setupGoods', 'setupGoods.good', 'setupGoods.priceType')));
+    }
+
     public function update(PriceSetUp $priceSetUp, PriceSetUpRequest $request) :JsonResponse
     {
         return $this->success(PriceSetUpResource::make($this->repository->update($priceSetUp, PriceSetUpDTO::fromRequest($request))));

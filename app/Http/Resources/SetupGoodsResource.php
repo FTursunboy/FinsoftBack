@@ -13,8 +13,8 @@ class SetupGoodsResource extends JsonResource
             'id' => $this->id,
             'good' => GoodResource::make($this->whenLoaded('good')),
             'priceType' => PriceTypeResource::make($this->whenLoaded('priceType')),
-            'old_price' => $this->old_price,
-            'new_price' => $this->new_price
+            'oldPrice' => $this->old_price,
+            'newPrice' => $this->new_price
         ];
     }
 }

@@ -18,6 +18,7 @@ class PriceSetUpResource extends JsonResource
             'active' => $this->active,
             'organization' => OrganizationResource::make($this->whenLoaded('organization')),
             'author' => UserResource::make($this->whenLoaded('author')),
+            'deleted_at' => $this->deleted_at,
             'setupGoods' => SetupGoodsResource::collection($this->whenLoaded('setupGoods'))
         ];
     }
