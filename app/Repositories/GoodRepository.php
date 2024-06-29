@@ -196,6 +196,9 @@ class GoodRepository implements GoodRepositoryInterface
 
         $query = $this->model::leftJoin('good_accountings', 'good_accountings.good_id', '=', 'goods.id');
 
+        //todo fix amount
+
+        //todo bitch
         $query = $query->where([
             ['good_accountings.storage_id', $storageId],
             ['good_accountings.organization_id', $organizationId]
@@ -283,6 +286,7 @@ class GoodRepository implements GoodRepositoryInterface
             });
     }
 
+    //bi
     public function getByBarcode(string $barcode)
     {
         return $this->model::whereHas('barcodes', function ($query) use ($barcode) {

@@ -2,8 +2,7 @@
 
 namespace App\DTO\Document;
 
-use App\Http\Requests\Api\Document\DocumentRequest;
-use App\Http\Requests\Api\ServiceRequest;
+use App\Http\Requests\Api\Service\ServiceRequest;
 
 class ServiceDTO
 {

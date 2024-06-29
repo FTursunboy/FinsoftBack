@@ -39,13 +39,7 @@ class ServiceRepository implements ServiceRepositoryInterface
     {
         $filteredParams = $this->model::filter($data);
 
-        $query = $this->model::query()->where('status_id', Status::CLIENT_PURCHASE);
-
-        $query = $this->search($query, $filteredParams);
-
-        $query = $this->filter($query, $filteredParams);
-
-        $query = $this->sort($filteredParams, $query, ['counterparty', 'organization', 'storage', 'author', 'counterpartyAgreement', 'currency', 'documentGoodsWithCount', 'totalGoodsSum']);
+        $query = $this->model::query()->where('active', false);
 
         return $query->paginate($filteredParams['itemsPerPage']);
     }
