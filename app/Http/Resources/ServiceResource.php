@@ -28,6 +28,7 @@ class ServiceResource extends JsonResource
             'active' => $this->active,
             'sales_sum' => $this->sales_sum,
             'return_sum' => $this->return_sum,
+            'client_payment' => $this->client_payment,
             'sale_goods' => DocumentGoodResource::collection($this->whenLoaded('saleGoods')),
             'return_goods' => DocumentGoodResource::collection($this->whenLoaded('returnGoods')),
         ];

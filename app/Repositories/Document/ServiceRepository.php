@@ -70,6 +70,9 @@ class ServiceRepository implements ServiceRepositoryInterface
             if (!is_null($dto->return_goods)) {
                 ServiceGoods::insert($this->insertGoodDocuments($dto->return_goods, $service, ServiceTypes::Return));
             }
+            if (!is_null($dto->client_payment)) {
+
+            }
 
             $errors = [];
 

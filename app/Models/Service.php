@@ -74,6 +74,11 @@ class Service extends DocumentModel implements SoftDeleteInterface
         return $this->hasMany(ServiceGoods::class, 'service_id', 'id')->where('type', ServiceTypes::Return);
     }
 
+    public function clientPayment()
+    {
+        return $this->hasOne(CashStore::class);
+    }
+
 
 
     public static function filter(array $data): array
