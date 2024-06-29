@@ -13,7 +13,7 @@ class NotificationRepository implements NotificationRepositoryInterface
     {
         $filterParams = $this->model::filterData($data);
 
-        $query = $this->model::query()->where('user_id', \Auth::id())->where('read_at', null);
+        $query = $this->model::query()->where('user_id', \Auth::id())->where('read_at', null)->orderBy('created_at', 'desc');
 
         return $query->paginate($filterParams['itemsPerPage']);
     }
@@ -23,7 +23,7 @@ class NotificationRepository implements NotificationRepositoryInterface
     {
         $filterParams = $this->model::filterData($data);
 
-        $query = $this->model::query()->where('user_id', \Auth::id());
+        $query = $this->model::query()->where('user_id', \Auth::id())->orderBy('created_at', 'desc');
 
         return $query->paginate($filterParams['itemsPerPage']);
     }

@@ -468,6 +468,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
 
     Route::group(['prefix' => 'service'], function () {
         Route::post('/', [ServiceController::class, 'store']);
+        Route::get('/process', [ServiceController::class, 'index']);
     });
 
     Route::get('/operationTypes', [CashStoreController::class, 'getOperationTypes']);
