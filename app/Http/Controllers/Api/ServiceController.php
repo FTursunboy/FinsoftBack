@@ -20,7 +20,7 @@ class ServiceController extends Controller
 
     public function index(FilterRequest $request)
     {
-        return $this->success(ServiceResource::collection($this->repository->index($request->validated())));
+        return $this->paginate(ServiceResource::collection($this->repository->index($request->validated())));
     }
 
     public function store(ServiceRequest $request)
