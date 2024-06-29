@@ -205,7 +205,6 @@ class ClientDocumentRepository implements ClientDocumentRepositoryInterface
                     ['active' => true]
                 );
 
-
                 DocumentApprovedEvent::dispatch($document, MovementTypes::Outcome, DocumentTypes::SaleToClient->value);
             }
         } catch (Exception $exception) {
