@@ -286,6 +286,7 @@ class GoodRepository implements GoodRepositoryInterface
             });
     }
 
+    //bi
     public function getByBarcode(string $barcode)
     {
         return $this->model::whereHas('barcodes', function ($query) use ($barcode) {
