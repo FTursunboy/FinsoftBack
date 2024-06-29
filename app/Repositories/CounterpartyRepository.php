@@ -194,4 +194,9 @@ class CounterpartyRepository implements CounterpartyRepositoryInterface
     {
         return CounterpartyCoordinates::where('counterparty_id', $counterparty->id)->orderBy('created_at', 'desc')->get();
     }
+
+    public function sensSms(array $data)
+    {
+        return true;
+    }
 }

@@ -27,4 +27,6 @@ interface CounterpartyRepositoryInterface extends IndexInterface
     public function export(array $data);
 
     public function getCoordinates(Counterparty $counterparty);
+
+    public function sensSms(array $data);
 }

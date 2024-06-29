@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Counterparty\CounterpartyRequest;
 use App\Http\Requests\Api\Counterparty\CounterpartyUpdateRequest;
 use App\Http\Requests\Api\Counterparty\FilterRequest;
+use App\Http\Requests\Api\Counterparty\SmsRequest;
 use App\Http\Requests\IdRequest;
 use App\Http\Resources\CounterpartyCoordinatesResource;
 use App\Http\Resources\CounterpartyResource;
@@ -85,6 +86,11 @@ class CounterpartyController extends Controller
     public function getCoordinates(Counterparty $counterparty)
     {
         return $this->success(CounterpartyCoordinatesResource::collection($this->repository->getCoordinates($counterparty)));
+    }
+
+    public function sendSms(SmsRequest $request)
+    {
+        return $this->success($this->repository->sensSms($request->validated()));
     }
 }
 

@@ -207,6 +207,7 @@ Route::group(['middleware' => ['auth:sanctum', 'api.requests']], function () {
     });
 
     Route::group(['prefix' => 'counterparty'], function () {
+        Route::post('send-sms', [CounterpartyController::class, 'sendSms']);
         Route::get('data/export', [CounterpartyController::class, 'export']);
         Route::get('coordinates/{counterparty}', [CounterpartyController::class, 'getCoordinates']);
         Route::get('/clients/s', [CounterpartyController::class, 'clients']);
