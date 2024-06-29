@@ -41,7 +41,7 @@ class ServiceRepository implements ServiceRepositoryInterface
 
         $query = $this->model::query()->where('active', false);
 
-        return $query->paginate($filteredParams['itemsPerPage']);
+        return $query->with(['counterparty', 'organization', 'author', 'counterpartyAgreement', 'storage', 'currency', 'saleGoods', 'returnGoods']) ->paginate($filteredParams['itemsPerPage']);
     }
 
     public function store(ServiceDto $dto)
